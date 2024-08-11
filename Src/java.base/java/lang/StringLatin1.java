@@ -270,4 +270,11 @@ final class StringLatin1 {
                 return false;
         return true;
     }
+
+    public static int hashCode(byte[] value) {
+        int h = 0;
+        for(byte v : value)
+            h = 31 * h + (v & 0xff);
+        return h;
+    }
 }

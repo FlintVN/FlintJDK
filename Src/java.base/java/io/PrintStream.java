@@ -4,6 +4,10 @@ public class PrintStream {
     private static final native void write(String str);
     private static final native void writeln(String str);
 
+    public PrintStream() {
+
+    }
+
     public final void print(String str) {
         write(str);
     }

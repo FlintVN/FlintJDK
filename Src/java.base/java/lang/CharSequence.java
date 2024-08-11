@@ -13,6 +13,7 @@ public interface CharSequence {
 
     public String toString();
 
+    @SuppressWarnings("unchecked")
     public static int compare(CharSequence cs1, CharSequence cs2) {
         if(cs1 != null && cs1 == cs2)
             return 0;

@@ -5,6 +5,10 @@ import java.io.PrintStream;
 public final class System {
     public static final PrintStream out = new PrintStream();
 
+    private System() {
+
+    }
+
     public static native long currentTimeMillis();
 
     public static native long nanoTime();

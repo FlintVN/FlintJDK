@@ -3,6 +3,8 @@ package java.lang;
 public final class String implements Comparable<String>, CharSequence {
     private final byte[] value;
     private final byte coder;
+    private int hash;
+    private boolean hashIsZero;
 
     private static boolean isLatin1(byte[] utf8Value, int offset, int count) {
         count += offset;
@@ -563,5 +565,18 @@ public final class String implements Comparable<String>, CharSequence {
         if(coder == anotherString.coder)
             return coder == 0 ? StringLatin1.compareTo(v1, v2) : StringUTF16.compareTo(v1, v2);
         return coder == 0 ? StringLatin1.compareToUTF16(v1, v2) : StringUTF16.compareToLatin1(v1, v2);
-     }
+    }
+
+    @Override
+    public int hashCode() {
+        int h = hash;
+        if(h == 0 && !hashIsZero) {
+            h = (coder == 0) ? StringLatin1.hashCode(value) : StringUTF16.hashCode(value);
+            if(h == 0)
+                hashIsZero = true;
+            else
+                hash = h;
+        }
+        return h;
+    }
 }
