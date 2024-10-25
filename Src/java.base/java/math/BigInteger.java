@@ -1,12 +1,42 @@
 package java.math;
 
 public class BigInteger extends Number implements Comparable<BigInteger> {
+    private final int[] mag;
+    private final int signum;
+
+    public static final BigInteger ZERO = new BigInteger((int[])null, 0);
+    private static final BigInteger NEGATIVE_ONE = valueOf(-1);
+
+    private static native int[] makeMagnitude(long val);
+    private static native int[] makeMagnitude(byte[] val, int off, int len);
+    private static native int[] makeMagnitude(int signum, byte[] val, int off, int len);
+
+    private static native int compareMagnitude(int[] x, int[] y);
+    private static native int[] add(int[] x, int[] y);
+    private static native int[] subtract(int[] big, int[] little);
+    private static native int[] multiply(int[] x, int[] y);
+    private static native int[] divide(int[] x, int[] y);
+    private static native int[] remainder(int[] x, int[] y);
+    private static native int[] shiftLeft(int[] x, int n);
+    private static native int[] shiftRight(int[] x, int n);
+
     public static BigInteger valueOf(long val) {
+        if(val == 0)
+            return ZERO;
+        else if(val == -1)
+            return NEGATIVE_ONE;
         return new BigInteger(val);
     }
 
+    private BigInteger(int[] magnitude, int signum) {
+        this.signum = (magnitude == null) ? 0 : signum;
+        this.mag = (signum == 0) ? null : magnitude;
+    }
+
     public BigInteger(byte[] val, int off, int len) {
-        // TODO
+        int[] mag = makeMagnitude(val, off, len);
+        this.mag = mag;
+        this.signum = (mag == null) ? 0 : ((val[off] >= 0) ? 1 : -1);
     }
 
     public BigInteger(byte[] val) {
@@ -14,7 +44,9 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     }
 
     public BigInteger(int signum, byte[] magnitude, int off, int len) {
-        // TODO
+        int[] mag = makeMagnitude(signum, magnitude, off, len);
+        this.mag = mag;
+        this.signum = (mag == null) ? 0 : signum;
     }
 
     public BigInteger(int signum, byte[] magnitude) {
@@ -23,6 +55,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
 
     public BigInteger(String val, int radix) {
         // TODO
+        throw new UnsupportedOperationException();
     }
 
     public BigInteger(String val) {
@@ -30,33 +63,73 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     }
 
     private BigInteger(long val) {
-        // TODO
+        if(val == 0) {
+            mag = null;
+            this.signum = 0;
+        }
+        else {
+            mag = makeMagnitude(val);
+            this.signum = (val > 0) ? 1 : -1;
+        }
     }
 
     public BigInteger add(BigInteger val) {
-        // TODO
-        throw new UnsupportedOperationException();
+        if(val.signum == 0)
+            return this;
+        if(signum == 0)
+            return val;
+        if(val.signum == signum)
+            return new BigInteger(add(mag, val.mag), signum);
+        int cmp = compareMagnitude(mag, val.mag);
+        if(cmp == 0)
+            return ZERO;
+        int[] resultMag = (cmp > 0) ? subtract(mag, val.mag) : subtract(val.mag, mag);
+        return new BigInteger(resultMag, cmp == signum ? 1 : -1);
     }
 
     public BigInteger subtract(BigInteger val) {
-        // TODO
-        throw new UnsupportedOperationException();
+        if(val.signum == 0)
+            return this;
+        if(signum == 0)
+            return val.negate();
+        if(val.signum != signum)
+            return new BigInteger(add(mag, val.mag), signum);
+        int cmp = compareMagnitude(mag, val.mag);
+        if(cmp == 0)
+            return ZERO;
+        int[] resultMag = (cmp > 0) ? subtract(mag, val.mag) : subtract(val.mag, mag);
+        return new BigInteger(resultMag, cmp == signum ? 1 : -1);
     }
 
     public BigInteger multiply(BigInteger val) {
-        // TODO
-        throw new UnsupportedOperationException();
+        if(signum == 0 || val.signum == 0)
+            return ZERO;
+        int[] resultMag = multiply(mag, val.mag);
+        return new BigInteger(resultMag, signum == val.signum ? 1 : -1);
     }
 
     public BigInteger divide(BigInteger val) {
-        // TODO
-        throw new UnsupportedOperationException();
+        if(val.signum == 0)
+            throw new ArithmeticException("Divided by zero");
+        else if(signum == 0)
+            return ZERO;
+        int[] resultMag = divide(mag, val.mag);
+        if(resultMag == null)
+            return ZERO;
+        return new BigInteger(resultMag, signum == val.signum ? 1 : -1);
     }
 
     public BigInteger remainder(BigInteger val) {
-        // TODO
-        throw new UnsupportedOperationException();
+        if(val.signum == 0)
+            throw new ArithmeticException("Divided by zero");
+        else if(signum == 0)
+            return ZERO;
+        int[] resultMag = remainder(mag, val.mag);
+        if(resultMag == null)
+            return ZERO;
+        return new BigInteger(resultMag, signum);
     }
+
     public BigInteger pow(int exponent) {
         // TODO
         throw new UnsupportedOperationException();
@@ -73,13 +146,15 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     }
 
     public BigInteger abs() {
-        // TODO
-        throw new UnsupportedOperationException();
+        if(signum < 0)
+            return new BigInteger(mag, 1);
+        return this;
     }
 
     public BigInteger negate() {
-        // TODO
-        throw new UnsupportedOperationException();
+        if(signum == 0)
+            return this;
+        return new BigInteger(mag, -signum);
     }
 
     public BigInteger mod(BigInteger m) {
@@ -98,13 +173,33 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     }
 
     public BigInteger shiftLeft(int n) {
-        // TODO
-        throw new UnsupportedOperationException();
+        if(signum == 0 || n == 0)
+            return this;
+        else if(n > 0) {
+            int[] resultMag = shiftLeft(mag, n);
+            return new BigInteger(resultMag, signum);
+        }
+        else {
+            int[] resultMag = shiftRight(mag, n);
+            if(resultMag == null)
+                return (signum > 0) ? ZERO : NEGATIVE_ONE;
+            return new BigInteger(resultMag, signum);
+        }
     }
 
     public BigInteger shiftRight(int n) {
-        // TODO
-        throw new UnsupportedOperationException();
+        if(signum == 0 || n == 0)
+            return this;
+        else if(n > 0) {
+            int[] resultMag = shiftRight(mag, n);
+            if(resultMag == null)
+                return (signum > 0) ? ZERO : NEGATIVE_ONE;
+            return new BigInteger(resultMag, signum);
+        }
+        else {
+            int[] resultMag = shiftLeft(mag, n);
+            return new BigInteger(resultMag, signum);
+        }
     }
 
     public BigInteger and(BigInteger val) {
@@ -148,13 +243,11 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     }
 
     public BigInteger min(BigInteger val) {
-        // TODO
-        throw new UnsupportedOperationException();
+        return (compareTo(val) < 0 ? this : val);
     }
 
     public BigInteger max(BigInteger val) {
-        // TODO
-        throw new UnsupportedOperationException();
+        return (compareTo(val) > 0 ? this : val);
     }
 
     public BigInteger nextProbablePrime() {
@@ -191,8 +284,14 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     }
 
     public int compareTo(BigInteger val) {
-        // TODO
-        throw new UnsupportedOperationException();
+        if(signum == val.signum) {
+            return switch (signum) {
+                case 1  -> compareMagnitude(mag, val.mag);
+                case -1 -> compareMagnitude(val.mag, mag);
+                default -> 0;
+            };
+        }
+        return signum > val.signum ? 1 : -1;
     }
 
     public String toString() {
