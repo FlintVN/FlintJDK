@@ -1,12 +1,13 @@
 package java.util.function;
 
+import java.util.Objects;
+
 @FunctionalInterface
 public interface Function<T, R> {
     R apply(T t);
 
     default <V> Function<V, R> compose(Function<? super V, ? extends T> before) {
-        if(before == null)
-            throw new NullPointerException();
+        Objects.requireNonNull(before);
         return new Function<V, R>() {
             @Override
             public R apply(V v) {
@@ -16,8 +17,7 @@ public interface Function<T, R> {
     }
 
     default <V> Function<T, V> andThen(Function<? super R, ? extends V> after) {
-        if(after == null)
-            throw new NullPointerException();
+        Objects.requireNonNull(after);
         return new Function<T, V>() {
             @Override
             public V apply(T t) {

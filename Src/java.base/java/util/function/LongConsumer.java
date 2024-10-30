@@ -3,14 +3,14 @@ package java.util.function;
 import java.util.Objects;
 
 @FunctionalInterface
-public interface Consumer<T> {
-    void accept(T t);
+public interface LongConsumer {
+    void accept(long value);
 
-    default Consumer<T> andThen(Consumer<? super T> after) {
+    default LongConsumer andThen(LongConsumer after) {
         Objects.requireNonNull(after);
-        return new Consumer<T>() {
+        return new LongConsumer() {
             @Override
-            public void accept(T t) {
+            public void accept(long t) {
                 accept(t);
                 after.accept(t);
             }

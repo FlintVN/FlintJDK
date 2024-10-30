@@ -1,12 +1,13 @@
 package java.util.function;
 
+import java.util.Objects;
+
 @FunctionalInterface
 public interface Predicate<T> {
     boolean test(T t);
 
     default Predicate<T> and(Predicate<? super T> other) {
-        if(other == null)
-            throw new NullPointerException();
+        Objects.requireNonNull(other);
         return new Predicate<T>() {
             @Override
             public boolean test(T t) {
@@ -25,8 +26,7 @@ public interface Predicate<T> {
     }
 
     default Predicate<T> or(Predicate<? super T> other) {
-        if(other == null)
-            throw new NullPointerException();
+        Objects.requireNonNull(other);
         return new Predicate<T>() {
             @Override
             public boolean test(T t) {
@@ -56,8 +56,7 @@ public interface Predicate<T> {
 
     @SuppressWarnings("unchecked")
     static <T> Predicate<T> not(Predicate<? super T> target) {
-        if(target == null)
-            throw new NullPointerException();
+        Objects.requireNonNull(target);
         return (Predicate<T>)target.negate();
     }
 }
