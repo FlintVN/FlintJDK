@@ -6,5 +6,6 @@ module java.base {
     exports java.util;
     exports java.util.function;
     exports jdk.internal.math;
+    exports jdk.internal.vm.annotation;
     exports java.lang.annotation;
 }
