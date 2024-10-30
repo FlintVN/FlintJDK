@@ -1,6 +1,7 @@
 package java.lang;
 
 import java.io.PrintStream;
+import jdk.internal.vm.annotation.IntrinsicCandidate;
 
 public final class System {
     public static final PrintStream out = new PrintStream();
@@ -15,6 +16,7 @@ public final class System {
 
     public static native final void arraycopy(Object src, int srcPos, Object dest, int destPos, int length);
 
+    @IntrinsicCandidate
     public static native int identityHashCode(Object x);
 
     public static void exit(int status) {
