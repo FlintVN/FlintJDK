@@ -12,8 +12,7 @@ public interface Iterator<E> {
     }
 
     default void forEachRemaining(Consumer<? super E> action) {
-        if(action == null)
-            throw new NullPointerException();
+        Objects.requireNonNull(action);
         while(hasNext())
             action.accept(next());
     }
