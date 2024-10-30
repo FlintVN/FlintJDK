@@ -1,6 +1,6 @@
 package java.io;
 
-public class PrintStream {
+public class PrintStream implements Appendable {
     private static final native void write(String str);
     private static final native void writeln(String str);
 
@@ -90,5 +90,21 @@ public class PrintStream {
 
     public final void println(Object obj) {
         writeln(String.valueOf(obj));
+    }
+
+    public PrintStream append(CharSequence csq) {
+        print(String.valueOf(csq));
+        return this;
+    }
+
+    public PrintStream append(CharSequence csq, int start, int end) {
+        if(csq == null)
+            csq = "null";
+        return append(csq.subSequence(start, end));
+    }
+
+    public PrintStream append(char c) {
+        print(c);
+        return this;
     }
 }
