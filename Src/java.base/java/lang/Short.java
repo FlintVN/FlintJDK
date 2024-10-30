@@ -17,7 +17,7 @@ public final class Short extends Number implements Comparable<Short> {
     public static short parseShort(String s, int radix)
         throws NumberFormatException {
         int i = Integer.parseInt(s, radix);
-        if (i < MIN_VALUE || i > MAX_VALUE)
+        if(i < MIN_VALUE || i > MAX_VALUE)
             throw new NumberFormatException("Value out of range. Value:\"" + s + "\" Radix:" + radix);
         return (short)i;
     }
@@ -40,7 +40,7 @@ public final class Short extends Number implements Comparable<Short> {
 
     public static Short decode(String nm) throws NumberFormatException {
         int i = Integer.decode(nm);
-        if (i < MIN_VALUE || i > MAX_VALUE)
+        if(i < MIN_VALUE || i > MAX_VALUE)
             throw new NumberFormatException("Value " + i + " out of range from input " + nm);
         return valueOf((short)i);
     }
@@ -99,7 +99,7 @@ public final class Short extends Number implements Comparable<Short> {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Short)
+        if(obj instanceof Short)
             return value == ((Short)obj).shortValue();
         return false;
     }
