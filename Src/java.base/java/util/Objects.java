@@ -15,9 +15,9 @@ public final class Objects {
 
     // TODO
     // public static boolean deepEquals(Object a, Object b) {
-    //     if (a == b)
+    //     if(a == b)
     //         return true;
-    //     else if (a == null || b == null)
+    //     else if(a == null || b == null)
     //         return false;
     //     else
     //         return Arrays.deepEquals0(a, b);
@@ -51,7 +51,7 @@ public final class Objects {
 
     @ForceInline
     public static <T> T requireNonNull(T obj) {
-        if (obj == null)
+        if(obj == null)
             throw new NullPointerException();
         return obj;
     }
