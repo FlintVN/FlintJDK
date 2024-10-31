@@ -85,35 +85,41 @@ public final class Objects {
         return obj;
     }
 
-    // TODO
-    // @ForceInline
-    // public static int checkIndex(int index, int length) {
-    //     return Preconditions.checkIndex(index, length, null);
-    // }
+    @ForceInline
+    public static int checkIndex(int index, int length) {
+        if(index < 0 || index >= length)
+            throw new IndexOutOfBoundsException();
+        return index;
+    }
 
-    // TODO
-    // public static int checkFromToIndex(int fromIndex, int toIndex, int length) {
-    //     return Preconditions.checkFromToIndex(fromIndex, toIndex, length, null);
-    // }
+    public static int checkFromToIndex(int fromIndex, int toIndex, int length) {
+        if(fromIndex < 0 || fromIndex > toIndex || toIndex > length)
+            throw new IndexOutOfBoundsException();
+        return fromIndex;
+    }
 
-    // TODO
-    // public static int checkFromIndexSize(int fromIndex, int size, int length) {
-    //     return Preconditions.checkFromIndexSize(fromIndex, size, length, null);
-    // }
+    public static int checkFromIndexSize(int fromIndex, int size, int length) {
+        if((length | fromIndex | size) < 0 || size > length - fromIndex)
+            throw new IndexOutOfBoundsException();
+        return fromIndex;
+    }
 
-    // TODO
-    // @ForceInline
-    // public static long checkIndex(long index, long length) {
-    //     return Preconditions.checkIndex(index, length, null);
-    // }
+    @ForceInline
+    public static long checkIndex(long index, long length) {
+        if(index < 0 || index >= length)
+            throw new IndexOutOfBoundsException();
+        return index;
+    }
 
-    // TODO
-    // public static long checkFromToIndex(long fromIndex, long toIndex, long length) {
-    //     return Preconditions.checkFromToIndex(fromIndex, toIndex, length, null);
-    // }
+    public static long checkFromToIndex(long fromIndex, long toIndex, long length) {
+        if(fromIndex < 0 || fromIndex > toIndex || toIndex > length)
+            throw new IndexOutOfBoundsException();
+        return fromIndex;
+    }
 
-    // TODO
-    // public static long checkFromIndexSize(long fromIndex, long size, long length) {
-    //     return Preconditions.checkFromIndexSize(fromIndex, size, length, null);
-    // }
+    public static long checkFromIndexSize(long fromIndex, long size, long length) {
+        if((length | fromIndex | size) < 0 || size > length - fromIndex)
+            throw new IndexOutOfBoundsException();
+        return fromIndex;
+    }
 }
