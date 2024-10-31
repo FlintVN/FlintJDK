@@ -285,7 +285,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
 
     public int compareTo(BigInteger val) {
         if(signum == val.signum) {
-            return switch (signum) {
+            return switch(signum) {
                 case 1  -> compareMagnitude(mag, val.mag);
                 case -1 -> compareMagnitude(val.mag, mag);
                 default -> 0;

@@ -2,6 +2,7 @@
 module java.base {
     exports java.io;
     exports java.lang;
+    exports java.lang.reflect;
     exports java.math;
     exports java.util;
     exports java.util.function;

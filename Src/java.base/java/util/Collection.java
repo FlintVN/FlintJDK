@@ -34,8 +34,8 @@ public interface Collection<E> extends Iterable<E> {
         Objects.requireNonNull(filter);
         boolean removed = false;
         final Iterator<E> each = iterator();
-        while (each.hasNext()) {
-            if (filter.test(each.next())) {
+        while(each.hasNext()) {
+            if(filter.test(each.next())) {
                 each.remove();
                 removed = true;
             }
