@@ -5,7 +5,8 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     private final int signum;
 
     public static final BigInteger ZERO = new BigInteger((int[])null, 0);
-    private static final BigInteger NEGATIVE_ONE = valueOf(-1);
+    public static final BigInteger ONE = new BigInteger(new int[]{1}, 1);
+    private static final BigInteger NEGATIVE_ONE = new BigInteger(new int[]{1}, -1);
 
     private static native int[] makeMagnitude(long val);
     private static native int[] makeMagnitude(byte[] val, int off, int len);
