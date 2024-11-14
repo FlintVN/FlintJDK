@@ -105,6 +105,10 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     public BigInteger multiply(BigInteger val) {
         if(signum == 0 || val.signum == 0)
             return ZERO;
+        if(val.compareTo(ONE) == 0)
+            return this;
+        else if(compareTo(ONE) == 0)
+            return val;
         int[] resultMag = multiply(mag, val.mag);
         return new BigInteger(resultMag, signum == val.signum ? 1 : -1);
     }
@@ -114,6 +118,8 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
             throw new ArithmeticException("Divided by zero");
         else if(signum == 0)
             return ZERO;
+        else if(val.compareTo(ONE) == 0)
+            return this;
         int[] resultMag = divide(mag, val.mag);
         if(resultMag == null)
             return ZERO;
@@ -123,7 +129,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     public BigInteger remainder(BigInteger val) {
         if(val.signum == 0)
             throw new ArithmeticException("Divided by zero");
-        else if(signum == 0)
+        else if(signum == 0 || compareTo(ONE) == 0)
             return ZERO;
         int[] resultMag = remainder(mag, val.mag);
         if(resultMag == null)
