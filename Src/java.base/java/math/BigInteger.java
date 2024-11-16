@@ -20,6 +20,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     private static native int[] remainder(int[] x, int[] y);
     private static native int[] shiftLeft(int[] x, int n);
     private static native int[] shiftRight(int[] x, int n);
+    private static native int[] square(int[] x);
 
     public static BigInteger valueOf(long val) {
         if(val == 0)
@@ -135,6 +136,15 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
         if(resultMag == null)
             return ZERO;
         return new BigInteger(resultMag, signum);
+    }
+
+    private BigInteger square() {
+        if(signum == 0)
+            return ZERO;
+        else if(compareMagnitude(mag, ONE.mag) == 0)
+            return ONE;
+        int[] resultMag = square(mag);
+        return new BigInteger(resultMag, 1);
     }
 
     public BigInteger pow(int exponent) {
