@@ -21,6 +21,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     private static native int[] shiftLeft(int[] x, int n);
     private static native int[] shiftRight(int[] x, int n);
     private static native int[] square(int[] x);
+    private static native int[] pow(int[] x, int exponent);
 
     public static BigInteger valueOf(long val) {
         if(val == 0)
@@ -148,8 +149,15 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     }
 
     public BigInteger pow(int exponent) {
-        // TODO
-        throw new UnsupportedOperationException();
+        if(exponent < 0)
+            throw new ArithmeticException("Negative exponent");
+        if(signum == 0)
+            return (exponent == 0) ? ONE : this;
+        int[] resultMag = pow(mag, exponent);
+        if(signum > 0)
+            return new BigInteger(resultMag, 1);
+        else
+            return new BigInteger(resultMag, ((exponent & 0x01) == 0x01) ? -1 : 1);
     }
 
     public BigInteger sqrt() {
@@ -175,8 +183,10 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     }
 
     public BigInteger mod(BigInteger m) {
-        // TODO
-        throw new UnsupportedOperationException();
+        if(m.signum <= 0)
+            throw new ArithmeticException("Modulus not positive");
+        BigInteger result = this.remainder(m);
+        return (result.signum >= 0 ? result : result.add(m));
     }
 
     public BigInteger modPow(BigInteger exponent, BigInteger m) {
