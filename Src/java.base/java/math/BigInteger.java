@@ -22,6 +22,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     private static native int[] shiftRight(int[] x, int n);
     private static native int[] square(int[] x);
     private static native int[] pow(int[] x, int exponent);
+    private static native int[] sqrt(int[] x);
 
     public static BigInteger valueOf(long val) {
         if(val == 0)
@@ -161,8 +162,12 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     }
 
     public BigInteger sqrt() {
-        // TODO
-        throw new UnsupportedOperationException();
+        if(signum < 0)
+            throw new ArithmeticException("Negative BigInteger");
+        else if(signum == 0)
+            return ZERO;
+        int[] resultMag = sqrt(mag);
+        return new BigInteger(resultMag, 1);
     }
 
     public BigInteger gcd(BigInteger val) {
