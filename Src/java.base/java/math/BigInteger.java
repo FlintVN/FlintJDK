@@ -325,6 +325,8 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     }
 
     public int compareTo(BigInteger val) {
+        if(val == this)
+            return 0;
         if(signum == val.signum) {
             return switch (signum) {
                 case 1  -> compareMagnitude(mag, val.mag);
@@ -333,6 +335,23 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
             };
         }
         return signum > val.signum ? 1 : -1;
+    }
+
+    public boolean equals(Object x) {
+        if(x == this)
+            return true;
+        if(!(x instanceof BigInteger xInt))
+            return false;
+        if(xInt.signum != signum)
+            return false;
+        return (compareMagnitude(mag, xInt.mag) == 0);
+    }
+
+    public int hashCode() {
+        int hashCode = 0;
+        for(int i=0; i < mag.length; i++)
+            hashCode = (int)(31 * hashCode + (mag[i] & 0xFFFFFFFFL));
+        return hashCode * signum;
     }
 
     public String toString() {
