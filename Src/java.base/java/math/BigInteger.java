@@ -166,8 +166,17 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     }
 
     public BigInteger gcd(BigInteger val) {
-        // TODO
-        throw new UnsupportedOperationException();
+        if(val.signum == 0)
+            return this.abs();
+        else if (this.signum == 0)
+            return val.abs();
+        BigInteger a = this;
+        do {
+            BigInteger temp = val;
+            val = a.remainder(val);
+            a = temp;
+        } while(val.signum != 0);
+        return val;
     }
 
     public BigInteger abs() {
