@@ -11,6 +11,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     private static native int[] makeMagnitude(long val);
     private static native int[] makeMagnitude(byte[] val, int off, int len);
     private static native int[] makeMagnitude(int signum, byte[] val, int off, int len);
+    private static native int[] makeMagnitude(int[] val, int off, int len);
 
     private static native int bitLength(int[] mag, int signum);
     private static native int compareMagnitude(int[] x, int[] y);
