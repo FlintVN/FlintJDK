@@ -12,6 +12,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     private static native int[] makeMagnitude(byte[] val, int off, int len);
     private static native int[] makeMagnitude(int signum, byte[] val, int off, int len);
 
+    private static native int bitLength(int[] mag, int signum);
     private static native int compareMagnitude(int[] x, int[] y);
     private static native int[] add(int[] x, int[] y);
     private static native int[] subtract(int[] big, int[] little);
@@ -281,6 +282,10 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     public BigInteger flipBit(int n) {
         // TODO
         throw new UnsupportedOperationException();
+    }
+
+    public int bitLength() {
+        return bitLength(mag, signum);
     }
 
     public BigInteger min(BigInteger val) {
