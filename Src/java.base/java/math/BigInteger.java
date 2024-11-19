@@ -26,6 +26,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     private static native int[] square(int[] x);
     private static native int[] pow(int[] x, int exponent);
     private static native int[] sqrt(int[] x);
+    private static native int[] getIntArray(int[] mag, int signum, int length);
 
     public static BigInteger valueOf(long val) {
         if(val == 0)
