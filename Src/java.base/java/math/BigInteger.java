@@ -14,6 +14,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     private static native int[] makeMagnitude(int[] val, int off, int len);
 
     private static native int bitLength(int[] mag, int signum);
+    private static native int getInt(int[] mag, int signum, int n);
     private static native int compareMagnitude(int[] x, int[] y);
     private static native int[] add(int[] x, int[] y);
     private static native int[] subtract(int[] big, int[] little);
@@ -303,13 +304,11 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     }
 
     public int intValue() {
-        // TODO
-        throw new UnsupportedOperationException();
+        return getInt(mag, signum, 0);
     }
 
     public long longValue() {
-        // TODO
-        throw new UnsupportedOperationException();
+        return ((long)getInt(mag, signum, 1) << 32) | getInt(mag, signum, 0);
     }
 
     public float floatValue() {
