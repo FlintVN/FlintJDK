@@ -36,12 +36,9 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
         return new BigInteger(val);
     }
 
-    private BigInteger(int[] magnitude, int signum) {
-        this.signum = (magnitude == null) ? 0 : signum;
-        this.mag = (signum == 0) ? null : magnitude;
-    }
-
     public BigInteger(byte[] val, int off, int len) {
+        if(val != null && val.length == 0)
+            throw new NumberFormatException("Zero length BigInteger");
         int[] mag = makeMagnitude(val, off, len);
         this.mag = mag;
         this.signum = (mag == null) ? 0 : ((val[off] >= 0) ? 1 : -1);
@@ -52,6 +49,8 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     }
 
     public BigInteger(int signum, byte[] magnitude, int off, int len) {
+        if(signum != 0 && magnitude != null && magnitude.length == 0)
+            throw new NumberFormatException("Zero length BigInteger");
         int[] mag = makeMagnitude(signum, magnitude, off, len);
         this.mag = mag;
         this.signum = (mag == null) ? 0 : signum;
@@ -59,6 +58,19 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
 
     public BigInteger(int signum, byte[] magnitude) {
         this(signum, magnitude, 0, magnitude.length);
+    }
+
+    private BigInteger(int[] magnitude, int signum) {
+        this.signum = (magnitude == null) ? 0 : signum;
+        this.mag = (signum == 0) ? null : magnitude;
+    }
+
+    private BigInteger(int[] val) {
+        if(val != null && val.length == 0)
+            throw new NumberFormatException("Zero length BigInteger");
+        int[] mag = makeMagnitude(val, 0, val.length);
+        this.mag = mag;
+        this.signum = (mag == null) ? 0 : ((val[0] >= 0) ? 1 : -1);
     }
 
     public BigInteger(String val, int radix) {
@@ -273,18 +285,39 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     }
 
     public BigInteger setBit(int n) {
-        // TODO
-        throw new UnsupportedOperationException();
+        if(n < 0)
+            throw new ArithmeticException("Negative bit address");
+        int intNum = n >>> 5;
+        int length = (signum == 0) ? 1 : (mag.length + 1);
+        int tmp = ((n + 1) >>> 5) + 1;
+        length = (length > tmp) ? length : tmp;
+        int[] result = getIntArray(mag, signum, length);
+        result[result.length - intNum - 1] |= (1 << (n & 31));
+        return new BigInteger(result);
     }
 
     public BigInteger clearBit(int n) {
-        // TODO
-        throw new UnsupportedOperationException();
+        if(n < 0)
+            throw new ArithmeticException("Negative bit address");
+        int intNum = n >>> 5;
+        int length = (signum == 0) ? 1 : (mag.length + 1);
+        int tmp = ((n + 1) >>> 5) + 1;
+        length = (length > tmp) ? length : tmp;
+        int[] result = getIntArray(mag, signum, length);
+        result[result.length - intNum - 1] &= ~(1 << (n & 31));
+        return new BigInteger(result);
     }
 
     public BigInteger flipBit(int n) {
-        // TODO
-        throw new UnsupportedOperationException();
+        if(n < 0)
+            throw new ArithmeticException("Negative bit address");
+        int intNum = n >>> 5;
+        int length = (signum == 0) ? 1 : (mag.length + 1);
+        int tmp = ((n + 1) >>> 5) + 1;
+        length = (length > tmp) ? length : tmp;
+        int[] result = getIntArray(mag, signum, length);
+        result[result.length - intNum - 1] ^= (1 << (n & 31));
+        return new BigInteger(result);
     }
 
     public int bitLength() {
