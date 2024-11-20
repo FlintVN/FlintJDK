@@ -260,35 +260,96 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     }
 
     public BigInteger and(BigInteger val) {
-        // TODO
-        throw new UnsupportedOperationException();
+        if(this.signum == 0 || val.signum == 0)
+            return ZERO;
+        int lenA = this.intLength();
+        int lenB = val.intLength();
+        int len = (lenA > lenB) ? lenA : lenB;
+        int[] result = getIntArray(this.mag, this.signum, len);
+        if(val.signum > 0) {
+            for(int i = 0; i < len; i++)
+                result[i] &= getInt(val.mag, 1, len - i - 1);
+        }
+        else {
+            int[] valIntArray = getIntArray(val.mag, val.signum, len);
+            for(int i = 0; i < len; i++)
+                result[i] &= valIntArray[i];
+        }
+        return new BigInteger(result);
     }
 
     public BigInteger or(BigInteger val) {
-        // TODO
-        throw new UnsupportedOperationException();
+        if(this.signum == 0)
+            return val;
+        else if(val.signum == 0)
+            return this;
+        int lenA = this.intLength();
+        int lenB = val.intLength();
+        int len = (lenA > lenB) ? lenA : lenB;
+        int[] result = getIntArray(this.mag, this.signum, len);
+        if(val.signum > 0) {
+            for(int i = 0; i < len; i++)
+                result[i] |= getInt(val.mag, 1, len - i - 1);
+        }
+        else {
+            int[] valIntArray = getIntArray(val.mag, val.signum, len);
+            for(int i = 0; i < len; i++)
+                result[i] |= valIntArray[i];
+        }
+        return new BigInteger(result);
     }
 
     public BigInteger xor(BigInteger val) {
-        // TODO
-        throw new UnsupportedOperationException();
+        if(this.signum == 0 && val.signum == 0)
+            return ZERO;
+        int lenA = this.intLength();
+        int lenB = val.intLength();
+        int len = (lenA > lenB) ? lenA : lenB;
+        int[] result = getIntArray(this.mag, this.signum, len);
+        int valSignum = val.signum;
+        if(valSignum >= 0) {
+            for(int i = 0; i < len; i++)
+                result[i] ^= getInt(val.mag, valSignum, len - i - 1);
+        }
+        else {
+            int[] valIntArray = getIntArray(val.mag, val.signum, len);
+            for(int i = 0; i < len; i++)
+                result[i] ^= valIntArray[i];
+        }
+        return new BigInteger(result);
     }
 
     public BigInteger not() {
-        // TODO
-        throw new UnsupportedOperationException();
+        int[] result = getIntArray(this.mag, this.signum, intLength());
+        for(int i = 0; i < result.length; i++)
+            result[i] = ~result[i];
+        return new BigInteger(result);
     }
 
     public BigInteger andNot(BigInteger val) {
-        // TODO
-        throw new UnsupportedOperationException();
+        if(this.signum == 0)
+            return ZERO;
+        int lenA = this.intLength();
+        int lenB = val.intLength();
+        int len = (lenA > lenB) ? lenA : lenB;
+        int[] result = getIntArray(this.mag, this.signum, len);
+        if(val.signum > 0) {
+            for(int i = 0; i < len; i++)
+                result[i] &= ~getInt(val.mag, 1, len - i - 1);
+        }
+        else {
+            int[] valIntArray = getIntArray(val.mag, val.signum, len);
+            for(int i = 0; i < len; i++)
+                result[i] &= ~valIntArray[i];
+        }
+        return new BigInteger(result);
     }
 
     public BigInteger setBit(int n) {
         if(n < 0)
             throw new ArithmeticException("Negative bit address");
         int intNum = n >>> 5;
-        int length = (signum == 0) ? 1 : (mag.length + 1);
+        int length = intLength();
         int tmp = ((n + 1) >>> 5) + 1;
         length = (length > tmp) ? length : tmp;
         int[] result = getIntArray(mag, signum, length);
@@ -300,7 +361,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
         if(n < 0)
             throw new ArithmeticException("Negative bit address");
         int intNum = n >>> 5;
-        int length = (signum == 0) ? 1 : (mag.length + 1);
+        int length = intLength();
         int tmp = ((n + 1) >>> 5) + 1;
         length = (length > tmp) ? length : tmp;
         int[] result = getIntArray(mag, signum, length);
@@ -312,7 +373,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
         if(n < 0)
             throw new ArithmeticException("Negative bit address");
         int intNum = n >>> 5;
-        int length = (signum == 0) ? 1 : (mag.length + 1);
+        int length = intLength();
         int tmp = ((n + 1) >>> 5) + 1;
         length = (length > tmp) ? length : tmp;
         int[] result = getIntArray(mag, signum, length);
@@ -322,6 +383,10 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
 
     public int bitLength() {
         return bitLength(mag, signum);
+    }
+
+    private int intLength() {
+        return (bitLength(mag, signum) >>> 5) + 1;
     }
 
     public BigInteger min(BigInteger val) {
