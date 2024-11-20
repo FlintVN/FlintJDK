@@ -197,7 +197,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
             val = a.remainder(val);
             a = temp;
         } while(val.signum != 0);
-        return val;
+        return a;
     }
 
     public BigInteger abs() {
