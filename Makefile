@@ -5,7 +5,7 @@ MODULE_SOURCE_PATH  :=  Src
 OUTPUT_DIR          :=  Bin
 
 OPT                 :=  -g
-JFLAGS              :=  -Xlint:all -XDstringConcat=inline --system=none
+JFLAGS              :=  -Xlint:all -XDstringConcat=inline --system=none -encoding UTF-8
 
 GREEN               :=  \033[0;32m
 CYAN                :=  \033[0;36m
