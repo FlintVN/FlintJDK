@@ -5,7 +5,8 @@ module java.base {
     exports java.math;
     exports java.util;
     exports java.util.function;
+    exports java.lang.annotation;
     exports jdk.internal.math;
     exports jdk.internal.vm.annotation;
-    exports java.lang.annotation;
+    exports flint.drawing;
 }
