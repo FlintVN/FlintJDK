@@ -9,4 +9,5 @@ module java.base {
     exports jdk.internal.math;
     exports jdk.internal.vm.annotation;
     exports flint.drawing;
+    exports flint.machine;
 }
