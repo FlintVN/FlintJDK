@@ -54,7 +54,7 @@ public class Graphics {
         this.clipHeight = ((yEnd2 < yEnd1) ? yEnd2 : yEnd1) - this.clipY;
     }
 
-    public void setClip(int x, int y, int width, int height) {
+    void setClip(int x, int y, int width, int height) {
         int xEnd1 = this.width + this.x;
         int yEnd1 = colorBuffer.length / this.width / getPixelSize() + this.y;
         int xEnd2 = width + x;
@@ -65,16 +65,18 @@ public class Graphics {
         this.clipHeight = ((yEnd2 < yEnd1) ? yEnd2 : yEnd1) - this.clipY;
     }
 
-    public native void drawLine(Pen pen, int x1, int y1, int x2, int y2);
+    public native void clear();
 
-    public void drawLine(Pen pen, Point p1, Point p2) {
-        drawLine(pen, p1.x, p1.y, p2.x, p2.y);
+    public native void drawLine(Color color, int x1, int y1, int x2, int y2);
+
+    public void drawLine(Color color, Point p1, Point p2) {
+        drawLine(color, p1.x, p1.y, p2.x, p2.y);
     }
 
-    public native void drawRect(Pen pen, int x, int y, int width, int height);
+    public native void drawRect(Color color, int x, int y, int width, int height);
 
-    public void drawRect(Pen pen, Rectangle rect) {
-        drawRect(pen, rect.x, rect.y, rect.width, rect.height);
+    public void drawRect(Color color, Rectangle rect) {
+        drawRect(color, rect.x, rect.y, rect.width, rect.height);
     }
 
     public native void fillRect(Color color, int x, int y, int width, int height);
@@ -83,14 +85,14 @@ public class Graphics {
         fillRect(color, rect.x, rect.y, rect.width, rect.height);
     }
 
-    public native void drawRoundRect(Pen pen, int x, int y, int width, int height, int arcWidth, int arcHeight);
+    public native void drawRoundRect(Color color, int x, int y, int width, int height, int arcWidth, int arcHeight);
 
     public native void fillRoundRect(Color color, int x, int y, int width, int height, int arcWidth, int arcHeight);
 
-    public native void drawEllipse(Pen pen, int x, int y, int width, int height);
+    public native void drawEllipse(Color color, int x, int y, int width, int height);
 
-    public void drawEllipse(Pen pen, Rectangle rect) {
-        drawEllipse(pen, rect.x, rect.y, rect.width, rect.height);
+    public void drawEllipse(Color color, Rectangle rect) {
+        drawEllipse(color, rect.x, rect.y, rect.width, rect.height);
     }
 
     public native void fillEllipse(Color color, int x, int y, int width, int height);
@@ -99,10 +101,10 @@ public class Graphics {
         fillEllipse(color, rect.x, rect.y, rect.width, rect.height);
     }
 
-    public native void drawArc(Pen pen, int x, int y, int width, int height, int startAngle, int arcAngle);
+    public native void drawArc(Color color, int x, int y, int width, int height, int startAngle, int arcAngle);
 
-    public void drawArc(Pen pen, Rectangle rect, int startAngle, int arcAngle) {
-        drawArc(pen, rect.x, rect.y, rect.width, rect.height, startAngle, arcAngle);
+    public void drawArc(Color color, Rectangle rect, int startAngle, int arcAngle) {
+        drawArc(color, rect.x, rect.y, rect.width, rect.height, startAngle, arcAngle);
     }
 
     public native void fillArc(Color color, int x, int y, int width, int height, int startAngle, int arcAngle);
@@ -111,12 +113,12 @@ public class Graphics {
         fillArc(color, rect.x, rect.y, rect.width, rect.height, startAngle, arcAngle);
     }
 
-    public native void drawPolyline(Pen pen, int[] xPoints, int[] yPoints, int nPoints);
+    public native void drawPolyline(Color color, int[] xPoints, int[] yPoints, int nPoints);
 
-    public native void drawPolygon(Pen pen, int[] xPoints, int[] yPoints, int nPoints);
+    public native void drawPolygon(Color color, int[] xPoints, int[] yPoints, int nPoints);
 
-    public void drawPolygon(Pen pen, Polygon polygon) {
-        drawPolygon(pen, polygon.xpoints, polygon.ypoints, polygon.npoints);
+    public void drawPolygon(Color color, Polygon polygon) {
+        drawPolygon(color, polygon.xpoints, polygon.ypoints, polygon.npoints);
     }
 
     public native void fillPolygon(Color color, int[] xPoints, int[] yPoints, int nPoints);
