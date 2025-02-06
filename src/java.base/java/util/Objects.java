@@ -27,10 +27,9 @@ public final class Objects {
         return o != null ? o.hashCode() : 0;
     }
 
-    // TODO
-    // public static int hash(Object... values) {
-    //     return Arrays.hashCode(values);
-    // }
+    public static int hash(Object... values) {
+        return Arrays.hashCode(values);
+    }
 
     public static String toString(Object o) {
         return String.valueOf(o);
