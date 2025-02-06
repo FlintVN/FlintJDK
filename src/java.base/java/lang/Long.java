@@ -120,7 +120,7 @@ public final class Long extends Number implements Comparable<Long> {
     }
 
     public static String toString(long i) {
-        byte[] buffer = new byte[21];
+        byte[] buffer = new byte[stringSize(i)];
         int index = buffer.length - 1;
         boolean negative;
         if(i < 0) {
@@ -143,6 +143,21 @@ public final class Long extends Number implements Comparable<Long> {
 
     public static String toUnsignedString(long i) {
         return toUnsignedString(i, 10);
+    }
+
+    static int stringSize(long x) {
+        int d = 1;
+        if(x >= 0) {
+            d = 0;
+            x = -x;
+        }
+        long p = -10;
+        for(int i = 1; i < 19; i++) {
+            if(x > p)
+                return i + d;
+            p = 10 * p;
+        }
+        return 19 + d;
     }
 
     public static long parseLong(String s, int radix) throws NumberFormatException {

@@ -79,7 +79,7 @@ public final class Integer extends Number implements Comparable<Integer> {
     }
 
     public static String toString(int i) {
-        byte[] buffer = new byte[11];
+        byte[] buffer = new byte[stringSize(i)];
         int index = buffer.length;
         boolean negative;
         if(i < 0) {
@@ -102,6 +102,21 @@ public final class Integer extends Number implements Comparable<Integer> {
 
     public static String toUnsignedString(int i) {
         return Long.toString(toUnsignedLong(i));
+    }
+
+    static int stringSize(int x) {
+        int d = 1;
+        if(x >= 0) {
+            d = 0;
+            x = -x;
+        }
+        int p = -10;
+        for(int i = 1; i < 10; i++) {
+            if(x > p)
+                return i + d;
+            p = 10 * p;
+        }
+        return 10 + d;
     }
 
     public static int parseInt(String s, int radix) throws NumberFormatException {
