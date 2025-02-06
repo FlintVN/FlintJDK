@@ -35,7 +35,7 @@ public final class Long extends Number implements Comparable<Long> {
         if(negative)
             buf[--charPos] = '-';
 
-        return String.newString(buf, charPos, (33 - charPos), (byte)0);
+        return new String(buf, charPos, (33 - charPos), (byte)0);
     }
 
 
@@ -90,7 +90,7 @@ public final class Long extends Number implements Comparable<Long> {
         int chars = Math.max(((mag + (shift - 1)) / shift), 1);
         byte[] buf = new byte[chars];
         formatUnsignedLong0(val, shift, buf, 0, chars);
-        return String.newString(buf, (byte)0);
+        return new String(buf, (byte)0);
     }
 
     private static void formatUnsignedLong0(long val, int shift, byte[] buf, int offset, int len) {
@@ -116,7 +116,7 @@ public final class Long extends Number implements Comparable<Long> {
         buf[13] = '-';
         buf[8]  = '-';
 
-        return String.newString(buf, (byte)0);
+        return new String(buf, (byte)0);
     }
 
     public static String toString(long i) {
@@ -138,7 +138,7 @@ public final class Long extends Number implements Comparable<Long> {
         if(negative)
             buffer[--index] = '-';
 
-        return String.newString(buffer, index, buffer.length - index, (byte)0);
+        return new String(buffer, index, buffer.length - index, (byte)0);
     }
 
     public static String toUnsignedString(long i) {

@@ -1,6 +1,7 @@
 package java.lang;
 
 import java.util.Objects;
+import java.lang.annotation.Native;
 import jdk.internal.vm.annotation.ForceInline;
 
 public final class String implements Comparable<String>, CharSequence {
@@ -8,6 +9,9 @@ public final class String implements Comparable<String>, CharSequence {
     private final byte coder;
     private int hash;
     private boolean hashIsZero;
+
+    @Native static final byte LATIN1 = 0;
+    @Native static final byte UTF16  = 1;
 
     private static boolean isLatin1(byte[] utf8Value, int offset, int count) {
         count += offset;
@@ -70,14 +74,6 @@ public final class String implements Comparable<String>, CharSequence {
         return len;
     }
 
-    static String newString(byte[] value, byte coder) {
-        return new String(value, 0, value.length, coder);
-    }
-
-    static String newString(byte[] value, int offset, int count, byte coder) {
-        return new String(value, offset, count, coder);
-    }
-
     public String() {
         value = "".value;
         coder = "".coder;
@@ -103,6 +99,10 @@ public final class String implements Comparable<String>, CharSequence {
             StringUTF16.putChar(buff, i, value[i + offset]);
         this.value = buff;
         this.coder = isLatin1 ? (byte)0 : (byte)1;
+    }
+
+    String(byte[] value, byte coder) {
+        this(value, 0, value.length, coder);
     }
 
     String(byte[] value, int offset, int count, byte coder) {
@@ -166,7 +166,7 @@ public final class String implements Comparable<String>, CharSequence {
 
     @Override
     public char charAt(int index) {
-        if(coder == 0)
+        if(coder == LATIN1)
             return (char)value[index];
         return StringUTF16.charAt(value, index);
     }
@@ -185,14 +185,14 @@ public final class String implements Comparable<String>, CharSequence {
         int pc = pa.length;
         byte coder = this.coder;
         if(coder == prefix.coder) {
-            int to = (coder == 0) ? toffset : toffset << 1;
+            int to = (coder == LATIN1) ? toffset : toffset << 1;
             while(po < pc) {
                 if(ta[to++] != pa[po++])
                     return false;
             }
         }
         else {
-            if(coder == 0)
+            if(coder == LATIN1)
                 return false;
             while(po < pc) {
                 if(StringUTF16.charAt(ta, toffset++) != (pa[po++] & 0xff))
@@ -219,7 +219,7 @@ public final class String implements Comparable<String>, CharSequence {
     }
 
     public int indexOf(int ch, int fromIndex) {
-        return (coder == 0) ? StringLatin1.indexOf(value, ch, fromIndex) : StringUTF16.indexOf(value, ch, fromIndex);
+        return (coder == LATIN1) ? StringLatin1.indexOf(value, ch, fromIndex) : StringUTF16.indexOf(value, ch, fromIndex);
     }
 
     public int indexOf(String str) {
@@ -229,8 +229,8 @@ public final class String implements Comparable<String>, CharSequence {
     public int indexOf(String str, int fromIndex) {
         byte coder = this.coder;
         if(coder == str.coder)
-            return (coder == 0) ? StringLatin1.indexOf(value, str.value, fromIndex) : StringUTF16.indexOf(value, str.value, fromIndex);
-        if(coder == 0)
+            return (coder == LATIN1) ? StringLatin1.indexOf(value, str.value, fromIndex) : StringUTF16.indexOf(value, str.value, fromIndex);
+        if(coder == LATIN1)
             return -1;
         return StringUTF16.indexOfLatin1(value, str.value, fromIndex);
     }
@@ -240,7 +240,7 @@ public final class String implements Comparable<String>, CharSequence {
     }
 
     public int lastIndexOf(int ch, int fromIndex) {
-        if(coder == 0)
+        if(coder == LATIN1)
             return StringLatin1.lastIndexOf(value, ch, fromIndex);
         return StringUTF16.lastIndexOf(value, ch, fromIndex);
     }
@@ -252,11 +252,11 @@ public final class String implements Comparable<String>, CharSequence {
     public int lastIndexOf(String str, int fromIndex) {
         byte coder = this.coder;
         if(coder == str.coder) {
-            if(coder == 0)
+            if(coder == LATIN1)
                 return StringLatin1.lastIndexOf(value, str.value, fromIndex);
             return StringUTF16.lastIndexOf(value, str.value, fromIndex);
         }
-        if(coder == 0)
+        if(coder == LATIN1)
             return -1;
         return StringUTF16.lastIndexOfLatin1(value, str.value, fromIndex);
     }
@@ -269,15 +269,15 @@ public final class String implements Comparable<String>, CharSequence {
         int len2 = str.length();
         byte[] value1 = this.value;
         byte[] value2 = str.value;
-        if((coder == 1) || (str.coder == 1)) {
+        if((coder == UTF16) || (str.coder == UTF16)) {
             byte[] buff = new byte[(len1 + len2) << 1];
-            if(coder == 0) {
+            if(coder == LATIN1) {
                 for(int i = 0; i < len1; i++)
                     StringUTF16.putChar(buff, i, (char)(value1[i] & 0xFF));
             }
             else for(int i = 0; i < len1; i++)
                 StringUTF16.putChar(buff, i, StringUTF16.charAt(value1, i));
-            if(str.coder == 0) {
+            if(str.coder == LATIN1) {
                 for(int i = 0; i < len2; i++)
                     StringUTF16.putChar(buff, i + len1, (char)(value2[i] & 0xFF));
             }
@@ -297,7 +297,7 @@ public final class String implements Comparable<String>, CharSequence {
 
     public String replace(char oldChar, char newChar) {
         if(oldChar != newChar) {
-            String ret = (coder == 0) ? StringLatin1.replace(value, oldChar, newChar) : StringUTF16.replace(value, oldChar, newChar);
+            String ret = (coder == LATIN1) ? StringLatin1.replace(value, oldChar, newChar) : StringUTF16.replace(value, oldChar, newChar);
             if(ret != null)
                 return ret;
         }
@@ -356,8 +356,8 @@ public final class String implements Comparable<String>, CharSequence {
         if(beginIndex == 0 && endIndex == length)
             return this;
         int subLen = endIndex - beginIndex;
-        if(coder == 0)
-            return newString(val, beginIndex, subLen, (byte)0);
+        if(coder == LATIN1)
+            return new String(val, beginIndex, subLen, (byte)0);
         boolean isLatin1 = true;
         for(int i = beginIndex; i < endIndex; i++) {
             if(StringUTF16.charAt(val, i) > 255) {
@@ -369,9 +369,9 @@ public final class String implements Comparable<String>, CharSequence {
             byte[] buff = new byte[subLen];
             for(int i = beginIndex; i < endIndex; i++)
                 buff[i] = val[i << 1];
-            return String.newString(buff, (byte)0);
+            return new String(buff, (byte)0);
         }
-        return newString(val, beginIndex << 1, subLen << 1, (byte)1);
+        return new String(val, beginIndex << 1, subLen << 1, (byte)1);
     }
 
     @Override
@@ -380,11 +380,11 @@ public final class String implements Comparable<String>, CharSequence {
     }
 
     public String[] split() {
-        return coder == 0 ? StringLatin1.split(value) : StringUTF16.split(value);
+        return coder == LATIN1 ? StringLatin1.split(value) : StringUTF16.split(value);
     }
 
     public String[] split(char ch) {
-        String[] ret = coder == 0 ? StringLatin1.split(value, ch) : StringUTF16.split(value, ch);
+        String[] ret = coder == LATIN1 ? StringLatin1.split(value, ch) : StringUTF16.split(value, ch);
         if(ret == null)
             ret = new String[] {this};
         return ret;
@@ -450,21 +450,21 @@ public final class String implements Comparable<String>, CharSequence {
     }
 
     public String toLowerCase() {
-        String ret = (coder == 0) ? StringLatin1.toLowerCase(value) : StringUTF16.toLowerCase(value);
+        String ret = (coder == LATIN1) ? StringLatin1.toLowerCase(value) : StringUTF16.toLowerCase(value);
         if(ret == null)
             return this;
         return ret;
     }
 
     public String toUpperCase() {
-        String ret = (coder == 0) ? StringLatin1.toUpperCase(value) : StringUTF16.toUpperCase(value);
+        String ret = (coder == LATIN1) ? StringLatin1.toUpperCase(value) : StringUTF16.toUpperCase(value);
         if(ret == null)
             return this;
         return ret;
     }
 
     public String trim() {
-        String ret = (coder == 0) ? StringLatin1.trim(value) : StringUTF16.trim(value);
+        String ret = (coder == LATIN1) ? StringLatin1.trim(value) : StringUTF16.trim(value);
         if(ret == null)
             return this;
         return ret;
@@ -535,7 +535,7 @@ public final class String implements Comparable<String>, CharSequence {
     }
 
     public char[] toCharArray() {
-        return (coder == 0) ? StringLatin1.toChars(value) : StringUTF16.toChars(value);
+        return (coder == LATIN1) ? StringLatin1.toChars(value) : StringUTF16.toChars(value);
     }
 
     public static String valueOf(Object obj) {
@@ -567,13 +567,13 @@ public final class String implements Comparable<String>, CharSequence {
         if(c < 256) {
             byte[] buff = new byte[1];
             buff[0] = (byte)c;
-            return newString(buff, (byte)0);
+            return new String(buff, (byte)0);
         }
         else {
             byte[] buff = new byte[2];
             buff[0] = (byte)c;
             buff[1] = (byte)(c >>> 8);
-            return newString(buff, (byte)0);
+            return new String(buff, (byte)0);
         }
     }
 
@@ -628,7 +628,7 @@ public final class String implements Comparable<String>, CharSequence {
             return true;
         byte coder = this.coder;
         if(coder == anotherString.coder) {
-            if(coder == 0)
+            if(coder == LATIN1)
                 return StringLatin1.equalsIgnoreCase(value, anotherString.value);
             return StringUTF16.equalsIgnoreCase(value, anotherString.value);
         }
@@ -641,15 +641,15 @@ public final class String implements Comparable<String>, CharSequence {
         byte[] v2 = anotherString.value;
         byte coder = this.coder;
         if(coder == anotherString.coder)
-            return coder == 0 ? StringLatin1.compareTo(v1, v2) : StringUTF16.compareTo(v1, v2);
-        return coder == 0 ? StringLatin1.compareToUTF16(v1, v2) : StringUTF16.compareToLatin1(v1, v2);
+            return coder == LATIN1 ? StringLatin1.compareTo(v1, v2) : StringUTF16.compareTo(v1, v2);
+        return coder == LATIN1 ? StringLatin1.compareToUTF16(v1, v2) : StringUTF16.compareToLatin1(v1, v2);
     }
 
     @Override
     public int hashCode() {
         int h = hash;
         if(h == 0 && !hashIsZero) {
-            h = (coder == 0) ? StringLatin1.hashCode(value) : StringUTF16.hashCode(value);
+            h = (coder == LATIN1) ? StringLatin1.hashCode(value) : StringUTF16.hashCode(value);
             if(h == 0)
                 hashIsZero = true;
             else

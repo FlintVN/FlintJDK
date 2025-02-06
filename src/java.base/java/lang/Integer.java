@@ -41,7 +41,7 @@ public final class Integer extends Number implements Comparable<Integer> {
         if(negative)
             buf[--charPos] = '-';
 
-        return String.newString(buf, charPos, (33 - charPos), (byte)0);
+        return new String(buf, charPos, (33 - charPos), (byte)0);
     }
 
     public static String toUnsignedString(int i, int radix) {
@@ -65,7 +65,7 @@ public final class Integer extends Number implements Comparable<Integer> {
         int chars = Math.max(((mag + (shift - 1)) / shift), 1);
         byte[] buf = new byte[chars];
         formatUnsignedInt(val, shift, buf, chars);
-        return String.newString(buf, (byte)0);
+        return new String(buf, (byte)0);
     }
 
     private static void formatUnsignedInt(int val, int shift, byte[] buf, int len) {
@@ -97,7 +97,7 @@ public final class Integer extends Number implements Comparable<Integer> {
         if(negative)
             buffer[--index] = '-';
 
-        return String.newString(buffer, index, buffer.length - index, (byte)0);
+        return new String(buffer, index, buffer.length - index, (byte)0);
     }
 
     public static String toUnsignedString(int i) {

@@ -12,14 +12,14 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
 
     AbstractStringBuilder() {
         value = new byte[16];
-        coder = 0;
+        coder = String.LATIN1;
         count = 0;
         maybeLatin1 = false;
     }
 
     AbstractStringBuilder(int capacity) {
         value = new byte[capacity];
-        coder = 0;
+        coder = String.LATIN1;
         count = 0;
         maybeLatin1 = false;
     }
@@ -52,7 +52,7 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
     public void setCharAt(int index, char ch) {
         if(index >= count)
             throw new StringIndexOutOfBoundsException("Index " + index + " out of bounds for length " + count);
-        if((coder == 0) && (ch < 256))
+        if((coder == String.LATIN1) && (ch < 256))
             value[index] = (byte)ch;
         else {
             inflate();
@@ -66,7 +66,7 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
 
     public AbstractStringBuilder clear() {
         maybeLatin1 = false;
-        coder = 0;
+        coder = String.LATIN1;
         count = 0;
         return this;
     }
@@ -102,7 +102,7 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
         int len = end - start;
         int count = this.count;
         int i = 0;
-        if(coder == 0) {
+        if(coder == String.LATIN1) {
             if(s instanceof String str) {
                 if(str.coder() == 1) {
                     if(count != 0)
@@ -112,7 +112,7 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
                 }
             }
             else if(s instanceof AbstractStringBuilder asb) {
-                if(asb.coder == 1) {
+                if(asb.coder == String.UTF16) {
                     if(count != 0)
                         inflate();
                     else
@@ -120,7 +120,7 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
                 }
             }
             ensureCapacityInternal(count + len);
-            if(coder == 0) {
+            if(coder == String.LATIN1) {
                 val = this.value;
                 for(; i < len; i++) {
                     char c = s.charAt(i + start);
@@ -162,7 +162,7 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
         int count = this.count;
         byte[] val;
         int i = 0;
-        if(coder == 0) {
+        if(coder == String.LATIN1) {
             ensureCapacityInternal(count + len);
             val = this.value;
             for(; i < len; i++) {
@@ -202,7 +202,7 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
 
     @Override
     public AbstractStringBuilder append(char c) {
-        if((coder == 0) && (c < 256)) {
+        if((coder == String.LATIN1) && (c < 256)) {
             ensureCapacityInternal(count + 1);
             value[count++] = (byte)c;
         }
@@ -252,7 +252,7 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
         int count = this.count;
         ensureCapacityInternal(count + 4);
         byte[] val = this.value;
-        if(coder == 0) {
+        if(coder == String.LATIN1) {
             val[count++] = 'n';
             val[count++] = 'u';
             val[count++] = 'l';
@@ -287,7 +287,7 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
     }
 
     private void inflate() {
-        if(this.coder == 1)
+        if(this.coder == String.UTF16)
             return;
         int count = this.count;
         byte[] value = this.value;
@@ -315,7 +315,7 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
 
     @Override
     public char charAt(int index) {
-        if(coder == 0)
+        if(coder == String.LATIN1)
             return (char)value[index];
         return StringUTF16.charAt(value, index);
     }
@@ -331,10 +331,10 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
 
     public String substring(int start, int end) {
         byte[] val = value;
-        if(coder == 0) {
+        if(coder == String.LATIN1) {
             if((start == 0) && (end == val.length))
                 val = val.clone();
-            return String.newString(val, start, end - start, (byte)0);
+            return new String(val, start, end - start, (byte)0);
         }
         boolean isLatin1 = true;
         for(int i = start; i < end; i++) {
@@ -348,15 +348,15 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
             byte[] buff = new byte[end - count];
             for(int i = start; i < end; i++)
                 buff[i] = val[i << 1];
-            return String.newString(buff, (byte)0);
+            return new String(buff, (byte)0);
         }
         if((start == 0) && (end == val.length))
             val = val.clone();
-        return String.newString(val, start << 1, (end - start) << 1, (byte)1);
+        return new String(val, start << 1, (end - start) << 1, (byte)1);
     }
 
     public int indexOf(String str) {
-        if(coder == 0)
+        if(coder == String.LATIN1)
             return StringLatin1.indexOf(value, str.value(), 0);
         return StringUTF16.indexOf(value, str.value(), 0);
     }
