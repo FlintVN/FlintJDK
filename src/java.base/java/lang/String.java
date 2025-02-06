@@ -1,5 +1,8 @@
 package java.lang;
 
+import java.util.Objects;
+import jdk.internal.vm.annotation.ForceInline;
+
 public final class String implements Comparable<String>, CharSequence {
     private final byte[] value;
     private final byte coder;
@@ -97,7 +100,7 @@ public final class String implements Comparable<String>, CharSequence {
                 buff[i] = (byte)value[i + offset];
         }
         else for(int i = 0; i < count; i++)
-            StringUTF16.putCharAt(buff, i, value[i + offset]);
+            StringUTF16.putChar(buff, i, value[i + offset]);
         this.value = buff;
         this.coder = isLatin1 ? (byte)0 : (byte)1;
     }
@@ -133,7 +136,7 @@ public final class String implements Comparable<String>, CharSequence {
             byte b = utf8Value[offset];
             int byteCount = getUtf8ByteCount(b);
             int code = utf8Decode(utf8Value, offset, byteCount);
-            StringUTF16.putCharAt(buff, i, (char)code);
+            StringUTF16.putChar(buff, i, (char)code);
             offset += byteCount;
         }
         this.value = buff;
@@ -270,16 +273,16 @@ public final class String implements Comparable<String>, CharSequence {
             byte[] buff = new byte[(len1 + len2) << 1];
             if(coder == 0) {
                 for(int i = 0; i < len1; i++)
-                    StringUTF16.putCharAt(buff, i, (char)(value1[i] & 0xFF));
+                    StringUTF16.putChar(buff, i, (char)(value1[i] & 0xFF));
             }
             else for(int i = 0; i < len1; i++)
-                StringUTF16.putCharAt(buff, i, StringUTF16.charAt(value1, i));
+                StringUTF16.putChar(buff, i, StringUTF16.charAt(value1, i));
             if(str.coder == 0) {
                 for(int i = 0; i < len2; i++)
-                    StringUTF16.putCharAt(buff, i + len1, (char)(value2[i] & 0xFF));
+                    StringUTF16.putChar(buff, i + len1, (char)(value2[i] & 0xFF));
             }
             else for(int i = 0; i < len2; i++)
-                StringUTF16.putCharAt(buff, i + len1, StringUTF16.charAt(value2, i));
+                StringUTF16.putChar(buff, i + len1, StringUTF16.charAt(value2, i));
             return new String(buff, 0, buff.length, (byte)1);
         }
         else {
@@ -327,6 +330,22 @@ public final class String implements Comparable<String>, CharSequence {
         return this;
     }
 
+    void getBytes(byte[] dst, int dstBegin, byte coder) {
+        dstBegin <<= coder;
+        if(coder() == coder)
+            System.arraycopy(value, 0, dst, dstBegin, value.length);
+        else {
+            int len = value.length;
+            if((dstBegin < 0) || ((dstBegin + (len << coder)) > dst.length))
+                throw new IndexOutOfBoundsException();
+            byte[] val = value;
+            for(int i = 0; i < len; i++) {
+                dst[dstBegin++] = val[i];
+                dst[dstBegin++] = 0;
+            }
+        }
+    }
+
     public String substring(int beginIndex) {
         return substring(beginIndex, length());
     }
@@ -371,15 +390,74 @@ public final class String implements Comparable<String>, CharSequence {
         return ret;
     }
 
-    public String toLower() {
-        String ret = (coder == 0) ? StringLatin1.toLower(value) : StringUTF16.toLower(value);
+    public static String join(CharSequence delimiter, CharSequence... elements) {
+        var delim = delimiter.toString();
+        var elems = new String[elements.length];
+        for(int i = 0; i < elements.length; i++)
+            elems[i] = String.valueOf(elements[i]);
+        return join("", "", delim, elems, elems.length);
+    }
+
+    public static String join(String prefix, String suffix, String delimiter, String[] elements, int size) {
+        int icoder = prefix.coder() | suffix.coder();
+        long len = (long)prefix.length() + suffix.length();
+        if(size > 1) {
+            len += (long)(size - 1) * delimiter.length();
+            icoder |= delimiter.coder();
+        }
+        for(int i = 0; i < size; i++) {
+            var el = elements[i];
+            len += el.length();
+            icoder |= el.coder();
+        }
+        byte coder = (byte) icoder;
+        if(len < 0L || (len <<= coder) != (int)len)
+            throw new OutOfMemoryError("Requested string length exceeds VM limit");
+        byte[] value = new byte[(int)len];
+        int off = 0;
+        prefix.getBytes(value, off, coder);
+        off += prefix.length();
+        if(size > 0) {
+            var el = elements[0];
+            el.getBytes(value, off, coder);
+            off += el.length();
+            for(int i = 1; i < size; i++) {
+                delimiter.getBytes(value, off, coder);
+                off += delimiter.length();
+                el = elements[i];
+                el.getBytes(value, off, coder); off += el.length();
+            }
+        }
+        suffix.getBytes(value, off, coder);
+        return new String(value, 0, value.length, coder);
+    }
+
+    public static String join(CharSequence delimiter, Iterable<? extends CharSequence> elements) {
+        Objects.requireNonNull(delimiter);
+        Objects.requireNonNull(elements);
+        var delim = delimiter.toString();
+        var elems = new String[8];
+        int size = 0;
+        for(CharSequence cs: elements) {
+            if(size >= elems.length) {
+                String[] tmp = new String[elems.length << 1];
+                System.arraycopy(elems, 0, tmp, 0, elems.length);
+                elems = tmp;
+            }
+            elems[size++] = String.valueOf(cs);
+        }
+        return join("", "", delim, elems, size);
+    }
+
+    public String toLowerCase() {
+        String ret = (coder == 0) ? StringLatin1.toLowerCase(value) : StringUTF16.toLowerCase(value);
         if(ret == null)
             return this;
         return ret;
     }
 
-    public String toUpper() {
-        String ret = (coder == 0) ? StringLatin1.toUpper(value) : StringUTF16.toUpper(value);
+    public String toUpperCase() {
+        String ret = (coder == 0) ? StringLatin1.toUpperCase(value) : StringUTF16.toUpperCase(value);
         if(ret == null)
             return this;
         return ret;

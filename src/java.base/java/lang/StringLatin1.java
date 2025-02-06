@@ -5,12 +5,6 @@ final class StringLatin1 {
         return (char)(value[index] & 0xFF);
     }
 
-    public static void putCharAt(byte[] value, int index, char c) {
-        if(c > 255)
-            throw new Error("Character is not latin1");
-        value[index] = (byte)c;
-    }
-
     public static int indexOf(byte[] value, int ch, int fromIndex) {
         if(ch > 255)
             return -1;
@@ -160,14 +154,14 @@ final class StringLatin1 {
         return ret;
     }
 
-    private static byte toLower(byte ch) {
+    private static byte toLowerCase(byte ch) {
         int c = ch & 0xFF;
         if((('A' <= c) && (c <= 'Z')) || (('À' <= c) && (c <= 'Ö')) || (c == 'Ø'))
             return (byte)(c + 32);
         return ch;
     }
 
-    public static String toLower(byte[] value) {
+    public static String toLowerCase(byte[] value) {
         int i;
         int length = value.length;
         byte[] ret = null;
@@ -191,7 +185,7 @@ final class StringLatin1 {
         return (ret == null) ? null : String.newString(ret,  (byte)0);
     }
 
-    public static String toUpper(byte[] value) {
+    public static String toUpperCase(byte[] value) {
         int i;
         int length = value.length;
         byte[] ret = null;
@@ -266,7 +260,7 @@ final class StringLatin1 {
     public static boolean equalsIgnoreCase(byte[] value, byte[] other) {
         int len = value.length;
         for(int i = 0; i < len; i++)
-            if(toLower(value[i]) != toLower(other[i]))
+            if(toLowerCase(value[i]) != toLowerCase(other[i]))
                 return false;
         return true;
     }

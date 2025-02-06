@@ -6,16 +6,10 @@ final class StringUTF16 {
         return (char)((value[index + 1] << 8) | (value[index] & 0xFF));
     }
 
-    public static void putCharAt(byte[] value, int index, char c) {
+    public static void putChar(byte[] value, int index, int c) {
         index <<= 1;
         value[index] = (byte)c;
         value[index + 1] = (byte)(c >>> 8);
-    }
-
-    public static void putCharAt(byte[] value, int index, byte c) {
-        index <<= 1;
-        value[index] = c;
-        value[index + 1] = 0;
     }
 
     public static int indexOf(byte[] value, int ch, int fromIndex) {
@@ -232,7 +226,7 @@ final class StringUTF16 {
         return ret;
     }
 
-    public static String toLower(byte[] value) {
+    public static String toLowerCase(byte[] value) {
         int i;
         int length = value.length >>> 1;
         byte[] ret = null;
@@ -258,7 +252,7 @@ final class StringUTF16 {
         return (ret == null) ? null : String.newString(ret,  (byte)1);
     }
 
-    public static String toUpper(byte[] value) {
+    public static String toUpperCase(byte[] value) {
         int i;
         int length = value.length >>> 1;
         byte[] ret = null;
