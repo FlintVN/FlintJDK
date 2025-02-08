@@ -90,7 +90,7 @@ final class StringLatin1 {
                 byte c = value[i];
                 ret[i] = (c == oldCh) ? (byte)newChar : c;
             }
-            return (ret == null) ? null : String.newString(ret, (byte)0);
+            return (ret == null) ? null : new String(ret, (byte)0);
         }
         else {
             byte[] ret = null;
@@ -115,7 +115,7 @@ final class StringLatin1 {
                 else
                     ret[index] = c;
             }
-            return (ret == null) ? null : String.newString(ret, (byte)1);
+            return (ret == null) ? null : new String(ret, (byte)1);
         }
     }
 
@@ -123,7 +123,7 @@ final class StringLatin1 {
         int len = value.length;
         String[] ret = new String[len];
         for(int i = 0; i < len; i++)
-            ret[i] = String.newString(value, i, 1, (byte)0);
+            ret[i] = new String(value, i, 1, (byte)0);
         return ret;
     }
 
@@ -144,13 +144,13 @@ final class StringLatin1 {
         int start = 0;
         for(int i = 0; i < len; i++) {
             if(c == value[i]) {
-                ret[index] = String.newString(value, start, i - start, (byte)0);
+                ret[index] = new String(value, start, i - start, (byte)0);
                 start = i + 1;
                 index++;
             }
         }
         if(start < len)
-            ret[index] = String.newString(value, start, len - start, (byte)0);
+            ret[index] = new String(value, start, len - start, (byte)0);
         return ret;
     }
 
@@ -182,7 +182,7 @@ final class StringLatin1 {
             else
                 ret[i] = (byte)c;
         }
-        return (ret == null) ? null : String.newString(ret,  (byte)0);
+        return (ret == null) ? null : new String(ret, (byte)0);
     }
 
     public static String toUpperCase(byte[] value) {
@@ -206,7 +206,7 @@ final class StringLatin1 {
             else
                 ret[i] = (byte)c;
         }
-        return (ret == null) ? null : String.newString(ret,  (byte)0);
+        return (ret == null) ? null : new String(ret, (byte)0);
     }
 
     public static String trim(byte[] value) {
@@ -216,7 +216,7 @@ final class StringLatin1 {
             st++;
         while((st < len) && ((value[len - 1] & 0xFF) <= ' '))
             len--;
-        return ((st > 0) || (len < value.length)) ? String.newString(value, st, len - st, (byte)0) : null;
+        return ((st > 0) || (len < value.length)) ? new String(value, st, len - st, (byte)0) : null;
     }
 
     public static char[] toChars(byte[] value) {

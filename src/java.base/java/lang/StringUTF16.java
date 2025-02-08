@@ -153,12 +153,12 @@ final class StringUTF16 {
             for(i = 0; i < len; i++) {
                 int index = i << 1;
                 if(ret[index + 1] != 0)
-                    return String.newString(ret, (byte)1);
+                    return new String(ret, (byte)1);
             }
             byte[] buff = new byte[len];
             for(i = 0; i < len; i++)
                 buff[i] = ret[i << 1];
-            return String.newString(ret, (byte)0);
+            return new String(ret, (byte)0);
         }
         return null;
     }
@@ -169,11 +169,11 @@ final class StringUTF16 {
         for(int i = 0; i < len; i++) {
             char c = charAt(value, i);
             if(c < 256)
-                ret[i] = String.newString(new byte[] {(byte)c}, 0, 1, (byte)0);
+                ret[i] = new String(new byte[] {(byte)c}, 0, 1, (byte)0);
             else {
                 byte b1 = (byte)c;
                 byte b2 = (byte)(c >>> 8);
-                ret[i] = String.newString(new byte[] {b1, b2}, 0, 2, (byte)1);
+                ret[i] = new String(new byte[] {b1, b2}, 0, 2, (byte)1);
             }
         }
         return ret;
@@ -198,12 +198,12 @@ final class StringUTF16 {
             if(ch == charAt(value, i)) {
                 int count = i - start;
                 if(!isLatin1)
-                    ret[index] = String.newString(value, (start << 1), count << 1, (byte)1);
+                    ret[index] = new String(value, (start << 1), count << 1, (byte)1);
                 else {
                     byte[] buff = new byte[count];
                     for(int j = 0; j < count; j++)
                         buff[j] = value[(j + start) << 1];
-                    ret[index] = String.newString(buff, (byte)0);
+                    ret[index] = new String(buff, (byte)0);
                 }
                 start = i + 1;
                 index++;
@@ -215,12 +215,12 @@ final class StringUTF16 {
         if(start < len) {
             int count = len - start;
             if(!isLatin1)
-                ret[index] = String.newString(value, (start << 1), count << 1, (byte)1);
+                ret[index] = new String(value, (start << 1), count << 1, (byte)1);
             else {
                 byte[] buff = new byte[count];
                 for(int j = 0; j < count; j++)
                     buff[j] = value[(j + start) << 1];
-                ret[index] = String.newString(buff, (byte)0);
+                ret[index] = new String(buff, (byte)0);
             }
         }
         return ret;
@@ -249,7 +249,7 @@ final class StringUTF16 {
             ret[index] = (byte)lower;
             ret[index + 1] = (byte)(lower >>> 8);
         }
-        return (ret == null) ? null : String.newString(ret,  (byte)1);
+        return (ret == null) ? null : new String(ret, (byte)1);
     }
 
     public static String toUpperCase(byte[] value) {
@@ -275,7 +275,7 @@ final class StringUTF16 {
             ret[index] = (byte)upper;
             ret[index + 1] = (byte)(upper >>> 8);
         }
-        return (ret == null) ? null : String.newString(ret,  (byte)1);
+        return (ret == null) ? null : new String(ret, (byte)1);
     }
 
     public static String trim(byte[] value) {
@@ -285,7 +285,7 @@ final class StringUTF16 {
             st++;
         while((st < len) && (charAt(value, len - 1) <= ' '))
             len--;
-        return ((st > 0) || (len < value.length)) ? String.newString(value, (st << 1), (len - st) << 1, (byte)1) : null;
+        return ((st > 0) || (len < value.length)) ? new String(value, (st << 1), (len - st) << 1, (byte)1) : null;
     }
 
     public static char[] toChars(byte[] value) {
