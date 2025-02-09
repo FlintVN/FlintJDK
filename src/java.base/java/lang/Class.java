@@ -1,6 +1,14 @@
 package java.lang;
 
-public final class Class<T> {
+import java.lang.invoke.TypeDescriptor;
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
+
+public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
+    private static final int ANNOTATION = 0x00002000;
+    private static final int ENUM = 0x00004000;
+    private static final int SYNTHETIC = 0x00001000;
+
     private transient String name;
 
     private Class() {
@@ -26,6 +34,21 @@ public final class Class<T> {
     public native boolean isArray();
 
     public native boolean isPrimitive();
+
+    @Override
+    public Class<?> componentType() {
+        return isArray() ? getComponentType() : null;
+    }
+
+    @Override
+    public Class<?> arrayType() {
+        try {
+            return Array.newInstance(this, 0).getClass();
+        }
+        catch (IllegalArgumentException iae) {
+            throw new UnsupportedOperationException(iae);
+        }
+    }
 
     public String getName() {
         return name;
@@ -94,6 +117,7 @@ public final class Class<T> {
         return simpleName;
     }
 
+    @Override
     public String getTypeName() {
         if(isArray()) {
             try {
@@ -127,7 +151,7 @@ public final class Class<T> {
     }
 
     public boolean isEnum() {
-        return (this.getModifiers() & 0x00004000) != 0;
+        return (this.getModifiers() & ENUM) != 0;
     }
 
     public boolean isRecord() {
@@ -146,4 +170,48 @@ public final class Class<T> {
     }
 
     public native boolean isHidden();
+
+    @Override
+    public String descriptorString() {
+        if(isPrimitive()) {
+            String name = this.name;
+            switch(name.length()) {
+                case 3:
+                    return "I";
+                case 4:
+                    if(name.equals("char"))
+                        return "C";
+                    else if(name.equals("byte"))
+                        return "B";
+                    else
+                        return "J";
+                case 5:
+                    if(name.equals("float"))
+                        return "F";
+                    else
+                        return "S";
+                case 6:
+                    return "D";
+                default:
+                    return "Z";
+            }
+        }
+        else if(isArray())
+            return "[" + getComponentType().descriptorString();
+        else if(isHidden()) {
+            String name = this.name;
+            int index = name.indexOf('/');
+            StringBuilder sb = new StringBuilder(name.length() + 2);
+            sb.append('L');
+            sb.append(name.substring(0, index).replace('.', '/'));
+            sb.append('.');
+            sb.append(name, index + 1, name.length());
+            sb.append(';');
+            return sb.toString();
+        }
+        else {
+            String name = getName().replace('.', '/');
+            return new StringBuilder(name.length() + 2).append('L').append(name).append(';').toString();
+        }
+    }
 }
