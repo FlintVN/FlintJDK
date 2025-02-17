@@ -18,7 +18,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     @Override
     public String toString() {
         String kind = isInterface() ? "interface " : isPrimitive() ? "" : "class ";
-        return kind.concat(getName());
+        return kind.concat(name);
     }
 
     static native Class<?> getPrimitiveClass(String name);
@@ -26,13 +26,9 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     public native static Class<?> forName(String className) throws ClassNotFoundException;
 
     public native boolean isInstance(Object obj);
-
     public native boolean isAssignableFrom(Class<?> cls);
-
     public native boolean isInterface();
-
     public native boolean isArray();
-
     public native boolean isPrimitive();
 
     @Override
@@ -45,7 +41,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
         try {
             return Array.newInstance(this, 0).getClass();
         }
-        catch (IllegalArgumentException iae) {
+        catch(IllegalArgumentException iae) {
             throw new UnsupportedOperationException(iae);
         }
     }
@@ -84,7 +80,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     public native int getModifiers();
 
     public String getSimpleName() {
-        String simpleName = getName();
+        String simpleName = name;
         int arrayCount = 0;
         int startIndex = simpleName.lastIndexOf('.');
         int endIndex = simpleName.length();
@@ -133,7 +129,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
 
             }
         }
-        return getName();
+        return name;
     }
 
     private static boolean arrayContentsEq(Object[] a1, Object[] a2) {
@@ -161,12 +157,8 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     @SuppressWarnings("unchecked")
     public T cast(Object obj) {
         if(obj != null && !isInstance(obj))
-            throw new ClassCastException(cannotCastMsg(obj));
+            throw new ClassCastException("Cannot cast " + obj.getClass().getName() + " to " + name);
         return (T)obj;
-    }
-
-    private String cannotCastMsg(Object obj) {
-        return "Cannot cast " + obj.getClass().getName() + " to " + getName();
     }
 
     public native boolean isHidden();
@@ -210,7 +202,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
             return sb.toString();
         }
         else {
-            String name = getName().replace('.', '/');
+            String name = this.name.replace('.', '/');
             return new StringBuilder(name.length() + 2).append('L').append(name).append(';').toString();
         }
     }
