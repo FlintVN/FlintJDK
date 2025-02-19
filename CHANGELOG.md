@@ -1,4 +1,17 @@
 # Change Log
+## V0.0.4
+- Add support for classes:
+  - java.util.StringJoiner.
+  - java.util.Arrays (partial support).
+  - java.util.Set (partial support).
+  - java.util.Map (partial support).
+  - Some exception classes and annotations.
+- Add java.lang.reflect package (not completed).
+- Update java.lang.Class (support componentType, arrayType, descriptorString).
+- Support String.join method.
+- Support stringSize method in Integer and Long classes.
+- Rename String.toLower to String.toLowerCase.
+- Rename String.toUpper to String.toUpperCase.
 ## V0.0.3
 - Add packages:
   - jdk.internal.vm.annotation.
