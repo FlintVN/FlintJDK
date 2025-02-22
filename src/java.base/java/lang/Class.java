@@ -3,6 +3,11 @@ package java.lang;
 import java.lang.invoke.TypeDescriptor;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Method;
+import java.lang.reflect.Constructor;
+import java.util.Arrays;
+import jdk.internal.reflect.CallerSensitive;
 
 public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     private static final int ANNOTATION = 0x00002000;
@@ -10,6 +15,13 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     private static final int SYNTHETIC = 0x00001000;
 
     private transient String name;
+
+    private Class<?>[] interfaces;
+
+    private Method[] declaredMethods;
+    private Method[] declaredPublicMethods;
+    private Constructor<T>[] declaredConstructors;
+    private Constructor<T>[] declaredPublicConstructors;
 
     private Class() {
 
@@ -63,7 +75,16 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
         }
     }
 
-    public native Class<?>[] getInterfaces();
+    public Class<?>[] getInterfaces() {
+        Class<?>[] interfaces = this.interfaces;
+        if(interfaces == null)
+            interfaces = getInterfaces0();
+        if(interfaces.length > 0)
+            return interfaces.clone();
+        return interfaces;
+    }
+
+    private native Class<?>[] getInterfaces0();
 
     public native Class<?> getComponentType();
 
@@ -162,6 +183,152 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     }
 
     public native boolean isHidden();
+
+    // private native Field[] getDeclaredFields0();
+    private native Method[] getDeclaredMethods0();
+    private native Constructor<T>[] getDeclaredConstructors0();
+
+    @CallerSensitive
+    public Method getMethod(String name, Class<?>... parameterTypes) throws NoSuchMethodException {
+        Method method = getMethod0(name, parameterTypes);
+        if(method == null)
+            throw new NoSuchMethodException(methodToString(name, parameterTypes));
+        return method;
+    }
+
+    private Method getMethod0(String name, Class<?>... parameterTypes) {
+        Method[] publicMethods = privateGetDeclaredMethods(true);
+        for(int i = 0; i < publicMethods.length; i++) {
+            Method method = publicMethods[i];
+            if(Arrays.equals(parameterTypes, method.getParameterTypes()) && name.equals(method.getName()))
+                return method;
+        }
+        Class<?> superClass = getSuperclass();
+        if(superClass == null)
+            return null;
+        return superClass.getMethod0(name, parameterTypes);
+    }
+
+    private Method[] privateGetDeclaredMethods(boolean publicOnly) {
+        if(publicOnly) {
+            if(declaredPublicMethods == null) {
+                if(declaredMethods == null)
+                    declaredMethods = getDeclaredMethods0();
+                int count = 0;
+                Method[] methods = declaredMethods;
+                for(int i = 0; i < methods.length; i++) {
+                    if(Modifier.isPublic(methods[i].getModifiers()))
+                        count++;
+                }
+                if(count == declaredMethods.length)
+                    declaredPublicMethods = declaredMethods;
+                else {
+                    Method[] publicMethods = new Method[count];
+                    int index = 0;
+                    for(int i = 0; i < methods.length; i++) {
+                        if(Modifier.isPublic(methods[i].getModifiers()))
+                            publicMethods[index++] = methods[i];
+                    }
+                    declaredPublicMethods = publicMethods;
+                }
+            }
+            return declaredPublicMethods;
+        }
+        else {
+            if(declaredMethods == null)
+                declaredMethods = getDeclaredMethods0();
+            return declaredMethods;
+        }
+    }
+
+    @CallerSensitive
+    public Constructor<T> getConstructor(Class<?>... parameterTypes) throws NoSuchMethodException {
+        Constructor<T> constructor = getConstructor0(parameterTypes, true);
+        if(constructor == null)
+            throw new NoSuchMethodException(methodToString("<init>", parameterTypes));
+        return constructor;
+    }
+
+    private Constructor<T> getConstructor0(Class<?>[] parameterTypes, boolean isPublic) {
+        Constructor<T>[] publicConstructor = privateGetDeclaredConstructors(isPublic);
+        for(int i = 0; i < publicConstructor.length; i++) {
+            Constructor<T> constructor = publicConstructor[i];
+            if(Arrays.equals(parameterTypes, constructor.getParameterTypes()))
+                return constructor;
+        }
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    private Constructor<T>[] privateGetDeclaredConstructors(boolean publicOnly) {
+        if(publicOnly) {
+            if(declaredPublicConstructors == null) {
+                if(declaredConstructors == null)
+                    declaredConstructors = getDeclaredConstructors0();
+                int count = 0;
+                Constructor<T>[] constructors = declaredConstructors;
+                for(int i = 0; i < constructors.length; i++) {
+                    if(Modifier.isPublic(constructors[i].getModifiers()))
+                        count++;
+                }
+                if(count == declaredConstructors.length)
+                    declaredPublicConstructors = declaredConstructors;
+                else {
+                    Constructor<T>[] publicConstructors = (Constructor<T>[])new Constructor<?>[count];
+                    int index = 0;
+                    for(int i = 0; i < constructors.length; i++) {
+                        if(Modifier.isPublic(constructors[i].getModifiers()))
+                            publicConstructors[index++] = constructors[i];
+                    }
+                    declaredPublicConstructors = publicConstructors;
+                }
+            }
+            return declaredPublicConstructors;
+        }
+        else {
+            if(declaredConstructors == null)
+                declaredConstructors = getDeclaredConstructors0();
+            return declaredConstructors;
+        }
+    }
+
+    private String methodToString(String name, Class<?>[] argTypes) {
+        int length = this.name.length() + 3 + name.length();
+        if(argTypes != null && argTypes.length > 0) {
+            for(int i = 0; i < argTypes.length; i++)
+                length += argTypes[i].getName().length();
+            length += argTypes.length - 1;
+        }
+        int index = 0;
+        byte[] buff = new byte[length];
+
+        byte[] tmp = this.name.value();
+        System.arraycopy(tmp, 0, buff, index, tmp.length);
+        index += tmp.length;
+
+        buff[index++] = '.';
+        
+        tmp = name.value();
+        System.arraycopy(tmp, 0, buff, index, tmp.length);
+        index += tmp.length;
+
+        if(argTypes == null || argTypes.length == 0) {
+            buff[index++] = '(';
+            buff[index] = ')';
+        }
+        else {
+            for(int i = 0; i < argTypes.length - 1; i++) {
+                tmp = argTypes[i].getName().value();
+                System.arraycopy(tmp, 0, buff, index, tmp.length);
+                index += tmp.length;
+                buff[index++] = ',';
+            }
+            tmp = argTypes[argTypes.length- 1].getName().value();
+            System.arraycopy(tmp, 0, buff, index, tmp.length);
+        }
+
+        return new String(buff, String.LATIN1);
+    }
 
     @Override
     public String descriptorString() {
