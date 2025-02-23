@@ -189,6 +189,14 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     private native Constructor<T>[] getDeclaredConstructors0();
 
     @CallerSensitive
+    public Method[] getMethods() {
+        Method[] publicMethods = privateGetDeclaredMethods(true);
+        if(publicMethods.length > 0)
+            return publicMethods.clone();
+        return publicMethods;
+    }
+
+    @CallerSensitive
     public Method getMethod(String name, Class<?>... parameterTypes) throws NoSuchMethodException {
         Method method = getMethod0(name, parameterTypes);
         if(method == null)
@@ -239,6 +247,14 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
                 declaredMethods = getDeclaredMethods0();
             return declaredMethods;
         }
+    }
+
+    @CallerSensitive
+    public Constructor<?>[] getConstructors() {
+        Constructor<T>[] publicConstructor = privateGetDeclaredConstructors(true);
+        if(publicConstructor.length > 0)
+            return publicConstructor.clone();
+        return publicConstructor;
     }
 
     @CallerSensitive
@@ -307,7 +323,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
         index += tmp.length;
 
         buff[index++] = '.';
-        
+
         tmp = name.value();
         System.arraycopy(tmp, 0, buff, index, tmp.length);
         index += tmp.length;
@@ -323,7 +339,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
                 index += tmp.length;
                 buff[index++] = ',';
             }
-            tmp = argTypes[argTypes.length- 1].getName().value();
+            tmp = argTypes[argTypes.length - 1].getName().value();
             System.arraycopy(tmp, 0, buff, index, tmp.length);
         }
 

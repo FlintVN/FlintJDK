@@ -182,9 +182,8 @@ public class Arrays {
     // }
 
     static void rangeCheck(int arrayLength, int fromIndex, int toIndex) {
-        if(fromIndex > toIndex) {
+        if(fromIndex > toIndex)
             throw new IllegalArgumentException("fromIndex(" + fromIndex + ") > toIndex(" + toIndex + ")");
-        }
         if(fromIndex < 0)
             throw new ArrayIndexOutOfBoundsException(fromIndex);
         if(toIndex > arrayLength)
