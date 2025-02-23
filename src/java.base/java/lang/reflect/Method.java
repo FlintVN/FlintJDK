@@ -55,7 +55,9 @@ public final class Method extends Executable {
 
     @Override
     public Class<?>[] getParameterTypes() {
-        return parameterTypes.clone();
+        if(parameterTypes.length > 0)
+            return parameterTypes.clone();
+        return parameterTypes;
     }
 
     @Override
@@ -73,7 +75,9 @@ public final class Method extends Executable {
 
     @Override
     public Class<?>[] getExceptionTypes() {
-        return exceptionTypes.clone();
+        if(exceptionTypes.length > 0)
+            return exceptionTypes.clone();
+        return exceptionTypes;
     }
 
     @Override
