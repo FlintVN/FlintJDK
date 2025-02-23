@@ -80,6 +80,20 @@ public final class Method extends Executable {
         return exceptionTypes;
     }
 
+    public boolean matches(String name, Class<?>[] ptypes) {
+        Class<?>[] parameterTypes = this.parameterTypes;
+        if(ptypes != parameterTypes) {
+            int ptypesLength = ptypes.length;
+            if(ptypesLength != parameterTypes.length)
+                return false;
+            for(int i = 0; i < ptypesLength; i++) {
+                if(ptypes[i] == parameterTypes[i])
+                    return false;
+            }
+        }
+        return this.name.equals(name);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Method other) {

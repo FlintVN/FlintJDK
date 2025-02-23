@@ -64,6 +64,20 @@ public final class Constructor<T> extends Executable {
         return exceptionTypes;
     }
 
+    public boolean matches(Class<?>[] ptypes) {
+        Class<?>[] parameterTypes = this.parameterTypes;
+        if(ptypes == parameterTypes)
+            return true;
+        int ptypesLength = ptypes.length;
+        if(ptypesLength != parameterTypes.length)
+            return false;
+        for(int i = 0; i < ptypesLength; i++) {
+            if(ptypes[i] == parameterTypes[i])
+                return false;
+        }
+        return true;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Constructor<?> other) {

@@ -200,7 +200,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
         Method[] publicMethods = privateGetDeclaredMethods(true);
         for(int i = 0; i < publicMethods.length; i++) {
             Method method = publicMethods[i];
-            if(Arrays.equals(parameterTypes, method.getParameterTypes()) && name.equals(method.getName()))
+            if(method.matches(name, parameterTypes))
                 return method;
         }
         Class<?> superClass = getSuperclass();
@@ -253,7 +253,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
         Constructor<T>[] publicConstructor = privateGetDeclaredConstructors(isPublic);
         for(int i = 0; i < publicConstructor.length; i++) {
             Constructor<T> constructor = publicConstructor[i];
-            if(Arrays.equals(parameterTypes, constructor.getParameterTypes()))
+            if(constructor.matches(parameterTypes))
                 return constructor;
         }
         return null;
