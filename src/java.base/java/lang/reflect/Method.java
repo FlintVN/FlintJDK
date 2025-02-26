@@ -83,6 +83,8 @@ public final class Method extends Executable {
     public boolean matches(String name, Class<?>[] ptypes) {
         Class<?>[] parameterTypes = this.parameterTypes;
         if(ptypes != parameterTypes) {
+            if(ptypes == null)
+                return parameterTypes.length == 0;
             int ptypesLength = ptypes.length;
             if(ptypesLength != parameterTypes.length)
                 return false;

@@ -68,6 +68,8 @@ public final class Constructor<T> extends Executable {
         Class<?>[] parameterTypes = this.parameterTypes;
         if(ptypes == parameterTypes)
             return true;
+        if(ptypes == null)
+            return parameterTypes.length == 0;
         int ptypesLength = ptypes.length;
         if(ptypesLength != parameterTypes.length)
             return false;

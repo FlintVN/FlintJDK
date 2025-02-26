@@ -328,11 +328,8 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
         System.arraycopy(tmp, 0, buff, index, tmp.length);
         index += tmp.length;
 
-        if(argTypes == null || argTypes.length == 0) {
-            buff[index++] = '(';
-            buff[index] = ')';
-        }
-        else {
+        buff[index++] = '(';
+        if(argTypes != null && argTypes.length > 0) {
             for(int i = 0; i < argTypes.length - 1; i++) {
                 tmp = argTypes[i].getName().value();
                 System.arraycopy(tmp, 0, buff, index, tmp.length);
@@ -341,7 +338,9 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
             }
             tmp = argTypes[argTypes.length - 1].getName().value();
             System.arraycopy(tmp, 0, buff, index, tmp.length);
+            index += tmp.length;
         }
+        buff[index] = ')';
 
         return new String(buff, String.LATIN1);
     }
