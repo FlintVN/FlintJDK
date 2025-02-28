@@ -121,7 +121,7 @@ public final class Long extends Number implements Comparable<Long> {
 
     public static String toString(long i) {
         byte[] buffer = new byte[stringSize(i)];
-        int index = buffer.length - 1;
+        int index = buffer.length;
         boolean negative;
         if(i < 0) {
             negative = true;
