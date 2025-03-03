@@ -74,7 +74,7 @@ public final class Constructor<T> extends Executable {
         if(ptypesLength != parameterTypes.length)
             return false;
         for(int i = 0; i < ptypesLength; i++) {
-            if(ptypes[i] == parameterTypes[i])
+            if(ptypes[i] != parameterTypes[i])
                 return false;
         }
         return true;
