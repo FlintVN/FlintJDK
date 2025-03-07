@@ -99,7 +99,7 @@ public final class Method extends Executable {
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Method other) {
-            if((getDeclaringClass() == other.getDeclaringClass()) && (getName() == other.getName())) {
+            if(clazz == other.clazz && name == other.name) {
                 if(!returnType.equals(other.getReturnType()))
                     return false;
                 return equalParamTypes(parameterTypes, other.parameterTypes);

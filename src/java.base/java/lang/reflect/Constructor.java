@@ -83,7 +83,7 @@ public final class Constructor<T> extends Executable {
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Constructor<?> other) {
-            if(getDeclaringClass() == other.getDeclaringClass())
+            if(clazz == other.clazz)
                 return equalParamTypes(parameterTypes, other.parameterTypes);
         }
         return false;

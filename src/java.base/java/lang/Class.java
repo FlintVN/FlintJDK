@@ -1,12 +1,14 @@
 package java.lang;
 
+import java.util.Objects;
+import java.util.Arrays;
 import java.lang.invoke.TypeDescriptor;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Constructor;
-import java.util.Arrays;
 import jdk.internal.reflect.CallerSensitive;
 
 public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
@@ -18,6 +20,8 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
 
     private Class<?>[] interfaces;
 
+    private Field[] declaredFields;
+    private Field[] declaredPublicFields;
     private Method[] declaredMethods;
     private Method[] declaredPublicMethods;
     private Constructor<T>[] declaredConstructors;
@@ -184,9 +188,71 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
 
     public native boolean isHidden();
 
-    // private native Field[] getDeclaredFields0();
+    private native Field[] getDeclaredFields0();
     private native Method[] getDeclaredMethods0();
     private native Constructor<T>[] getDeclaredConstructors0();
+
+    @CallerSensitive
+    public Field[] getFields() {
+        Field[] publicFields = privateGetDeclaredFields(true);
+        if(publicFields.length > 0)
+            return publicFields.clone();
+        return publicFields;
+    }
+
+    @CallerSensitive
+    public Field getField(String name) throws NoSuchFieldException {
+        Objects.requireNonNull(name);
+        Field field = getFields0(name);
+        if(field == null)
+            throw new NoSuchFieldException(name);
+        return field;
+    }
+
+    private Field getFields0(String name) {
+        Field[] publicFields = privateGetDeclaredFields(true);
+        for(int i = 0; i < publicFields.length; i++) {
+            Field field = publicFields[i];
+            if(name == field.getName())
+                return field;
+        }
+        Class<?> superClass = getSuperclass();
+        if(superClass == null)
+            return null;
+        return superClass.getFields0(name);
+    }
+
+    private Field[] privateGetDeclaredFields(boolean publicOnly) {
+        if(publicOnly) {
+            if(declaredPublicFields == null) {
+                if(declaredFields == null)
+                    declaredFields = getDeclaredFields0();
+                int count = 0;
+                Field[] fields = declaredFields;
+                for(int i = 0; i < fields.length; i++) {
+                    if(Modifier.isPublic(fields[i].getModifiers()))
+                        count++;
+                }
+                if(count == declaredFields.length)
+                    declaredPublicFields = declaredFields;
+                else {
+                    Field[] publicFields = new Field[count];
+                    int index = 0;
+                    for(int i = 0; i < fields.length; i++) {
+                        if(Modifier.isPublic(fields[i].getModifiers()))
+                            publicFields[index++] = fields[i];
+                    }
+                    declaredPublicFields = publicFields;
+                }
+            }
+            return declaredPublicFields;
+        }
+        else {
+            if(declaredFields == null)
+                declaredFields = getDeclaredFields0();
+            return declaredFields;
+        }
+    }
 
     @CallerSensitive
     public Method[] getMethods() {
@@ -198,6 +264,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
 
     @CallerSensitive
     public Method getMethod(String name, Class<?>... parameterTypes) throws NoSuchMethodException {
+        Objects.requireNonNull(name);
         Method method = getMethod0(name, parameterTypes);
         if(method == null)
             throw new NoSuchMethodException(methodToString(name, parameterTypes));
