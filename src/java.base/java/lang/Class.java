@@ -237,10 +237,12 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
                     declaredPublicFields = declaredFields;
                 else {
                     Field[] publicFields = new Field[count];
-                    int index = 0;
-                    for(int i = 0; i < fields.length; i++) {
-                        if(Modifier.isPublic(fields[i].getModifiers()))
-                            publicFields[index++] = fields[i];
+                    if(count > 0) {
+                        int index = 0;
+                        for(int i = 0; i < fields.length; i++) {
+                            if(Modifier.isPublic(fields[i].getModifiers()))
+                                publicFields[index++] = fields[i];
+                        }
                     }
                     declaredPublicFields = publicFields;
                 }
@@ -299,10 +301,12 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
                     declaredPublicMethods = declaredMethods;
                 else {
                     Method[] publicMethods = new Method[count];
-                    int index = 0;
-                    for(int i = 0; i < methods.length; i++) {
-                        if(Modifier.isPublic(methods[i].getModifiers()))
-                            publicMethods[index++] = methods[i];
+                    if(count > 0) {
+                        int index = 0;
+                        for(int i = 0; i < methods.length; i++) {
+                            if(Modifier.isPublic(methods[i].getModifiers()))
+                                publicMethods[index++] = methods[i];
+                        }
                     }
                     declaredPublicMethods = publicMethods;
                 }
@@ -358,10 +362,12 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
                     declaredPublicConstructors = declaredConstructors;
                 else {
                     Constructor<T>[] publicConstructors = (Constructor<T>[])new Constructor<?>[count];
-                    int index = 0;
-                    for(int i = 0; i < constructors.length; i++) {
-                        if(Modifier.isPublic(constructors[i].getModifiers()))
-                            publicConstructors[index++] = constructors[i];
+                    if(count > 0) {
+                        int index = 0;
+                        for(int i = 0; i < constructors.length; i++) {
+                            if(Modifier.isPublic(constructors[i].getModifiers()))
+                                publicConstructors[index++] = constructors[i];
+                        }
                     }
                     declaredPublicConstructors = publicConstructors;
                 }
