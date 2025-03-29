@@ -171,6 +171,10 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
         return true;
     }
 
+    public boolean desiredAssertionStatus() {
+        return false;
+    }
+
     public boolean isEnum() {
         return (this.getModifiers() & ENUM) != 0;
     }
