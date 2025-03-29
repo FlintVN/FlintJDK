@@ -104,6 +104,13 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
 
     public native int getModifiers();
 
+    @CallerSensitive
+    public Class<?> getDeclaringClass() {
+        return getDeclaringClass0();
+    }
+
+    private native Class<?> getDeclaringClass0();
+
     public String getSimpleName() {
         String simpleName = name;
         int arrayCount = 0;
