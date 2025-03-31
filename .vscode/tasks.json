@@ -2,8 +2,23 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "Clean",
+            "group": "build",
+            "type": "shell",
+            "options": {"cwd": "${workspaceFolder}"},
+            "command": "make clean",
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "showReuseMessage": false,
+                "clear": true
+            },
+        },
+        {
             "label": "build",
             "type": "shell",
+            "dependsOn": ["Clean"],
+            "dependsOrder": "sequence",
             "command": "make",
             "args": [
                 "-j${env:NUMBER_OF_PROCESSORS}"
@@ -14,9 +29,7 @@
                 "showReuseMessage": false,
                 "clear": true
             },
-            "options": {
-                "cwd": "${workspaceFolder}",
-            },
+            "options": {"cwd": "${workspaceFolder}"},
             "problemMatcher": {
                 "owner": "java",
                 "fileLocation": ["relative", "${workspaceFolder}"],
