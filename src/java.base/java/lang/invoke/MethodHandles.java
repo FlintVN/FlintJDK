@@ -1,0 +1,162 @@
+package java.lang.invoke;
+
+import jdk.internal.reflect.CallerSensitive;
+import jdk.internal.reflect.CallerSensitiveAdapter;
+import jdk.internal.reflect.Reflection;
+import jdk.internal.vm.annotation.ForceInline;
+
+import java.lang.reflect.Modifier;
+
+public class MethodHandles {
+    private MethodHandles() {
+
+    }
+
+    @CallerSensitive
+    @ForceInline
+    public static Lookup lookup() {
+        final Class<?> c = Reflection.getCallerClass();
+        if(c == null)
+            throw new IllegalCallerException("no caller frame");
+        return new Lookup(c);
+    }
+
+    public static Lookup publicLookup() {
+        return Lookup.PUBLIC_LOOKUP;
+    }
+
+    public static final class Lookup {
+        private final Class<?> lookupClass;
+        private final int allowedModes;
+
+        public static final int PUBLIC = Modifier.PUBLIC;
+        public static final int PRIVATE = Modifier.PRIVATE;
+        public static final int PROTECTED = Modifier.PROTECTED;
+        public static final int PACKAGE = Modifier.STATIC;
+        public static final int MODULE = PACKAGE << 1;
+        public static final int UNCONDITIONAL = PACKAGE << 2;
+        public static final int ORIGINAL = PACKAGE << 3;
+
+        private static final int ALL_MODES = (PUBLIC | PRIVATE | PROTECTED | PACKAGE | MODULE | UNCONDITIONAL | ORIGINAL);
+        private static final int FULL_POWER_MODES = (ALL_MODES & ~UNCONDITIONAL);
+        private static final int TRUSTED = -1;
+
+        static final Lookup PUBLIC_LOOKUP = new Lookup(Object.class, UNCONDITIONAL);
+
+        public Class<?> lookupClass() {
+            return lookupClass;
+        }
+
+        public int lookupModes() {
+            return allowedModes & ALL_MODES;
+        }
+
+        Lookup(Class<?> lookupClass) {
+            this(lookupClass, FULL_POWER_MODES);
+        }
+
+        private Lookup(Class<?> lookupClass, int allowedModes) {
+            assert !lookupClass.isArray() && !lookupClass.isPrimitive();
+            this.lookupClass = lookupClass;
+            this.allowedModes = allowedModes;
+        }
+
+        @Override
+        public String toString() {
+            String cname = lookupClass.getName();
+            // if(prevLookupClass != null)
+            //     cname += "/" + prevLookupClass.getName();
+            switch(allowedModes) {
+            case 0:                 /* no privileges */
+                return cname + "/noaccess";
+            case UNCONDITIONAL:
+                return cname + "/publicLookup";
+            case PUBLIC:
+                return cname + "/public";
+            case PUBLIC | MODULE:
+                return cname + "/module";
+            case PUBLIC | PACKAGE:
+            case PUBLIC | MODULE | PACKAGE:
+                return cname + "/package";
+            case PUBLIC | PACKAGE | PRIVATE:
+            case PUBLIC | MODULE | PACKAGE | PRIVATE:
+                    return cname + "/private";
+            case PUBLIC | PACKAGE | PRIVATE | PROTECTED:
+            case PUBLIC | MODULE | PACKAGE | PRIVATE | PROTECTED:
+            case FULL_POWER_MODES:
+                    return cname;
+            case TRUSTED:
+                return "/trusted";  /* internal only; not exported */
+            default:                /* Should not happen, but it's a bitfield... */
+                cname = cname + "/" + Integer.toHexString(allowedModes);
+                assert(false) : cname;
+                return cname;
+            }
+        }
+
+        public MethodHandle findStatic(Class<?> refc, String name, MethodType type) throws NoSuchMethodException, IllegalAccessException {
+            // TODO
+            throw new UnsupportedOperationException();
+        }
+
+        public MethodHandle findVirtual(Class<?> refc, String name, MethodType type) throws NoSuchMethodException, IllegalAccessException {
+            // TODO
+            throw new UnsupportedOperationException();
+        }
+
+        public MethodHandle findConstructor(Class<?> refc, MethodType type) throws NoSuchMethodException, IllegalAccessException {
+            // TODO
+            throw new UnsupportedOperationException();
+        }
+
+        public Class<?> findClass(String targetName) throws ClassNotFoundException, IllegalAccessException {
+            return Class.forName(targetName);
+        }
+
+        public Class<?> accessClass(Class<?> targetClass) throws IllegalAccessException {
+            // TODO
+            throw new UnsupportedOperationException();
+        }
+
+        public MethodHandle findSpecial(Class<?> refc, String name, MethodType type, Class<?> specialCaller) throws NoSuchMethodException, IllegalAccessException {
+            // TODO
+            throw new UnsupportedOperationException();
+        }
+
+        public MethodHandle findGetter(Class<?> refc, String name, Class<?> type) throws NoSuchFieldException, IllegalAccessException {
+            // TODO
+            throw new UnsupportedOperationException();
+        }
+
+        public MethodHandle findSetter(Class<?> refc, String name, Class<?> type) throws NoSuchFieldException, IllegalAccessException {
+            // TODO
+            throw new UnsupportedOperationException();
+        }
+
+        // TODO
+        // public VarHandle findVarHandle(Class<?> recv, String name, Class<?> type) throws NoSuchFieldException, IllegalAccessException {
+        //     // TODO
+        //     throw new UnsupportedOperationException();
+        // }
+
+        public MethodHandle findStaticGetter(Class<?> refc, String name, Class<?> type) throws NoSuchFieldException, IllegalAccessException {
+            // TODO
+            throw new UnsupportedOperationException();
+        }
+
+        public MethodHandle findStaticSetter(Class<?> refc, String name, Class<?> type) throws NoSuchFieldException, IllegalAccessException {
+            // TODO
+            throw new UnsupportedOperationException();
+        }
+
+        // TODO
+        // public VarHandle findStaticVarHandle(Class<?> decl, String name, Class<?> type) throws NoSuchFieldException, IllegalAccessException {
+        //     // TODO
+        //     throw new UnsupportedOperationException();
+        // }
+
+        public boolean hasFullPrivilegeAccess() {
+            return (allowedModes & (PRIVATE | MODULE)) == (PRIVATE | MODULE);
+        }
+    }
+}
