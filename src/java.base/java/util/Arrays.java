@@ -1908,8 +1908,7 @@ public class Arrays {
     }
 
     public static Spliterator.OfDouble spliterator(double[] array, int startInclusive, int endExclusive) {
-        return Spliterators.spliterator(array, startInclusive, endExclusive,
-                                        Spliterator.ORDERED | Spliterator.IMMUTABLE);
+        return Spliterators.spliterator(array, startInclusive, endExclusive, Spliterator.ORDERED | Spliterator.IMMUTABLE);
     }
 
     // TODO
@@ -2293,7 +2292,6 @@ public class Arrays {
     public static <T extends Comparable<? super T>> int compare(T[] a, T[] b) {
         if(a == b)
             return 0;
-        // A null array is less than a non-null array
         if(a == null || b == null)
             return a == null ? -1 : 1;
 
@@ -2553,7 +2551,7 @@ public class Arrays {
     // }
 
     public static int mismatch(Object[] a, Object[] b) {
-        int length = Math.min(a.length, b.length); // Check null array refs
+        int length = Math.min(a.length, b.length);
         if(a == b)
             return -1;
 
