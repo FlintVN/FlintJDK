@@ -1,4 +1,16 @@
 # Change Log
+## V0.0.5
+- Fix bug in Long.toString method.
+- Implement the following methods in java.lang.Class:
+  - Class.getInterfaces.
+  - Class.getField.
+  - Class.getFields.
+  - Class.getMethod.
+  - Class.getMethods.
+  - Class.getConstructor.
+  - Class.getConstructors.
+  - Class.desiredAssertionStatus.
+  - Class.getDeclaringClass.
 ## V0.0.4
 - Add support for classes:
   - java.util.StringJoiner.
