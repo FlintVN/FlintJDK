@@ -56,6 +56,7 @@ public interface Spliterator<T> {
         }
     }
 
+    @SuppressWarnings("overloads")
     public interface OfInt extends OfPrimitive<Integer, IntConsumer, OfInt> {
         @Override
         OfInt trySplit();
@@ -99,6 +100,7 @@ public interface Spliterator<T> {
         }
     }
 
+    @SuppressWarnings("overloads")
     public interface OfLong extends OfPrimitive<Long, LongConsumer, OfLong> {
         @Override
         OfLong trySplit();
@@ -142,6 +144,7 @@ public interface Spliterator<T> {
         }
     }
 
+    @SuppressWarnings("overloads")
     public interface OfDouble extends OfPrimitive<Double, DoubleConsumer, OfDouble> {
         @Override
         OfDouble trySplit();

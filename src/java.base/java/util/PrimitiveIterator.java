@@ -9,6 +9,7 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
     @SuppressWarnings("overloads")
     void forEachRemaining(T_CONS action);
 
+    @SuppressWarnings("overloads")
     public static interface OfInt extends PrimitiveIterator<Integer, IntConsumer> {
         int nextInt();
 
@@ -40,6 +41,7 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
 
     }
 
+    @SuppressWarnings("overloads")
     public static interface OfLong extends PrimitiveIterator<Long, LongConsumer> {
         long nextLong();
 
@@ -70,6 +72,7 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
         }
     }
 
+    @SuppressWarnings("overloads")
     public static interface OfDouble extends PrimitiveIterator<Double, DoubleConsumer> {
         double nextDouble();
 

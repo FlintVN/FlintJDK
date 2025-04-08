@@ -316,38 +316,32 @@ public final class Spliterators {
             return Spliterator.SIZED | Spliterator.SUBSIZED;
         }
 
-        private static final class OfRef<T>
-                extends EmptySpliterator<T, Spliterator<T>, Consumer<? super T>>
-                implements Spliterator<T> {
+        private static final class OfRef<T> extends EmptySpliterator<T, Spliterator<T>, Consumer<? super T>> implements Spliterator<T> {
             OfRef() { }
         }
 
-        private static final class OfInt
-                extends EmptySpliterator<Integer, Spliterator.OfInt, IntConsumer>
-                implements Spliterator.OfInt {
+        @SuppressWarnings("overloads")
+        private static final class OfInt extends EmptySpliterator<Integer, Spliterator.OfInt, IntConsumer> implements Spliterator.OfInt {
             OfInt() { }
         }
 
-        private static final class OfLong
-                extends EmptySpliterator<Long, Spliterator.OfLong, LongConsumer>
-                implements Spliterator.OfLong {
+        @SuppressWarnings("overloads")
+        private static final class OfLong extends EmptySpliterator<Long, Spliterator.OfLong, LongConsumer> implements Spliterator.OfLong {
             OfLong() { }
         }
 
-        private static final class OfDouble
-                extends EmptySpliterator<Double, Spliterator.OfDouble, DoubleConsumer>
-                implements Spliterator.OfDouble {
+        @SuppressWarnings("overloads")
+        private static final class OfDouble extends EmptySpliterator<Double, Spliterator.OfDouble, DoubleConsumer> implements Spliterator.OfDouble {
             OfDouble() { }
         }
     }
 
     static final class ArraySpliterator<T> implements Spliterator<T> {
-
         private final Object[] array;
-        private int index;        // current index, modified on advance/split
-        private final int fence;  // one past last index
+        private int index;
+        private final int fence;
         private final int characteristics;
-        private long estimatedSize; // estimated size, to help to split evenly
+        private long estimatedSize;
 
         public ArraySpliterator(Object[] array, int additionalCharacteristics) {
             this(array, 0, array.length, additionalCharacteristics);
@@ -384,7 +378,7 @@ public final class Spliterators {
         @SuppressWarnings("unchecked")
         @Override
         public void forEachRemaining(Consumer<? super T> action) {
-            Object[] a; int i, hi; // hoist accesses and checks from loop
+            Object[] a; int i, hi;
             if(action == null)
                 throw new NullPointerException();
             if((a = array).length >= (hi = fence) &&
@@ -427,10 +421,10 @@ public final class Spliterators {
 
     static final class IntArraySpliterator implements Spliterator.OfInt {
         private final int[] array;
-        private int index;        // current index, modified on advance/split
-        private final int fence;  // one past last index
+        private int index;
+        private final int fence;
         private final int characteristics;
-        private long estimatedSize; // estimated size, to help to split evenly
+        private long estimatedSize;
 
         public IntArraySpliterator(int[] array, int additionalCharacteristics) {
             this(array, 0, array.length, additionalCharacteristics);
@@ -466,7 +460,7 @@ public final class Spliterators {
 
         @Override
         public void forEachRemaining(IntConsumer action) {
-            int[] a; int i, hi; // hoist accesses and checks from loop
+            int[] a; int i, hi;
             if(action == null)
                 throw new NullPointerException();
             if((a = array).length >= (hi = fence) &&
@@ -508,10 +502,10 @@ public final class Spliterators {
 
     static final class LongArraySpliterator implements Spliterator.OfLong {
         private final long[] array;
-        private int index;        // current index, modified on advance/split
-        private final int fence;  // one past last index
+        private int index;
+        private final int fence;
         private final int characteristics;
-        private long estimatedSize; // estimated size, to help to split evenly
+        private long estimatedSize;
 
         public LongArraySpliterator(long[] array, int additionalCharacteristics) {
             this(array, 0, array.length, additionalCharacteristics);
@@ -547,7 +541,7 @@ public final class Spliterators {
 
         @Override
         public void forEachRemaining(LongConsumer action) {
-            long[] a; int i, hi; // hoist accesses and checks from loop
+            long[] a; int i, hi;
             if(action == null)
                 throw new NullPointerException();
             if((a = array).length >= (hi = fence) &&
@@ -589,10 +583,10 @@ public final class Spliterators {
 
     static final class DoubleArraySpliterator implements Spliterator.OfDouble {
         private final double[] array;
-        private int index;        // current index, modified on advance/split
-        private final int fence;  // one past last index
+        private int index;
+        private final int fence;
         private final int characteristics;
-        private long estimatedSize; // estimated size, to help to split evenly
+        private long estimatedSize;
 
         public DoubleArraySpliterator(double[] array, int additionalCharacteristics) {
             this(array, 0, array.length, additionalCharacteristics);
@@ -628,7 +622,7 @@ public final class Spliterators {
 
         @Override
         public void forEachRemaining(DoubleConsumer action) {
-            double[] a; int i, hi; // hoist accesses and checks from loop
+            double[] a; int i, hi;
             if(action == null)
                 throw new NullPointerException();
             if((a = array).length >= (hi = fence) &&
@@ -669,11 +663,11 @@ public final class Spliterators {
     }
 
     public abstract static class AbstractSpliterator<T> implements Spliterator<T> {
-        static final int BATCH_UNIT = 1 << 10;  // batch array size increment
-        static final int MAX_BATCH = 1 << 25;  // max batch array size;
+        static final int BATCH_UNIT = 1 << 10;
+        static final int MAX_BATCH = 1 << 25;
         private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+        private long est;
+        private int batch;
 
         protected AbstractSpliterator(long est, int additionalCharacteristics) {
             this.est = est;
@@ -731,8 +725,8 @@ public final class Spliterators {
         static final int MAX_BATCH = AbstractSpliterator.MAX_BATCH;
         static final int BATCH_UNIT = AbstractSpliterator.BATCH_UNIT;
         private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+        private long est;
+        private int batch;
 
         protected AbstractIntSpliterator(long est, int additionalCharacteristics) {
             this.est = est;
@@ -790,8 +784,8 @@ public final class Spliterators {
         static final int MAX_BATCH = AbstractSpliterator.MAX_BATCH;
         static final int BATCH_UNIT = AbstractSpliterator.BATCH_UNIT;
         private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+        private long est;
+        private int batch;
 
         protected AbstractLongSpliterator(long est, int additionalCharacteristics) {
             this.est = est;
@@ -849,8 +843,8 @@ public final class Spliterators {
         static final int MAX_BATCH = AbstractSpliterator.MAX_BATCH;
         static final int BATCH_UNIT = AbstractSpliterator.BATCH_UNIT;
         private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+        private long est;
+        private int batch;
 
         protected AbstractDoubleSpliterator(long est, int additionalCharacteristics) {
             this.est = est;
@@ -905,13 +899,13 @@ public final class Spliterators {
     }
 
     static class IteratorSpliterator<T> implements Spliterator<T> {
-        static final int BATCH_UNIT = 1 << 10;  // batch array size increment
-        static final int MAX_BATCH = 1 << 25;  // max batch array size;
-        private final Collection<? extends T> collection; // null OK
+        static final int BATCH_UNIT = 1 << 10;
+        static final int MAX_BATCH = 1 << 25;
+        private final Collection<? extends T> collection;
         private Iterator<? extends T> it;
         private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+        private long est;
+        private int batch;
 
         public IteratorSpliterator(Collection<? extends T> collection, int characteristics) {
             this.collection = collection;
@@ -1018,8 +1012,8 @@ public final class Spliterators {
         static final int MAX_BATCH = IteratorSpliterator.MAX_BATCH;
         private final PrimitiveIterator.OfInt it;
         private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+        private long est;
+        private int batch;
 
         public IntIteratorSpliterator(PrimitiveIterator.OfInt iterator, long size, int characteristics) {
             this.it = iterator;
@@ -1097,8 +1091,8 @@ public final class Spliterators {
         static final int MAX_BATCH = IteratorSpliterator.MAX_BATCH;
         private final PrimitiveIterator.OfLong it;
         private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+        private long est;
+        private int batch;
 
         public LongIteratorSpliterator(PrimitiveIterator.OfLong iterator, long size, int characteristics) {
             this.it = iterator;
@@ -1176,8 +1170,8 @@ public final class Spliterators {
         static final int MAX_BATCH = IteratorSpliterator.MAX_BATCH;
         private final PrimitiveIterator.OfDouble it;
         private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+        private long est;
+        private int batch;
 
         public DoubleIteratorSpliterator(PrimitiveIterator.OfDouble iterator, long size, int characteristics) {
             this.it = iterator;
