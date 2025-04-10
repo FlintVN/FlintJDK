@@ -32,7 +32,8 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
             while(it.hasNext())
                 if(it.next() == null)
                     return it.previousIndex();
-        } else {
+        }
+        else {
             while(it.hasNext())
                 if(o.equals(it.next()))
                     return it.previousIndex();

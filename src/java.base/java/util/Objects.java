@@ -13,15 +13,15 @@ public final class Objects {
         return (a == b) || (a != null && a.equals(b));
     }
 
-    // TODO
-    // public static boolean deepEquals(Object a, Object b) {
-    //     if(a == b)
-    //         return true;
-    //     else if(a == null || b == null)
-    //         return false;
-    //     else
-    //         return Arrays.deepEquals0(a, b);
-    // }
+
+    public static boolean deepEquals(Object a, Object b) {
+        if(a == b)
+            return true;
+        else if(a == null || b == null)
+            return false;
+        else
+            return Arrays.deepEquals0(a, b);
+    }
 
     public static int hashCode(Object o) {
         return o != null ? o.hashCode() : 0;

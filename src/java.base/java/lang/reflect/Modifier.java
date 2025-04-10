@@ -106,7 +106,7 @@ public class Modifier {
 
     private static final int CLASS_MODIFIERS =
         Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE |
-        Modifier.ABSTRACT | Modifier.STATIC | Modifier.FINAL   |
+        Modifier.ABSTRACT | Modifier.STATIC | Modifier.FINAL |
         Modifier.STRICT;
 
     private static final int INTERFACE_MODIFIERS =
@@ -117,7 +117,7 @@ public class Modifier {
 
     private static final int METHOD_MODIFIERS =
         Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE |
-        Modifier.ABSTRACT | Modifier.STATIC | Modifier.FINAL   |
+        Modifier.ABSTRACT | Modifier.STATIC | Modifier.FINAL |
         Modifier.SYNCHRONIZED | Modifier.NATIVE | Modifier.STRICT;
 
     private static final int FIELD_MODIFIERS =

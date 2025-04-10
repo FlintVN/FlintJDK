@@ -39,14 +39,13 @@ public interface List<E> extends Collection<E> {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     default void sort(Comparator<? super E> c) {
-        // TODO
-        // Object[] a = this.toArray();
-        // Arrays.sort(a, (Comparator) c);
-        // ListIterator<E> i = this.listIterator();
-        // for (Object e : a) {
-        //     i.next();
-        //     i.set((E) e);
-        // }
+        Object[] a = this.toArray();
+        Arrays.sort(a, (Comparator)c);
+        ListIterator<E> i = this.listIterator();
+        for(Object e : a) {
+            i.next();
+            i.set((E) e);
+        }
     }
 
     void clear();
@@ -75,11 +74,10 @@ public interface List<E> extends Collection<E> {
 
     @Override
     default Spliterator<E> spliterator() {
-        if (this instanceof RandomAccess) {
+        if (this instanceof RandomAccess)
             return new AbstractList.RandomAccessSpliterator<>(this);
-        } else {
+        else
             return Spliterators.spliterator(this, Spliterator.ORDERED);
-        }
     }
 
     // TODO

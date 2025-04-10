@@ -311,7 +311,7 @@ final class StringUTF16 {
         return len1 - len2;
     }
 
-    public static int  compareToLatin1(byte[] value, byte[] other) {
+    public static int compareToLatin1(byte[] value, byte[] other) {
         return -StringLatin1.compareToUTF16(other, value);
     }
 

@@ -27,7 +27,7 @@ public final class Float extends Number implements Comparable<Float> {
     }
 
     public static String toHexString(float f) {
-        if(Math.abs(f) < Float.MIN_NORMAL &&  f != 0.0f) {
+        if(Math.abs(f) < Float.MIN_NORMAL && f != 0.0f) {
             String s = Double.toHexString(Math.scalb((double)f, Double.MIN_EXPONENT - Float.MIN_EXPONENT));
             int index = s.lastIndexOf("p-1022");
             StringBuilder sb = new StringBuilder(s.substring(0, index));
@@ -161,8 +161,6 @@ public final class Float extends Number implements Comparable<Float> {
                 Float.intBitsToFloat((bin16SignBit << 16) | 0x7f80_0000 | (bin16SignifBits << (FLOAT_SIGNIFICAND_WIDTH - 11)));
         }
 
-        // assert -15 < bin16Exp  && bin16Exp < 16;
-
         int floatExpBits = (bin16Exp + FLOAT_EXP_BIAS) << (FLOAT_SIGNIFICAND_WIDTH - 1);
 
         return Float.intBitsToFloat((bin16SignBit << 16) | floatExpBits | (bin16SignifBits << (FLOAT_SIGNIFICAND_WIDTH - 11)));
@@ -184,7 +182,6 @@ public final class Float extends Number implements Comparable<Float> {
             return sign_bit;
 
         int exp = Math.getExponent(f);
-        // assert -25 <= exp && exp <= 15;
 
         int expdelta = 0;
         int msb = 0x0000_0000;
@@ -197,14 +194,12 @@ public final class Float extends Number implements Comparable<Float> {
 
         short signif_bits = (short)(f_signif_bits >> (13 + expdelta));
 
-        int lsb    = f_signif_bits & (1 << 13 + expdelta);
-        int round  = f_signif_bits & (1 << 12 + expdelta);
+        int lsb = f_signif_bits & (1 << 13 + expdelta);
+        int round = f_signif_bits & (1 << 12 + expdelta);
         int sticky = f_signif_bits & ((1 << 12 + expdelta) - 1);
 
         if(round != 0 && ((lsb | sticky) != 0 ))
             signif_bits++;
-
-        // assert (0xf800 & signif_bits) == 0x0;
 
         return (short)(sign_bit | ( ((exp + 15) << 10) + signif_bits ) );
     }
@@ -220,10 +215,10 @@ public final class Float extends Number implements Comparable<Float> {
         if(f1 > f2)
             return 1;
 
-        int thisBits    = Float.floatToIntBits(f1);
+        int thisBits = Float.floatToIntBits(f1);
         int anotherBits = Float.floatToIntBits(f2);
 
-        return (thisBits == anotherBits ?  0 : (thisBits < anotherBits ? -1 : 1));
+        return (thisBits == anotherBits ? 0 : (thisBits < anotherBits ? -1 : 1));
     }
 
     public static float sum(float a, float b) {

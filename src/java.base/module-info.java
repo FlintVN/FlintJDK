@@ -8,9 +8,6 @@ module java.base {
     exports java.lang.invoke;
     exports java.lang.reflect;
     exports java.lang.annotation;
-    exports jdk.internal.math;
-    exports jdk.internal.reflect;
-    exports jdk.internal.vm.annotation;
     exports flint.drawing;
     exports flint.machine;
 }

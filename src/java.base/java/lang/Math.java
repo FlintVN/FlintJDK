@@ -75,7 +75,7 @@ public final class Math {
         int exponent = Math.getExponent(a);
 
         if(exponent < 0)
-            return ((a == 0.0) ? a : ((a < 0.0) ?  negativeBoundary : positiveBoundary));
+            return ((a == 0.0) ? a : ((a < 0.0) ? negativeBoundary : positiveBoundary));
         else if(exponent >= 52)
             return a;
         // assert exponent >= 0 && exponent <= 51;

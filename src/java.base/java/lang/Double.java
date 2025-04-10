@@ -177,10 +177,10 @@ public final class Double extends Number implements Comparable<Double> {
         if(d1 > d2)
             return 1;
 
-        long thisBits    = Double.doubleToLongBits(d1);
+        long thisBits = Double.doubleToLongBits(d1);
         long anotherBits = Double.doubleToLongBits(d2);
 
-        return (thisBits == anotherBits ?  0 : (thisBits < anotherBits ? -1 : 1));
+        return (thisBits == anotherBits ? 0 : (thisBits < anotherBits ? -1 : 1));
     }
 
     public static double sum(double a, double b) {

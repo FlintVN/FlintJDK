@@ -108,7 +108,8 @@ public abstract class AbstractCollection<E> implements Collection<E> {
                     return true;
                 }
             }
-        } else {
+        }
+        else {
             while(it.hasNext()) {
                 if(o.equals(it.next())) {
                     it.remove();

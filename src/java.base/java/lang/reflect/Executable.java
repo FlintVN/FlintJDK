@@ -44,7 +44,7 @@ public abstract sealed class Executable implements Member permits Constructor, M
 
     public abstract String toGenericString();
 
-    public boolean isVarArgs()  {
+    public boolean isVarArgs() {
         return (getModifiers() & Modifier.VARARGS) != 0;
     }
 
