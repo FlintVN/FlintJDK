@@ -74,10 +74,50 @@ public interface List<E> extends Collection<E> {
 
     @Override
     default Spliterator<E> spliterator() {
-        if (this instanceof RandomAccess)
+        if(this instanceof RandomAccess)
             return new AbstractList.RandomAccessSpliterator<>(this);
         else
             return Spliterators.spliterator(this, Spliterator.ORDERED);
+    }
+
+    default void addFirst(E e) {
+        this.add(0, e);
+    }
+
+    default void addLast(E e) {
+        this.add(e);
+    }
+
+    default E getFirst() {
+        if(this.isEmpty())
+            throw new NoSuchElementException();
+        else
+            return this.get(0);
+    }
+
+    default E getLast() {
+        if(this.isEmpty())
+            throw new NoSuchElementException();
+        else
+            return this.get(this.size() - 1);
+    }
+
+    default E removeFirst() {
+        if(this.isEmpty())
+            throw new NoSuchElementException();
+        else
+            return this.remove(0);
+    }
+
+    default E removeLast() {
+        if(this.isEmpty())
+            throw new NoSuchElementException();
+        else 
+            return this.remove(this.size() - 1);
+    }
+
+    default List<E> reversed() {
+        return ReverseOrderListView.of(this, true);
     }
 
     // TODO
