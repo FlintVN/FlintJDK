@@ -6,7 +6,7 @@
   - Arrays.deepEquals.
   - Arrays.compare.
   - Arrays.mismatch.
-- Support java.util.ArrayList.
+- Support java.util.ArrayList, java.util.Vector.
 ## V0.0.5
 - Fix bug in Long.toString method.
 - Implement the following methods in java.lang.Class:
