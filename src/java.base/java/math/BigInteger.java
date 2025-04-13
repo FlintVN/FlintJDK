@@ -453,7 +453,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
 
     public int hashCode() {
         int hashCode = 0;
-        for(int i=0; i < mag.length; i++)
+        for(int i = 0; i < mag.length; i++)
             hashCode = (int)(31 * hashCode + (mag[i] & 0xFFFFFFFFL));
         return hashCode * signum;
     }

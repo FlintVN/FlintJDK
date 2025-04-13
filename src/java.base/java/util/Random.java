@@ -1,7 +1,7 @@
 package java.util;
 
 public class Random {
-    private Random() {
+    public Random() {
 
     }
 
