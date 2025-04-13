@@ -17,9 +17,9 @@ public abstract class AbstractCollection<E> implements Collection<E> {
 
     public boolean contains(Object o) {
         Iterator<E> it = iterator();
-        if(o==null) {
+        if(o == null) {
             while(it.hasNext())
-                if(it.next()==null)
+                if(it.next() == null)
                     return true;
         }
         else {
@@ -101,9 +101,9 @@ public abstract class AbstractCollection<E> implements Collection<E> {
 
     public boolean remove(Object o) {
         Iterator<E> it = iterator();
-        if(o==null) {
+        if(o == null) {
             while(it.hasNext()) {
-                if(it.next()==null) {
+                if(it.next() == null) {
                     it.remove();
                     return true;
                 }

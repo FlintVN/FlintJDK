@@ -1,4 +1,12 @@
 # Change Log
+## V0.0.6
+- Implement the following functions for java.util.Arrays:
+  - Arrays.sort.
+  - Arrays.equals.
+  - Arrays.deepEquals.
+  - Arrays.compare.
+  - Arrays.mismatch.
+- Support java.util.ArrayList.
 ## V0.0.5
 - Fix bug in Long.toString method.
 - Implement the following methods in java.lang.Class:

@@ -409,7 +409,7 @@ public final class Math {
             if(d == 0.0)
                 return -Double.MIN_VALUE;
             else
-                return Double.longBitsToDouble(Double.doubleToRawLongBits(d) + ((d > 0.0d)?-1L:+1L));
+                return Double.longBitsToDouble(Double.doubleToRawLongBits(d) + ((d > 0.0d) ? -1L : +1L));
         }
     }
 
@@ -420,7 +420,7 @@ public final class Math {
             if(f == 0.0f)
                 return -Float.MIN_VALUE;
             else
-                return Float.intBitsToFloat(Float.floatToRawIntBits(f) + ((f > 0.0f)?-1:+1));
+                return Float.intBitsToFloat(Float.floatToRawIntBits(f) + ((f > 0.0f) ? -1 : +1));
         }
     }
 

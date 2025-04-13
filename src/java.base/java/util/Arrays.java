@@ -310,7 +310,7 @@ public class Arrays {
         }
 
         for(int i = destLow, p = low, q = mid; i < destHigh; i++) {
-            if(q >= high || p < mid && ((Comparable)src[p]).compareTo(src[q])<=0)
+            if(q >= high || p < mid && ((Comparable)src[p]).compareTo(src[q]) <= 0)
                 dest[i] = src[p++];
             else
                 dest[i] = src[q++];
