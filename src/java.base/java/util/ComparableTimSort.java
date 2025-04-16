@@ -77,7 +77,7 @@ class ComparableTimSort {
         if(start == lo)
             start++;
         for(; start < hi; start++) {
-            Comparable pivot = (Comparable) a[start];
+            Comparable pivot = (Comparable)a[start];
             int left = lo;
             int right = start;
             while(left < right) {
@@ -107,13 +107,13 @@ class ComparableTimSort {
         if(runHi == hi)
             return 1;
 
-        if(((Comparable) a[runHi++]).compareTo(a[lo]) < 0) {
-            while(runHi < hi && ((Comparable) a[runHi]).compareTo(a[runHi - 1]) < 0)
+        if(((Comparable)a[runHi++]).compareTo(a[lo]) < 0) {
+            while(runHi < hi && ((Comparable)a[runHi]).compareTo(a[runHi - 1]) < 0)
                 runHi++;
             reverseRange(a, lo, runHi);
         }
         else {
-            while(runHi < hi && ((Comparable) a[runHi]).compareTo(a[runHi - 1]) >= 0)
+            while(runHi < hi && ((Comparable)a[runHi]).compareTo(a[runHi - 1]) >= 0)
                 runHi++;
         }
 
@@ -180,13 +180,13 @@ class ComparableTimSort {
         }
         stackSize--;
 
-        int k = gallopRight((Comparable<Object>) a[base2], a, base1, len1, 0);
+        int k = gallopRight((Comparable<Object>)a[base2], a, base1, len1, 0);
         base1 += k;
         len1 -= k;
         if(len1 == 0)
             return;
 
-        len2 = gallopLeft((Comparable<Object>) a[base1 + len1 - 1], a, base2, len2, len2 - 1);
+        len2 = gallopLeft((Comparable<Object>)a[base1 + len1 - 1], a, base2, len2, len2 - 1);
         if(len2 == 0)
             return;
 
@@ -312,7 +312,7 @@ class ComparableTimSort {
             int count2 = 0;
 
             do {
-                if(((Comparable) a[cursor2]).compareTo(tmp[cursor1]) < 0) {
+                if(((Comparable)a[cursor2]).compareTo(tmp[cursor1]) < 0) {
                     a[dest++] = a[cursor2++];
                     count2++;
                     count1 = 0;
@@ -329,7 +329,7 @@ class ComparableTimSort {
             } while((count1 | count2) < minGallop);
 
             do {
-                count1 = gallopRight((Comparable) a[cursor2], tmp, cursor1, len1, 0);
+                count1 = gallopRight((Comparable)a[cursor2], tmp, cursor1, len1, 0);
                 if(count1 != 0) {
                     System.arraycopy(tmp, cursor1, a, dest, count1);
                     dest += count1;
@@ -433,7 +433,7 @@ class ComparableTimSort {
                 if(--len2 == 1)
                     break outer;
 
-                count2 = len2 - gallopLeft((Comparable) a[cursor1], tmp, tmpBase, len2, len2 - 1);
+                count2 = len2 - gallopLeft((Comparable)a[cursor1], tmp, tmpBase, len2, len2 - 1);
                 if(count2 != 0) {
                     dest -= count2;
                     cursor2 -= count2;

@@ -120,7 +120,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
 
     public Object clone() {
         try {
-            ArrayList<?> v = (ArrayList<?>) super.clone();
+            ArrayList<?> v = (ArrayList<?>)super.clone();
             v.elementData = Arrays.copyOf(elementData, size);
             v.modCount = 0;
             return v;
@@ -137,7 +137,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
     @SuppressWarnings("unchecked")
     public <T> T[] toArray(T[] a) {
         if(a.length < size)
-            return (T[]) Arrays.copyOf(elementData, size, a.getClass());
+            return (T[])Arrays.copyOf(elementData, size, a.getClass());
         System.arraycopy(elementData, 0, a, 0, size);
         if(a.length > size)
             a[size] = null;
@@ -146,12 +146,12 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
 
     @SuppressWarnings("unchecked")
     E elementData(int index) {
-        return (E) elementData[index];
+        return (E)elementData[index];
     }
 
     @SuppressWarnings("unchecked")
     static <E> E elementAt(Object[] es, int index) {
-        return (E) es[index];
+        return (E)es[index];
     }
 
     public E get(int index) {
@@ -220,7 +220,8 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
         Objects.checkIndex(index, size);
         final Object[] es = elementData;
 
-        @SuppressWarnings("unchecked") E oldValue = (E) es[index];
+        @SuppressWarnings("unchecked")
+        E oldValue = (E)es[index];
         fastRemove(es, index);
 
         return oldValue;
@@ -232,7 +233,8 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
         }
         else {
             Object[] es = elementData;
-            @SuppressWarnings("unchecked") E oldValue = (E) es[0];
+            @SuppressWarnings("unchecked")
+            E oldValue = (E)es[0];
             fastRemove(es, 0);
             return oldValue;
         }
@@ -245,7 +247,8 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
         }
         else {
             Object[] es = elementData;
-            @SuppressWarnings("unchecked") E oldValue = (E) es[last];
+            @SuppressWarnings("unchecked")
+            E oldValue = (E)es[last];
             fastRemove(es, last);
             return oldValue;
         }
@@ -261,7 +264,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
         }
 
         final int expectedModCount = modCount;
-        boolean equal = (o.getClass() == ArrayList.class) ? equalsArrayList((ArrayList<?>) o) : equalsRange((List<?>) o, 0, size);
+        boolean equal = (o.getClass() == ArrayList.class) ? equalsArrayList((ArrayList<?>)o) : equalsRange((List<?>)o, 0, size);
 
         checkForComodification(expectedModCount);
         return equal;
@@ -471,7 +474,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
     }
 
     private class Itr implements Iterator<E> {
-        int cursor; 
+        int cursor;
         int lastRet = -1;
         int expectedModCount = modCount;
 
@@ -493,7 +496,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
             if(i >= elementData.length)
                 throw new ConcurrentModificationException();
             cursor = i + 1;
-            return (E) elementData[lastRet = i];
+            return (E)elementData[lastRet = i];
         }
 
         public void remove() {
@@ -563,7 +566,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
             if(i >= elementData.length)
                 throw new ConcurrentModificationException();
             cursor = i;
-            return (E) elementData[lastRet = i];
+            return (E)elementData[lastRet = i];
         }
 
         public void set(E e) {
@@ -717,8 +720,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
         public <T> T[] toArray(T[] a) {
             checkForComodification();
             if(a.length < size)
-                return (T[]) Arrays.copyOfRange(
-                        root.elementData, offset, offset + size, a.getClass());
+                return (T[])Arrays.copyOfRange(root.elementData, offset, offset + size, a.getClass());
             System.arraycopy(root.elementData, offset, a, 0, size);
             if(a.length > size)
                 a[size] = null;
@@ -786,7 +788,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
                     if(offset + i >= elementData.length)
                         throw new ConcurrentModificationException();
                     cursor = i + 1;
-                    return (E) elementData[offset + (lastRet = i)];
+                    return (E)elementData[offset + (lastRet = i)];
                 }
 
                 public boolean hasPrevious() {
@@ -803,7 +805,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
                     if(offset + i >= elementData.length)
                         throw new ConcurrentModificationException();
                     cursor = i;
-                    return (E) elementData[offset + (lastRet = i)];
+                    return (E)elementData[offset + (lastRet = i)];
                 }
 
                 public void forEachRemaining(Consumer<? super E> action) {
@@ -936,7 +938,8 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
                     int hi = getFence(), i = index;
                     if(i < hi) {
                         index = i + 1;
-                        @SuppressWarnings("unchecked") E e = (E)root.elementData[i];
+                        @SuppressWarnings("unchecked")
+                        E e = (E)root.elementData[i];
                         action.accept(e);
                         if(root.modCount != expectedModCount)
                             throw new ConcurrentModificationException();
@@ -959,7 +962,8 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
                             mc = expectedModCount;
                         if((i = index) >= 0 && (index = hi) <= a.length) {
                             for(; i < hi; ++i) {
-                                @SuppressWarnings("unchecked") E e = (E) a[i];
+                                @SuppressWarnings("unchecked")
+                                E e = (E)a[i];
                                 action.accept(e);
                             }
                             if(lst.modCount == mc)
@@ -1028,7 +1032,8 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
             int hi = getFence(), i = index;
             if(i < hi) {
                 index = i + 1;
-                @SuppressWarnings("unchecked") E e = (E)elementData[i];
+                @SuppressWarnings("unchecked")
+                E e = (E)elementData[i];
                 action.accept(e);
                 if(modCount != expectedModCount)
                     throw new ConcurrentModificationException();
@@ -1051,7 +1056,8 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
                     mc = expectedModCount;
                 if((i = index) >= 0 && (index = hi) <= a.length) {
                     for(; i < hi; ++i) {
-                        @SuppressWarnings("unchecked") E e = (E) a[i];
+                        @SuppressWarnings("unchecked")
+                        E e = (E)a[i];
                         action.accept(e);
                     }
                     if(modCount == mc)
@@ -1137,7 +1143,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
     @SuppressWarnings("unchecked")
     public void sort(Comparator<? super E> c) {
         final int expectedModCount = modCount;
-        Arrays.sort((E[]) elementData, 0, size, c);
+        Arrays.sort((E[])elementData, 0, size, c);
         if(modCount != expectedModCount)
             throw new ConcurrentModificationException();
         modCount++;

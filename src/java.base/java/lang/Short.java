@@ -6,7 +6,7 @@ public final class Short extends Number implements Comparable<Short> {
     public static final int SIZE = 16;
     public static final int BYTES = SIZE / Byte.SIZE;
     @SuppressWarnings("unchecked")
-    public static final Class<Short> TYPE = (Class<Short>) Class.getPrimitiveClass("short");
+    public static final Class<Short> TYPE = (Class<Short>)Class.getPrimitiveClass("short");
 
     private final short value;
 
@@ -118,14 +118,14 @@ public final class Short extends Number implements Comparable<Short> {
     }
 
     public static short reverseBytes(short i) {
-        return (short) (((i & 0xFF00) >> 8) | (i << 8));
+        return (short)(((i & 0xFF00) >> 8) | (i << 8));
     }
 
     public static int toUnsignedInt(short x) {
-        return ((int) x) & 0xffff;
+        return ((int)x) & 0xffff;
     }
 
     public static long toUnsignedLong(short x) {
-        return ((long) x) & 0xffffL;
+        return ((long)x) & 0xffffL;
     }
 }

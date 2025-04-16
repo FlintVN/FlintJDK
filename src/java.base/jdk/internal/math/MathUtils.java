@@ -13,15 +13,15 @@ final class MathUtils {
     }
 
     static int flog10pow2(int e) {
-        return (int) (e * 661_971_961_083L >> 41);
+        return (int)(e * 661_971_961_083L >> 41);
     }
 
     static int flog10threeQuartersPow2(int e) {
-        return (int) (e * 661_971_961_083L + -274_743_187_321L >> 41);
+        return (int)(e * 661_971_961_083L + -274_743_187_321L >> 41);
     }
 
     static int flog2pow10(int e) {
-        return (int) (e * 913_124_641_741L >> 38);
+        return (int)(e * 913_124_641_741L >> 38);
     }
 
     static long g1(int k) {

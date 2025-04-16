@@ -119,7 +119,7 @@ public final class Math {
             return ((r >> shift) + 1) >> 1;
         }
         else
-            return (int) a;
+            return (int)a;
     }
 
     public static long round(double a) {
@@ -133,7 +133,7 @@ public final class Math {
             return ((r >> shift) + 1) >> 1;
         }
         else
-            return (long) a;
+            return (long)a;
     }
 
     public static double random() {
@@ -329,13 +329,11 @@ public final class Math {
     }
 
     public static float copySign(float magnitude, float sign) {
-        return Float.intBitsToFloat((Float.floatToRawIntBits(sign) & (FLOAT_SIGN_BIT_MASK)) |
-                                    (Float.floatToRawIntBits(magnitude) & (FLOAT_EXP_BIT_MASK | FLOAT_SIGNIF_BIT_MASK)));
+        return Float.intBitsToFloat((Float.floatToRawIntBits(sign) & (FLOAT_SIGN_BIT_MASK)) | (Float.floatToRawIntBits(magnitude) & (FLOAT_EXP_BIT_MASK | FLOAT_SIGNIF_BIT_MASK)));
     }
 
     public static double copySign(double magnitude, double sign) {
-        return Double.longBitsToDouble((Double.doubleToRawLongBits(sign) & (DOUBLE_SIGN_BIT_MASK)) |
-                                       (Double.doubleToRawLongBits(magnitude) & (DOUBLE_EXP_BIT_MASK | DOUBLE_SIGNIF_BIT_MASK)));
+        return Double.longBitsToDouble((Double.doubleToRawLongBits(sign) & (DOUBLE_SIGN_BIT_MASK)) | (Double.doubleToRawLongBits(magnitude) & (DOUBLE_EXP_BIT_MASK | DOUBLE_SIGNIF_BIT_MASK)));
     }
 
     public static int getExponent(float f) {

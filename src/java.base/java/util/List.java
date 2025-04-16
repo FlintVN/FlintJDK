@@ -44,7 +44,7 @@ public interface List<E> extends Collection<E> {
         ListIterator<E> i = this.listIterator();
         for(Object e : a) {
             i.next();
-            i.set((E) e);
+            i.set((E)e);
         }
     }
 
@@ -112,7 +112,7 @@ public interface List<E> extends Collection<E> {
     default E removeLast() {
         if(this.isEmpty())
             throw new NoSuchElementException();
-        else 
+        else
             return this.remove(this.size() - 1);
     }
 
@@ -123,7 +123,7 @@ public interface List<E> extends Collection<E> {
     // TODO
     // @SuppressWarnings("unchecked")
     // static <E> List<E> of() {
-    //     return (List<E>) ImmutableCollections.EMPTY_LIST;
+    //     return (List<E>)ImmutableCollections.EMPTY_LIST;
     // }
 
     // TODO
@@ -180,10 +180,10 @@ public interface List<E> extends Collection<E> {
     // @SafeVarargs
     // @SuppressWarnings("varargs")
     // static <E> List<E> of(E... elements) {
-    //     switch (elements.length) { // implicit null check of elements
+    //     switch (elements.length) {
     //         case 0:
     //             @SuppressWarnings("unchecked")
-    //             var list = (List<E>) ImmutableCollections.EMPTY_LIST;
+    //             var list = (List<E>)ImmutableCollections.EMPTY_LIST;
     //             return list;
     //         case 1:
     //             return new ImmutableCollections.List12<>(elements[0]);

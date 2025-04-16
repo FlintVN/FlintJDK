@@ -54,7 +54,7 @@ public class ArraysSupport {
     //     int log2ValuesPerWidth = LOG2_ARRAY_LONG_INDEX_SCALE - log2ArrayIndexScale;
     //     int wi = 0;
     //     for(; wi < length >> log2ValuesPerWidth; wi++) {
-    //         long bi = ((long) wi) << LOG2_ARRAY_LONG_INDEX_SCALE;
+    //         long bi = ((long)wi) << LOG2_ARRAY_LONG_INDEX_SCALE;
     //         long av = U.getLongUnaligned(a, aOffset + bi);
     //         long bv = U.getLongUnaligned(b, bOffset + bi);
     //         if(av != bv) {
@@ -71,7 +71,7 @@ public class ArraysSupport {
     //     if(log2ArrayIndexScale < LOG2_ARRAY_INT_INDEX_SCALE) {
     //         int wordTail = 1 << (LOG2_ARRAY_INT_INDEX_SCALE - log2ArrayIndexScale);
     //         if(tail >= wordTail) {
-    //             long bi = ((long) wi) << LOG2_ARRAY_LONG_INDEX_SCALE;
+    //             long bi = ((long)wi) << LOG2_ARRAY_LONG_INDEX_SCALE;
     //             int av = U.getIntUnaligned(a, aOffset + bi);
     //             int bv = U.getIntUnaligned(b, bOffset + bi);
     //             if(av != bv) {
@@ -93,13 +93,13 @@ public class ArraysSupport {
     // @IntrinsicCandidate
     // public static int vectorizedHashCode(Object array, int fromIndex, int length, int initialValue, int basicType) {
     //     return switch (basicType) {
-    //         case T_BOOLEAN -> signedHashCode(initialValue, (byte[]) array, fromIndex, length);
+    //         case T_BOOLEAN -> signedHashCode(initialValue, (byte[])array, fromIndex, length);
     //         case T_CHAR -> array instanceof byte[]
-    //                 ? utf16hashCode(initialValue, (byte[]) array, fromIndex, length)
-    //                 : hashCode(initialValue, (char[]) array, fromIndex, length);
-    //         case T_BYTE -> hashCode(initialValue, (byte[]) array, fromIndex, length);
-    //         case T_SHORT -> hashCode(initialValue, (short[]) array, fromIndex, length);
-    //         case T_INT -> hashCode(initialValue, (int[]) array, fromIndex, length);
+    //                 ? utf16hashCode(initialValue, (byte[])array, fromIndex, length)
+    //                 : hashCode(initialValue, (char[])array, fromIndex, length);
+    //         case T_BYTE -> hashCode(initialValue, (byte[])array, fromIndex, length);
+    //         case T_SHORT -> hashCode(initialValue, (short[])array, fromIndex, length);
+    //         case T_INT -> hashCode(initialValue, (int[])array, fromIndex, length);
     //             default -> throw new IllegalArgumentException("unrecognized basic type: " + basicType);
     //     };
     // }
@@ -307,9 +307,9 @@ public class ArraysSupport {
 
     public static <T> T[] toArrayReversed(Collection<?> coll, T[] array) {
         T[] newArray = reverse(coll.toArray(Arrays.copyOfRange(array, 0, 0)));
-        if(newArray.length > array.length) {
+        if(newArray.length > array.length)
             return newArray;
-        } else {
+        else {
             System.arraycopy(newArray, 0, array, 0, newArray.length);
             if(array.length > newArray.length) {
                 array[newArray.length] = null;

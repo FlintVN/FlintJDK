@@ -82,7 +82,6 @@ public class Modifier {
         if((mod & PROTECTED) != 0) sj.add("protected");
         if((mod & PRIVATE) != 0) sj.add("private");
 
-        /* Canonical order */
         if((mod & ABSTRACT) != 0) sj.add("abstract");
         if((mod & STATIC) != 0) sj.add("static");
         if((mod & FINAL) != 0) sj.add("final");

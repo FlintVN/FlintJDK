@@ -35,7 +35,7 @@ class Comparators {
         @SuppressWarnings("unchecked")
         NullComparator(boolean nullFirst, Comparator<? super T> real) {
             this.nullFirst = nullFirst;
-            this.real = (Comparator<T>) real;
+            this.real = (Comparator<T>)real;
         }
 
         @Override

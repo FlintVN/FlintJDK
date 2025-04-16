@@ -410,7 +410,7 @@ public final class String implements Comparable<String>, CharSequence {
             len += el.length();
             icoder |= el.coder();
         }
-        byte coder = (byte) icoder;
+        byte coder = (byte)icoder;
         if(len < 0L || (len <<= coder) != (int)len)
             throw new OutOfMemoryError("Requested string length exceeds VM limit");
         byte[] value = new byte[(int)len];

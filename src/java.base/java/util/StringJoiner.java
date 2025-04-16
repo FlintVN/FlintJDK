@@ -32,8 +32,7 @@ public final class StringJoiner {
     }
 
     public StringJoiner setEmptyValue(CharSequence emptyValue) {
-        this.emptyValue = Objects.requireNonNull(emptyValue,
-            "The empty value must not be null").toString();
+        this.emptyValue = Objects.requireNonNull(emptyValue, "The empty value must not be null").toString();
         return this;
     }
 

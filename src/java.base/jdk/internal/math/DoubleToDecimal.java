@@ -40,7 +40,7 @@ final public class DoubleToDecimal {
             case 0:
                 char[] chars = new char[index + 1];
                 for(int i = 0; i < chars.length; ++i)
-                    chars[i] = (char) bytes[i];
+                    chars[i] = (char)bytes[i];
                 if(app instanceof StringBuilder builder)
                     return builder.append(chars);
                 if(app instanceof StringBuffer buffer)
@@ -59,7 +59,7 @@ final public class DoubleToDecimal {
     private int toDecimal(double v) {
         long bits = doubleToRawLongBits(v);
         long t = bits & 0x0FFFFFFFFFFFFFL;
-        int bq = (int) (bits >>> 53 - 1) & 0x07FF;
+        int bq = (int)(bits >>> 53 - 1) & 0x07FF;
         if(bq < 0x07FF) {
             index = -1;
             if(bits < 0)
@@ -84,7 +84,7 @@ final public class DoubleToDecimal {
     }
 
     private int toDecimal(int q, long c, int dk) {
-        int out = (int) c & 0x1;
+        int out = (int)c & 0x1;
         long cb = c << 2;
         long cbr = cb + 2;
         long cbl;
@@ -144,9 +144,9 @@ final public class DoubleToDecimal {
         e += len;
 
         long hm = multiplyHigh(f, 193_428_131_138_340_668L) >>> 20;
-        int l = (int) (f - 100_000_000L * hm);
-        int h = (int) (hm * 1_441_151_881L >>> 57);
-        int m = (int) (hm - 100_000_000 * h);
+        int l = (int)(f - 100_000_000L * hm);
+        int h = (int)(hm * 1_441_151_881L >>> 57);
+        int m = (int)(hm - 100_000_000 * h);
 
         if(0 < e && e <= 7)
             return toChars1(h, m, l, e);
@@ -218,7 +218,7 @@ final public class DoubleToDecimal {
     }
 
     private int y(int a) {
-        return (int) (multiplyHigh((long) (a + 1) << 28, 193_428_131_138_340_668L) >>> 20) - 1;
+        return (int)(multiplyHigh((long)(a + 1) << 28, 193_428_131_138_340_668L) >>> 20) - 1;
     }
 
     private void exponent(int e) {
@@ -243,11 +243,11 @@ final public class DoubleToDecimal {
     }
 
     private void append(int c) {
-        bytes[++index] = (byte) c;
+        bytes[++index] = (byte)c;
     }
 
     private void appendDigit(int d) {
-        bytes[++index] = (byte) ('0' + d);
+        bytes[++index] = (byte)('0' + d);
     }
 
     private String charsToString() {

@@ -63,8 +63,8 @@ public final class Long extends Number implements Comparable<Long> {
         if(i >= 0L)
             return BigInteger.valueOf(i);
         else {
-            int upper = (int) (i >>> 32);
-            int lower = (int) i;
+            int upper = (int)(i >>> 32);
+            int lower = (int)i;
 
             BigInteger bint = BigInteger.valueOf(Integer.toUnsignedLong(upper));
             bint = bint.shiftLeft(32);
@@ -98,7 +98,7 @@ public final class Long extends Number implements Comparable<Long> {
         int radix = 1 << shift;
         int mask = radix - 1;
         do {
-            buf[--charPos] = (byte)Integer.digitToChar(((int) val) & mask);
+            buf[--charPos] = (byte)Integer.digitToChar(((int)val) & mask);
             val >>>= shift;
         } while(charPos > offset);
     }
@@ -230,7 +230,7 @@ public final class Long extends Number implements Comparable<Long> {
                     throw new NumberFormatException("Bad digit at end of " + s);
                 long result = first * radix + second;
 
-                int guard = radix * (int) (first >>> 57);
+                int guard = radix * (int)(first >>> 57);
                 if(guard >= 128 || (result >= 0 && guard >= 128 - 36))
                     throw new NumberFormatException("String value " + s + " exceeds range of unsigned long.");
                 return result;
@@ -257,7 +257,7 @@ public final class Long extends Number implements Comparable<Long> {
                     throw new NumberFormatException("Bad digit at end of " + s.subSequence(start, start + len));
                 long result = first * radix + second;
 
-                int guard = radix * (int) (first >>> 57);
+                int guard = radix * (int)(first >>> 57);
                 if(guard >= 128 || (result >= 0 && guard >= 128 - 36))
                     throw new NumberFormatException("String value " + s.subSequence(start, start + len) + " exceeds range of unsigned long.");
                 return result;
@@ -534,7 +534,7 @@ public final class Long extends Number implements Comparable<Long> {
     }
 
     public static int signum(long i) {
-        return (int) ((i >> 63) | (-i >>> 63));
+        return (int)((i >> 63) | (-i >>> 63));
     }
 
     public static long reverseBytes(long i) {

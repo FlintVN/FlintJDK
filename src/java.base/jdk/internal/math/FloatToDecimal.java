@@ -39,7 +39,7 @@ final public class FloatToDecimal {
             case 0:
                 char[] chars = new char[index + 1];
                 for(int i = 0; i < chars.length; ++i)
-                    chars[i] = (char) bytes[i];
+                    chars[i] = (char)bytes[i];
                 if(app instanceof StringBuilder builder)
                     return builder.append(chars);
                 if(app instanceof StringBuffer buffer)
@@ -107,7 +107,7 @@ final public class FloatToDecimal {
 
         int s = vb >> 2;
         if(s >= 100) {
-            int sp10 = 10 * (int) (s * 1_717_986_919L >>> 34);
+            int sp10 = 10 * (int)(s * 1_717_986_919L >>> 34);
             int tp10 = sp10 + 10;
             boolean upin = vbl + out <= sp10 << 2;
             boolean wpin = (tp10 << 2) + out <= vbr;
@@ -127,7 +127,7 @@ final public class FloatToDecimal {
     private static int rop(long g, long cp) {
         long x1 = multiplyHigh(g, cp);
         long vbp = x1 >>> 31;
-        return (int) (vbp | (x1 & 0xFFFFFFFFL) + 0xFFFFFFFFL >>> 32);
+        return (int)(vbp | (x1 & 0xFFFFFFFFL) + 0xFFFFFFFFL >>> 32);
     }
 
     private int toChars(int f, int e) {
@@ -138,7 +138,7 @@ final public class FloatToDecimal {
         f *= (int)pow10(9 - len);
         e += len;
 
-        int h = (int) (f * 1_441_151_881L >>> 57);
+        int h = (int)(f * 1_441_151_881L >>> 57);
         int l = f - 100_000_000 * h;
 
         if(0 < e && e <= 7)
@@ -205,7 +205,7 @@ final public class FloatToDecimal {
     }
 
     private int y(int a) {
-        return (int) (multiplyHigh((long) (a + 1) << 28, 193_428_131_138_340_668L) >>> 20) - 1;
+        return (int)(multiplyHigh((long)(a + 1) << 28, 193_428_131_138_340_668L) >>> 20) - 1;
     }
 
     private void exponent(int e) {
@@ -224,11 +224,11 @@ final public class FloatToDecimal {
     }
 
     private void append(int c) {
-        bytes[++index] = (byte) c;
+        bytes[++index] = (byte)c;
     }
 
     private void appendDigit(int d) {
-        bytes[++index] = (byte) ('0' + d);
+        bytes[++index] = (byte)('0' + d);
     }
 
     private String charsToString() {

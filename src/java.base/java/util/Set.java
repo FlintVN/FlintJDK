@@ -39,7 +39,7 @@ public interface Set<E> extends Collection<E> {
     // TODO
     // @SuppressWarnings("unchecked")
     // static <E> Set<E> of() {
-    //     return (Set<E>) ImmutableCollections.EMPTY_SET;
+    //     return (Set<E>)ImmutableCollections.EMPTY_SET;
     // }
 
     // TODO
@@ -99,7 +99,7 @@ public interface Set<E> extends Collection<E> {
     //     switch (elements.length) {
     //         case 0:
     //             @SuppressWarnings("unchecked")
-    //             var set = (Set<E>) ImmutableCollections.EMPTY_SET;
+    //             var set = (Set<E>)ImmutableCollections.EMPTY_SET;
     //             return set;
     //         case 1:
     //             return new ImmutableCollections.Set12<>(elements[0]);

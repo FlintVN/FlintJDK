@@ -121,7 +121,8 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
                     cursor--;
                 lastRet = -1;
                 expectedModCount = modCount;
-            } catch(IndexOutOfBoundsException e) {
+            }
+            catch(IndexOutOfBoundsException e) {
                 throw new ConcurrentModificationException();
             }
         }
@@ -148,7 +149,8 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
                 E previous = get(i);
                 lastRet = cursor = i;
                 return previous;
-            } catch(IndexOutOfBoundsException e) {
+            }
+            catch(IndexOutOfBoundsException e) {
                 checkForComodification();
                 throw new NoSuchElementException(e);
             }
@@ -170,7 +172,8 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
             try {
                 AbstractList.this.set(lastRet, e);
                 expectedModCount = modCount;
-            } catch(IndexOutOfBoundsException ex) {
+            }
+            catch(IndexOutOfBoundsException ex) {
                 throw new ConcurrentModificationException();
             }
         }
@@ -184,7 +187,8 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
                 lastRet = -1;
                 cursor = i + 1;
                 expectedModCount = modCount;
-            } catch(IndexOutOfBoundsException ex) {
+            }
+            catch(IndexOutOfBoundsException ex) {
                 throw new ConcurrentModificationException();
             }
         }
@@ -214,7 +218,7 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
             return false;
 
         ListIterator<E> e1 = listIterator();
-        ListIterator<?> e2 = ((List<?>) o).listIterator();
+        ListIterator<?> e2 = ((List<?>)o).listIterator();
         while(e1.hasNext() && e2.hasNext()) {
             E o1 = e1.next();
             Object o2 = e2.next();
@@ -265,7 +269,7 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
             this.index = 0;
             this.fence = -1;
 
-            this.alist = list instanceof AbstractList ? (AbstractList<E>) list : null;
+            this.alist = list instanceof AbstractList ? (AbstractList<E>)list : null;
             this.expectedModCount = alist != null ? alist.modCount : 0;
         }
 
@@ -319,7 +323,7 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
         }
 
         public long estimateSize() {
-            return (long) (getFence() - index);
+            return (long)(getFence() - index);
         }
 
         public int characteristics() {

@@ -10,7 +10,7 @@ public final class Spliterators {
 
     @SuppressWarnings("unchecked")
     public static <T> Spliterator<T> emptySpliterator() {
-        return (Spliterator<T>) EMPTY_SPLITERATOR;
+        return (Spliterator<T>)EMPTY_SPLITERATOR;
     }
 
     private static final Spliterator<Object> EMPTY_SPLITERATOR = new EmptySpliterator.OfRef<>();
@@ -317,22 +317,30 @@ public final class Spliterators {
         }
 
         private static final class OfRef<T> extends EmptySpliterator<T, Spliterator<T>, Consumer<? super T>> implements Spliterator<T> {
-            OfRef() { }
+            OfRef() {
+
+            }
         }
 
         @SuppressWarnings("overloads")
         private static final class OfInt extends EmptySpliterator<Integer, Spliterator.OfInt, IntConsumer> implements Spliterator.OfInt {
-            OfInt() { }
+            OfInt() {
+
+            }
         }
 
         @SuppressWarnings("overloads")
         private static final class OfLong extends EmptySpliterator<Long, Spliterator.OfLong, LongConsumer> implements Spliterator.OfLong {
-            OfLong() { }
+            OfLong() {
+
+            }
         }
 
         @SuppressWarnings("overloads")
         private static final class OfDouble extends EmptySpliterator<Double, Spliterator.OfDouble, DoubleConsumer> implements Spliterator.OfDouble {
-            OfDouble() { }
+            OfDouble() {
+
+            }
         }
     }
 
@@ -366,10 +374,10 @@ public final class Spliterators {
         @Override
         public Spliterator<T> trySplit() {
             int lo = index, mid = (lo + fence) >>> 1;
-            if(lo >= mid) return null;
-            if(estimatedSize == -1) {
+            if(lo >= mid)
+                return null;
+            if(estimatedSize == -1)
                 return new ArraySpliterator<>(array, lo, index = mid, characteristics);
-            }
             long prefixEstimatedSize = estimatedSize >>> 1;
             estimatedSize -= prefixEstimatedSize;
             return new ArraySpliterator<>(array, lo, index = mid, characteristics, prefixEstimatedSize);
@@ -381,8 +389,7 @@ public final class Spliterators {
             Object[] a; int i, hi;
             if(action == null)
                 throw new NullPointerException();
-            if((a = array).length >= (hi = fence) &&
-                (i = index) >= 0 && i < (index = hi)) {
+            if((a = array).length >= (hi = fence) && (i = index) >= 0 && i < (index = hi)) {
                 do {
                     action.accept((T)a[i]);
                 } while(++i < hi);
@@ -394,7 +401,7 @@ public final class Spliterators {
             if(action == null)
                 throw new NullPointerException();
             if(index >= 0 && index < fence) {
-                @SuppressWarnings("unchecked") T e = (T) array[index++];
+                @SuppressWarnings("unchecked") T e = (T)array[index++];
                 action.accept(e);
                 return true;
             }
@@ -463,8 +470,7 @@ public final class Spliterators {
             int[] a; int i, hi;
             if(action == null)
                 throw new NullPointerException();
-            if((a = array).length >= (hi = fence) &&
-                (i = index) >= 0 && i < (index = hi)) {
+            if((a = array).length >= (hi = fence) && (i = index) >= 0 && i < (index = hi)) {
                 do {
                     action.accept(a[i]);
                 } while(++i < hi);
@@ -530,10 +536,10 @@ public final class Spliterators {
         @Override
         public OfLong trySplit() {
             int lo = index, mid = (lo + fence) >>> 1;
-            if(lo >= mid) return null;
-            if(estimatedSize == -1) {
+            if(lo >= mid)
+                return null;
+            if(estimatedSize == -1)
                 return new LongArraySpliterator(array, lo, index = mid, characteristics);
-            }
             long prefixEstimatedSize = estimatedSize >>> 1;
             estimatedSize -= prefixEstimatedSize;
             return new LongArraySpliterator(array, lo, index = mid, characteristics, prefixEstimatedSize);
@@ -544,8 +550,7 @@ public final class Spliterators {
             long[] a; int i, hi;
             if(action == null)
                 throw new NullPointerException();
-            if((a = array).length >= (hi = fence) &&
-                (i = index) >= 0 && i < (index = hi)) {
+            if((a = array).length >= (hi = fence) && (i = index) >= 0 && i < (index = hi)) {
                 do {
                     action.accept(a[i]);
                 } while(++i < hi);
@@ -611,10 +616,10 @@ public final class Spliterators {
         @Override
         public OfDouble trySplit() {
             int lo = index, mid = (lo + fence) >>> 1;
-            if(lo >= mid) return null;
-            if(estimatedSize == -1) {
+            if(lo >= mid)
+                return null;
+            if(estimatedSize == -1)
                 return new DoubleArraySpliterator(array, lo, index = mid, characteristics);
-            }
             long prefixEstimatedSize = estimatedSize >>> 1;
             estimatedSize -= prefixEstimatedSize;
             return new DoubleArraySpliterator(array, lo, index = mid, characteristics, prefixEstimatedSize);
@@ -625,8 +630,7 @@ public final class Spliterators {
             double[] a; int i, hi;
             if(action == null)
                 throw new NullPointerException();
-            if((a = array).length >= (hi = fence) &&
-                (i = index) >= 0 && i < (index = hi)) {
+            if((a = array).length >= (hi = fence) && (i = index) >= 0 && i < (index = hi)) {
                 do {
                     action.accept(a[i]);
                 } while(++i < hi);
@@ -692,7 +696,7 @@ public final class Spliterators {
             if(s > 1 && tryAdvance(holder)) {
                 int n = batch + BATCH_UNIT;
                 if(n > s)
-                    n = (int) s;
+                    n = (int)s;
                 if(n > MAX_BATCH)
                     n = MAX_BATCH;
                 Object[] a = new Object[n];
@@ -751,7 +755,7 @@ public final class Spliterators {
             if(s > 1 && tryAdvance(holder)) {
                 int n = batch + BATCH_UNIT;
                 if(n > s)
-                    n = (int) s;
+                    n = (int)s;
                 if(n > MAX_BATCH)
                     n = MAX_BATCH;
                 int[] a = new int[n];
@@ -810,7 +814,7 @@ public final class Spliterators {
             if(s > 1 && tryAdvance(holder)) {
                 int n = batch + BATCH_UNIT;
                 if(n > s)
-                    n = (int) s;
+                    n = (int)s;
                 if(n > MAX_BATCH)
                     n = MAX_BATCH;
                 long[] a = new long[n];
@@ -869,7 +873,7 @@ public final class Spliterators {
             if(s > 1 && tryAdvance(holder)) {
                 int n = batch + BATCH_UNIT;
                 if(n > s)
-                    n = (int) s;
+                    n = (int)s;
                 if(n > MAX_BATCH)
                     n = MAX_BATCH;
                 double[] a = new double[n];
@@ -944,7 +948,7 @@ public final class Spliterators {
             if(s > 1 && i.hasNext()) {
                 int n = batch + BATCH_UNIT;
                 if(n > s)
-                    n = (int) s;
+                    n = (int)s;
                 if(n > MAX_BATCH)
                     n = MAX_BATCH;
                 Object[] a = new Object[n];
@@ -997,7 +1001,9 @@ public final class Spliterators {
         }
 
         @Override
-        public int characteristics() { return characteristics; }
+        public int characteristics() {
+            return characteristics;
+        }
 
         @Override
         public Comparator<? super T> getComparator() {
@@ -1036,7 +1042,7 @@ public final class Spliterators {
             if(s > 1 && i.hasNext()) {
                 int n = batch + BATCH_UNIT;
                 if(n > s)
-                    n = (int) s;
+                    n = (int)s;
                 if(n > MAX_BATCH)
                     n = MAX_BATCH;
                 int[] a = new int[n];
@@ -1076,7 +1082,9 @@ public final class Spliterators {
         }
 
         @Override
-        public int characteristics() { return characteristics; }
+        public int characteristics() {
+            return characteristics;
+        }
 
         @Override
         public Comparator<? super Integer> getComparator() {
@@ -1115,7 +1123,7 @@ public final class Spliterators {
             if(s > 1 && i.hasNext()) {
                 int n = batch + BATCH_UNIT;
                 if(n > s)
-                    n = (int) s;
+                    n = (int)s;
                 if(n > MAX_BATCH)
                     n = MAX_BATCH;
                 long[] a = new long[n];
@@ -1155,7 +1163,9 @@ public final class Spliterators {
         }
 
         @Override
-        public int characteristics() { return characteristics; }
+        public int characteristics() {
+            return characteristics;
+        }
 
         @Override
         public Comparator<? super Long> getComparator() {
@@ -1176,9 +1186,7 @@ public final class Spliterators {
         public DoubleIteratorSpliterator(PrimitiveIterator.OfDouble iterator, long size, int characteristics) {
             this.it = iterator;
             this.est = size;
-            this.characteristics = (characteristics & Spliterator.CONCURRENT) == 0
-                                   ? characteristics | Spliterator.SIZED | Spliterator.SUBSIZED
-                                   : characteristics;
+            this.characteristics = (characteristics & Spliterator.CONCURRENT) == 0 ? characteristics | Spliterator.SIZED | Spliterator.SUBSIZED : characteristics;
         }
 
         public DoubleIteratorSpliterator(PrimitiveIterator.OfDouble iterator, int characteristics) {
@@ -1194,7 +1202,7 @@ public final class Spliterators {
             if(s > 1 && i.hasNext()) {
                 int n = batch + BATCH_UNIT;
                 if(n > s)
-                    n = (int) s;
+                    n = (int)s;
                 if(n > MAX_BATCH)
                     n = MAX_BATCH;
                 double[] a = new double[n];

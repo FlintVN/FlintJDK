@@ -184,7 +184,7 @@ public final class Integer extends Number implements Comparable<Integer> {
             else {
                 long ell = Long.parseLong(s, radix);
                 if((ell & 0xffff_ffff_0000_0000L) == 0)
-                    return (int) ell;
+                    return (int)ell;
                 else
                     throw new NumberFormatException("String value " + s + " exceeds range of unsigned int.");
             }
@@ -346,7 +346,7 @@ public final class Integer extends Number implements Comparable<Integer> {
     }
 
     public static long toUnsignedLong(int x) {
-        return ((long) x) & 0xffffffffL;
+        return ((long)x) & 0xffffffffL;
     }
 
     public static int divideUnsigned(int dividend, int divisor) {
@@ -378,7 +378,8 @@ public final class Integer extends Number implements Comparable<Integer> {
 
     public static int numberOfTrailingZeros(int i) {
         i = ~i & (i - 1);
-        if(i <= 0) return i & 32;
+        if(i <= 0)
+            return i & 32;
         int n = 1;
         if(i > 1 << 16) { n += 16; i >>>= 16; }
         if(i > 1 <<  8) { n +=  8; i >>>=  8; }

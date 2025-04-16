@@ -291,7 +291,7 @@ public class Arrays {
         int length = high - low;
         if(length < INSERTIONSORT_THRESHOLD) {
             for(int i = low; i < high; i++)
-                for(int j = i; j > low && ((Comparable) dest[j-1]).compareTo(dest[j])>0; j--)
+                for(int j = i; j > low && ((Comparable)dest[j-1]).compareTo(dest[j])>0; j--)
                     swap(dest, j, j-1);
             return;
         }
@@ -1040,7 +1040,7 @@ public class Arrays {
     @IntrinsicCandidate
     public static <T,U> T[] copyOf(U[] original, int newLength, Class<? extends T[]> newType) {
         @SuppressWarnings("unchecked")
-        T[] copy = ((Object)newType == (Object)Object[].class) ? (T[]) new Object[newLength] : (T[]) Array.newInstance(newType.getComponentType(), newLength);
+        T[] copy = ((Object)newType == (Object)Object[].class) ? (T[])new Object[newLength] : (T[])Array.newInstance(newType.getComponentType(), newLength);
         System.arraycopy(original, 0, copy, 0, Math.min(original.length, newLength));
         return copy;
     }
@@ -1095,7 +1095,7 @@ public class Arrays {
 
     @SuppressWarnings("unchecked")
     public static <T> T[] copyOfRange(T[] original, int from, int to) {
-        return copyOfRange(original, from, to, (Class<? extends T[]>) original.getClass());
+        return copyOfRange(original, from, to, (Class<? extends T[]>)original.getClass());
     }
 
     @IntrinsicCandidate
@@ -1104,9 +1104,7 @@ public class Arrays {
         if(newLength < 0)
             throw new IllegalArgumentException(from + " > " + to);
         @SuppressWarnings("unchecked")
-        T[] copy = ((Object)newType == (Object)Object[].class)
-            ? (T[]) new Object[newLength]
-            : (T[]) Array.newInstance(newType.getComponentType(), newLength);
+        T[] copy = ((Object)newType == (Object)Object[].class) ? (T[])new Object[newLength] : (T[])Array.newInstance(newType.getComponentType(), newLength);
         System.arraycopy(original, from, copy, 0, Math.min(original.length - from, newLength));
         return copy;
     }
@@ -1228,7 +1226,7 @@ public class Arrays {
         public <T> T[] toArray(T[] a) {
             int size = size();
             if(a.length < size)
-                return Arrays.copyOf(this.a, size, (Class<? extends T[]>) a.getClass());
+                return Arrays.copyOf(this.a, size, (Class<? extends T[]>)a.getClass());
             System.arraycopy(this.a, 0, a, 0, size);
             if(a.length > size)
                 a[size] = null;
@@ -1421,7 +1419,7 @@ public class Arrays {
             else if((cl = element.getClass().getComponentType()) == null)
                 elementHash = element.hashCode();
             else if(element instanceof Object[])
-                elementHash = deepHashCode((Object[]) element);
+                elementHash = deepHashCode((Object[])element);
             else
                 elementHash = primitiveArrayHashCode(element, cl);
             result = 31 * result + elementHash;
@@ -1431,13 +1429,13 @@ public class Arrays {
 
     private static int primitiveArrayHashCode(Object a, Class<?> cl) {
         return
-            (cl == byte.class) ? hashCode((byte[]) a) :
-            (cl == int.class) ? hashCode((int[]) a) :
-            (cl == long.class) ? hashCode((long[]) a) :
-            (cl == char.class) ? hashCode((char[]) a) :
-            (cl == short.class) ? hashCode((short[]) a) :
-            (cl == boolean.class) ? hashCode((boolean[]) a) :
-            (cl == double.class) ? hashCode((double[]) a) :
+            (cl == byte.class) ? hashCode((byte[])a) :
+            (cl == int.class) ? hashCode((int[])a) :
+            (cl == long.class) ? hashCode((long[])a) :
+            (cl == char.class) ? hashCode((char[])a) :
+            (cl == short.class) ? hashCode((short[])a) :
+            (cl == boolean.class) ? hashCode((boolean[])a) :
+            (cl == double.class) ? hashCode((double[])a) :
             hashCode((float[])a);
     }
 
@@ -1661,21 +1659,21 @@ public class Arrays {
     //             Class<?> eClass = element.getClass();
     //             if(eClass.isArray()) {
     //                 if(eClass == byte[].class)
-    //                     buf.append(toString((byte[]) element));
+    //                     buf.append(toString((byte[])element));
     //                 else if(eClass == short[].class)
-    //                     buf.append(toString((short[]) element));
+    //                     buf.append(toString((short[])element));
     //                 else if(eClass == int[].class)
-    //                     buf.append(toString((int[]) element));
+    //                     buf.append(toString((int[])element));
     //                 else if(eClass == long[].class)
-    //                     buf.append(toString((long[]) element));
+    //                     buf.append(toString((long[])element));
     //                 else if(eClass == char[].class)
-    //                     buf.append(toString((char[]) element));
+    //                     buf.append(toString((char[])element));
     //                 else if(eClass == float[].class)
-    //                     buf.append(toString((float[]) element));
+    //                     buf.append(toString((float[])element));
     //                 else if(eClass == double[].class)
-    //                     buf.append(toString((double[]) element));
+    //                     buf.append(toString((double[])element));
     //                 else if(eClass == boolean[].class)
-    //                     buf.append(toString((boolean[]) element));
+    //                     buf.append(toString((boolean[])element));
     //                 else {
     //                     if(dejaVu.contains(element))
     //                         buf.append("[...]");

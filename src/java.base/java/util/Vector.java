@@ -186,7 +186,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
             System.arraycopy(elementData, index + 1, elementData, index, j);
         modCount++;
         elementCount--;
-        elementData[elementCount] = null; /* to let gc do its work */
+        elementData[elementCount] = null;
     }
 
     public synchronized void insertElementAt(E obj, int index) {
@@ -227,7 +227,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
     public synchronized Object clone() {
         try {
             @SuppressWarnings("unchecked")
-            Vector<E> v = (Vector<E>) super.clone();
+            Vector<E> v = (Vector<E>)super.clone();
             v.elementData = Arrays.copyOf(elementData, elementCount);
             v.modCount = 0;
             return v;
@@ -244,7 +244,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
     @SuppressWarnings("unchecked")
     public synchronized <T> T[] toArray(T[] a) {
         if(a.length < elementCount)
-            return (T[]) Arrays.copyOf(elementData, elementCount, a.getClass());
+            return (T[])Arrays.copyOf(elementData, elementCount, a.getClass());
         System.arraycopy(elementData, 0, a, 0, elementCount);
         if(a.length > elementCount)
             a[elementCount] = null;
@@ -253,12 +253,12 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
 
     @SuppressWarnings("unchecked")
     E elementData(int index) {
-        return (E) elementData[index];
+        return (E)elementData[index];
     }
 
     @SuppressWarnings("unchecked")
     static <E> E elementAt(Object[] es, int index) {
-        return (E) es[index];
+        return (E)es[index];
     }
 
     public synchronized E get(int index) {
@@ -606,7 +606,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
     @Override
     public synchronized void sort(Comparator<? super E> c) {
         final int expectedModCount = modCount;
-        Arrays.sort((E[]) elementData, 0, elementCount, c);
+        Arrays.sort((E[])elementData, 0, elementCount, c);
         if(modCount != expectedModCount)
             throw new ConcurrentModificationException();
         modCount++;
@@ -669,7 +669,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
             final Object[] a = array;
             int i;
             for(i = index, index = hi; i < hi; i++)
-                action.accept((E) a[i]);
+                action.accept((E)a[i]);
             if(modCount != expectedModCount)
                 throw new ConcurrentModificationException();
         }

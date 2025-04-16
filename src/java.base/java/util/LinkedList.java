@@ -212,7 +212,8 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
         }
 
         for(Object o : a) {
-            @SuppressWarnings("unchecked") E e = (E) o;
+            @SuppressWarnings("unchecked")
+            E e = (E)o;
             Node<E> newNode = new Node<>(pred, e, null);
             if(pred == null)
                 first = newNode;
@@ -568,8 +569,9 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
     @SuppressWarnings("unchecked")
     private LinkedList<E> superClone() {
         try {
-            return (LinkedList<E>) super.clone();
-        } catch (CloneNotSupportedException e) {
+            return (LinkedList<E>)super.clone();
+        }
+        catch (CloneNotSupportedException e) {
             throw new InternalError(e);
         }
     }
@@ -677,7 +679,9 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
             return s;
         }
 
-        public long estimateSize() { return (long) getEst(); }
+        public long estimateSize() {
+            return (long)getEst();
+        }
 
         public Spliterator<E> trySplit() {
             Node<E> p;
@@ -690,7 +694,9 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
                     n = MAX_BATCH;
                 Object[] a = new Object[n];
                 int j = 0;
-                do { a[j++] = p.item; } while((p = p.next) != null && j < n);
+                do {
+                    a[j++] = p.item;
+                } while((p = p.next) != null && j < n);
                 current = p;
                 batch = j;
                 est = s - j;

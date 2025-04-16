@@ -15,13 +15,12 @@ class ReverseOrderListView<E> implements List<E> {
     final boolean modifiable;
 
     public static <T> List<T> of(List<T> list, boolean modifiable) {
-        if (list instanceof ReverseOrderListView<T> rolv) {
+        if (list instanceof ReverseOrderListView<T> rolv)
             return rolv.base;
-        } else if (list instanceof RandomAccess) {
+        else if (list instanceof RandomAccess)
             return new ReverseOrderListView.Rand<>(list, modifiable);
-        } else {
+        else
             return new ReverseOrderListView<>(list, modifiable);
-        }
     }
 
     static class Rand<E> extends ReverseOrderListView<E> implements RandomAccess {
@@ -125,10 +124,10 @@ class ReverseOrderListView<E> implements List<E> {
         checkModifiable();
 
         @SuppressWarnings("unchecked")
-        E[] adds = (E[]) c.toArray();
-        if (adds.length == 0) {
+        E[] adds = (E[])c.toArray();
+        if (adds.length == 0)
             return false;
-        } else {
+        else {
             base.addAll(0, Arrays.asList(ArraysSupport.reverse(adds)));
             return true;
         }
@@ -154,7 +153,7 @@ class ReverseOrderListView<E> implements List<E> {
             return false;
 
         ListIterator<E> e1 = listIterator();
-        ListIterator<?> e2 = ((List<?>) o).listIterator();
+        ListIterator<?> e2 = ((List<?>)o).listIterator();
         while (e1.hasNext() && e2.hasNext()) {
             E o1 = e1.next();
             Object o2 = e2.next();
@@ -185,7 +184,8 @@ class ReverseOrderListView<E> implements List<E> {
                     return true;
                 }
             }
-        } else {
+        }
+        else {
             while (it.hasNext()) {
                 if (o.equals(it.next())) {
                     it.remove();
@@ -279,10 +279,10 @@ class ReverseOrderListView<E> implements List<E> {
         int size = base.size();
         checkClosedRange(index, size);
         @SuppressWarnings("unchecked")
-        E[] adds = (E[]) c.toArray();
-        if (adds.length == 0) {
+        E[] adds = (E[])c.toArray();
+        if (adds.length == 0)
             return false;
-        } else {
+        else {
             base.addAll(size - index, Arrays.asList(ArraysSupport.reverse(adds)));
             return true;
         }

@@ -145,20 +145,16 @@ public interface Map<K, V> {
 
     default boolean remove(Object key, Object value) {
         Object curValue = get(key);
-        if(!Objects.equals(curValue, value) ||
-            (curValue == null && !containsKey(key))) {
+        if(!Objects.equals(curValue, value) || (curValue == null && !containsKey(key)))
             return false;
-        }
         remove(key);
         return true;
     }
 
     default boolean replace(K key, V oldValue, V newValue) {
         Object curValue = get(key);
-        if(!Objects.equals(curValue, oldValue) ||
-            (curValue == null && !containsKey(key))) {
+        if(!Objects.equals(curValue, oldValue) || (curValue == null && !containsKey(key)))
             return false;
-        }
         put(key, newValue);
         return true;
     }
@@ -184,8 +180,7 @@ public interface Map<K, V> {
         return v;
     }
 
-    default V computeIfPresent(K key,
-            BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+    default V computeIfPresent(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
         Objects.requireNonNull(remappingFunction);
         V oldValue;
         if((oldValue = get(key)) != null) {
