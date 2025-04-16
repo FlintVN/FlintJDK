@@ -5,6 +5,8 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public interface Map<K, V> {
+    int size();
+
     boolean isEmpty();
 
     boolean containsKey(Object key);
@@ -80,7 +82,7 @@ public interface Map<K, V> {
         public static <K, V> Map.Entry<K, V> copyOf(Map.Entry<? extends K, ? extends V> e) {
             Objects.requireNonNull(e);
             if(e instanceof KeyValueHolder)
-                return (Map.Entry<K, V>) e;
+                return (Map.Entry<K, V>)e;
             else
                 return Map.entry(e.getKey(), e.getValue());
         }
@@ -232,7 +234,7 @@ public interface Map<K, V> {
     // TODO
     // @SuppressWarnings("unchecked")
     // static <K, V> Map<K, V> of() {
-    //     return (Map<K,V>) ImmutableCollections.EMPTY_MAP;
+    //     return (Map<K,V>)ImmutableCollections.EMPTY_MAP;
     // }
 
     // TODO
@@ -291,7 +293,7 @@ public interface Map<K, V> {
     // static <K, V> Map<K, V> ofEntries(Entry<? extends K, ? extends V>... entries) {
     //     if(entries.length == 0) {
     //         @SuppressWarnings("unchecked")
-    //         var map = (Map<K,V>) ImmutableCollections.EMPTY_MAP;
+    //         var map = (Map<K,V>)ImmutableCollections.EMPTY_MAP;
     //         return map;
     //     }
     //     else if(entries.length == 1)
