@@ -120,7 +120,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
     public synchronized int indexOf(Object o, int index) {
         if(o == null) {
             for(int i = index ; i < elementCount ; i++)
-                if(elementData[i]==null)
+                if(elementData[i] == null)
                     return i;
         }
         else {
@@ -141,7 +141,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
 
         if(o == null) {
             for(int i = index; i >= 0; i--)
-                if(elementData[i]==null)
+                if(elementData[i] == null)
                     return i;
         }
         else {

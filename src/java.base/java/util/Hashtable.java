@@ -23,7 +23,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
         if(loadFactor <= 0 || Float.isNaN(loadFactor))
             throw new IllegalArgumentException("Illegal Load: " + loadFactor);
 
-        if(initialCapacity==0)
+        if(initialCapacity == 0)
             initialCapacity = 1;
         this.loadFactor = loadFactor;
         table = new Entry<?,?>[initialCapacity];
@@ -303,7 +303,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
     }
 
     public Set<Map.Entry<K,V>> entrySet() {
-        if(entrySet==null)
+        if(entrySet == null)
             entrySet = Collections.synchronizedSet(new EntrySet(), this);
         return entrySet;
     }
@@ -326,7 +326,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
             int index = (hash & 0x7FFFFFFF) % tab.length;
 
             for (Entry<?,?> e = tab[index]; e != null; e = e.next)
-                if(e.hash==hash && e.equals(entry))
+                if(e.hash == hash && e.equals(entry))
                     return true;
             return false;
         }
@@ -342,7 +342,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
             @SuppressWarnings("unchecked")
             Entry<K,V> e = (Entry<K,V>)tab[index];
             for(Entry<K,V> prev = null; e != null; prev = e, e = e.next) {
-                if(e.hash==hash && e.equals(entry)) {
+                if(e.hash == hash && e.equals(entry)) {
                     if(prev != null)
                         prev.next = e.next;
                     else
@@ -367,7 +367,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
     }
 
     public Collection<V> values() {
-        if(values==null)
+        if(values == null)
             values = Collections.synchronizedCollection(new ValueCollection(), this);
         return values;
     }
@@ -831,7 +831,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
 
         @SuppressWarnings("unchecked")
         protected Object clone() {
-            return new Entry<>(hash, key, value, (next==null ? null : (Entry<K,V>) next.clone()));
+            return new Entry<>(hash, key, value, (next == null ? null : (Entry<K,V>) next.clone()));
         }
 
         public K getKey() {
@@ -855,7 +855,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
             if(!(o instanceof Map.Entry<?, ?> e))
                 return false;
 
-            return (key==null ? e.getKey()==null : key.equals(e.getKey())) && (value==null ? e.getValue()==null : value.equals(e.getValue()));
+            return (key == null ? e.getKey() == null : key.equals(e.getKey())) && (value == null ? e.getValue() == null : value.equals(e.getValue()));
         }
 
         public int hashCode() {

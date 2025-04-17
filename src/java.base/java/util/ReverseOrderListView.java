@@ -157,7 +157,7 @@ class ReverseOrderListView<E> implements List<E> {
         while (e1.hasNext() && e2.hasNext()) {
             E o1 = e1.next();
             Object o2 = e2.next();
-            if (!(o1==null ? o2==null : o1.equals(o2)))
+            if (!(o1 == null ? o2 == null : o1.equals(o2)))
                 return false;
         }
         return !(e1.hasNext() || e2.hasNext());
@@ -166,7 +166,7 @@ class ReverseOrderListView<E> implements List<E> {
     public int hashCode() {
         int hashCode = 1;
         for (E e : this)
-            hashCode = 31*hashCode + (e==null ? 0 : e.hashCode());
+            hashCode = 31*hashCode + (e == null ? 0 : e.hashCode());
         return hashCode;
     }
 
@@ -177,9 +177,9 @@ class ReverseOrderListView<E> implements List<E> {
     public boolean remove(Object o) {
         checkModifiable();
         Iterator<E> it = iterator();
-        if (o==null) {
+        if (o == null) {
             while (it.hasNext()) {
-                if (it.next()==null) {
+                if (it.next() == null) {
                     it.remove();
                     return true;
                 }

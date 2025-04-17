@@ -1927,9 +1927,7 @@ public class Collections {
         }
     }
 
-    static class SynchronizedRandomAccessList<E>
-        extends SynchronizedList<E>
-        implements RandomAccess {
+    static class SynchronizedRandomAccessList<E> extends SynchronizedList<E> implements RandomAccess {
 
         SynchronizedRandomAccessList(List<E> list) {
             super(list);
