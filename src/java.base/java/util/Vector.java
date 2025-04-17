@@ -439,9 +439,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
     }
 
     public synchronized List<E> subList(int fromIndex, int toIndex) {
-        // TODO
-        // return Collections.synchronizedList(super.subList(fromIndex, toIndex), this);
-        throw new UnsupportedOperationException();
+        return Collections.synchronizedList(super.subList(fromIndex, toIndex), this);
     }
 
     protected synchronized void removeRange(int fromIndex, int toIndex) {
