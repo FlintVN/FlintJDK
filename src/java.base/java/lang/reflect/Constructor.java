@@ -46,10 +46,7 @@ public final class Constructor<T> extends Executable {
 
     @Override
     public Type[] getGenericParameterTypes() {
-        Type[] types = new Type[parameterTypes.length];
-        for(int i = 0; i < types.length; i++)
-            types[i] = parameterTypes[i];
-        return types;
+        return super.getGenericParameterTypes();
     }
 
     @Override
