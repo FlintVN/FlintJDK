@@ -332,10 +332,8 @@ class ReverseOrderListView<E> implements List<E> {
     }
 
     public void sort(Comparator<? super E> c) {
-        // TODO
-        // checkModifiable();
-        // base.sort(Collections.reverseOrder(c));
-        throw new UnsupportedOperationException();
+        checkModifiable();
+        base.sort(Collections.reverseOrder(c));
     }
 
     public E set(int index, E element) {
