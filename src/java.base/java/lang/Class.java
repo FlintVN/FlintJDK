@@ -90,6 +90,11 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
 
     private native Class<?>[] getInterfaces0();
 
+    public Type[] getGenericInterfaces() {
+        // TODO
+        return getInterfaces();
+    }
+
     public native Class<?> getComponentType();
 
     private Class<?> elementType() {
