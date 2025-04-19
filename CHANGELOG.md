@@ -1,4 +1,15 @@
 # Change Log
+## V0.0.7
+- Support following classes:
+  - java.util.Collections.
+  - java.util.TreeMap.
+  - java.util.TreeSet.
+  - java.util.Hashtable.
+  - java.util.HashMap.
+  - java.util.LinkedHashMap.
+- Implement Comparator.reversed and Comparator.reverseOrder methods.
+- Implement ReverseOrderListView.sort method.
+- Implement Vector.subList method.
 ## V0.0.6
 - Implement the following functions for java.util.Arrays:
   - Arrays.sort.
