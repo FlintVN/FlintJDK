@@ -2,25 +2,26 @@
 MODULE_NAME         :=  java.base
 JC                  :=  javac
 MODULE_SOURCE_PATH  :=  src
-OUTPUT_DIR          :=  bin
+OUTPUT_DIR          ?=  bin
 
-OPT                 :=  -g
+RUN_OPT             :=  
+DEV_OPT             :=  -g
 JFLAGS              :=  -Xlint:all -XDstringConcat=inline --system=none -encoding UTF-8
 
-GREEN               :=  \033[0;32m
-CYAN                :=  \033[0;36m
-RESET               :=  \033[0m
+all: run jar
 
-all: jar
+run: Makefile
+	@echo Compiling $(MODULE_NAME) for runtime mode
+	@$(JC) $(RUN_OPT) $(JFLAGS) -d $(OUTPUT_DIR)/run --module $(MODULE_NAME) --module-source-path $(MODULE_SOURCE_PATH)
 
-$(MODULE_NAME): Makefile
-	@echo -e "$(CYAN)Compiling$(RESET)" $@
-	@$(JC) $(OPT) $(JFLAGS) -d $(OUTPUT_DIR) --module $@ --module-source-path $(MODULE_SOURCE_PATH)
+dev: Makefile
+	@echo Compiling $(MODULE_NAME) for development mode
+	@$(JC) $(DEV_OPT) $(JFLAGS) -d $(OUTPUT_DIR)/dev --module $(MODULE_NAME) --module-source-path $(MODULE_SOURCE_PATH)
 
-jar: $(MODULE_NAME) META-INF/MANIFEST.MF Makefile
-	@jar --create --file $(OUTPUT_DIR)/$(MODULE_NAME).jar --manifest META-INF/MANIFEST.MF -C $(OUTPUT_DIR)/$(MODULE_NAME) "."
-	@echo -e "$(GREEN)Created$(RESET)" $(MODULE_NAME).jar
+jar: dev META-INF/MANIFEST.MF Makefile
+	@jar --create --file $(OUTPUT_DIR)/dev/$(MODULE_NAME).jar --manifest META-INF/MANIFEST.MF -C $(OUTPUT_DIR)/dev/$(MODULE_NAME) "."
+	@echo Created $(OUTPUT_DIR)/dev/$(MODULE_NAME).jar
 
 clean:
 	@rm -rf $(OUTPUT_DIR)
-	@echo -e "$(GREEN)Clean complete$(RESET)"
+	@echo Clean complete
