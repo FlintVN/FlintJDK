@@ -19,8 +19,9 @@ dev: Makefile
 	@$(JC) $(DEV_OPT) $(JFLAGS) -d $(OUTPUT_DIR)/dev --module $(MODULE_NAME) --module-source-path $(MODULE_SOURCE_PATH)
 
 jar: dev META-INF/MANIFEST.MF Makefile
+	@echo Creating $(OUTPUT_DIR)/dev/$(MODULE_NAME).jar
+	@cp -r $(MODULE_SOURCE_PATH)/* $(OUTPUT_DIR)/dev/$(MODULE_NAME)/src
 	@jar --create --file $(OUTPUT_DIR)/dev/$(MODULE_NAME).jar --manifest META-INF/MANIFEST.MF -C $(OUTPUT_DIR)/dev/$(MODULE_NAME) "."
-	@echo Created $(OUTPUT_DIR)/dev/$(MODULE_NAME).jar
 
 clean:
 	@rm -rf $(OUTPUT_DIR)
