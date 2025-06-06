@@ -17,9 +17,19 @@
             "options": {
                 "cwd": "${workspaceFolder}",
             },
-            "problemMatcher": [
-                "$gcc"
-            ],
+            "problemMatcher": {
+                "owner": "java",
+                "fileLocation": ["relative", "${workspaceFolder}"],
+                "pattern": [
+                    {
+                        "regexp": "^(.*\\.java):(\\d+):\\s(error|warning):\\s(.*)$",
+                        "file": 1,
+                        "line": 2,
+                        "severity": 3,
+                        "message": 4
+                    }
+                ]
+            },
             "group": {
                 "kind": "build",
                 "isDefault": true
