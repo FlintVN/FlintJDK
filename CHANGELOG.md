@@ -1,4 +1,7 @@
 # Change Log
+## V0.0.8
+- Support creating jar files including java source.
+- Update flint.machine package.
 ## V0.0.7
 - Support following classes:
   - java.util.Collections.
