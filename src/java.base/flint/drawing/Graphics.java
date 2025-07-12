@@ -11,11 +11,10 @@ public class Graphics {
     private int clipWidth;
     private int clipHeight;
 
-    private static final int COLOR_MODE_RGB444 = 0;
-    private static final int COLOR_MODE_RGB555 = 1;
-    private static final int COLOR_MODE_RGB565 = 2;
-    private static final int COLOR_MODE_BGR565 = 3;
-    private static final int COLOR_MODE_RGB888 = 4;
+    private static final int COLOR_MODE_RGB555 = 0;
+    private static final int COLOR_MODE_RGB565 = 1;
+    private static final int COLOR_MODE_BGR565 = 2;
+    private static final int COLOR_MODE_RGB888 = 3;
 
     public Graphics(int x, int y, int width, int height) {
         this(x, y, width, height, ColorMode.BGR565);
@@ -23,7 +22,6 @@ public class Graphics {
 
     public Graphics(int x, int y, int width, int height, ColorMode colorMode) {
         this.colorMode = switch(colorMode) {
-            case RGB444 -> COLOR_MODE_RGB444;
             case RGB555 -> COLOR_MODE_RGB555;
             case RGB565 -> COLOR_MODE_RGB565;
             case BGR565 -> COLOR_MODE_BGR565;
