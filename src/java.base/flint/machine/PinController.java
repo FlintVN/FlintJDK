@@ -16,4 +16,8 @@ public abstract class PinController {
     public void reset() {
         write(false);
     }
+
+    public void toggle() {
+        write(!read());
+    }
 }
