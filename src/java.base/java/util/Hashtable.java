@@ -643,14 +643,14 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
                 if(newValue == null) {
                     if(prev != null) {
                         prev.next = e.next;
-                    } else {
-                        tab[index] = e.next;
                     }
+                    else
+                        tab[index] = e.next;
                     modCount = mc + 1;
                     count--;
-                } else {
-                    e.value = newValue;
                 }
+                else
+                    e.value = newValue;
                 return newValue;
             }
         }

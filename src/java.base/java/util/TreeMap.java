@@ -356,7 +356,8 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
                 else
                     return remapValue(t, key, remappingFunction);
             } while(t != null);
-        } else {
+        }
+        else {
             Objects.requireNonNull(key);
             @SuppressWarnings("unchecked")
             Comparable<? super K> k = (Comparable<? super K>) key;

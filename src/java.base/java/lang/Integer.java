@@ -62,7 +62,9 @@ public final class Integer extends Number implements Comparable<Integer> {
 
     private static String toUnsignedString0(int val, int shift) {
         int mag = Integer.SIZE - Integer.numberOfLeadingZeros(val);
-        int chars = Math.max(((mag + (shift - 1)) / shift), 1);
+        int chars = (mag + (shift - 1)) / shift;
+        if(chars < 1)
+            chars = 1;
         byte[] buf = new byte[chars];
         formatUnsignedInt(val, shift, buf, chars);
         return new String(buf, (byte)0);
@@ -490,10 +492,10 @@ public final class Integer extends Number implements Comparable<Integer> {
     }
 
     public static int max(int a, int b) {
-        return Math.max(a, b);
+        return (a > b) ? a : b;
     }
 
     public static int min(int a, int b) {
-        return Math.min(a, b);
+        return (a < b) ? a : b;
     }
 }

@@ -87,7 +87,9 @@ public final class Long extends Number implements Comparable<Long> {
 
     static String toUnsignedString0(long val, int shift) {
         int mag = Long.SIZE - Long.numberOfLeadingZeros(val);
-        int chars = Math.max(((mag + (shift - 1)) / shift), 1);
+        int chars = (mag + (shift - 1)) / shift;
+        if(chars < 1)
+            chars = 1;
         byte[] buf = new byte[chars];
         formatUnsignedLong0(val, shift, buf, 0, chars);
         return new String(buf, (byte)0);
@@ -547,10 +549,10 @@ public final class Long extends Number implements Comparable<Long> {
     }
 
     public static long max(long a, long b) {
-        return Math.max(a, b);
+        return (a > b) ? a : b;
     }
 
     public static long min(long a, long b) {
-        return Math.min(a, b);
+        return (a < b) ? a : b;
     }
 }
