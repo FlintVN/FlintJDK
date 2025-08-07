@@ -13,7 +13,11 @@ public abstract class Number {
 
     public abstract double doubleValue();
 
-    public abstract byte byteValue();
+    public byte byteValue() {
+        return (byte)intValue();
+    }
 
-    public abstract short shortValue();
+    public short shortValue() {
+        return (short)intValue();
+    }
 }
