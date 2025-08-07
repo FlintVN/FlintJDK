@@ -50,7 +50,7 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
     }
 
     public void setCharAt(int index, char ch) {
-        if(index >= count)
+        if(index < 0 || index >= count)
             throw new StringIndexOutOfBoundsException("Index " + index + " out of bounds for length " + count);
         if((coder == String.LATIN1) && (ch < 256))
             value[index] = (byte)ch;
@@ -320,6 +320,46 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
         return StringUTF16.charAt(value, index);
     }
 
+    public AbstractStringBuilder delete(int start, int end) {
+        int count = this.count;
+        if(end > count)
+            end = count;
+        if(start < 0 || start > end || end > count)
+            throw new StringIndexOutOfBoundsException("Index out of bounds");
+        int len = end - start;
+        if(len > 0) {
+            shift(end, -len);
+            this.count = count - len;
+            maybeLatin1 = true;
+        }
+        return this;
+    }
+
+    public AbstractStringBuilder deleteCharAt(int index) {
+        if(index < 0 || index >= count)
+            throw new StringIndexOutOfBoundsException("Index " + index + " out of bounds for length " + count);
+        shift(index + 1, -1);
+        count--;
+        maybeLatin1 = true;
+        return this;
+    }
+
+    public AbstractStringBuilder replace(int start, int end, String str) {
+        int count = this.count;
+        if(end > count)
+            end = count;
+        if(start < 0 || start > end || end > count)
+            throw new StringIndexOutOfBoundsException("Index out of bounds");
+        int len = str.length();
+        int newCount = count + len - (end - start);
+        ensureCapacityInternal(newCount);
+        shift(end, newCount - count);
+        this.count = newCount;
+        putStringAt(start, str);
+        maybeLatin1 = true;
+        return this;
+    }
+
     public String substring(int start) {
         return substring(start, count);
     }
@@ -336,13 +376,11 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
                 val = val.clone();
             return new String(val, start, end - start, (byte)0);
         }
-        boolean isLatin1 = true;
-        for(int i = start; i < end; i++) {
+        boolean isLatin1 = maybeLatin1;
+        for(int i = start; i < end && isLatin1; i++) {
             int index = i << 1;
-            if(val[index + 1] != 0) {
+            if(val[index + 1] != 0)
                 isLatin1 = false;
-                break;
-            }
         }
         if(isLatin1) {
             byte[] buff = new byte[end - count];
@@ -353,6 +391,10 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
         if((start == 0) && (end == val.length))
             val = val.clone();
         return new String(val, start << 1, (end - start) << 1, (byte)1);
+    }
+
+    private void shift(int offset, int n) {
+        System.arraycopy(value, offset << coder, value, (offset + n) << coder, (count - offset) << coder);
     }
 
     public int indexOf(String str) {
@@ -369,6 +411,52 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
 
     @Override
     public abstract String toString();
+
+    private final void putCharsAt(int index, char[] s, int off, int end) {
+        byte[] val = this.value;
+        int i = off, j = index;
+        if(coder == String.LATIN1) {
+            for(; i < end; i++) {
+                char c = s[i];
+                if(c >= 256) {
+                    inflate();
+                    break;
+                }
+                val[j++] = (byte)c;
+            }
+        }
+        for(; i < end; i++)
+            StringUTF16.putChar(val, j++, s[i]);
+    }
+
+    private final void putCharsAt(int index, CharSequence s, int off, int end) {
+        byte[] val = this.value;
+        int i = off, j = index;
+        if(coder == String.LATIN1) {
+            for(; i < end; i++) {
+                char c = s.charAt(i);
+                if(c >= 256) {
+                    inflate();
+                    break;
+                }
+                val[j++] = (byte)c;
+            }
+        }
+        for(; i < end; i++)
+            StringUTF16.putChar(val, j++, s.charAt(i));
+    }
+
+    private void putStringAt(int index, String str, int off, int end) {
+        if(coder != str.coder())
+            inflate();
+        str.getBytes(value, off, index, coder, end - off);
+    }
+
+    private void putStringAt(int index, String str) {
+        if(coder != str.coder())
+            inflate();
+        str.getBytes(value, index, coder);
+    }
 
     public int capacity() {
         return value.length >> coder;
