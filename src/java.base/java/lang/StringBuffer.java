@@ -240,6 +240,13 @@ public final class StringBuffer extends AbstractStringBuilder implements Compara
     }
 
     @Override
+    public synchronized StringBuffer repeat(CharSequence cs, int count) {
+        toStringCache = null;
+        super.repeat(cs, count);
+        return this;
+    }
+
+    @Override
     public StringBuffer insert(int offset, double d) {
         super.insert(offset, d);
         return this;

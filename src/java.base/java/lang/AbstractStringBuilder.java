@@ -488,6 +488,22 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
         return insert(offset, String.valueOf(d));
     }
 
+    public AbstractStringBuilder repeat(CharSequence cs, int count) {
+        if(count < 0)
+            throw new IllegalArgumentException("count is negative: " + count);
+        int length = cs != null ? cs.length() : 4;
+        if(length == 0)
+            return this;
+        int valueLength = length << coder;
+        if((valueLength * count) > (Integer.MAX_VALUE - this.count))
+            throw new OutOfMemoryError("Required length exceeds implementation limit");
+        while(count > 0) {
+            append(cs);
+            count--;
+        }
+        return this;
+    }
+
     public int indexOf(String str) {
         if(coder == String.LATIN1)
             return StringLatin1.indexOf(value, str.value(), 0);

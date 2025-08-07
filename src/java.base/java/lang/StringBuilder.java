@@ -186,6 +186,12 @@ public final class StringBuilder extends AbstractStringBuilder implements Compar
     }
 
     @Override
+    public StringBuilder repeat(CharSequence cs, int count) {
+        super.repeat(cs, count);
+        return this;
+    }
+
+    @Override
     public int compareTo(StringBuilder another) {
         return super.compareTo(another);
     }
