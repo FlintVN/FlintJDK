@@ -331,16 +331,33 @@ public final class String implements Comparable<String>, CharSequence {
     }
 
     void getBytes(byte[] dst, int dstBegin, byte coder) {
-        dstBegin <<= coder;
-        if(coder() == coder)
-            System.arraycopy(value, 0, dst, dstBegin, value.length);
+        if(this.coder == coder)
+            System.arraycopy(value, 0, dst, dstBegin << coder, value.length);
         else {
             int len = value.length;
-            if((dstBegin < 0) || ((dstBegin + (len << coder)) > dst.length))
-                throw new IndexOutOfBoundsException();
+            if(dstBegin < 0 || ((dstBegin + len) << coder) > dst.length)
+                throw new StringIndexOutOfBoundsException("Index out of bounds");
+            dstBegin <<= coder;
             byte[] val = value;
             for(int i = 0; i < len; i++) {
                 dst[dstBegin++] = val[i];
+                dst[dstBegin++] = 0;
+            }
+        }
+    }
+
+    void getBytes(byte[] dst, int srcPos, int dstBegin, byte coder, int length) {
+        if(this.coder == coder)
+            System.arraycopy(value, srcPos << coder, dst, dstBegin << coder, length << coder);
+        else {
+            if(srcPos < 0 || srcPos >= length)
+                throw new StringIndexOutOfBoundsException("Index " + srcPos + " out of bounds for length " + length);
+            if((dstBegin < 0) || ((dstBegin + (length << coder)) > dst.length))
+                throw new StringIndexOutOfBoundsException("Index out of bounds");
+            dstBegin <<= coder;
+            byte[] val = value;
+            for(int i = 0; i < length; i++) {
+                dst[dstBegin++] = val[i + srcPos];
                 dst[dstBegin++] = 0;
             }
         }
