@@ -49,10 +49,19 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
         append(seq);
     }
 
+    private final void checkIndex(int index, int length) {
+        if(index < 0 || index > length)
+            throw new StringIndexOutOfBoundsException("Index " + index + " out of bounds for length " + length);
+    }
+
+    private final void checkFromToIndex(int formIndex, int toIndex, int length) {
+        if(formIndex < 0 || formIndex > toIndex || toIndex > length)
+            throw new StringIndexOutOfBoundsException("Index out of bounds");
+    }
+
     public void setCharAt(int index, char ch) {
-        if(index < 0 || index >= count)
-            throw new StringIndexOutOfBoundsException("Index " + index + " out of bounds for length " + count);
-        if((coder == String.LATIN1) && (ch < 256))
+        checkIndex(index, count);
+        if(coder == String.LATIN1 && ch < 256)
             value[index] = (byte)ch;
         else {
             inflate();
@@ -324,8 +333,7 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
         int count = this.count;
         if(end > count)
             end = count;
-        if(start < 0 || start > end || end > count)
-            throw new StringIndexOutOfBoundsException("Index out of bounds");
+        checkFromToIndex(start, end, count);
         int len = end - start;
         if(len > 0) {
             shift(end, -len);
@@ -336,8 +344,7 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
     }
 
     public AbstractStringBuilder deleteCharAt(int index) {
-        if(index < 0 || index >= count)
-            throw new StringIndexOutOfBoundsException("Index " + index + " out of bounds for length " + count);
+        checkIndex(index, count);
         shift(index + 1, -1);
         count--;
         maybeLatin1 = true;
@@ -348,8 +355,7 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
         int count = this.count;
         if(end > count)
             end = count;
-        if(start < 0 || start > end || end > count)
-            throw new StringIndexOutOfBoundsException("Index out of bounds");
+        checkFromToIndex(start, end, count);
         int len = str.length();
         int newCount = count + len - (end - start);
         ensureCapacityInternal(newCount);
@@ -395,6 +401,98 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
 
     private void shift(int offset, int n) {
         System.arraycopy(value, offset << coder, value, (offset + n) << coder, (count - offset) << coder);
+    }
+
+    public AbstractStringBuilder insert(int index, char[] str, int offset, int len) {
+        checkIndex(index, count);
+        checkFromToIndex(offset, offset + len, str.length);
+        ensureCapacityInternal(count + len);
+        shift(index, len);
+        count += len;
+        putCharsAt(index, str, offset, offset + len);
+        return this;
+    }
+
+    public AbstractStringBuilder insert(int offset, Object obj) {
+        return insert(offset, String.valueOf(obj));
+    }
+
+    public AbstractStringBuilder insert(int offset, String str) {
+        checkIndex(offset, count);
+        if(str == null)
+            str = "null";
+        int len = str.length();
+        ensureCapacityInternal(count + len);
+        shift(offset, len);
+        count += len;
+        putStringAt(offset, str);
+        return this;
+    }
+
+    public AbstractStringBuilder insert(int offset, char[] str) {
+        checkIndex(offset, count);
+        int len = str.length;
+        ensureCapacityInternal(count + len);
+        shift(offset, len);
+        count += len;
+        putCharsAt(offset, str, 0, len);
+        return this;
+    }
+
+    public AbstractStringBuilder insert(int dstOffset, CharSequence s) {
+        if(s == null)
+            s = "null";
+        return this.insert(dstOffset, s, 0, s.length());
+    }
+
+    public AbstractStringBuilder insert(int dstOffset, CharSequence s, int start, int end) {
+        if(s == null)
+            s = "null";
+        checkIndex(dstOffset, count);
+        checkFromToIndex(start, end, s.length());
+        int len = end - start;
+        ensureCapacityInternal(count + len);
+        shift(dstOffset, len);
+        count += len;
+        if(s instanceof String)
+            putStringAt(dstOffset, (String)s, start, end);
+        else
+            putCharsAt(dstOffset, s, start, end);
+        return this;
+    }
+
+    public AbstractStringBuilder insert(int offset, boolean b) {
+        return insert(offset, String.valueOf(b));
+    }
+
+    public AbstractStringBuilder insert(int offset, char c) {
+        checkIndex(offset, count);
+        ensureCapacityInternal(count + 1);
+        shift(offset, 1);
+        count += 1;
+        if(coder == String.LATIN1 && c < 256)
+            value[offset] = (byte)c;
+        else {
+            inflate();
+            StringUTF16.putChar(value, offset, c);
+        }
+        return this;
+    }
+
+    public AbstractStringBuilder insert(int offset, int i) {
+        return insert(offset, String.valueOf(i));
+    }
+
+    public AbstractStringBuilder insert(int offset, long l) {
+        return insert(offset, String.valueOf(l));
+    }
+
+    public AbstractStringBuilder insert(int offset, float f) {
+        return insert(offset, String.valueOf(f));
+    }
+
+    public AbstractStringBuilder insert(int offset, double d) {
+        return insert(offset, String.valueOf(d));
     }
 
     public int indexOf(String str) {
