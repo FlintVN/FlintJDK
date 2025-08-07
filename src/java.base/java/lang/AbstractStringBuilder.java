@@ -73,13 +73,6 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
         }
     }
 
-    public AbstractStringBuilder clear() {
-        maybeLatin1 = false;
-        coder = String.LATIN1;
-        count = 0;
-        return this;
-    }
-
     public AbstractStringBuilder append(Object obj) {
         return append(String.valueOf(obj));
     }

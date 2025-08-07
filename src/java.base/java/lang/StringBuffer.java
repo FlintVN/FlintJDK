@@ -1,6 +1,8 @@
 package java.lang;
 
 public final class StringBuffer extends AbstractStringBuilder implements Comparable<StringBuilder>, CharSequence {
+    private transient String toStringCache;
+
     public StringBuffer() {
         super(16);
     }
@@ -19,90 +21,119 @@ public final class StringBuffer extends AbstractStringBuilder implements Compara
 
     @Override
     public synchronized void setCharAt(int index, char ch) {
+        toStringCache = null;
         super.setCharAt(index, ch);
     }
 
     @Override
-    public synchronized StringBuffer clear() {
-        super.clear();
-        return this;
-    }
-
-    @Override
     public synchronized StringBuffer append(Object obj) {
+        toStringCache = null;
         super.append(String.valueOf(obj));
         return this;
     }
 
     @Override
     public synchronized StringBuffer append(String str) {
+        toStringCache = null;
         super.append(str, 0, str.length());
         return this;
     }
 
     @Override
     public synchronized StringBuffer append(StringBuffer sb) {
+        toStringCache = null;
         super.append(sb, 0, sb.length());
         return this;
     }
 
     @Override
     public synchronized StringBuffer append(CharSequence s) {
+        toStringCache = null;
         super.append(s);
         return this;
     }
 
     @Override
     public synchronized StringBuffer append(CharSequence s, int start, int end) {
+        toStringCache = null;
         super.append(s, start, end);
         return this;
     }
 
     @Override
     public synchronized StringBuffer append(char[] str) {
+        toStringCache = null;
         super.append(str, 0, str.length);
         return this;
     }
 
     @Override
     public synchronized StringBuffer append(char[] str, int offset, int len) {
+        toStringCache = null;
         super.append(str, offset, len);
         return this;
     }
 
     @Override
     public synchronized StringBuffer append(boolean b) {
+        toStringCache = null;
         super.append(String.valueOf(b));
         return this;
     }
 
     @Override
     public synchronized StringBuffer append(char c) {
+        toStringCache = null;
         super.append(c);
         return this;
     }
 
     @Override
     public synchronized StringBuffer append(int i) {
+        toStringCache = null;
         super.append(String.valueOf(i));
         return this;
     }
 
     @Override
     public synchronized StringBuffer append(long l) {
+        toStringCache = null;
         super.append(String.valueOf(l));
         return this;
     }
 
     @Override
     public synchronized StringBuffer append(float f) {
+        toStringCache = null;
         super.append(f);
         return this;
     }
 
     @Override
     public synchronized StringBuffer append(double d) {
+        toStringCache = null;
         super.append(d);
+        return this;
+    }
+
+    @Override
+    public synchronized StringBuffer delete(int start, int end) {
+        toStringCache = null;
+        super.delete(start, end);
+        return this;
+    }
+
+    @Override
+    public synchronized StringBuffer deleteCharAt(int index) {
+        toStringCache = null;
+        super.deleteCharAt(index);
+        return this;
+    }
+
+    @Override
+    public synchronized StringBuffer replace(int start, int end, String str) {
+        toStringCache = null;
+        super.replace(start, end, str);
         return this;
     }
 
@@ -137,6 +168,84 @@ public final class StringBuffer extends AbstractStringBuilder implements Compara
     }
 
     @Override
+    public synchronized StringBuffer insert(int index, char[] str, int offset, int len) {
+        toStringCache = null;
+        super.insert(index, str, offset, len);
+        return this;
+    }
+
+    @Override
+    public synchronized StringBuffer insert(int offset, Object obj) {
+        toStringCache = null;
+        super.insert(offset, String.valueOf(obj));
+        return this;
+    }
+
+    @Override
+    public synchronized StringBuffer insert(int offset, String str) {
+        toStringCache = null;
+        super.insert(offset, str);
+        return this;
+    }
+
+    @Override
+    public synchronized StringBuffer insert(int offset, char[] str) {
+        toStringCache = null;
+        super.insert(offset, str);
+        return this;
+    }
+
+    @Override
+    public StringBuffer insert(int dstOffset, CharSequence s) {
+        super.insert(dstOffset, s);
+        return this;
+    }
+
+    @Override
+    public synchronized StringBuffer insert(int dstOffset, CharSequence s, int start, int end) {
+        toStringCache = null;
+        super.insert(dstOffset, s, start, end);
+        return this;
+    }
+
+    @Override
+    public StringBuffer insert(int offset, boolean b) {
+        super.insert(offset, b);
+        return this;
+    }
+
+    @Override
+    public synchronized StringBuffer insert(int offset, char c) {
+        toStringCache = null;
+        super.insert(offset, c);
+        return this;
+    }
+
+    @Override
+    public StringBuffer insert(int offset, int i) {
+        super.insert(offset, i);
+        return this;
+    }
+
+    @Override
+    public StringBuffer insert(int offset, long l) {
+        super.insert(offset, l);
+        return this;
+    }
+
+    @Override
+    public StringBuffer insert(int offset, float f) {
+        super.insert(offset, f);
+        return this;
+    }
+
+    @Override
+    public StringBuffer insert(int offset, double d) {
+        super.insert(offset, d);
+        return this;
+    }
+
+    @Override
     public synchronized int indexOf(String str) {
         return super.indexOf(str);
     }
@@ -158,6 +267,8 @@ public final class StringBuffer extends AbstractStringBuilder implements Compara
 
     @Override
     public synchronized String toString() {
-        return super.substring(0, count);
+        if(toStringCache == null)
+            return toStringCache = super.substring(0, count);
+        return toStringCache;
     }
 }
