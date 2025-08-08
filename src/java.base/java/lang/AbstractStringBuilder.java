@@ -310,6 +310,22 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
         }
     }
 
+    public void setLength(int newLength) {
+        if(newLength < 0)
+            throw new StringIndexOutOfBoundsException(newLength);
+        ensureCapacityInternal(newLength);
+        if(count < newLength) {
+            int i = count << coder;
+            int len = newLength << coder;
+            byte[] val = value;
+            for(; i < len; i++)
+                val[i] = 0;
+        }
+        else if(count > newLength)
+            maybeLatin1 = true;
+        count = newLength;
+    }
+
     @Override
     public int length() {
         return count;

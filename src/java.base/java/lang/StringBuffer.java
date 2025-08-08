@@ -143,6 +143,12 @@ public final class StringBuffer extends AbstractStringBuilder implements Compara
     }
 
     @Override
+    public synchronized void setLength(int newLength) {
+        toStringCache = null;
+        super.setLength(newLength);
+    }
+
+    @Override
     public synchronized int compareTo(StringBuilder another) {
         return super.compareTo(another);
     }
