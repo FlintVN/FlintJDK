@@ -1227,29 +1227,29 @@ final class DualPivotQuicksort {
 
     static void sort(double[] a, int low, int high) {
         int numNegativeZero = 0;
-        for (int k = high; k > low; ) {
+        for(int k = high; k > low; ) {
             double ak = a[--k];
-            if (ak == 0.0d && Double.doubleToRawLongBits(ak) < 0) {
+            if(ak == 0.0d && Double.doubleToRawLongBits(ak) < 0) {
                 numNegativeZero += 1;
                 a[k] = 0.0d;
             }
-            else if (ak != ak) {
+            else if(ak != ak) {
                 a[k] = a[--high];
                 a[high] = ak;
             }
         }
         int size = high - low;
         sort(a, 0, low, high);
-        if (++numNegativeZero == 1)
+        if(++numNegativeZero == 1)
             return;
-        while (low <= high) {
+        while(low <= high) {
             int middle = (low + high) >>> 1;
-            if (a[middle] < 0)
+            if(a[middle] < 0)
                 low = middle + 1;
             else
                 high = middle - 1;
         }
-        while (--numNegativeZero > 0)
+        while(--numNegativeZero > 0)
             a[++high] = -0.0d;
     }
 

@@ -19,7 +19,7 @@ public interface NavigableSet<E> extends SortedSet<E> {
 
     Iterator<E> descendingIterator();
 
-    NavigableSet<E> subSet(E fromElement, boolean fromInclusive, E toElement,   boolean toInclusive);
+    NavigableSet<E> subSet(E fromElement, boolean fromInclusive, E toElement, boolean toInclusive);
 
     NavigableSet<E> headSet(E toElement, boolean inclusive);
 
@@ -32,14 +32,14 @@ public interface NavigableSet<E> extends SortedSet<E> {
     SortedSet<E> tailSet(E fromElement);
 
     default E removeFirst() {
-        if (this.isEmpty())
+        if(this.isEmpty())
             throw new NoSuchElementException();
         else
             return this.pollFirst();
     }
 
     default E removeLast() {
-        if (this.isEmpty())
+        if(this.isEmpty())
             throw new NoSuchElementException();
         else
             return this.pollLast();

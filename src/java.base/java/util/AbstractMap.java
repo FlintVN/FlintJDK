@@ -21,14 +21,14 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
     public boolean containsValue(Object value) {
         Iterator<Entry<K,V>> i = entrySet().iterator();
         if(value == null) {
-            while (i.hasNext()) {
+            while(i.hasNext()) {
                 Entry<K,V> e = i.next();
                 if(e.getValue() == null)
                     return true;
             }
         }
         else {
-            while (i.hasNext()) {
+            while(i.hasNext()) {
                 Entry<K,V> e = i.next();
                 if(value.equals(e.getValue()))
                     return true;
@@ -40,14 +40,14 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
     public boolean containsKey(Object key) {
         Iterator<Map.Entry<K,V>> i = entrySet().iterator();
         if(key == null) {
-            while (i.hasNext()) {
+            while(i.hasNext()) {
                 Entry<K,V> e = i.next();
                 if(e.getKey() == null)
                     return true;
             }
         }
         else {
-            while (i.hasNext()) {
+            while(i.hasNext()) {
                 Entry<K,V> e = i.next();
                 if(key.equals(e.getKey()))
                     return true;
@@ -59,14 +59,14 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
     public V get(Object key) {
         Iterator<Entry<K,V>> i = entrySet().iterator();
         if(key == null) {
-            while (i.hasNext()) {
+            while(i.hasNext()) {
                 Entry<K,V> e = i.next();
                 if(e.getKey() == null)
                     return e.getValue();
             }
         }
         else {
-            while (i.hasNext()) {
+            while(i.hasNext()) {
                 Entry<K,V> e = i.next();
                 if(key.equals(e.getKey()))
                     return e.getValue();
@@ -83,14 +83,14 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
         Iterator<Entry<K,V>> i = entrySet().iterator();
         Entry<K,V> correctEntry = null;
         if(key == null) {
-            while (correctEntry == null && i.hasNext()) {
+            while(correctEntry == null && i.hasNext()) {
                 Entry<K,V> e = i.next();
                 if(e.getKey() == null)
                     correctEntry = e;
             }
         }
         else {
-            while (correctEntry == null && i.hasNext()) {
+            while(correctEntry == null && i.hasNext()) {
                 Entry<K,V> e = i.next();
                 if(key.equals(e.getKey()))
                     correctEntry = e;

@@ -45,7 +45,7 @@ public final class Objects {
     }
 
     public static <T> int compare(T a, T b, Comparator<? super T> c) {
-        return (a == b) ? 0 :  c.compare(a, b);
+        return (a == b) ? 0 : c.compare(a, b);
     }
 
     @ForceInline

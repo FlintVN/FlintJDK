@@ -15,9 +15,9 @@ class ReverseOrderListView<E> implements List<E> {
     final boolean modifiable;
 
     public static <T> List<T> of(List<T> list, boolean modifiable) {
-        if (list instanceof ReverseOrderListView<T> rolv)
+        if(list instanceof ReverseOrderListView<T> rolv)
             return rolv.base;
-        else if (list instanceof RandomAccess)
+        else if(list instanceof RandomAccess)
             return new ReverseOrderListView.Rand<>(list, modifiable);
         else
             return new ReverseOrderListView<>(list, modifiable);
@@ -35,7 +35,7 @@ class ReverseOrderListView<E> implements List<E> {
     }
 
     void checkModifiable() {
-        if (! modifiable) {
+        if(! modifiable) {
             throw new UnsupportedOperationException();
         }
     }
@@ -55,7 +55,7 @@ class ReverseOrderListView<E> implements List<E> {
         final ListIterator<E> it;
 
         DescendingListIterator(int size, int pos) {
-            if (pos < 0 || pos > size)
+            if(pos < 0 || pos > size)
                 throw new IndexOutOfBoundsException();
             it = base.listIterator(size - pos);
         }
@@ -102,7 +102,7 @@ class ReverseOrderListView<E> implements List<E> {
     }
 
     public void forEach(Consumer<? super E> action) {
-        for (E e : this)
+        for(E e : this)
             action.accept(e);
     }
 
@@ -125,7 +125,7 @@ class ReverseOrderListView<E> implements List<E> {
 
         @SuppressWarnings("unchecked")
         E[] adds = (E[])c.toArray();
-        if (adds.length == 0)
+        if(adds.length == 0)
             return false;
         else {
             base.addAll(0, Arrays.asList(ArraysSupport.reverse(adds)));
@@ -147,17 +147,17 @@ class ReverseOrderListView<E> implements List<E> {
     }
 
     public boolean equals(Object o) {
-        if (o == this)
+        if(o == this)
             return true;
-        if (!(o instanceof List))
+        if(!(o instanceof List))
             return false;
 
         ListIterator<E> e1 = listIterator();
         ListIterator<?> e2 = ((List<?>)o).listIterator();
-        while (e1.hasNext() && e2.hasNext()) {
+        while(e1.hasNext() && e2.hasNext()) {
             E o1 = e1.next();
             Object o2 = e2.next();
-            if (!(o1 == null ? o2 == null : o1.equals(o2)))
+            if(!(o1 == null ? o2 == null : o1.equals(o2)))
                 return false;
         }
         return !(e1.hasNext() || e2.hasNext());
@@ -165,7 +165,7 @@ class ReverseOrderListView<E> implements List<E> {
 
     public int hashCode() {
         int hashCode = 1;
-        for (E e : this)
+        for(E e : this)
             hashCode = 31*hashCode + (e == null ? 0 : e.hashCode());
         return hashCode;
     }
@@ -177,17 +177,17 @@ class ReverseOrderListView<E> implements List<E> {
     public boolean remove(Object o) {
         checkModifiable();
         Iterator<E> it = iterator();
-        if (o == null) {
-            while (it.hasNext()) {
-                if (it.next() == null) {
+        if(o == null) {
+            while(it.hasNext()) {
+                if(it.next() == null) {
                     it.remove();
                     return true;
                 }
             }
         }
         else {
-            while (it.hasNext()) {
-                if (o.equals(it.next())) {
+            while(it.hasNext()) {
+                if(o.equals(it.next())) {
                     it.remove();
                     return true;
                 }
@@ -201,8 +201,8 @@ class ReverseOrderListView<E> implements List<E> {
         Objects.requireNonNull(c);
         boolean modified = false;
         Iterator<?> it = iterator();
-        while (it.hasNext()) {
-            if (c.contains(it.next())) {
+        while(it.hasNext()) {
+            if(c.contains(it.next())) {
                 it.remove();
                 modified = true;
             }
@@ -215,8 +215,8 @@ class ReverseOrderListView<E> implements List<E> {
         Objects.requireNonNull(c);
         boolean modified = false;
         Iterator<E> it = iterator();
-        while (it.hasNext()) {
-            if (!c.contains(it.next())) {
+        while(it.hasNext()) {
+            if(!c.contains(it.next())) {
                 it.remove();
                 modified = true;
             }
@@ -253,15 +253,15 @@ class ReverseOrderListView<E> implements List<E> {
 
     public String toString() {
         Iterator<E> it = iterator();
-        if (! it.hasNext())
+        if(! it.hasNext())
             return "[]";
 
         StringBuilder sb = new StringBuilder();
         sb.append('[');
-        for (;;) {
+        for(;;) {
             E e = it.next();
             sb.append(e == this ? "(this Collection)" : e);
-            if (! it.hasNext())
+            if(! it.hasNext())
                 return sb.append(']').toString();
             sb.append(',').append(' ');
         }
@@ -280,7 +280,7 @@ class ReverseOrderListView<E> implements List<E> {
         checkClosedRange(index, size);
         @SuppressWarnings("unchecked")
         E[] adds = (E[])c.toArray();
-        if (adds.length == 0)
+        if(adds.length == 0)
             return false;
         else {
             base.addAll(size - index, Arrays.asList(ArraysSupport.reverse(adds)));

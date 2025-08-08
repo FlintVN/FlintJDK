@@ -300,11 +300,8 @@ class ReverseOrderSortedSetView<E> implements SortedSet<E> {
         }
 
         public SortedSet<E> subSet(E from, E to) {
-            if(aboveHead(from) && belowTail(from) &&
-                aboveHead(to) && belowTail(to) &&
-                cmp.compare(from, to) <= 0) {
+            if(aboveHead(from) && belowTail(from) && aboveHead(to) && belowTail(to) && cmp.compare(from, to) <= 0)
                 return ReverseOrderSortedSetView.this.new Subset(from, to);
-            }
             else
                 throw new IllegalArgumentException();
         }

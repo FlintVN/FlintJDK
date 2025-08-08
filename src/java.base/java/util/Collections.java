@@ -345,7 +345,7 @@ public class Collections {
         int size = list.size();
         if(size == 0)
             return;
-        int mid =  -distance % size;
+        int mid = -distance % size;
         if(mid < 0)
             mid += size;
         if(mid == 0)
@@ -801,13 +801,10 @@ public class Collections {
 
     @SuppressWarnings("unchecked")
     public static <T> List<T> unmodifiableList(List<? extends T> list) {
-        if(list.getClass() == UnmodifiableList.class || list.getClass() == UnmodifiableRandomAccessList.class) {
+        if(list.getClass() == UnmodifiableList.class || list.getClass() == UnmodifiableRandomAccessList.class)
            return (List<T>)list;
-        }
 
-        return (list instanceof RandomAccess ?
-                new UnmodifiableRandomAccessList<>(list) :
-                new UnmodifiableList<>(list));
+        return (list instanceof RandomAccess ? new UnmodifiableRandomAccessList<>(list) : new UnmodifiableList<>(list));
     }
 
     static class UnmodifiableList<E> extends UnmodifiableCollection<E> implements List<E> {
@@ -2374,8 +2371,7 @@ public class Collections {
         }
 
         private String badElementMsg(Object o) {
-            return "Attempt to insert " + o.getClass() +
-                " element into collection with element type " + type;
+            return "Attempt to insert " + o.getClass() + " element into collection with element type " + type;
         }
 
         CheckedCollection(Collection<E> c, Class<E> type) {
@@ -4221,8 +4217,7 @@ public class Collections {
         }
 
         public boolean equals(Object o) {
-            return (o == this) || (o instanceof ReverseComparator2<?> that &&
-                 cmp.equals(that.cmp));
+            return (o == this) || (o instanceof ReverseComparator2<?> that && cmp.equals(that.cmp));
         }
 
         public int hashCode() {

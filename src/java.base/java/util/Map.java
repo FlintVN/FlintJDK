@@ -99,7 +99,7 @@ public interface Map<K, V> {
 
     default void forEach(BiConsumer<? super K, ? super V> action) {
         Objects.requireNonNull(action);
-        for (Map.Entry<K, V> entry : entrySet()) {
+        for(Map.Entry<K, V> entry : entrySet()) {
             K k;
             V v;
             try {
@@ -115,7 +115,7 @@ public interface Map<K, V> {
 
     default void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
         Objects.requireNonNull(function);
-        for (Map.Entry<K, V> entry : entrySet()) {
+        for(Map.Entry<K, V> entry : entrySet()) {
             K k;
             V v;
             try {
@@ -301,7 +301,7 @@ public interface Map<K, V> {
     //     else {
     //         Object[] kva = new Object[entries.length << 1];
     //         int a = 0;
-    //         for (Entry<? extends K, ? extends V> entry : entries) {
+    //         for(Entry<? extends K, ? extends V> entry : entries) {
     //             kva[a++] = entry.getKey();
     //             kva[a++] = entry.getValue();
     //         }

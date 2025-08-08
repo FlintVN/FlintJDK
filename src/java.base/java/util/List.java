@@ -32,7 +32,7 @@ public interface List<E> extends Collection<E> {
     default void replaceAll(UnaryOperator<E> operator) {
         Objects.requireNonNull(operator);
         final ListIterator<E> li = this.listIterator();
-        while (li.hasNext()) {
+        while(li.hasNext()) {
             li.set(operator.apply(li.next()));
         }
     }
@@ -180,7 +180,7 @@ public interface List<E> extends Collection<E> {
     // @SafeVarargs
     // @SuppressWarnings("varargs")
     // static <E> List<E> of(E... elements) {
-    //     switch (elements.length) {
+    //     switch(elements.length) {
     //         case 0:
     //             @SuppressWarnings("unchecked")
     //             var list = (List<E>)ImmutableCollections.EMPTY_LIST;

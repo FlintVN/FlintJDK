@@ -92,7 +92,7 @@ public class ArraysSupport {
     // TODO
     // @IntrinsicCandidate
     // public static int vectorizedHashCode(Object array, int fromIndex, int length, int initialValue, int basicType) {
-    //     return switch (basicType) {
+    //     return switch(basicType) {
     //         case T_BOOLEAN -> signedHashCode(initialValue, (byte[])array, fromIndex, length);
     //         case T_CHAR -> array instanceof byte[]
     //                 ? utf16hashCode(initialValue, (byte[])array, fromIndex, length)

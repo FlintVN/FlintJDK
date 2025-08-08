@@ -29,7 +29,7 @@ public abstract class AbstractQueue<E> extends AbstractCollection<E> implements 
     }
 
     public void clear() {
-        while (poll() != null);
+        while(poll() != null);
     }
 
     public boolean addAll(Collection<? extends E> c) {

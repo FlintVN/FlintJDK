@@ -58,31 +58,72 @@ class ReverseOrderSortedMapView<K, V> extends AbstractMap<K, V> implements Sorte
 
     public Set<K> keySet() {
         return new AbstractSet<>() {
-            public Iterator<K> iterator() { return descendingKeyIterator(base); }
-            public int size() { return base.size(); }
-            public void clear() { base.keySet().clear(); }
-            public boolean contains(Object o) { return base.keySet().contains(o); }
-            public boolean remove(Object o) { return base.keySet().remove(o); }
+            public Iterator<K> iterator() {
+                return descendingKeyIterator(base);
+            }
+
+            public int size() {
+                return base.size();
+            }
+
+            public void clear() {
+                base.keySet().clear();
+            }
+
+            public boolean contains(Object o) {
+                return base.keySet().contains(o);
+            }
+
+            public boolean remove(Object o) {
+                return base.keySet().remove(o);
+            }
         };
     }
 
     public Collection<V> values() {
         return new AbstractCollection<>() {
-            public Iterator<V> iterator() { return descendingValueIterator(base); }
-            public int size() { return base.size(); }
-            public void clear() { base.values().clear(); }
-            public boolean contains(Object o) { return base.values().contains(o); }
-            public boolean remove(Object o) { return base.values().remove(o); }
+            public Iterator<V> iterator() {
+                return descendingValueIterator(base);
+            }
+
+            public int size() {
+                return base.size();
+            }
+            public void clear() {
+                base.values().clear();
+            }
+
+            public boolean contains(Object o) {
+                return base.values().contains(o);
+            }
+
+            public boolean remove(Object o) {
+                return base.values().remove(o);
+            }
         };
     }
 
     public Set<Entry<K, V>> entrySet() {
         return new AbstractSet<>() {
-            public Iterator<Entry<K, V>> iterator() { return descendingEntryIterator(base); }
-            public int size() { return base.size(); }
-            public void clear() { base.entrySet().clear(); }
-            public boolean contains(Object o) { return base.entrySet().contains(o); }
-            public boolean remove(Object o) { return base.entrySet().remove(o); }
+            public Iterator<Entry<K, V>> iterator() {
+                return descendingEntryIterator(base);
+            }
+
+            public int size() {
+                return base.size();
+            }
+
+            public void clear() {
+                base.entrySet().clear();
+            }
+
+            public boolean contains(Object o) {
+                return base.entrySet().contains(o);
+            }
+
+            public boolean remove(Object o) {
+                return base.entrySet().remove(o);
+            }
         };
     }
 
@@ -218,14 +259,20 @@ class ReverseOrderSortedMapView<K, V> extends AbstractMap<K, V> implements Sorte
             this.value = value;
         }
 
-        public K getKey()             { return key; }
-        public V getValue()           { return value; }
-        public V setValue(V newValue) { return map.put(key, newValue); }
+        public K getKey() {
+            return key;
+        }
+
+        public V getValue() {
+            return value;
+        }
+
+        public V setValue(V newValue) {
+            return map.put(key, newValue);
+        }
 
         public boolean equals(Object o) {
-            return o instanceof Map.Entry<?, ?> e
-                    && Objects.equals(key, e.getKey())
-                    && Objects.equals(value, e.getValue());
+            return o instanceof Map.Entry<?, ?> e && Objects.equals(key, e.getKey()) && Objects.equals(value, e.getValue());
         }
 
         public int hashCode() {
@@ -386,11 +433,8 @@ class ReverseOrderSortedMapView<K, V> extends AbstractMap<K, V> implements Sorte
         }
 
         public SortedMap<K, V> subMap(K from, K to) {
-            if(aboveHead(from) && belowTail(from) &&
-                aboveHead(to) && belowTail(to) &&
-                cmp.compare(from, to) <= 0) {
+            if(aboveHead(from) && belowTail(from) && aboveHead(to) && belowTail(to) && cmp.compare(from, to) <= 0)
                 return new Submap(from, to);
-            }
             else
                 throw new IllegalArgumentException();
         }

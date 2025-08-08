@@ -67,8 +67,8 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
             throw new NullPointerException();
 
         Entry<?,?> tab[] = table;
-        for (int i = tab.length ; i-- > 0 ;) {
-            for (Entry<?,?> e = tab[i] ; e != null ; e = e.next) {
+        for(int i = tab.length ; i-- > 0 ;) {
+            for(Entry<?,?> e = tab[i] ; e != null ; e = e.next) {
                 if(e.value.equals(value)) {
                     return true;
                 }
@@ -85,7 +85,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
         Entry<?,?> tab[] = table;
         int hash = key.hashCode();
         int index = (hash & 0x7FFFFFFF) % tab.length;
-        for (Entry<?,?> e = tab[index] ; e != null ; e = e.next) {
+        for(Entry<?,?> e = tab[index] ; e != null ; e = e.next) {
             if((e.hash == hash) && e.key.equals(key))
                 return true;
         }
@@ -97,7 +97,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
         Entry<?,?> tab[] = table;
         int hash = key.hashCode();
         int index = (hash & 0x7FFFFFFF) % tab.length;
-        for (Entry<?,?> e = tab[index] ; e != null ; e = e.next) {
+        for(Entry<?,?> e = tab[index] ; e != null ; e = e.next) {
             if((e.hash == hash) && e.key.equals(key)) {
                 return (V)e.value;
             }
@@ -124,8 +124,8 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
         threshold = (int)Math.min(newCapacity * loadFactor, MAX_ARRAY_SIZE + 1);
         table = newMap;
 
-        for (int i = oldCapacity ; i-- > 0 ;) {
-            for (Entry<K,V> old = (Entry<K,V>)oldMap[i] ; old != null ; ) {
+        for(int i = oldCapacity ; i-- > 0 ;) {
+            for(Entry<K,V> old = (Entry<K,V>)oldMap[i] ; old != null ; ) {
                 Entry<K,V> e = old;
                 old = old.next;
 
@@ -197,14 +197,14 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
     }
 
     public synchronized void putAll(Map<? extends K, ? extends V> t) {
-        for (Map.Entry<? extends K, ? extends V> e : t.entrySet())
+        for(Map.Entry<? extends K, ? extends V> e : t.entrySet())
             put(e.getKey(), e.getValue());
     }
 
 
     public synchronized void clear() {
         Entry<?,?> tab[] = table;
-        for (int index = tab.length; --index >= 0; )
+        for(int index = tab.length; --index >= 0; )
             tab[index] = null;
         modCount++;
         count = 0;
@@ -213,7 +213,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
     public synchronized Object clone() {
         Hashtable<?,?> t = cloneHashtable();
         t.table = new Entry<?,?>[table.length];
-        for (int i = table.length ; i-- > 0 ; ) {
+        for(int i = table.length ; i-- > 0 ; ) {
             t.table[i] = (table[i] != null)
                 ? (Entry<?,?>) table[i].clone() : null;
         }
@@ -242,7 +242,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
         Iterator<Map.Entry<K,V>> it = entrySet().iterator();
 
         sb.append('{');
-        for (int i = 0; ; i++) {
+        for(int i = 0; ; i++) {
             Map.Entry<K,V> e = it.next();
             K key = e.getKey();
             V value = e.getValue();
@@ -325,7 +325,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
             int hash = key.hashCode();
             int index = (hash & 0x7FFFFFFF) % tab.length;
 
-            for (Entry<?,?> e = tab[index]; e != null; e = e.next)
+            for(Entry<?,?> e = tab[index]; e != null; e = e.next)
                 if(e.hash == hash && e.equals(entry))
                     return true;
             return false;
@@ -400,7 +400,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
             return false;
 
         try {
-            for (Map.Entry<K, V> e : entrySet()) {
+            for(Map.Entry<K, V> e : entrySet()) {
                 K key = e.getKey();
                 V value = e.getValue();
                 if(value == null) {
@@ -427,8 +427,8 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
 
         loadFactor = -loadFactor;
         Entry<?,?>[] tab = table;
-        for (Entry<?,?> entry : tab) {
-            while (entry != null) {
+        for(Entry<?,?> entry : tab) {
+            while(entry != null) {
                 h += entry.hashCode();
                 entry = entry.next;
             }
@@ -453,8 +453,8 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
         final int expectedModCount = modCount;
 
         Entry<?, ?>[] tab = table;
-        for (Entry<?, ?> entry : tab) {
-            while (entry != null) {
+        for(Entry<?, ?> entry : tab) {
+            while(entry != null) {
                 action.accept((K)entry.key, (V)entry.value);
                 entry = entry.next;
 
@@ -472,8 +472,8 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
         final int expectedModCount = modCount;
 
         Entry<K, V>[] tab = (Entry<K, V>[])table;
-        for (Entry<K, V> entry : tab) {
-            while (entry != null) {
+        for(Entry<K, V> entry : tab) {
+            while(entry != null) {
                 entry.value = Objects.requireNonNull(
                     function.apply(entry.key, entry.value));
                 entry = entry.next;
@@ -493,7 +493,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
         int index = (hash & 0x7FFFFFFF) % tab.length;
         @SuppressWarnings("unchecked")
         Entry<K,V> entry = (Entry<K,V>)tab[index];
-        for (; entry != null; entry = entry.next) {
+        for(; entry != null; entry = entry.next) {
             if((entry.hash == hash) && entry.key.equals(key)) {
                 V old = entry.value;
                 if(old == null)
@@ -515,7 +515,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
         int index = (hash & 0x7FFFFFFF) % tab.length;
         @SuppressWarnings("unchecked")
         Entry<K,V> e = (Entry<K,V>)tab[index];
-        for (Entry<K,V> prev = null; e != null; prev = e, e = e.next) {
+        for(Entry<K,V> prev = null; e != null; prev = e, e = e.next) {
             if((e.hash == hash) && e.key.equals(key) && e.value.equals(value)) {
                 if(prev != null)
                     prev.next = e.next;
@@ -539,7 +539,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
         int index = (hash & 0x7FFFFFFF) % tab.length;
         @SuppressWarnings("unchecked")
         Entry<K,V> e = (Entry<K,V>)tab[index];
-        for (; e != null; e = e.next) {
+        for(; e != null; e = e.next) {
             if((e.hash == hash) && e.key.equals(key)) {
                 if(e.value.equals(oldValue)) {
                     e.value = newValue;
@@ -560,7 +560,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
         int index = (hash & 0x7FFFFFFF) % tab.length;
         @SuppressWarnings("unchecked")
         Entry<K,V> e = (Entry<K,V>)tab[index];
-        for (; e != null; e = e.next) {
+        for(; e != null; e = e.next) {
             if((e.hash == hash) && e.key.equals(key)) {
                 V oldValue = e.value;
                 e.value = value;
@@ -579,7 +579,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
         int index = (hash & 0x7FFFFFFF) % tab.length;
         @SuppressWarnings("unchecked")
         Entry<K,V> e = (Entry<K,V>)tab[index];
-        for (; e != null; e = e.next) {
+        for(; e != null; e = e.next) {
             if(e.hash == hash && e.key.equals(key))
                 return e.value;
         }
@@ -602,7 +602,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
         int index = (hash & 0x7FFFFFFF) % tab.length;
         @SuppressWarnings("unchecked")
         Entry<K,V> e = (Entry<K,V>)tab[index];
-        for (Entry<K,V> prev = null; e != null; prev = e, e = e.next) {
+        for(Entry<K,V> prev = null; e != null; prev = e, e = e.next) {
             if(e.hash == hash && e.key.equals(key)) {
                 int mc = modCount;
                 V newValue = remappingFunction.apply(key, e.value);
@@ -633,7 +633,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
         int index = (hash & 0x7FFFFFFF) % tab.length;
         @SuppressWarnings("unchecked")
         Entry<K,V> e = (Entry<K,V>)tab[index];
-        for (Entry<K,V> prev = null; e != null; prev = e, e = e.next) {
+        for(Entry<K,V> prev = null; e != null; prev = e, e = e.next) {
             if(e.hash == hash && Objects.equals(e.key, key)) {
                 int mc = modCount;
                 V newValue = remappingFunction.apply(key, e.value);
@@ -674,7 +674,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
         int index = (hash & 0x7FFFFFFF) % tab.length;
         @SuppressWarnings("unchecked")
         Entry<K,V> e = (Entry<K,V>)tab[index];
-        for (Entry<K,V> prev = null; e != null; prev = e, e = e.next) {
+        for(Entry<K,V> prev = null; e != null; prev = e, e = e.next) {
             if(e.hash == hash && e.key.equals(key)) {
                 int mc = modCount;
                 V newValue = remappingFunction.apply(e.value, value);
@@ -716,9 +716,9 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
     //         s.writeInt(table.length);
     //         s.writeInt(count);
 
-    //         for (Entry<?, ?> entry : table) {
+    //         for(Entry<?, ?> entry : table) {
 
-    //             while (entry != null) {
+    //             while(entry != null) {
     //                 entryStack =
     //                     new Entry<>(0, entry.key, entry.value, entryStack);
     //                 entry = entry.next;
@@ -726,7 +726,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
     //         }
     //     }
 
-    //     while (entryStack != null) {
+    //     while(entryStack != null) {
     //         s.writeObject(entryStack.key);
     //         s.writeObject(entryStack.value);
     //         entryStack = entryStack.next;
@@ -777,7 +777,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
     //     threshold = (int)Math.min(length * lf, MAX_ARRAY_SIZE + 1);
     //     count = 0;
 
-    //     for (; elements > 0; elements--) {
+    //     for(; elements > 0; elements--) {
     //         @SuppressWarnings("unchecked")
     //         K key = (K)s.readObject();
     //         @SuppressWarnings("unchecked")
@@ -806,7 +806,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
 
         int hash = key.hashCode();
         int index = (hash & 0x7FFFFFFF) % tab.length;
-        for (Entry<?,?> e = tab[index] ; e != null ; e = e.next) {
+        for(Entry<?,?> e = tab[index] ; e != null ; e = e.next) {
             if((e.hash == hash) && e.key.equals(key))
                 throw new StreamCorruptedException();
         }
@@ -824,7 +824,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
 
         protected Entry(int hash, K key, V value, Entry<K,V> next) {
             this.hash = hash;
-            this.key =  key;
+            this.key = key;
             this.value = value;
             this.next = next;
         }
@@ -891,7 +891,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
             Entry<?,?> e = entry;
             int i = index;
             Entry<?,?>[] t = table;
-            while (e == null && i > 0)
+            while(e == null && i > 0)
                 e = t[--i];
             entry = e;
             index = i;
@@ -903,7 +903,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
             Entry<?,?> et = entry;
             int i = index;
             Entry<?,?>[] t = table;
-            while (et == null && i > 0)
+            while(et == null && i > 0)
                 et = t[--i];
             entry = et;
             index = i;

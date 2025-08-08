@@ -31,7 +31,7 @@ public interface NavigableMap<K,V> extends SortedMap<K,V> {
 
     NavigableSet<K> descendingKeySet();
 
-    NavigableMap<K,V> subMap(K fromKey, boolean fromInclusive, K toKey,   boolean toInclusive);
+    NavigableMap<K,V> subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive);
 
     NavigableMap<K,V> headMap(K toKey, boolean inclusive);
 

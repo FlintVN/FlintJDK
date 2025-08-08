@@ -77,8 +77,8 @@ public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Clone
     //     return super.addAll(c);
     // }
 
-    public NavigableSet<E> subSet(E fromElement, boolean fromInclusive, E toElement,   boolean toInclusive) {
-        return new TreeSet<>(m.subMap(fromElement, fromInclusive, toElement,   toInclusive));
+    public NavigableSet<E> subSet(E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
+        return new TreeSet<>(m.subMap(fromElement, fromInclusive, toElement, toInclusive));
     }
 
     public NavigableSet<E> headSet(E toElement, boolean inclusive) {
