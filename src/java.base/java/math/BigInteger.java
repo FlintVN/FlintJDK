@@ -1,11 +1,11 @@
 package java.math;
 
 import java.io.IOException;
-import java.io.InvalidObjectException;
+// import java.io.InvalidObjectException;
 // import java.io.ObjectInputStream;
 // import java.io.ObjectOutputStream;
 // import java.io.ObjectStreamField;
-import java.io.ObjectStreamException;
+// import java.io.ObjectStreamException;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
@@ -2628,10 +2628,6 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
 
     private int intLength() {
         return (bitLength() >>> 5) + 1;
-    }
-
-    private int signBit() {
-        return signum < 0 ? 1 : 0;
     }
 
     private int signInt() {

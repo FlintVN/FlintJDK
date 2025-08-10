@@ -1,6 +1,6 @@
 package java.util;
 
-import java.io.InvalidObjectException;
+// import java.io.InvalidObjectException;
 
 public class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable {
     transient HashMap<E,Object> map;

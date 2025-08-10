@@ -185,20 +185,11 @@ class MutableBigInteger {
         if(intLen == 0)
             return -1;
         int j, b;
-        for(j=intLen-1; (j > 0) && (value[j+offset] == 0); j--)
-            ;
+        for(j = intLen - 1; (j > 0) && (value[j + offset] == 0); j--);
         b = value[j+offset];
         if(b == 0)
             return -1;
-        return ((intLen-1-j)<<5) + Integer.numberOfTrailingZeros(b);
-    }
-
-    private final int getInt(int index) {
-        return value[offset+index];
-    }
-
-    private final long getLong(int index) {
-        return value[offset+index] & LONG_MASK;
+        return ((intLen - 1 - j) << 5) + Integer.numberOfTrailingZeros(b);
     }
 
     final void normalize() {
@@ -219,14 +210,6 @@ class MutableBigInteger {
         int numZeros = index - offset;
         intLen -= numZeros;
         offset = (intLen == 0 ? 0 : offset+numZeros);
-    }
-
-    private final void ensureCapacity(int len) {
-        if(value.length < len) {
-            value = new int[len];
-            offset = 0;
-            intLen = len;
-        }
     }
 
     int[] toIntArray() {

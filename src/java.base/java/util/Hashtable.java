@@ -800,21 +800,22 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
     //     }
     // }
 
-    private void reconstitutionPut(Entry<?,?>[] tab, K key, V value) throws StreamCorruptedException {
-        if(value == null)
-            throw new StreamCorruptedException();
+    // TODO
+    // private void reconstitutionPut(Entry<?,?>[] tab, K key, V value) throws StreamCorruptedException {
+    //     if(value == null)
+    //         throw new StreamCorruptedException();
 
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % tab.length;
-        for(Entry<?,?> e = tab[index] ; e != null ; e = e.next) {
-            if((e.hash == hash) && e.key.equals(key))
-                throw new StreamCorruptedException();
-        }
-        @SuppressWarnings("unchecked")
-        Entry<K,V> e = (Entry<K,V>)tab[index];
-        tab[index] = new Entry<>(hash, key, value, e);
-        count++;
-    }
+    //     int hash = key.hashCode();
+    //     int index = (hash & 0x7FFFFFFF) % tab.length;
+    //     for(Entry<?,?> e = tab[index] ; e != null ; e = e.next) {
+    //         if((e.hash == hash) && e.key.equals(key))
+    //             throw new StreamCorruptedException();
+    //     }
+    //     @SuppressWarnings("unchecked")
+    //     Entry<K,V> e = (Entry<K,V>)tab[index];
+    //     tab[index] = new Entry<>(hash, key, value, e);
+    //     count++;
+    // }
 
     private static class Entry<K,V> implements Map.Entry<K,V> {
         final int hash;

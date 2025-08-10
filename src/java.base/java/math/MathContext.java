@@ -82,8 +82,7 @@ public final class MathContext {
 
     // TODO
     // @java.io.Serial
-    // private void readObject(java.io.ObjectInputStream s)
-    //     throws java.io.IOException, ClassNotFoundException {
+    // private void readObject(java.io.ObjectInputStream s) throws java.io.IOException, ClassNotFoundException {
     //     s.defaultReadObject();
     //     if (precision < MIN_DIGITS) {
     //         String message = "MathContext: invalid digits in stream";

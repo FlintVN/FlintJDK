@@ -214,11 +214,12 @@ public class Collections {
         l.set(i, l.set(j, l.get(i)));
     }
 
-    private static void swap(Object[] arr, int i, int j) {
-        Object tmp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = tmp;
-    }
+    // TODO
+    // private static void swap(Object[] arr, int i, int j) {
+    //     Object tmp = arr[i];
+    //     arr[i] = arr[j];
+    //     arr[j] = tmp;
+    // }
 
     public static <T> void fill(List<? super T> list, T obj) {
         int size = list.size();
@@ -4418,10 +4419,11 @@ public class Collections {
         //     s = m.keySet();
         // }
 
-        @java.io.Serial
-        private void readObjectNoData() throws java.io.ObjectStreamException {
-            throw new java.io.InvalidObjectException("missing SetFromMap data");
-        }
+        // TODO
+        // @java.io.Serial
+        // private void readObjectNoData() throws java.io.ObjectStreamException {
+        //     throw new java.io.InvalidObjectException("missing SetFromMap data");
+        // }
     }
 
     public static <E> SequencedSet<E> newSequencedSetFromMap(SequencedMap<E, Boolean> map) {

@@ -2161,9 +2161,10 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     //     return middle;
     // }
 
-    private static int computeRedLevel(int size) {
-        return 31 - Integer.numberOfLeadingZeros(size + 1);
-    }
+    // TODO
+    // private static int computeRedLevel(int size) {
+    //     return 31 - Integer.numberOfLeadingZeros(size + 1);
+    // }
 
     static <K> Spliterator<K> keySpliteratorFor(NavigableMap<K,?> m) {
         if(m instanceof TreeMap) {
