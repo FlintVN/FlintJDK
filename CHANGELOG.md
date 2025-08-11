@@ -1,4 +1,20 @@
 # Change Log
+## V0.0.9
+- Remove RGB444 Graphics ColorMode.
+- Support PinController.toggle() method.
+- Added support for the following methods for AbstractStringBuilder:
+  - AbstractStringBuilder.delete
+  - AbstractStringBuilder.deleteCharAt
+  - AbstractStringBuilder.replace
+  - AbstractStringBuilder.insert
+  - AbstractStringBuilder.repeat
+  - AbstractStringBuilder.setLength
+- Add jdk.internal.math.DoubleConsts and jdk.internal.math.FloatConsts.
+- Complete for java.math.BigInteger.
+- Added support for java.math.BigDecimal.
+- Added support for support Math.clamp method.
+- Add java.util.HashSet and java.util.ImmutableCollections classes.
+- Add java.io.Closeable.
 ## V0.0.8
 - Support creating jar files including java source.
 - Update flint.machine package.
