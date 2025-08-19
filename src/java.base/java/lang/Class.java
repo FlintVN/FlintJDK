@@ -196,6 +196,32 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
             throw new ClassCastException(this.toString());
     }
 
+    private native Class<?> getNestHost0();
+
+    @CallerSensitive
+    public Class<?> getNestHost() {
+        if(isPrimitive() || isArray())
+            return this;
+        return getNestHost0();
+    }
+
+    public boolean isNestmateOf(Class<?> c) {
+        if(this == c)
+            return true;
+        if(isPrimitive() || isArray() || c.isPrimitive() || c.isArray())
+            return false;
+        return getNestHost() == c.getNestHost();
+    }
+
+    private native Class<?>[] getNestMembers0();
+
+    @CallerSensitive
+    public Class<?>[] getNestMembers() {
+        if(isPrimitive() || isArray())
+            return new Class<?>[] {this};
+        return getNestMembers0();
+    }
+
     public native boolean isHidden();
 
     private native Field[] getDeclaredFields0();
