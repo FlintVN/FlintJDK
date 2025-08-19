@@ -188,6 +188,14 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
         return (T)obj;
     }
 
+    @SuppressWarnings("unchecked")
+    public <U> Class<? extends U> asSubclass(Class<U> clazz) {
+        if(clazz.isAssignableFrom(this))
+            return (Class<? extends U>)this;
+        else
+            throw new ClassCastException(this.toString());
+    }
+
     public native boolean isHidden();
 
     private native Field[] getDeclaredFields0();
