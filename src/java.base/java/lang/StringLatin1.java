@@ -231,7 +231,7 @@ final class StringLatin1 {
         int lim = Math.min(value.length, other.length);
         for(int i = 0; i < lim; i++) {
             if(value[i] != other[i])
-                return value[i] - other[i];
+                return (value[i] & 0xFF) - (other[i] & 0xFF);
         }
         return value.length - other.length;
     }

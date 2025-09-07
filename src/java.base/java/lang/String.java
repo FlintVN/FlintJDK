@@ -91,10 +91,8 @@ public final class String implements Comparable<String>, CharSequence {
     public String(char[] value, int offset, int count) {
         boolean isLatin1 = isLatin1(value, offset, count);
         byte[] buff = isLatin1 ? new byte[count] : new byte[count << 1];
-        if(isLatin1) {
-            for(int i = 0; i < count;)
-                buff[i] = (byte)value[i + offset];
-        }
+        if(isLatin1) for(int i = 0; i < count; i++)
+            buff[i] = (byte)value[i + offset];
         else for(int i = 0; i < count; i++)
             StringUTF16.putChar(buff, i, value[i + offset]);
         this.value = buff;
