@@ -16,6 +16,8 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     private static final int ENUM = 0x00004000;
     private static final int SYNTHETIC = 0x00001000;
 
+    private static final Class<?>[] EMPTY_CLASS_ARRAY = new Class<?>[0];
+
     private transient String name;
 
     private Class<?>[] interfaces;
@@ -34,7 +36,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     @Override
     public String toString() {
         String kind = isInterface() ? "interface " : isPrimitive() ? "" : "class ";
-        return kind.concat(name);
+        return kind.concat(getName());
     }
 
     static native Class<?> getPrimitiveClass(String name);
@@ -63,8 +65,11 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     }
 
     public String getName() {
-        return name;
+        String name = this.name;
+        return name != null ? name : initClassName();
     }
+
+    private native String initClassName();
 
     public native Class<? super T> getSuperclass();
 
@@ -117,7 +122,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     private native Class<?> getDeclaringClass0();
 
     public String getSimpleName() {
-        String simpleName = name;
+        String simpleName = getName();
         int arrayCount = 0;
         int startIndex = simpleName.lastIndexOf('.');
         int endIndex = simpleName.length();
@@ -166,7 +171,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
 
             }
         }
-        return name;
+        return getName();
     }
 
     public boolean desiredAssertionStatus() {
@@ -184,7 +189,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     @SuppressWarnings("unchecked")
     public T cast(Object obj) {
         if(obj != null && !isInstance(obj))
-            throw new ClassCastException("Cannot cast " + obj.getClass().getName() + " to " + name);
+            throw new ClassCastException("Cannot cast " + obj.getClass().getName() + " to " + getName());
         return (T)obj;
     }
 
@@ -303,7 +308,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     @CallerSensitive
     public Method getMethod(String name, Class<?>... parameterTypes) throws NoSuchMethodException {
         Objects.requireNonNull(name);
-        Method method = getMethod0(name, parameterTypes);
+        Method method = getMethod0(name, parameterTypes == null ? EMPTY_CLASS_ARRAY : parameterTypes);
         if(method == null)
             throw new NoSuchMethodException(methodToString(name, parameterTypes));
         return method;
@@ -366,7 +371,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
 
     @CallerSensitive
     public Constructor<T> getConstructor(Class<?>... parameterTypes) throws NoSuchMethodException {
-        Constructor<T> constructor = getConstructor0(parameterTypes, true);
+        Constructor<T> constructor = getConstructor0(parameterTypes == null ? EMPTY_CLASS_ARRAY : parameterTypes, true);
         if(constructor == null)
             throw new NoSuchMethodException(methodToString("<init>", parameterTypes));
         return constructor;
@@ -418,7 +423,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     }
 
     private String methodToString(String name, Class<?>[] argTypes) {
-        int length = this.name.length() + 3 + name.length();
+        int length = getName().length() + 3 + name.length();
         if(argTypes != null && argTypes.length > 0) {
             for(int i = 0; i < argTypes.length; i++)
                 length += argTypes[i].getName().length();
@@ -427,7 +432,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
         int index = 0;
         byte[] buff = new byte[length];
 
-        byte[] tmp = this.name.value();
+        byte[] tmp = getName().value();
         System.arraycopy(tmp, 0, buff, index, tmp.length);
         index += tmp.length;
 
@@ -457,7 +462,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     @Override
     public String descriptorString() {
         if(isPrimitive()) {
-            String name = this.name;
+            String name = getName();
             switch(name.length()) {
                 case 3:
                     return "I";
@@ -482,7 +487,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
         else if(isArray())
             return "[" + getComponentType().descriptorString();
         else if(isHidden()) {
-            String name = this.name;
+            String name = getName();
             int index = name.indexOf('/');
             StringBuilder sb = new StringBuilder(name.length() + 2);
             sb.append('L');
@@ -493,7 +498,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
             return sb.toString();
         }
         else {
-            String name = this.name.replace('.', '/');
+            String name = getName().replace('.', '/');
             return new StringBuilder(name.length() + 2).append('L').append(name).append(';').toString();
         }
     }
