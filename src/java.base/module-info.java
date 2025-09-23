@@ -8,6 +8,5 @@ module java.base {
     exports java.lang.invoke;
     exports java.lang.reflect;
     exports java.lang.annotation;
-    exports flint.drawing;
     exports flint.machine;
 }

@@ -1,4 +1,8 @@
 # Change Log
+## V0.0.10
+- Added support Class.asSubclass, Class.getNestHost, Class.isNestmateOf and Class.getNestMembers methods.
+- Added support some mentods in jdk.internal.reflect.Reflection.
+- Removed flint.drawing package (will be split into separate library in future).
 ## V0.0.9
 - Remove RGB444 Graphics ColorMode.
 - Support PinController.toggle() method.
