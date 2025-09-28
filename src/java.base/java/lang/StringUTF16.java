@@ -298,6 +298,38 @@ final class StringUTF16 {
         return ret;
     }
 
+    static int getChars(int i, int index, byte[] buf) {
+        boolean negative = (i < 0);
+        if(!negative)
+            i = -i;
+
+        do {
+            putChar(buf, --index, (char)((i % 10) + '0'));
+            i /= 10;
+        } while(i < 0);
+
+        if(negative)
+            putChar(buf, --index, '-');
+
+        return index;
+    }
+
+    static int getChars(long i, int index, byte[] buf) {
+        boolean negative = (i < 0);
+        if(!negative)
+            i = -i;
+
+        do {
+            putChar(buf, --index, (char)((i % 10) + '0'));
+            i /= 10;
+        } while(i < 0);
+
+        if(negative)
+            putChar(buf, --index, '-');
+
+        return index;
+    }
+
     public static int compareTo(byte[] value, byte[] other) {
         int len1 = value.length >>> 1;
         int len2 = other.length >>> 1;
