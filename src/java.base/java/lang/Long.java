@@ -124,18 +124,14 @@ public final class Long extends Number implements Comparable<Long> {
     public static String toString(long i) {
         byte[] buffer = new byte[stringSize(i)];
         int index = buffer.length;
-        boolean negative;
-        if(i < 0) {
-            negative = true;
+        boolean negative = (i < 0);
+        if(!negative)
             i = -i;
-        }
-        else
-            negative = false;
 
         do {
             buffer[--index] = (byte)((i % 10) + 48);
             i /= 10;
-        } while(i > 0);
+        } while(i < 0);
 
         if(negative)
             buffer[--index] = '-';

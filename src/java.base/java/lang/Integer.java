@@ -83,18 +83,14 @@ public final class Integer extends Number implements Comparable<Integer> {
     public static String toString(int i) {
         byte[] buffer = new byte[stringSize(i)];
         int index = buffer.length;
-        boolean negative;
-        if(i < 0) {
-            negative = true;
+        boolean negative = (i < 0);
+        if(!negative)
             i = -i;
-        }
-        else
-            negative = false;
 
         do {
             buffer[--index] = (byte)((i % 10) + '0');
             i /= 10;
-        } while(i > 0);
+        } while(i < 0);
 
         if(negative)
             buffer[--index] = '-';
