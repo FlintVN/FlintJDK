@@ -122,25 +122,30 @@ public final class Long extends Number implements Comparable<Long> {
     }
 
     public static String toString(long i) {
-        byte[] buffer = new byte[stringSize(i)];
-        int index = buffer.length;
+        int size = stringSize(i);
+        byte[] buf = new byte[size];
+        getChars(i, size, buf);
+        return new String(buf, (byte)0);
+    }
+
+    public static String toUnsignedString(long i) {
+        return toUnsignedString(i, 10);
+    }
+
+    static int getChars(long i, int index, byte[] buf) {
         boolean negative = (i < 0);
         if(!negative)
             i = -i;
 
         do {
-            buffer[--index] = (byte)((i % 10) + 48);
+            buf[--index] = (byte)((i % 10) + 48);
             i /= 10;
         } while(i < 0);
 
         if(negative)
-            buffer[--index] = '-';
-
-        return new String(buffer, index, buffer.length - index, (byte)0);
-    }
-
-    public static String toUnsignedString(long i) {
-        return toUnsignedString(i, 10);
+            buf[--index] = '-';
+        
+        return index;
     }
 
     static int stringSize(long x) {

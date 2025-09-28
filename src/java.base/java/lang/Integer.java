@@ -81,25 +81,30 @@ public final class Integer extends Number implements Comparable<Integer> {
     }
 
     public static String toString(int i) {
-        byte[] buffer = new byte[stringSize(i)];
-        int index = buffer.length;
+        int size = stringSize(i);
+        byte[] buf = new byte[size];
+        getChars(i, size, buf);
+        return new String(buf, (byte)0);
+    }
+
+    public static String toUnsignedString(int i) {
+        return Long.toString(toUnsignedLong(i));
+    }
+
+    static int getChars(int i, int index, byte[] buf) {
         boolean negative = (i < 0);
         if(!negative)
             i = -i;
 
         do {
-            buffer[--index] = (byte)((i % 10) + '0');
+            buf[--index] = (byte)((i % 10) + '0');
             i /= 10;
         } while(i < 0);
 
         if(negative)
-            buffer[--index] = '-';
+            buf[--index] = '-';
 
-        return new String(buffer, index, buffer.length - index, (byte)0);
-    }
-
-    public static String toUnsignedString(int i) {
-        return Long.toString(toUnsignedLong(i));
+        return index;
     }
 
     static int stringSize(int x) {
