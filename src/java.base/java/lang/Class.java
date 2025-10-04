@@ -471,8 +471,10 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
                         return "C";
                     else if(name.equals("byte"))
                         return "B";
-                    else
+                    else if(name.equals("long"))
                         return "J";
+                    else
+                        return "V";
                 case 5:
                     if(name.equals("float"))
                         return "F";
