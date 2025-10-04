@@ -138,7 +138,7 @@ public final class Long extends Number implements Comparable<Long> {
             i = -i;
 
         do {
-            buf[--index] = (byte)((i % 10) + 48);
+            buf[--index] = (byte)(-(i % 10) + 48);
             i /= 10;
         } while(i < 0);
 

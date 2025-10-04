@@ -97,7 +97,7 @@ public final class Integer extends Number implements Comparable<Integer> {
             i = -i;
 
         do {
-            buf[--index] = (byte)((i % 10) + '0');
+            buf[--index] = (byte)(-(i % 10) + '0');
             i /= 10;
         } while(i < 0);
 
