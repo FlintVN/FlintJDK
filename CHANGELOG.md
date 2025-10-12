@@ -1,4 +1,9 @@
 # Change Log
+## V0.0.11
+- Fix bug for Integer.toString() and Long.toString() with MIN_VALUE.
+- Add support Integer.getChars, Long.getChars and StringUTF16.getChars methods.
+- Add java.lang.IllegalMonitorStateException and java.lang.StackOverflowError.
+- Fix bug in Class.descriptorString method with void type.
 ## V0.0.10
 - Added support Class.asSubclass, Class.getNestHost, Class.isNestmateOf and Class.getNestMembers methods.
 - Added support some mentods in jdk.internal.reflect.Reflection.
