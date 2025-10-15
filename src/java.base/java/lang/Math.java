@@ -140,6 +140,153 @@ public final class Math {
         return Random.nextDouble();
     }
 
+    
+    public static int addExact(int x, int y) {
+        int r = x + y;
+        if(((x ^ r) & (y ^ r)) < 0)
+            throw new ArithmeticException("integer overflow");
+        return r;
+    }
+
+    public static long addExact(long x, long y) {
+        long r = x + y;
+        if(((x ^ r) & (y ^ r)) < 0)
+            throw new ArithmeticException("long overflow");
+        return r;
+    }
+
+    public static int subtractExact(int x, int y) {
+        int r = x - y;
+        if(((x ^ y) & (x ^ r)) < 0)
+            throw new ArithmeticException("integer overflow");
+        return r;
+    }
+
+    public static long subtractExact(long x, long y) {
+        long r = x - y;
+        if(((x ^ y) & (x ^ r)) < 0)
+            throw new ArithmeticException("long overflow");
+        return r;
+    }
+
+    public static int multiplyExact(int x, int y) {
+        long r = (long)x * (long)y;
+        if((int)r != r)
+            throw new ArithmeticException("integer overflow");
+        return (int)r;
+    }
+
+    public static long multiplyExact(long x, int y) {
+        return multiplyExact(x, (long)y);
+    }
+
+    public static long multiplyExact(long x, long y) {
+        long r = x * y;
+        long ax = Math.abs(x);
+        long ay = Math.abs(y);
+        if(((ax | ay) >>> 31 != 0)) {
+            if(((y != 0) && (r / y != x)) || (x == Long.MIN_VALUE && y == -1))
+                throw new ArithmeticException("long overflow");
+        }
+        return r;
+    }
+
+    public static int divideExact(int x, int y) {
+        int q = x / y;
+        if((x & y & q) >= 0)
+            return q;
+        throw new ArithmeticException("integer overflow");
+    }
+
+    public static long divideExact(long x, long y) {
+        long q = x / y;
+        if((x & y & q) >= 0)
+            return q;
+        throw new ArithmeticException("long overflow");
+    }
+
+    public static int floorDivExact(int x, int y) {
+        final int q = x / y;
+        if((x & y & q) >= 0) {
+            if((x ^ y) < 0 && (q * y != x))
+                return q - 1;
+            return q;
+        }
+        throw new ArithmeticException("integer overflow");
+    }
+
+    public static long floorDivExact(long x, long y) {
+        final long q = x / y;
+        if((x & y & q) >= 0) {
+            if((x ^ y) < 0 && (q * y != x))
+                return q - 1;
+            return q;
+        }
+        throw new ArithmeticException("long overflow");
+    }
+
+    public static int ceilDivExact(int x, int y) {
+        final int q = x / y;
+        if((x & y & q) >= 0) {
+            if((x ^ y) >= 0 && (q * y != x))
+                return q + 1;
+            return q;
+        }
+        throw new ArithmeticException("integer overflow");
+    }
+
+    public static long ceilDivExact(long x, long y) {
+        final long q = x / y;
+        if((x & y & q) >= 0) {
+            if((x ^ y) >= 0 && (q * y != x))
+                return q + 1;
+            return q;
+        }
+        throw new ArithmeticException("long overflow");
+    }
+
+    public static int incrementExact(int a) {
+        if(a == Integer.MAX_VALUE)
+            throw new ArithmeticException("integer overflow");
+        return a + 1;
+    }
+
+    public static long incrementExact(long a) {
+        if(a == Long.MAX_VALUE)
+            throw new ArithmeticException("long overflow");
+        return a + 1L;
+    }
+
+    public static int decrementExact(int a) {
+        if(a == Integer.MIN_VALUE)
+            throw new ArithmeticException("integer overflow");
+        return a - 1;
+    }
+
+    public static long decrementExact(long a) {
+        if(a == Long.MIN_VALUE)
+            throw new ArithmeticException("long overflow");
+        return a - 1L;
+    }
+
+    public static int negateExact(int a) {
+        if(a == Integer.MIN_VALUE)
+            throw new ArithmeticException("integer overflow");
+        return -a;
+    }
+
+    public static long negateExact(long a) {
+        if(a == Long.MIN_VALUE)
+            throw new ArithmeticException("long overflow");
+        return -a;
+    }
+
+    public static int toIntExact(long value) {
+        if((int)value != value)
+            throw new ArithmeticException("integer overflow");
+        return (int)value;
+    }
+
     public static long multiplyFull(int x, int y) {
         return (long)x * (long)y;
     }
@@ -161,8 +308,8 @@ public final class Math {
 
     public static long unsignedMultiplyHigh(long x, long y) {
         long result = Math.multiplyHigh(x, y);
-        result += (y & (x >> 63)); // equivalent to `if(x < 0) result += y;`
-        result += (x & (y >> 63)); // equivalent to `if(y < 0) result += x;`
+        result += (y & (x >> 63));
+        result += (x & (y >> 63));
         return result;
     }
 

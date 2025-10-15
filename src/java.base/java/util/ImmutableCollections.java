@@ -743,7 +743,8 @@ class ImmutableCollections {
             else if(REVERSE) {
                 array[0] = (T)e1;
                 array[1] = (T)e0;
-            } else {
+            }
+            else {
                 array[0] = (T)e0;
                 array[1] = (T)e1;
             }
