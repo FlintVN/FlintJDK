@@ -231,94 +231,81 @@ public interface Map<K, V> {
         return newValue;
     }
 
-    // TODO
-    // @SuppressWarnings("unchecked")
-    // static <K, V> Map<K, V> of() {
-    //     return (Map<K,V>)ImmutableCollections.EMPTY_MAP;
-    // }
+    @SuppressWarnings("unchecked")
+    static <K, V> Map<K, V> of() {
+        return (Map<K,V>)ImmutableCollections.EMPTY_MAP;
+    }
 
-    // TODO
-    // static <K, V> Map<K, V> of(K k1, V v1) {
-    //     return new ImmutableCollections.Map1<>(k1, v1);
-    // }
+    static <K, V> Map<K, V> of(K k1, V v1) {
+        return new ImmutableCollections.Map1<>(k1, v1);
+    }
 
-    // TODO
-    // static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2) {
-    //     return new ImmutableCollections.MapN<>(k1, v1, k2, v2);
-    // }
+    static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2) {
+        return new ImmutableCollections.MapN<>(k1, v1, k2, v2);
+    }
 
-    // TODO
-    // static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3) {
-    //     return new ImmutableCollections.MapN<>(k1, v1, k2, v2, k3, v3);
-    // }
+    static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3) {
+        return new ImmutableCollections.MapN<>(k1, v1, k2, v2, k3, v3);
+    }
 
-    // TODO
-    // static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
-    //     return new ImmutableCollections.MapN<>(k1, v1, k2, v2, k3, v3, k4, v4);
-    // }
+    static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
+        return new ImmutableCollections.MapN<>(k1, v1, k2, v2, k3, v3, k4, v4);
+    }
 
-    // TODO
-    // static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
-    //     return new ImmutableCollections.MapN<>(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5);
-    // }
+    static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
+        return new ImmutableCollections.MapN<>(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5);
+    }
 
-    // TODO
-    // static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6) {
-    //     return new ImmutableCollections.MapN<>(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6);
-    // }
+    static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6) {
+        return new ImmutableCollections.MapN<>(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6);
+    }
 
-    // TODO
-    // static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7) {
-    //     return new ImmutableCollections.MapN<>(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7);
-    // }
+    static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7) {
+        return new ImmutableCollections.MapN<>(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7);
+    }
 
-    // TODO
-    // static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7, K k8, V v8) {
-    //     return new ImmutableCollections.MapN<>(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8);
-    // }
+    static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7, K k8, V v8) {
+        return new ImmutableCollections.MapN<>(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8);
+    }
 
-    // TODO
-    // static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7, K k8, V v8, K k9, V v9) {
-    //     return new ImmutableCollections.MapN<>(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9);
-    // }
+    static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7, K k8, V v8, K k9, V v9) {
+        return new ImmutableCollections.MapN<>(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9);
+    }
 
-    // TODO
-    // static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7, K k8, V v8, K k9, V v9, K k10, V v10) {
-    //     return new ImmutableCollections.MapN<>(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9, k10, v10);
-    // }
+    static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7, K k8, V v8, K k9, V v9, K k10, V v10) {
+        return new ImmutableCollections.MapN<>(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9, k10, v10);
+    }
 
-    // TODO
-    // @SafeVarargs
-    // @SuppressWarnings("varargs")
-    // static <K, V> Map<K, V> ofEntries(Entry<? extends K, ? extends V>... entries) {
-    //     if(entries.length == 0) {
-    //         @SuppressWarnings("unchecked")
-    //         var map = (Map<K,V>)ImmutableCollections.EMPTY_MAP;
-    //         return map;
-    //     }
-    //     else if(entries.length == 1)
-    //         return new ImmutableCollections.Map1<>(entries[0].getKey(), entries[0].getValue());
-    //     else {
-    //         Object[] kva = new Object[entries.length << 1];
-    //         int a = 0;
-    //         for(Entry<? extends K, ? extends V> entry : entries) {
-    //             kva[a++] = entry.getKey();
-    //             kva[a++] = entry.getValue();
-    //         }
-    //         return new ImmutableCollections.MapN<>(kva);
-    //     }
-    // }
+    @SafeVarargs
+    @SuppressWarnings("varargs")
+    static <K, V> Map<K, V> ofEntries(Entry<? extends K, ? extends V>... entries) {
+        if(entries.length == 0) {
+            @SuppressWarnings("unchecked")
+            var map = (Map<K,V>)ImmutableCollections.EMPTY_MAP;
+            return map;
+        }
+        else if(entries.length == 1)
+            return new ImmutableCollections.Map1<>(entries[0].getKey(), entries[0].getValue());
+        else {
+            Object[] kva = new Object[entries.length << 1];
+            int a = 0;
+            for(Entry<? extends K, ? extends V> entry : entries) {
+                kva[a++] = entry.getKey();
+                kva[a++] = entry.getValue();
+            }
+            return new ImmutableCollections.MapN<>(kva);
+        }
+    }
 
     static <K, V> Entry<K, V> entry(K k, V v) {
         return new KeyValueHolder<>(k, v);
     }
 
-    // TODO
-    // @SuppressWarnings({"rawtypes","unchecked"})
-    // static <K, V> Map<K, V> copyOf(Map<? extends K, ? extends V> map) {
-    //     if(map instanceof ImmutableCollections.AbstractImmutableMap)
-    //         return (Map<K,V>)map;
-    //     else
-    //         return (Map<K,V>)Map.ofEntries(map.entrySet().toArray(new Entry[0]));
-    // }
+    @SuppressWarnings({"rawtypes","unchecked"})
+    static <K, V> Map<K, V> copyOf(Map<? extends K, ? extends V> map) {
+        if(map instanceof ImmutableCollections.AbstractImmutableMap)
+            return (Map<K,V>)map;
+        else
+            return (Map<K,V>)Map.ofEntries(map.entrySet().toArray(new Entry[0]));
+    }
 }
