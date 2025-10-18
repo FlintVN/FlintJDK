@@ -347,6 +347,27 @@ final class StringUTF16 {
         return -StringLatin1.compareToUTF16(other, value);
     }
 
+    public static int compareToCI(byte[] value, byte[] other) {
+        int len1 = value.length >> 1;
+        int len2 = other.length >> 1;
+        int lim = Math.min(len1, len2);
+        for(int k = 0; k < lim; k++) {
+            char c1 = charAt(value, k);
+            char c2 = charAt(other, k);
+            if(c1 != c2) {
+                c1 = Character.toLowerCase(c1);
+                c2 = Character.toLowerCase(c2);
+                if(c1 != c2)
+                    return c1 - c2;
+            }
+        }
+        return len1 - len2;
+    }
+
+    public static int compareToCI_Latin1(byte[] value, byte[] other) {
+        return -StringLatin1.compareToCI_UTF16(other, value);
+    }
+
     public static boolean equalsIgnoreCase(byte[] value, byte[] other) {
         int len = value.length >>> 1;
         for(int i = 0; i < len; i++)

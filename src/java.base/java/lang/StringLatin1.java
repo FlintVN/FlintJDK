@@ -247,6 +247,38 @@ final class StringLatin1 {
         return value.length - (other.length >> 1);
     }
 
+    public static int compareToCI(byte[] value, byte[] other) {
+        int len1 = value.length;
+        int len2 = other.length;
+        int lim = Math.min(len1, len2);
+        for(int k = 0; k < lim; k++) {
+            if(value[k] != other[k]) {
+                char c1 = Character.toLowerCase((char)(value[k] & 0xFF));
+                char c2 = Character.toLowerCase((char)(other[k] & 0xFF));
+                if(c1 != c2)
+                    return c1 - c2;
+            }
+        }
+        return len1 - len2;
+    }
+
+    public static int compareToCI_UTF16(byte[] value, byte[] other) {
+        int len1 = value.length;
+        int len2 = other.length >> 1;
+        int lim = Math.min(len1, len2);
+        for(int k = 0; k < lim; k++) {
+            char c1 = (char)(value[k] & 0xFF);
+            char c2 = StringUTF16.charAt(other, k);
+            if(c1 != c2) {
+                c1 = Character.toLowerCase(c1);
+                c2 = Character.toLowerCase(c2);
+                if(c1 != c2)
+                    return c1 - c2;
+            }
+        }
+        return len1 - len2;
+    }
+
     public static boolean equals(byte[] value, byte[] other) {
         if(value.length != other.length)
             return false;

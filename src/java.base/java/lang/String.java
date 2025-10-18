@@ -660,6 +660,15 @@ public final class String implements Comparable<String>, CharSequence {
         return coder == LATIN1 ? StringLatin1.compareToUTF16(v1, v2) : StringUTF16.compareToLatin1(v1, v2);
     }
 
+    public int compareToIgnoreCase(String str) {
+        byte[] v1 = this.value;
+        byte[] v2 = str.value;
+        byte coder = this.coder();
+        if(coder == str.coder())
+            return coder == LATIN1 ? StringLatin1.compareToCI(v1, v2) : StringUTF16.compareToCI(v1, v2);
+        return coder == LATIN1 ? StringLatin1.compareToCI_UTF16(v1, v2) : StringUTF16.compareToCI_Latin1(v1, v2);
+    }
+
     @Override
     public int hashCode() {
         int h = hash;

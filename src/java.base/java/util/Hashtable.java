@@ -213,10 +213,8 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
     public synchronized Object clone() {
         Hashtable<?,?> t = cloneHashtable();
         t.table = new Entry<?,?>[table.length];
-        for(int i = table.length ; i-- > 0 ; ) {
-            t.table[i] = (table[i] != null)
-                ? (Entry<?,?>) table[i].clone() : null;
-        }
+        for(int i = table.length ; i-- > 0 ; )
+            t.table[i] = (table[i] != null) ? (Entry<?,?>) table[i].clone() : null;
         t.keySet = null;
         t.entrySet = null;
         t.values = null;
