@@ -10,16 +10,16 @@ public final class Character implements Comparable<Character> {
 
     private final char value;
 
-    public static native char toLower(char c);
+    public static native char toLowerCase(char c);
 
-    public static native char toUpper(char c);
+    public static native char toUpperCase(char c);
 
     public static boolean isLowerCase(char ch) {
-        return toUpper(ch) != ch;
+        return toUpperCase(ch) != ch;
     }
 
     public static boolean isUpperCase(char ch) {
-        return toLower(ch) != ch;
+        return toLowerCase(ch) != ch;
     }
 
     public static boolean isDigit(char ch) {

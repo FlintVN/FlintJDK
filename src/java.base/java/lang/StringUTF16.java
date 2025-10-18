@@ -232,7 +232,7 @@ final class StringUTF16 {
         byte[] ret = null;
         for(i = 0; i < length; i++) {
             char c = charAt(value, i);
-            char lower = Character.toLower(c);
+            char lower = Character.toLowerCase(c);
             if(lower != c) {
                 ret = new byte[value.length];
                 int index = i << 1;
@@ -245,7 +245,7 @@ final class StringUTF16 {
         }
         for(; i < length; i++) {
             int index = i << 1;
-            char lower = Character.toLower(charAt(value, i));
+            char lower = Character.toLowerCase(charAt(value, i));
             ret[index] = (byte)lower;
             ret[index + 1] = (byte)(lower >>> 8);
         }
@@ -258,7 +258,7 @@ final class StringUTF16 {
         byte[] ret = null;
         for(i = 0; i < length; i++) {
             char c = charAt(value, i);
-            char upper = Character.toUpper(c);
+            char upper = Character.toUpperCase(c);
             if(upper != c) {
                 ret = new byte[value.length];
                 int index = i << 1;
@@ -271,7 +271,7 @@ final class StringUTF16 {
         }
         for(; i < length; i++) {
             int index = i << 1;
-            char upper = Character.toUpper(charAt(value, i));
+            char upper = Character.toUpperCase(charAt(value, i));
             ret[index] = (byte)upper;
             ret[index + 1] = (byte)(upper >>> 8);
         }
@@ -350,7 +350,7 @@ final class StringUTF16 {
     public static boolean equalsIgnoreCase(byte[] value, byte[] other) {
         int len = value.length >>> 1;
         for(int i = 0; i < len; i++)
-            if(Character.toLower(charAt(value, i)) != Character.toLower(charAt(other, i)))
+            if(Character.toLowerCase(charAt(value, i)) != Character.toLowerCase(charAt(other, i)))
                 return false;
         return true;
     }
