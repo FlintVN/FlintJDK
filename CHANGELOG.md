@@ -1,4 +1,10 @@
 # Change Log
+## V0.1.0
+- Add missing methods to java.lang.Math class.
+- Add support for Map.of, Map.ofEntries and Map.copyOf methods.
+- Rename Character.toLower to Character.toLowerCase and Character.toUpper to Charactor.toUpperCase.
+- Add support for String.compareToIgnoreCase method.
+- Add support for java.io.File, java.io.FileInputStream and java.io.FileOutputStream.
 ## V0.0.11
 - Fix bug for Integer.toString() and Long.toString() with MIN_VALUE.
 - Add support Integer.getChars, Long.getChars and StringUTF16.getChars methods.
