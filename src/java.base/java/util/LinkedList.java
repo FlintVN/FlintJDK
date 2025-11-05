@@ -2,8 +2,8 @@
 package java.util;
 
 import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
+// import java.io.ObjectInput;
+// import java.io.ObjectOutput;
 import java.util.function.Consumer;
 import java.util.function.IntFunction;
 import java.util.function.Predicate;
@@ -987,12 +987,14 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
             return rdeque.getFirst();
         }
 
-        public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-            throw new java.io.InvalidObjectException("not serializable");
-        }
+        // TODO
+        // public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        //     throw new java.io.InvalidObjectException("not serializable");
+        // }
 
-        public void writeExternal(ObjectOutput out) throws IOException {
-            throw new java.io.InvalidObjectException("not serializable");
-        }
+        // TODO
+        // public void writeExternal(ObjectOutput out) throws IOException {
+        //     throw new java.io.InvalidObjectException("not serializable");
+        // }
     }
 }
