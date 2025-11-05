@@ -328,6 +328,13 @@ public final class String implements Comparable<String>, CharSequence {
         return this;
     }
 
+    public void getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin) {
+        if(coder == LATIN1)
+            StringLatin1.getChars(value, srcBegin, srcEnd, dst, dstBegin);
+        else
+            StringUTF16.getChars(value, srcBegin, srcEnd, dst, dstBegin);
+    }
+
     void getBytes(byte[] dst, int dstBegin, byte coder) {
         if(this.coder == coder)
             System.arraycopy(value, 0, dst, dstBegin << coder, value.length);

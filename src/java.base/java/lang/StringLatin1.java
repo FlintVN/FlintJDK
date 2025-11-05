@@ -227,6 +227,18 @@ final class StringLatin1 {
         return ret;
     }
 
+    public static void getChars(byte[] value, int srcBegin, int srcEnd, char[] dst, int dstBegin) {
+        if(srcBegin < srcEnd) {
+            int length = value.length;
+            if(srcBegin < 0)
+                throw new StringIndexOutOfBoundsException("Index " + srcBegin + " out of bounds for length " + length);
+            else if(srcEnd > length)
+                throw new StringIndexOutOfBoundsException("Last index " + srcEnd + " out of bounds for length" + length);
+        }
+        for(int i = srcBegin; i < srcEnd; i++)
+            dst[dstBegin++] = (char)(value[i] & 0xFF);
+    }
+
     public static int compareTo(byte[] value, byte[] other) {
         int lim = Math.min(value.length, other.length);
         for(int i = 0; i < lim; i++) {

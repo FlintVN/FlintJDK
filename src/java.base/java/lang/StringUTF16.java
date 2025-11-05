@@ -298,36 +298,16 @@ final class StringUTF16 {
         return ret;
     }
 
-    static int getChars(int i, int index, byte[] buf) {
-        boolean negative = (i < 0);
-        if(!negative)
-            i = -i;
-
-        do {
-            putChar(buf, --index, (char)((i % 10) + '0'));
-            i /= 10;
-        } while(i < 0);
-
-        if(negative)
-            putChar(buf, --index, '-');
-
-        return index;
-    }
-
-    static int getChars(long i, int index, byte[] buf) {
-        boolean negative = (i < 0);
-        if(!negative)
-            i = -i;
-
-        do {
-            putChar(buf, --index, (char)((i % 10) + '0'));
-            i /= 10;
-        } while(i < 0);
-
-        if(negative)
-            putChar(buf, --index, '-');
-
-        return index;
+    public static void getChars(byte[] value, int srcBegin, int srcEnd, char[] dst, int dstBegin) {
+        if(srcBegin < srcEnd) {
+            int length = value.length >> 1;
+            if(srcBegin < 0)
+                throw new StringIndexOutOfBoundsException("Index " + srcBegin + " out of bounds for length " + length);
+            else if(srcEnd > length)
+                throw new StringIndexOutOfBoundsException("Last index " + srcEnd + " out of bounds for length" + length);
+        }
+        for(int i = srcBegin; i < srcEnd; i++)
+            dst[dstBegin++] = charAt(value, i);
     }
 
     public static int compareTo(byte[] value, byte[] other) {
