@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Clean",
+            "label": "clean",
             "group": "build",
             "type": "shell",
             "options": {"cwd": "${workspaceFolder}"},
@@ -12,12 +12,12 @@
                 "reveal": "always",
                 "showReuseMessage": false,
                 "clear": true
-            },
+            }
         },
         {
             "label": "build",
             "type": "shell",
-            "dependsOn": ["Clean"],
+            "dependsOn": ["clean"],
             "dependsOrder": "sequence",
             "command": "make",
             "args": [
@@ -46,7 +46,7 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
-            },
+            }
         }
     ]
 }
