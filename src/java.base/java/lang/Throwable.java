@@ -3,6 +3,8 @@ package java.lang;
 public class Throwable {
     private String detailMessage;
     private Throwable cause = this;
+    private int suppressedCount;
+    private Throwable[] suppressedExceptions;
 
     public Throwable() {
         detailMessage = null;
@@ -20,6 +22,13 @@ public class Throwable {
     public Throwable(Throwable cause) {
         detailMessage = (cause == null ? null : cause.toString());
         this.cause = cause;
+    }
+
+    protected Throwable(String message, Throwable cause, boolean enableSuppression) {
+        detailMessage = message;
+        this.cause = cause;
+        if(!enableSuppression)
+            suppressedCount = -1;
     }
 
     public String getMessage() {
@@ -51,5 +60,39 @@ public class Throwable {
         String s = getClass().getName();
         String message = getLocalizedMessage();
         return (message != null) ? (s + ": " + message) : s;
+    }
+
+    private void ensureCapacity() {
+        if(suppressedExceptions == null)
+            suppressedExceptions = new Throwable[8];
+        int oldCapacity = suppressedExceptions.length;
+        if((suppressedCount + 1) > oldCapacity) {
+            int newCapacity = oldCapacity + 8;
+            Throwable[] buff = new Throwable[newCapacity];
+            System.arraycopy(suppressedExceptions, 0, buff, 0, suppressedCount);
+            suppressedExceptions = buff;
+        }
+    }
+
+    public final synchronized void addSuppressed(Throwable exception) {
+        if(exception == this)
+            throw new IllegalArgumentException("Self-suppression not permitted", exception);
+        if(exception == null)
+            throw new NullPointerException("Cannot suppress a null exception");
+        if(suppressedCount == -1)   /* Suppressed exceptions not recorded */
+            return;
+        ensureCapacity();
+        suppressedExceptions[suppressedCount] = exception;
+        suppressedCount++;
+    }
+
+    public final synchronized Throwable[] getSuppressed() {
+        if(suppressedCount <= 0)
+            return new Throwable[0];
+        else {
+            Throwable[] ret = new Throwable[suppressedCount];
+            System.arraycopy(suppressedExceptions, 0, ret, 0, suppressedCount);
+            return ret;
+        }
     }
 }

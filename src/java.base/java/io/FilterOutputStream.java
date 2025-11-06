@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class FilterOutputStream extends OutputStream {
     protected OutputStream out;
+    private volatile boolean closed;
 
     public FilterOutputStream(OutputStream out) {
         this.out = out;
@@ -31,12 +32,37 @@ public class FilterOutputStream extends OutputStream {
 
     @Override
     public void close() throws IOException {
-        try {
-            flush();
+        if(closed)
+            return;
+        synchronized(this) {
+            if(closed)
+                return;
+            closed = true;
         }
-        catch (IOException ignored) {
 
+        Throwable flushException = null;
+        synchronized(this) {
+            try {
+                flush();
+            }
+            catch(Throwable e) {
+                flushException = e;
+                throw e;
+            }
+            finally {
+                if(flushException == null)
+                    out.close();
+                else {
+                    try {
+                        out.close();
+                    }
+                    catch(Throwable closeException) {
+                        if(flushException != closeException)
+                            closeException.addSuppressed(flushException);
+                        throw closeException;
+                    }
+                }
+            }
         }
-        out.close();
     }
 }
