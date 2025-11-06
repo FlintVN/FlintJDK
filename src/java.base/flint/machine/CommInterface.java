@@ -1,14 +1,18 @@
 package flint.machine;
 
-public interface CommInterface {
-    void open();
-    void close();
+import java.io.IOException;
+
+public interface CommInterface extends AutoCloseable {
+    void open() throws IOException;
+    void close() throws IOException;
 
     boolean isOpen();
 
-    int read(byte[] buffer);
-    int read(byte[] buffer, int offset, int count);
+    int read() throws IOException;
+    int read(byte[] b) throws IOException;
+    int read(byte[] b, int off, int count) throws IOException;
 
-    void write(byte[] buffer);
-    void write(byte[] buffer, int offset, int count);
+    void write(int b) throws IOException;
+    void write(byte[] b) throws IOException;
+    void write(byte[] b, int off, int count) throws IOException;
 }

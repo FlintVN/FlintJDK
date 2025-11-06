@@ -1,4 +1,9 @@
 # Change Log
+## V1.0.0
+- Add java.io.FilterOutputStream.
+- Update java.io.PrintStream to inherit from FilterOutputStream.
+- Use FileOutputStream(FileDescriptor.out) as default for System.out.
+- flint.machine.CommInterface now extends AutoCloseable and added throws IOException to all methods in this class.
 ## V0.1.0
 - Add missing methods to java.lang.Math class.
 - Add support for Map.of, Map.ofEntries and Map.copyOf methods.
