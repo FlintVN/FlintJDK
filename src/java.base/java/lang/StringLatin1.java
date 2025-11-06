@@ -1,10 +1,13 @@
 package java.lang;
 
+import jdk.internal.vm.annotation.IntrinsicCandidate;
+
 final class StringLatin1 {
     public static char charAt(byte[] value, int index) {
         return (char)(value[index] & 0xFF);
     }
 
+    @IntrinsicCandidate
     public static int indexOf(byte[] value, int ch, int fromIndex) {
         if(ch > 255)
             return -1;
@@ -16,6 +19,7 @@ final class StringLatin1 {
         return -1;
     }
 
+    @IntrinsicCandidate
     public static int indexOf(byte[] value, byte[] str, int fromIndex) {
         if(str.length == 0)
             return 0;
@@ -239,6 +243,7 @@ final class StringLatin1 {
             dst[dstBegin++] = (char)(value[i] & 0xFF);
     }
 
+    @IntrinsicCandidate
     public static int compareTo(byte[] value, byte[] other) {
         int lim = Math.min(value.length, other.length);
         for(int i = 0; i < lim; i++) {
@@ -248,6 +253,7 @@ final class StringLatin1 {
         return value.length - other.length;
     }
 
+    @IntrinsicCandidate
     public static int compareToUTF16(byte[] value, byte[] other) {
         int lim = Math.min(value.length, other.length >> 1);
         for(int i = 0; i < lim; i++) {
@@ -291,6 +297,7 @@ final class StringLatin1 {
         return len1 - len2;
     }
 
+    @IntrinsicCandidate
     public static boolean equals(byte[] value, byte[] other) {
         if(value.length != other.length)
             return false;

@@ -1,17 +1,22 @@
 package java.lang;
 
+import jdk.internal.vm.annotation.IntrinsicCandidate;
+
 final class StringUTF16 {
+    @IntrinsicCandidate
     public static char charAt(byte[] value, int index) {
         index <<= 1;
         return (char)((value[index + 1] << 8) | (value[index] & 0xFF));
     }
 
+    @IntrinsicCandidate
     public static void putChar(byte[] value, int index, int c) {
         index <<= 1;
         value[index] = (byte)c;
         value[index + 1] = (byte)(c >>> 8);
     }
 
+    @IntrinsicCandidate
     public static int indexOf(byte[] value, int ch, int fromIndex) {
         if(ch > 65535)
             return -1;
@@ -22,6 +27,7 @@ final class StringUTF16 {
         return -1;
     }
 
+    @IntrinsicCandidate
     public static int indexOf(byte[] value, byte[] str, int fromIndex) {
         if(str.length == 0)
             return 0;
@@ -45,6 +51,7 @@ final class StringUTF16 {
         return -1;
     }
 
+    @IntrinsicCandidate
     public static int indexOfLatin1(byte[] value, byte[] str, int fromIndex) {
         if(str.length == 0)
             return 0;
@@ -298,6 +305,7 @@ final class StringUTF16 {
         return ret;
     }
 
+    @IntrinsicCandidate
     public static void getChars(byte[] value, int srcBegin, int srcEnd, char[] dst, int dstBegin) {
         if(srcBegin < srcEnd) {
             int length = value.length >> 1;
@@ -310,6 +318,7 @@ final class StringUTF16 {
             dst[dstBegin++] = charAt(value, i);
     }
 
+    @IntrinsicCandidate
     public static int compareTo(byte[] value, byte[] other) {
         int len1 = value.length >>> 1;
         int len2 = other.length >>> 1;
@@ -323,6 +332,7 @@ final class StringUTF16 {
         return len1 - len2;
     }
 
+    @IntrinsicCandidate
     public static int compareToLatin1(byte[] value, byte[] other) {
         return -StringLatin1.compareToUTF16(other, value);
     }
