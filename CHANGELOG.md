@@ -1,4 +1,7 @@
 # Change Log
+## V1.0.1
+- Support Throwable.addSuppressed and Throwable.getSuppressed to fix build error with try-with-resource.
+- Implement FileInputStream.transferTo method.
 ## V1.0.0
 - Add java.io.FilterOutputStream.
 - Update java.io.PrintStream to inherit from FilterOutputStream.
