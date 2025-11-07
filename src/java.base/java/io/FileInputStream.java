@@ -118,8 +118,14 @@ public class FileInputStream extends InputStream {
 
     @Override
     public long transferTo(OutputStream out) throws IOException {
-        // TODO
-        throw new UnsupportedOperationException();
+        long transferred = 0;
+        int br;
+        byte[] buff = new byte[16];
+        while((br = read(buff)) != -1) {
+            out.write(buff, 0, br);
+            transferred += br;
+        }
+        return transferred;
     }
 
     public native long length() throws IOException;

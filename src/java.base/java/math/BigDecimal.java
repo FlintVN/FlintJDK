@@ -252,7 +252,8 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
                     }
                 }
             }
-        } catch (ArrayIndexOutOfBoundsException | NegativeArraySizeException e) {
+        }
+        catch (ArrayIndexOutOfBoundsException | NegativeArraySizeException e) {
             NumberFormatException nfe = new NumberFormatException();
             nfe.initCause(e);
             throw nfe;
