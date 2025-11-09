@@ -2,7 +2,7 @@ package flint.machine;
 
 import java.io.IOException;
 
-public interface CommInterface extends AutoCloseable {
+public interface CommPort extends AutoCloseable {
     void open() throws IOException;
     void close() throws IOException;
 
