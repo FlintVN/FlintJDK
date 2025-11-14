@@ -1,5 +1,5 @@
 
-MODULES         	:=  java.base flint.io
+MODULES         	:=  java.base flint.io flint.net
 JC                  :=  javac
 MODULE_SOURCE_PATH  :=  src
 OUT_DIR          	?=  bin

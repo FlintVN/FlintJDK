@@ -3,20 +3,32 @@ package flint.machine;
 import java.io.IOException;
 
 public class SpiMaster implements CommPort {
-    private static final int MOSI_PIN_INDEX = 0;
-    private static final int MISO_PIN_INDEX = 1;
-    private static final int CLK_PIN_INDEX  = 2;
-    private static final int CS_PIN_INDEXX  = 3;
-
+    private String spiName;
     private int spiId;
     private int mode;
-    private int speed;
-    private short[] pins = new short[4];
-
-    private native int initInstance(String spi);
+    private int speed = -2; /* Use default */
+    private int mosi = -2;  /* Use default */
+    private int miso = -2;  /* Use default */
+    private int clk = -2;   /* Use default */
+    private int cs = -2;    /* Use default */
 
     public SpiMaster(String spi) {
-        spiId = initInstance(spi);
+        if(spi == null)
+            throw new NullPointerException("SPI name cannot be null");
+        this.spiName = spi;
+        this.mode = dataModeToInt(SpiDataMode.MSB_MODE0);
+    }
+
+    public SpiMaster(String spi, int speed) {
+        this(spi, speed, SpiDataMode.MSB_MODE0);
+    }
+
+    public SpiMaster(String spi, int speed, SpiDataMode dataMode) {
+        if(spi == null)
+            throw new NullPointerException("SPI name cannot be null");
+        this.spiName = spi;
+        this.speed = speed;
+        this.mode = dataModeToInt(dataMode);
     }
 
     @Override
@@ -41,7 +53,7 @@ public class SpiMaster implements CommPort {
     }
 
     public SpiDataMode getDataMode() {
-        return switch(this.mode & 0x07) {
+        return switch(mode & 0x07) {
             case 0 -> SpiDataMode.MSB_MODE0;
             case 1 -> SpiDataMode.MSB_MODE1;
             case 2 -> SpiDataMode.MSB_MODE2;
@@ -55,7 +67,11 @@ public class SpiMaster implements CommPort {
 
     public void setDataMode(SpiDataMode dataMode) {
         checkStateBeforeConfig();
-        int m = switch(dataMode) {
+        mode = (mode & 0xFFFFFFF8) | dataModeToInt(dataMode);
+    }
+
+    private static int dataModeToInt(SpiDataMode dataMode) {
+        return switch(dataMode) {
             case MSB_MODE0 -> 0;
             case MSB_MODE1 -> 1;
             case MSB_MODE2 -> 2;
@@ -65,55 +81,54 @@ public class SpiMaster implements CommPort {
             case LSB_MODE2 -> 6;
             default -> 7;
         };
-        this.mode = (this.mode & 0xFFFFFFF8) | m;
     }
 
     public boolean getCsLevel() {
-        return (this.mode & 0x08) != 0;
+        return (mode & 0x08) != 0;
     }
 
     public void setCsLevel(boolean level) {
         checkStateBeforeConfig();
         if(level)
-            this.mode |= 0x08;
+            mode |= 0x08;
         else
-            this.mode &= ~0x08;
+            mode &= ~0x08;
     }
 
     public int getMosiPin() {
-        return pins[MOSI_PIN_INDEX];
+        return mosi;
     }
 
     public void setMosiPin(int pin) {
         checkStateBeforeConfig();
-        pins[MOSI_PIN_INDEX] = (short)pin;
+        mosi = pin;
     }
 
     public int getMisoPin() {
-        return pins[MISO_PIN_INDEX];
+        return miso;
     }
 
     public void setMisoPin(int pin) {
         checkStateBeforeConfig();
-        pins[MISO_PIN_INDEX] = (short)pin;
+        miso = pin;
     }
 
     public int getClkPin() {
-        return pins[CLK_PIN_INDEX];
+        return clk;
     }
 
     public void setClkPin(int pin) {
         checkStateBeforeConfig();
-        pins[CLK_PIN_INDEX] = (short)pin;
+        clk = pin;
     }
 
     public int getCsPin() {
-        return pins[CS_PIN_INDEXX];
+        return cs;
     }
 
     public void setCsPin(int pin) {
         checkStateBeforeConfig();
-        pins[CS_PIN_INDEXX] = (short)pin;
+        cs = pin;
     }
 
     @Override
