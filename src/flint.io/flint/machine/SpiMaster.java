@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class SpiMaster implements CommPort {
     private String spiName;
-    private int spiId;
+    private int spiId = -1;
     private int mode;
     private int speed = -2; /* Use default */
     private int mosi = -2;  /* Use default */
@@ -16,7 +16,7 @@ public class SpiMaster implements CommPort {
         if(spi == null)
             throw new NullPointerException("SPI name cannot be null");
         this.spiName = spi;
-        this.mode = dataModeToInt(SpiDataMode.MSB_MODE0);
+        this.mode = SpiDataMode.MSB_MODE0.value;
     }
 
     public SpiMaster(String spi, int speed) {
@@ -28,11 +28,11 @@ public class SpiMaster implements CommPort {
             throw new NullPointerException("SPI name cannot be null");
         this.spiName = spi;
         this.speed = speed;
-        this.mode = dataModeToInt(dataMode);
+        this.mode = dataMode.value;
     }
 
     @Override
-    public native void open() throws IOException;
+    public native SpiMaster open() throws IOException;
 
     @Override
     public native void close() throws IOException;
@@ -47,88 +47,73 @@ public class SpiMaster implements CommPort {
 
     public native int getSpeed() throws IOException;
 
-    public void setSpeed(int speed) {
+    public SpiMaster setSpeed(int speed) {
         checkStateBeforeConfig();
         this.speed = speed;
+        return this;
     }
 
     public SpiDataMode getDataMode() {
-        return switch(mode & 0x07) {
-            case 0 -> SpiDataMode.MSB_MODE0;
-            case 1 -> SpiDataMode.MSB_MODE1;
-            case 2 -> SpiDataMode.MSB_MODE2;
-            case 3 -> SpiDataMode.MSB_MODE3;
-            case 4 -> SpiDataMode.LSB_MODE0;
-            case 5 -> SpiDataMode.LSB_MODE1;
-            case 6 -> SpiDataMode.LSB_MODE2;
-            default -> SpiDataMode.LSB_MODE3;
-        };
+        return SpiDataMode.fromValue(mode & 0x07);
     }
 
-    public void setDataMode(SpiDataMode dataMode) {
+    public SpiMaster setDataMode(SpiDataMode dataMode) {
         checkStateBeforeConfig();
-        mode = (mode & 0xFFFFFFF8) | dataModeToInt(dataMode);
-    }
-
-    private static int dataModeToInt(SpiDataMode dataMode) {
-        return switch(dataMode) {
-            case MSB_MODE0 -> 0;
-            case MSB_MODE1 -> 1;
-            case MSB_MODE2 -> 2;
-            case MSB_MODE3 -> 3;
-            case LSB_MODE0 -> 4;
-            case LSB_MODE1 -> 5;
-            case LSB_MODE2 -> 6;
-            default -> 7;
-        };
+        mode = (mode & 0xFFFFFFF8) | dataMode.value;
+        return this;
     }
 
     public boolean getCsLevel() {
         return (mode & 0x08) != 0;
     }
 
-    public void setCsLevel(boolean level) {
+    public SpiMaster setCsLevel(boolean level) {
         checkStateBeforeConfig();
         if(level)
             mode |= 0x08;
         else
             mode &= ~0x08;
+        return this;
     }
 
     public int getMosiPin() {
         return mosi;
     }
 
-    public void setMosiPin(int pin) {
+    public SpiMaster setMosiPin(int pin) {
         checkStateBeforeConfig();
         mosi = pin;
+        return this;
     }
 
     public int getMisoPin() {
         return miso;
     }
 
-    public void setMisoPin(int pin) {
+    public SpiMaster setMisoPin(int pin) {
         checkStateBeforeConfig();
         miso = pin;
+        return this;
     }
 
     public int getClkPin() {
         return clk;
     }
 
-    public void setClkPin(int pin) {
+    public SpiMaster setClkPin(int pin) {
         checkStateBeforeConfig();
         clk = pin;
+        return this;
     }
 
     public int getCsPin() {
         return cs;
     }
 
-    public void setCsPin(int pin) {
+    public SpiMaster setCsPin(int pin) {
         checkStateBeforeConfig();
         cs = pin;
+        return this;
     }
 
     @Override

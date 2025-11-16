@@ -48,14 +48,7 @@ public class Port {
     }
 
     public Port setMode(PinMode mode) {
-        int m = switch(mode) {
-            case INPUT -> 0;
-            case OUTPUT -> 1;
-            case INPUT_PULL_UP -> 2;
-            case INPUT_PULL_DOWN -> 3;
-            default -> 4;
-        };
-        Port.setMode(pins, m);
+        Port.setMode(pins, mode.value);
         return this;
     }
 }
