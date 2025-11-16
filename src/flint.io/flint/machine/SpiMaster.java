@@ -13,8 +13,6 @@ public class SpiMaster implements CommPort {
     private int cs = -2;    /* Use default */
 
     public SpiMaster(String spi) {
-        if(spi == null)
-            throw new NullPointerException("SPI name cannot be null");
         this.spiName = spi;
         this.mode = SpiDataMode.MSB_MODE0.value;
     }
@@ -24,8 +22,6 @@ public class SpiMaster implements CommPort {
     }
 
     public SpiMaster(String spi, int speed, SpiDataMode dataMode) {
-        if(spi == null)
-            throw new NullPointerException("SPI name cannot be null");
         this.spiName = spi;
         this.speed = speed;
         this.mode = dataMode.value;
