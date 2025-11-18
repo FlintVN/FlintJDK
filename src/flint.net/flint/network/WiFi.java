@@ -19,48 +19,28 @@ public class WiFi {
     public static native AccessPointRecord[] getScanResults();
     public static native void stopScan();
 
-    private static int getAuthModeValue(WiFiAuthMode authMode) {
-        return switch(authMode) {
-            case OPEN -> 0;
-            case WEP -> 1;
-            case WPA_PSK -> 2;
-            case WPA2_PSK -> 3;
-            case WPA_WPA2_PSK -> 4;
-            case ENTERPRISE -> 5;
-            case WPA2_ENTERPRISE -> 6;
-            case WPA3_PSK -> 7;
-            case WPA2_WPA3_PSK -> 8;
-            case WAPI_PSK -> 9;
-            case OWE -> 10;
-            case WPA3_ENT_192 -> 11;
-            case WPA3_EXT_PSK -> 12;
-            case WPA3_EXT_PSK_MIXED_MODE -> 13;
-            default -> 14;
-        };
-    }
-
     public static void connect(String ssid) {
-        WiFi.connect(ssid, null, getAuthModeValue(WiFiAuthMode.OPEN));
+        WiFi.connect(ssid, null, WiFiAuthMode.OPEN.value);
     }
 
     public static void connect(String ssid, String password) {
-        WiFi.connect(ssid, password, getAuthModeValue(WiFiAuthMode.WPA2_PSK));
+        WiFi.connect(ssid, password, WiFiAuthMode.WPA2_PSK.value);
     }
 
     public static void connect(String ssid, String password, WiFiAuthMode authMode) {
-        WiFi.connect(ssid, password, getAuthModeValue(authMode));
+        WiFi.connect(ssid, password, authMode.value);
     }
 
     public static void softAP(String ssid) {
-        WiFi.softAP(ssid, null, getAuthModeValue(WiFiAuthMode.OPEN), 1, 5);
+        WiFi.softAP(ssid, null, WiFiAuthMode.OPEN.value, 1, 5);
     }
 
     public static void softAP(String ssid, String password) {
-        WiFi.softAP(ssid, password, getAuthModeValue(WiFiAuthMode.WPA2_PSK), 1, 5);
+        WiFi.softAP(ssid, password, WiFiAuthMode.WPA2_PSK.value, 1, 5);
     }
 
     public static void softAP(String ssid, String password, WiFiAuthMode authMode) {
-        WiFi.softAP(ssid, password, getAuthModeValue(authMode), 0, 5);
+        WiFi.softAP(ssid, password, authMode.value, 0, 5);
     }
 
     public static synchronized AccessPointRecord[] scanNetworks() {

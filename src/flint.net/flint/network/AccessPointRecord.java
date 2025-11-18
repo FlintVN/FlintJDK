@@ -27,27 +27,8 @@ public class AccessPointRecord {
     }
 
     public WiFiAuthMode getAuthMode() {
-        if(authModeInEnum == null) {
-            synchronized(this) {
-                authModeInEnum = switch(authMode) {
-                    case 0 -> WiFiAuthMode.OPEN;
-                    case 1 -> WiFiAuthMode.WEP;
-                    case 2 -> WiFiAuthMode.WPA_PSK;
-                    case 3 -> WiFiAuthMode.WPA2_PSK;
-                    case 4 -> WiFiAuthMode.WPA_WPA2_PSK;
-                    case 5 -> WiFiAuthMode.ENTERPRISE;
-                    case 6 -> WiFiAuthMode.WPA2_ENTERPRISE;
-                    case 7 -> WiFiAuthMode.WPA3_PSK;
-                    case 8 -> WiFiAuthMode.WPA2_WPA3_PSK;
-                    case 9 -> WiFiAuthMode.WAPI_PSK;
-                    case 10 -> WiFiAuthMode.OWE;
-                    case 11 -> WiFiAuthMode.WPA3_ENT_192;
-                    case 12 -> WiFiAuthMode.WPA3_EXT_PSK;
-                    case 13 -> WiFiAuthMode.WPA3_EXT_PSK_MIXED_MODE;
-                    default -> WiFiAuthMode.DPP;
-                };
-            }
-        }
+        if(authModeInEnum == null)
+            authModeInEnum = WiFiAuthMode.fromValue(authMode);
         return authModeInEnum;
     }
 }
