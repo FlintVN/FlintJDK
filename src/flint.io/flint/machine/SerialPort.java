@@ -17,8 +17,6 @@ public class SerialPort implements CommPort {
     }
 
     public SerialPort(String port, int baudrate) {
-        if(port == null)
-            throw new NullPointerException("Port name cannot be null");
         this.portName = port;
         this.baudrate = baudrate;
         this.stopBits = StopBits.ONE.value;
