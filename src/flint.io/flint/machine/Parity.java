@@ -13,7 +13,7 @@ public enum Parity {
         this.value = value;
     }
 
-    public static Parity fromValue(int value) {
+    static Parity fromValue(int value) {
         return switch(value) {
             case 0 -> NONE;
             case 1 -> ODD;

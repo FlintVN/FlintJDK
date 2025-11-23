@@ -10,7 +10,7 @@ public enum BitStreamEncoding {
         this.value = value;
     }
 
-    public static BitStreamEncoding fromValue(int value) {
+    static BitStreamEncoding fromValue(int value) {
         return switch(value) {
             case 0 -> HIGH_LOW;
             default -> LOW_HIGH;

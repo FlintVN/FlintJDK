@@ -23,7 +23,7 @@ public enum WiFiAuthMode {
         this.value = value;
     }
 
-    public static WiFiAuthMode fromValue(int value) {
+    static WiFiAuthMode fromValue(int value) {
         return switch(value) {
             case 0 -> OPEN;
             case 1 -> WEP;

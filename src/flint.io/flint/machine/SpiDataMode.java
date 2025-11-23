@@ -16,7 +16,7 @@ public enum SpiDataMode {
         this.value = value;
     }
 
-    public static SpiDataMode fromValue(int value) {
+    static SpiDataMode fromValue(int value) {
         return switch(value) {
             case 0 -> MSB_MODE0;
             case 1 -> MSB_MODE1;
