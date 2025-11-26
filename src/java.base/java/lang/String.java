@@ -368,6 +368,49 @@ public final class String implements Comparable<String>, CharSequence {
         }
     }
 
+    public byte[] getBytes() {
+        int len = length();
+        int coder = this.coder;
+        int retLen = 0, idx = 0;
+        byte[] value = this.value;
+        if(coder == LATIN1) {
+            for(int i = 0; i < len; i++)
+                retLen += value[i] > 0 ? 1 : 2;
+            byte[] ret = new byte[retLen];
+            for(int i = 0; i < len; i++)
+                idx += utf8EncodeOneChar((char)value[i], ret, idx);
+            return ret;
+        }
+        else {
+            for(int i = 0; i < len; i++) {
+                char c = StringUTF16.charAt(value, i);
+                retLen += c < 0x80 ? 1 : (c < 0x0800 ? 2 : 3);
+            }
+            byte[] ret = new byte[retLen];
+            for(int i = 0; i < len; i++)
+                idx += utf8EncodeOneChar(StringUTF16.charAt(value, i), ret, idx);
+            return ret;
+        }
+    }
+
+    private static int utf8EncodeOneChar(char c, byte[] buff, int index) {
+        if(c < 0x80) {
+            buff[index] = (byte)c;
+            return 1;
+        }
+        else if(c < 0x0800) {
+            buff[index] = (byte)(0xC0 | (c >> 6));
+            buff[index + 1] = (byte)(0x80 | (c & 0x3F));
+            return 2;
+        }
+        else {
+            buff[index] = (byte)(0xE0 | (c >> 12));
+            buff[index + 1] = (byte)(0x80 | ((c >> 6) & 0x3F));
+            buff[index + 2] = (byte)(0x80 | (c & 0x3F));
+            return 3;
+        }
+    }
+
     public String substring(int beginIndex) {
         return substring(beginIndex, length());
     }
