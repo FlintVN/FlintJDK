@@ -1,7 +1,15 @@
 # Change Log
-## V1.0.1
+## V1.1.0
 - Support Throwable.addSuppressed and Throwable.getSuppressed to fix build error with try-with-resource.
 - Implement FileInputStream.transferTo method.
+- Split flint API into separate modules.
+- Add support for java.util.Optional.
+- Add support for some more protocols in flint.io:
+  - flint.machine.SerialPort.
+  - flint.machine.I2cMaster.
+  - flint.machine.BitStream.
+  - flint.machine.OneWire.
+- Add support String.getBytes to get bytes in UTF8 format
 ## V1.0.0
 - Add java.io.FilterOutputStream.
 - Update java.io.PrintStream to inherit from FilterOutputStream.
