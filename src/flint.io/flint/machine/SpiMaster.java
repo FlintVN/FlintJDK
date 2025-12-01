@@ -55,7 +55,9 @@ public class SpiMaster implements InputPort, OutputPort {
 
     public SpiMaster setDataMode(SpiDataMode dataMode) {
         checkStateBeforeConfig();
-        mode = (mode & 0xFFFFFFF8) | dataMode.value;
+        synchronized(this) {
+            mode = (mode & 0xFFFFFFF8) | dataMode.value;
+        }
         return this;
     }
 
@@ -65,10 +67,12 @@ public class SpiMaster implements InputPort, OutputPort {
 
     public SpiMaster setCsLevel(boolean level) {
         checkStateBeforeConfig();
-        if(level)
-            mode |= 0x08;
-        else
-            mode &= ~0x08;
+        synchronized(this) {
+            if(level)
+                mode |= 0x08;
+            else
+                mode &= ~0x08;
+        }
         return this;
     }
 
