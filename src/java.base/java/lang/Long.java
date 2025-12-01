@@ -144,7 +144,7 @@ public final class Long extends Number implements Comparable<Long> {
 
         if(negative)
             buf[--index] = '-';
-        
+
         return index;
     }
 

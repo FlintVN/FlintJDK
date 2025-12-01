@@ -458,7 +458,7 @@ public class HashMap<K,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneabl
             HashMap.this.clear();
         }
 
-        public final Iterator<K> iterator() { 
+        public final Iterator<K> iterator() {
             return new KeyIterator();
         }
 

@@ -140,7 +140,6 @@ public final class Math {
         return Random.nextDouble();
     }
 
-    
     public static int addExact(int x, int y) {
         int r = x + y;
         if(((x ^ r) & (y ^ r)) < 0)

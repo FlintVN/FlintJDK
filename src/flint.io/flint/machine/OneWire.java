@@ -2,7 +2,7 @@ package flint.machine;
 
 import java.io.IOException;
 
-public class OneWire implements CommPort {
+public class OneWire implements InputPort, OutputPort {
     private String name;
     private int id = -1;
     private int speedMode;

@@ -2,7 +2,7 @@ package flint.machine;
 
 import java.io.IOException;
 
-public class SerialPort implements CommPort {
+public class SerialPort implements InputPort, OutputPort {
     private String portName;
     private int portId = -1;
     private int baudrate;

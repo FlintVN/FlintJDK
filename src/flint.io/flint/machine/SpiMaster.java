@@ -2,7 +2,7 @@ package flint.machine;
 
 import java.io.IOException;
 
-public class SpiMaster implements CommPort {
+public class SpiMaster implements InputPort, OutputPort {
     private String spiName;
     private int spiId = -1;
     private int mode;

@@ -2,7 +2,7 @@ package flint.machine;
 
 import java.io.IOException;
 
-public class BitStream implements CommPort {
+public class BitStream implements OutputPort {
     private String name;
     private int id = -1;
     private int encoding;
@@ -63,21 +63,6 @@ public class BitStream implements CommPort {
     }
 
     @Override
-    public int read() throws IOException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public int read(byte[] b) throws IOException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public int read(byte[] b, int off, int count) throws IOException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public native void write(int b) throws IOException;
 
     @Override
@@ -87,4 +72,4 @@ public class BitStream implements CommPort {
 
     @Override
     public native void write(byte[] b, int off, int count) throws IOException;
-}   
+}

@@ -2,7 +2,7 @@ package flint.machine;
 
 import java.io.IOException;
 
-public class I2cMaster implements CommPort {
+public class I2cMaster implements InputPort, OutputPort {
     private String i2cName;
     private int i2cId = -1;
     private int speed;
