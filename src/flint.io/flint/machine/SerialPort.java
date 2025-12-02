@@ -9,6 +9,7 @@ public class SerialPort implements InputPort, OutputPort {
     private int stopBits;
     private int parity;
     private int dataBits = 8;
+    private int rxBufSize = -1;
     private int txPin = -2; /* Use default */
     private int rxPin = -2; /* Use default */
 
@@ -75,6 +76,16 @@ public class SerialPort implements InputPort, OutputPort {
             this.dataBits = dataBits;
         else
             throw new IllegalArgumentException("Argument must be between 5 and 8");
+        return this;
+    }
+
+    public int getRxBufferSize() {
+        return rxBufSize;
+    }
+
+    public SerialPort setRxBufferSize(int size) {
+        checkStateBeforeConfig();
+        rxBufSize = size;
         return this;
     }
 
