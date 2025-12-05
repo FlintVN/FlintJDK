@@ -2,7 +2,7 @@ package flint.machine;
 
 import java.io.IOException;
 
-public class I2sMaster implements InputPort, OutputPort {
+public class I2sMaster implements InputPort, OutputPort, AnalogInputStream, AnalogOutputStream {
     private String i2sName;
     private int i2sId = -1;
     private int mode = 0;
@@ -142,6 +142,22 @@ public class I2sMaster implements InputPort, OutputPort {
     public native int read(byte[] b, int off, int count) throws IOException;
 
     @Override
+    public int read(short[] b) throws IOException {
+        return read(b, 0, b.length);
+    }
+
+    @Override
+    public native int read(short[] b, int off, int count) throws IOException;
+
+    @Override
+    public int read(int[] b) throws IOException {
+        return read(b, 0, b.length);
+    }
+
+    @Override
+    public native int read(int[] b, int off, int count) throws IOException;
+
+    @Override
     public native void write(int b) throws IOException;
 
     @Override
@@ -151,4 +167,20 @@ public class I2sMaster implements InputPort, OutputPort {
 
     @Override
     public native void write(byte[] b, int off, int count) throws IOException;
+
+    @Override
+    public void write(short[] b) throws IOException {
+        write(b, 0, b.length);
+    }
+
+    @Override
+    public native void write(short[] b, int off, int count) throws IOException;
+
+    @Override
+    public void write(int[] b) throws IOException {
+        write(b, 0, b.length);
+    }
+
+    @Override
+    public native void write(int[] b, int off, int count) throws IOException;
 }
