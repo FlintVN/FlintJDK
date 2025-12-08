@@ -1,4 +1,13 @@
 # Change Log
+## V1.2.0
+- Split flint.machine.CommPort class into flint.machine.InputPort and flint.machine.OutputPort.
+- Support RxBufferSize parameter for SerialPort.
+- Added support for the following classes to flint.io:
+  - flint.machine.I2sMaster.
+  - flint.machine.Adc.
+  - flint.machine.Dac.
+  - flint.machine.AnalogInputStream.
+  - flint.machine.AnalogOutputStream.
 ## V1.1.0
 - Support Throwable.addSuppressed and Throwable.getSuppressed to fix build error with try-with-resource.
 - Implement FileInputStream.transferTo method.
