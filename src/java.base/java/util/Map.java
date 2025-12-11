@@ -106,7 +106,7 @@ public interface Map<K, V> {
                 k = entry.getKey();
                 v = entry.getValue();
             }
-            catch (IllegalStateException ise) {
+            catch(IllegalStateException ise) {
                 throw new ConcurrentModificationException(ise);
             }
             action.accept(k, v);
@@ -122,7 +122,7 @@ public interface Map<K, V> {
                 k = entry.getKey();
                 v = entry.getValue();
             }
-            catch (IllegalStateException ise) {
+            catch(IllegalStateException ise) {
                 throw new ConcurrentModificationException(ise);
             }
 
@@ -131,7 +131,7 @@ public interface Map<K, V> {
             try {
                 entry.setValue(v);
             }
-            catch (IllegalStateException ise) {
+            catch(IllegalStateException ise) {
                 throw new ConcurrentModificationException(ise);
             }
         }

@@ -1004,7 +1004,7 @@ public class Arrays {
             a[i] = val;
     }
 
-    public static void fill(double[] a, int fromIndex, int toIndex,double val){
+    public static void fill(double[] a, int fromIndex, int toIndex,double val) {
         rangeCheck(a.length, fromIndex, toIndex);
         for(int i = fromIndex; i < toIndex; i++)
             a[i] = val;

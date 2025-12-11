@@ -14,8 +14,7 @@ public final class Short extends Number implements Comparable<Short> {
         return Integer.toString(s);
     }
 
-    public static short parseShort(String s, int radix)
-        throws NumberFormatException {
+    public static short parseShort(String s, int radix) throws NumberFormatException {
         int i = Integer.parseInt(s, radix);
         if(i < MIN_VALUE || i > MAX_VALUE)
             throw new NumberFormatException("Value out of range. Value:\"" + s + "\" Radix:" + radix);

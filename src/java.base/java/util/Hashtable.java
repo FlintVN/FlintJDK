@@ -226,7 +226,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
         try {
             return (Hashtable<?,?>)super.clone();
         }
-        catch (CloneNotSupportedException e) {
+        catch(CloneNotSupportedException e) {
             throw new InternalError(e);
         }
     }
@@ -411,7 +411,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
                 }
             }
         }
-        catch (ClassCastException | NullPointerException unused) {
+        catch(ClassCastException | NullPointerException unused) {
             return false;
         }
 

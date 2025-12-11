@@ -34,7 +34,7 @@ class ReverseOrderSortedSetView<E> implements SortedSet<E> {
         try {
             return containsAll(c);
         }
-        catch (ClassCastException | NullPointerException unused) {
+        catch(ClassCastException | NullPointerException unused) {
             return false;
         }
     }

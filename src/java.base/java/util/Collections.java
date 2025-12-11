@@ -1334,7 +1334,7 @@ public class Collections {
             return new UnmodifiableSortedMap<>(sm.subMap(fromKey, toKey));
         }
 
-        public SortedMap<K,V> headMap(K toKey){
+        public SortedMap<K,V> headMap(K toKey) {
             return new UnmodifiableSortedMap<>(sm.headMap(toKey));
         }
 
@@ -2469,7 +2469,7 @@ public class Collections {
                 if(a.getClass() != z.getClass())
                     a = Arrays.copyOf(a, a.length, z.getClass());
             }
-            catch (ArrayStoreException ignore) {
+            catch(ArrayStoreException ignore) {
                 a = coll.toArray().clone();
                 for(Object o : a)
                     typeCheck(o);

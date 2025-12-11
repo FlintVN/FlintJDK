@@ -873,7 +873,7 @@ public class HashMap<K,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneabl
         try {
             result = (HashMap<K,V>)super.clone();
         }
-        catch (CloneNotSupportedException e) {
+        catch(CloneNotSupportedException e) {
             throw new InternalError(e);
         }
         result.reinitialize();

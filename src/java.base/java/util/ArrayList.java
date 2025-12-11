@@ -125,7 +125,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
             v.modCount = 0;
             return v;
         }
-        catch (CloneNotSupportedException e) {
+        catch(CloneNotSupportedException e) {
             throw new InternalError(e);
         }
     }
@@ -448,7 +448,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
                 if(c.contains(e = es[r]) == complement)
                     es[w++] = e;
         }
-        catch (Throwable ex) {
+        catch(Throwable ex) {
             System.arraycopy(es, r, es, w, end - r);
             w += end - r;
             throw ex;
@@ -510,7 +510,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
                 lastRet = -1;
                 expectedModCount = modCount;
             }
-            catch (IndexOutOfBoundsException ex) {
+            catch(IndexOutOfBoundsException ex) {
                 throw new ConcurrentModificationException();
             }
         }
@@ -577,7 +577,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
             try {
                 ArrayList.this.set(lastRet, e);
             }
-            catch (IndexOutOfBoundsException ex) {
+            catch(IndexOutOfBoundsException ex) {
                 throw new ConcurrentModificationException();
             }
         }
@@ -592,7 +592,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
                 lastRet = -1;
                 expectedModCount = modCount;
             }
-            catch (IndexOutOfBoundsException ex) {
+            catch(IndexOutOfBoundsException ex) {
                 throw new ConcurrentModificationException();
             }
         }
@@ -843,7 +843,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
                         lastRet = -1;
                         expectedModCount = SubList.this.modCount;
                     }
-                    catch (IndexOutOfBoundsException ex) {
+                    catch(IndexOutOfBoundsException ex) {
                         throw new ConcurrentModificationException();
                     }
                 }
@@ -856,7 +856,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
                     try {
                         root.set(offset + lastRet, e);
                     }
-                    catch (IndexOutOfBoundsException ex) {
+                    catch(IndexOutOfBoundsException ex) {
                         throw new ConcurrentModificationException();
                     }
                 }
@@ -871,7 +871,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
                         lastRet = -1;
                         expectedModCount = SubList.this.modCount;
                     }
-                    catch (IndexOutOfBoundsException ex) {
+                    catch(IndexOutOfBoundsException ex) {
                         throw new ConcurrentModificationException();
                     }
                 }

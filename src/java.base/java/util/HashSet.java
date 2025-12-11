@@ -64,7 +64,7 @@ public class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable {
             newSet.map = (HashMap<E, Object>) map.clone();
             return newSet;
         }
-        catch (CloneNotSupportedException e) {
+        catch(CloneNotSupportedException e) {
             throw new InternalError(e);
         }
     }

@@ -18,7 +18,7 @@ public enum RoundingMode {
     }
 
     public static RoundingMode valueOf(int rm) {
-        return switch (rm) {
+        return switch(rm) {
             case BigDecimal.ROUND_UP          -> UP;
             case BigDecimal.ROUND_DOWN        -> DOWN;
             case BigDecimal.ROUND_CEILING     -> CEILING;

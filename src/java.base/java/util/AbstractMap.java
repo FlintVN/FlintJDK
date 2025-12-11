@@ -228,7 +228,7 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
                 }
             }
         }
-        catch (ClassCastException | NullPointerException unused) {
+        catch(ClassCastException | NullPointerException unused) {
             return false;
         }
 

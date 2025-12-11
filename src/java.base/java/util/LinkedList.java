@@ -571,7 +571,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
         try {
             return (LinkedList<E>)super.clone();
         }
-        catch (CloneNotSupportedException e) {
+        catch(CloneNotSupportedException e) {
             throw new InternalError(e);
         }
     }

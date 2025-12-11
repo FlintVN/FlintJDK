@@ -132,7 +132,7 @@ public class I2sMaster implements InputPort, OutputPort, AnalogInputStream, Anal
 
     @Override
     public native int read() throws IOException;
-    
+
     @Override
     public int read(byte[] b) throws IOException {
         return read(b, 0, b.length);

@@ -232,7 +232,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
             v.modCount = 0;
             return v;
         }
-        catch (CloneNotSupportedException e) {
+        catch(CloneNotSupportedException e) {
             throw new InternalError(e);
         }
     }

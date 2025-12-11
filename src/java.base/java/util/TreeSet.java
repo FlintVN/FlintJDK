@@ -154,7 +154,7 @@ public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Clone
     //     try {
     //         clone = (TreeSet<E>) super.clone();
     //     }
-    //     catch (CloneNotSupportedException e) {
+    //     catch(CloneNotSupportedException e) {
     //         throw new InternalError(e);
     //     }
 

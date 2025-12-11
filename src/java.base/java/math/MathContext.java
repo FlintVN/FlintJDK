@@ -23,9 +23,9 @@ public final class MathContext {
     }
 
     public MathContext(int setPrecision, RoundingMode setRoundingMode) {
-        if (setPrecision < MIN_DIGITS)
+        if(setPrecision < MIN_DIGITS)
             throw new IllegalArgumentException("Digits < 0");
-        if (setRoundingMode == null)
+        if(setRoundingMode == null)
             throw new NullPointerException("null RoundingMode");
 
         precision = setPrecision;
@@ -34,25 +34,25 @@ public final class MathContext {
 
     public MathContext(String val) {
         int setPrecision;
-        if (val == null)
+        if(val == null)
             throw new NullPointerException("null String");
         try {
-            if (!val.startsWith("precision=")) throw new RuntimeException();
+            if(!val.startsWith("precision=")) throw new RuntimeException();
             int fence = val.indexOf(' ');    // could be -1
             int off = 10;                     // where value starts
             setPrecision = Integer.parseInt(val.substring(10, fence));
 
-            if (!val.startsWith("roundingMode=", fence+1))
+            if(!val.startsWith("roundingMode=", fence+1))
                 throw new RuntimeException();
             off = fence + 1 + 13;
             String str = val.substring(off, val.length());
             roundingMode = RoundingMode.valueOf(str);
         }
-        catch (RuntimeException re) {
+        catch(RuntimeException re) {
             throw new IllegalArgumentException("bad string format");
         }
 
-        if (setPrecision < MIN_DIGITS)
+        if(setPrecision < MIN_DIGITS)
             throw new IllegalArgumentException("Digits < 0");
         precision = setPrecision;
     }
@@ -65,8 +65,8 @@ public final class MathContext {
         return roundingMode;
     }
 
-    public boolean equals(Object x){
-        if (!(x instanceof MathContext mc))
+    public boolean equals(Object x) {
+        if(!(x instanceof MathContext mc))
             return false;
         return mc.precision == this.precision
             && mc.roundingMode == this.roundingMode;
@@ -84,11 +84,11 @@ public final class MathContext {
     // @java.io.Serial
     // private void readObject(java.io.ObjectInputStream s) throws java.io.IOException, ClassNotFoundException {
     //     s.defaultReadObject();
-    //     if (precision < MIN_DIGITS) {
+    //     if(precision < MIN_DIGITS) {
     //         String message = "MathContext: invalid digits in stream";
     //         throw new java.io.StreamCorruptedException(message);
     //     }
-    //     if (roundingMode == null) {
+    //     if(roundingMode == null) {
     //         String message = "MathContext: null roundingMode in stream";
     //         throw new java.io.StreamCorruptedException(message);
     //     }

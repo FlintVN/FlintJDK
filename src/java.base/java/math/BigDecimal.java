@@ -96,7 +96,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
         try {
             Objects.checkFromIndexSize(offset, len, in.length);
         }
-        catch (IndexOutOfBoundsException e) {
+        catch(IndexOutOfBoundsException e) {
             throw new NumberFormatException("Bad offset or len arguments for char[] input.");
         }
 
@@ -253,7 +253,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
                 }
             }
         }
-        catch (ArrayIndexOutOfBoundsException | NegativeArraySizeException e) {
+        catch(ArrayIndexOutOfBoundsException | NegativeArraySizeException e) {
             NumberFormatException nfe = new NumberFormatException();
             nfe.initCause(e);
             throw nfe;
@@ -266,7 +266,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
         this.intVal = rb;
     }
 
-    private static long parseExp(char[] in, int offset, int len){
+    private static long parseExp(char[] in, int offset, int len) {
         long exp = 0;
         offset++;
         char c = in[offset];
@@ -753,7 +753,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
             try {
                 quotient = this.divide(divisor, mc);
             }
-            catch (ArithmeticException e) {
+            catch(ArithmeticException e) {
                 throw new ArithmeticException("Non-terminating decimal expansion; " + "no exact representable decimal result.");
             }
 
@@ -1424,7 +1424,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
     }
 
     @Override
-    public long longValue(){
+    public long longValue() {
         if(intCompact != INFLATED && scale == 0)
             return intCompact;
         else {
@@ -2378,14 +2378,14 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
             return createAndStripZerosToMatchScale(intVal==null ? INFLATED_BIGINT : intVal, scale, preferredScale);
     }
 
-    private static long add(long xs, long ys){
+    private static long add(long xs, long ys) {
         long sum = xs + ys;
         if( (((sum ^ xs) & (sum ^ ys))) >= 0L)
             return sum;
         return INFLATED;
     }
 
-    private static BigDecimal add(long xs, long ys, int scale){
+    private static BigDecimal add(long xs, long ys, int scale) {
         long sum = add(xs, ys);
         if(sum!=INFLATED)
             return BigDecimal.valueOf(sum, scale);
@@ -2985,7 +2985,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
         {       0x4b3b4ca85a86c47aL, 0x098a224000000000L },
     };
 
-    private static int precision(long hi, long lo){
+    private static int precision(long hi, long lo) {
         if(hi == 0) {
             if(lo >= 0)
                 return longDigitLength(lo);
