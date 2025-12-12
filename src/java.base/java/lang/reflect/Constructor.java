@@ -10,7 +10,7 @@ public final class Constructor<T> extends Executable {
     private final Class<?>[] exceptionTypes;
     private final int modifiers;
 
-    Constructor(
+    private Constructor(
         Class<T> declaringClass,
         Class<?>[] parameterTypes,
         Class<?>[] checkedExceptions,

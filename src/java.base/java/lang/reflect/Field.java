@@ -10,7 +10,7 @@ public final class Field implements Member {
     private final int modifiers;
 
     @SuppressWarnings("deprecation")
-    Field(
+    private Field(
         Class<?> declaringClass,
         String name,
         Class<?> type,

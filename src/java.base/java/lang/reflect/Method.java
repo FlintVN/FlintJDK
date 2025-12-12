@@ -14,7 +14,7 @@ public final class Method extends Executable {
     private final Class<?>[] exceptionTypes;
     private final int modifiers;
 
-    Method(
+    private Method(
         Class<?> declaringClass,
         String name,
         Class<?>[] parameterTypes,
