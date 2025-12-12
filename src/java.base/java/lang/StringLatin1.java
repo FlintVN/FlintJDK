@@ -271,10 +271,14 @@ final class StringLatin1 {
         int lim = Math.min(len1, len2);
         for(int k = 0; k < lim; k++) {
             if(value[k] != other[k]) {
-                char c1 = Character.toLowerCase((char)(value[k] & 0xFF));
-                char c2 = Character.toLowerCase((char)(other[k] & 0xFF));
-                if(c1 != c2)
-                    return c1 - c2;
+                char c1 = Character.toUpperCase((char)(value[k] & 0xFF));
+                char c2 = Character.toUpperCase((char)(other[k] & 0xFF));
+                if(c1 != c2) {
+                    c1 = Character.toLowerCase(c1);
+                    c2 = Character.toLowerCase(c2);
+                    if(c1 != c2)
+                        return c1 - c2;
+                }
             }
         }
         return len1 - len2;
@@ -288,13 +292,53 @@ final class StringLatin1 {
             char c1 = (char)(value[k] & 0xFF);
             char c2 = StringUTF16.charAt(other, k);
             if(c1 != c2) {
-                c1 = Character.toLowerCase(c1);
-                c2 = Character.toLowerCase(c2);
-                if(c1 != c2)
-                    return c1 - c2;
+                c1 = Character.toUpperCase(c1);
+                c2 = Character.toUpperCase(c2);
+                if(c1 != c2) {
+                    c1 = Character.toLowerCase(c1);
+                    c2 = Character.toLowerCase(c2);
+                    if(c1 != c2)
+                        return c1 - c2;
+                }
             }
         }
         return len1 - len2;
+    }
+
+    public static boolean regionMatchesCI(byte[] value, int toffset, byte[] other, int ooffset, int len) {
+        int last = toffset + len;
+        while(toffset < last) {
+            byte b1 = value[toffset++];
+            byte b2 = other[ooffset++];
+            if(b1 == b2)
+                continue;
+            char c1 = Character.toUpperCase((char)(b1 & 0xFF));
+            char c2 = Character.toUpperCase((char)(b2 & 0xFF));
+            if(c1 == c2)
+                continue;
+            if(Character.toLowerCase(c1) == Character.toLowerCase(c2))
+                continue;
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean regionMatchesCI_UTF16(byte[] value, int toffset, byte[] other, int ooffset, int len) {
+        int last = toffset + len;
+        while(toffset < last) {
+            char c1 = (char)(value[toffset++] & 0xff);
+            char c2 = StringUTF16.charAt(other, ooffset++);
+            if(c1 == c2)
+                continue;
+            c1 = Character.toUpperCase(c1);
+            c2 = Character.toUpperCase(c2);
+            if(c1 == c2)
+                continue;
+            if(Character.toLowerCase(c1) == Character.toLowerCase(c2))
+                continue;
+            return false;
+        }
+        return true;
     }
 
     @IntrinsicCandidate

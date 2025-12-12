@@ -2,6 +2,7 @@ package java.lang;
 
 import java.util.Objects;
 import java.lang.annotation.Native;
+import jdk.internal.util.ArraysSupport;
 import jdk.internal.vm.annotation.ForceInline;
 
 public final class String implements Comparable<String>, CharSequence {
@@ -717,6 +718,57 @@ public final class String implements Comparable<String>, CharSequence {
         if(coder == str.coder())
             return coder == LATIN1 ? StringLatin1.compareToCI(v1, v2) : StringUTF16.compareToCI(v1, v2);
         return coder == LATIN1 ? StringLatin1.compareToCI_UTF16(v1, v2) : StringUTF16.compareToCI_Latin1(v1, v2);
+    }
+
+    public boolean regionMatches(int toffset, String other, int ooffset, int len) {
+        if((ooffset < 0) || (toffset < 0) || (toffset > (long)length() - len) || (ooffset > (long)other.length() - len))
+            return false;
+        if(len <= 0)
+           return true;
+        byte[] tv = value;
+        byte[] ov = other.value;
+        byte coder = coder();
+        if(coder == other.coder()) {
+            if(coder == UTF16) {
+                toffset <<= UTF16;
+                ooffset <<= UTF16;
+                len <<= UTF16;
+            }
+            return ArraysSupport.mismatch(tv, toffset, ov, ooffset, len) < 0;
+        }
+        else {
+            if(coder == LATIN1) {
+                while (len-- > 0) {
+                    if((char)(tv[toffset++] & 0xFF) != StringUTF16.charAt(ov, ooffset++))
+                        return false;
+                }
+            }
+            else {
+                while (len-- > 0) {
+                    if(StringUTF16.charAt(tv, toffset++) != (char)(ov[ooffset++] & 0xFF))
+                        return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean regionMatches(boolean ignoreCase, int toffset, String other, int ooffset, int len) {
+        if(!ignoreCase)
+            return regionMatches(toffset, other, ooffset, len);
+        if((ooffset < 0) || (toffset < 0) || (toffset > (long)length() - len) || (ooffset > (long)other.length() - len))
+            return false;
+        byte[] tv = value;
+        byte[] ov = other.value;
+        byte coder = coder();
+        if(coder == other.coder()) {
+            if(coder == LATIN1)
+                return StringLatin1.regionMatchesCI(tv, toffset, ov, ooffset, len);
+            return StringUTF16.regionMatchesCI(tv, toffset, ov, ooffset, len);
+        }
+        if(coder == LATIN1)
+            return StringLatin1.regionMatchesCI_UTF16(tv, toffset, ov, ooffset, len);
+        return StringUTF16.regionMatchesCI_Latin1(tv, toffset, ov, ooffset, len);
     }
 
     @Override

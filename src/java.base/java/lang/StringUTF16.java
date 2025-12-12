@@ -345,10 +345,14 @@ final class StringUTF16 {
             char c1 = charAt(value, k);
             char c2 = charAt(other, k);
             if(c1 != c2) {
-                c1 = Character.toLowerCase(c1);
-                c2 = Character.toLowerCase(c2);
-                if(c1 != c2)
-                    return c1 - c2;
+                c1 = Character.toUpperCase(c1);
+                c2 = Character.toUpperCase(c2);
+                if(c1 != c2) {
+                    c1 = Character.toLowerCase(c1);
+                    c2 = Character.toLowerCase(c2);
+                    if(c1 != c2)
+                        return c1 - c2;
+                }
             }
         }
         return len1 - len2;
@@ -356,6 +360,28 @@ final class StringUTF16 {
 
     public static int compareToCI_Latin1(byte[] value, byte[] other) {
         return -StringLatin1.compareToCI_UTF16(other, value);
+    }
+
+    public static boolean regionMatchesCI(byte[] value, int toffset, byte[] other, int ooffset, int len) {
+        int last = toffset + len;
+        while(toffset < last) {
+            char c1 = charAt(value, toffset++);
+            char c2 = charAt(other, ooffset++);
+            if(c1 == c2)
+                continue;
+            c1 = Character.toUpperCase(c1);
+            c2 = Character.toUpperCase(c2);
+            if(c1 == c2)
+                continue;
+            if(Character.toLowerCase(c1) == Character.toLowerCase(c2))
+                continue;
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean regionMatchesCI_Latin1(byte[] value, int toffset, byte[] other, int ooffset,int len) {
+        return StringLatin1.regionMatchesCI_UTF16(other, ooffset, value, toffset, len);
     }
 
     public static boolean equalsIgnoreCase(byte[] value, byte[] other) {
