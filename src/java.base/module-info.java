@@ -1,6 +1,7 @@
 
 module java.base {
     exports java.io;
+    exports java.net;
     exports java.lang;
     exports java.math;
     exports java.util;
