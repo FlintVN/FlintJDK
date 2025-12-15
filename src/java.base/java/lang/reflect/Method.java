@@ -112,8 +112,35 @@ public final class Method extends Executable {
 
     @Override
     public String toString() {
-        // TODO
-        throw new UnsupportedOperationException();
+        try {
+            StringBuffer sb = new StringBuffer();
+            int mod = getModifiers();
+            if(mod != 0)
+                sb.append(Modifier.toString(mod) + " ");
+            sb.append(getReturnType().getTypeName() + " ");
+            sb.append(getDeclaringClass().getTypeName() + ".");
+            sb.append(getName() + "(");
+            Class<?>[] params = parameterTypes;
+            for(int j = 0; j < params.length; j++) {
+                sb.append(params[j].getTypeName());
+                if(j < (params.length - 1))
+                    sb.append(",");
+            }
+            sb.append(")");
+            Class<?>[] exceptions = exceptionTypes;
+            if(exceptions.length > 0) {
+                sb.append(" throws ");
+                for(int k = 0; k < exceptions.length; k++) {
+                    sb.append(exceptions[k].getName());
+                    if(k < (exceptions.length - 1))
+                        sb.append(",");
+                }
+            }
+            return sb.toString();
+        }
+        catch(Exception e) {
+            return "<" + e + ">";
+        }
     }
 
     @Override
