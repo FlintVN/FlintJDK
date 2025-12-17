@@ -1,10 +1,12 @@
 package java.lang.reflect;
 
 import java.lang.annotation.Annotation;
+import jdk.internal.reflect.Reflection;
 import jdk.internal.reflect.CallerSensitive;
 import jdk.internal.vm.annotation.ForceInline;
 
 public final class Constructor<T> extends Executable {
+    private int entry;  /* Used by FlintJVM */
     private final Class<T> clazz;
     private final Class<?>[] parameterTypes;
     private final Class<?>[] exceptionTypes;
@@ -129,11 +131,43 @@ public final class Constructor<T> extends Executable {
         throw new UnsupportedOperationException();
     }
 
+    private native T newInstance0(Object... initargs) throws InstantiationException, IllegalArgumentException, InvocationTargetException;
+
     @CallerSensitive
     @ForceInline
     public T newInstance(Object... initargs) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        // TODO
-        throw new UnsupportedOperationException();
+        checkAccess(Reflection.getCallerClass(), clazz, modifiers);
+        checkParameter(initargs);
+        return newInstance0(initargs);
+    }
+
+    private void checkParameter(Object[] args) {
+        int argc = args != null ? args.length : 0;
+        int paramCount = parameterTypes != null ? parameterTypes.length : 0;
+        if(argc != paramCount)
+            throw new IllegalArgumentException("wrong number of arguments: " + argc + " expected: " + paramCount);
+        Class<?>[] parameterTypes = this.parameterTypes;
+        for(int i = 0; i < paramCount; i++) {
+            Class<?> type = parameterTypes[i];
+            Class<?> argType = args[i].getClass();
+            if(type.isPrimitive()) {
+                if(getWrapper(type) != argType)
+                    throw new IllegalArgumentException("argument type mismatch");
+            }
+            else if(type != argType)
+                throw new IllegalArgumentException("argument type mismatch");
+        }
+    }
+
+    private static Class<?> getWrapper(Class<?> primitive) {
+        if(primitive == int.class) return Integer.class;
+        if(primitive == boolean.class) return Boolean.class;
+        if(primitive == byte.class) return Byte.class;
+        if(primitive == char.class) return Character.class;
+        if(primitive == short.class) return Short.class;
+        if(primitive == long.class) return Long.class;
+        if(primitive == float.class) return Float.class;
+        return Double.class;
     }
 
     @Override

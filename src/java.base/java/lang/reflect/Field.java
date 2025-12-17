@@ -4,6 +4,7 @@ import jdk.internal.reflect.CallerSensitive;
 import jdk.internal.vm.annotation.ForceInline;
 
 public final class Field implements Member {
+    private int entry;  /* Used by FlintJVM */
     private final Class<?> clazz;
     private final String name;
     private final Class<?> type;

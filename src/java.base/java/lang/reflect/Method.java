@@ -1,12 +1,14 @@
 package java.lang.reflect;
 
 import java.lang.annotation.Annotation;
+import jdk.internal.reflect.Reflection;
 import jdk.internal.reflect.CallerSensitive;
 import jdk.internal.reflect.CallerSensitiveAdapter;
 import jdk.internal.vm.annotation.ForceInline;
 import jdk.internal.vm.annotation.IntrinsicCandidate;
 
 public final class Method extends Executable {
+    private int entry;  /* Used by FlintJVM */
     private final Class<?> clazz;
     private final String name;
     private final Class<?> returnType;
@@ -149,18 +151,55 @@ public final class Method extends Executable {
         throw new UnsupportedOperationException();
     }
 
+    private native Object invoke0(Object obj, Object... args) throws InvocationTargetException;
+
     @CallerSensitive
     @ForceInline
     @IntrinsicCandidate
     public Object invoke(Object obj, Object... args) throws IllegalAccessException, InvocationTargetException {
-        // TODO
-        throw new UnsupportedOperationException();
+        checkParameter(obj, args);
+        checkAccess(Reflection.getCallerClass(), clazz, modifiers);
+        return invoke0(obj, args);
     }
 
     @CallerSensitiveAdapter
     private Object invoke(Object obj, Object[] args, Class<?> caller) throws IllegalAccessException, InvocationTargetException {
-        // TODO
-        throw new UnsupportedOperationException();
+        checkParameter(obj, args);
+        checkAccess(caller, clazz, modifiers);
+        return invoke0(obj, args);
+    }
+
+    private void checkParameter(Object obj, Object[] args) {
+        if((modifiers & Modifier.STATIC) == 0) {
+            if(!this.clazz.isAssignableFrom(obj.getClass()))
+                throw new IllegalArgumentException("object is not an instance of declaring class");
+        }
+        int argc = args != null ? args.length : 0;
+        int paramCount = parameterTypes != null ? parameterTypes.length : 0;
+        if(argc != paramCount)
+            throw new IllegalArgumentException("wrong number of arguments: " + argc + " expected: " + paramCount);
+        Class<?>[] parameterTypes = this.parameterTypes;
+        for(int i = 0; i < paramCount; i++) {
+            Class<?> type = parameterTypes[i];
+            Class<?> argType = args[i].getClass();
+            if(type.isPrimitive()) {
+                if(getWrapper(type) != argType)
+                    throw new IllegalArgumentException("argument type mismatch");
+            }
+            else if(type != argType)
+                throw new IllegalArgumentException("argument type mismatch");
+        }
+    }
+
+    private static Class<?> getWrapper(Class<?> primitive) {
+        if(primitive == int.class) return Integer.class;
+        if(primitive == boolean.class) return Boolean.class;
+        if(primitive == byte.class) return Byte.class;
+        if(primitive == char.class) return Character.class;
+        if(primitive == short.class) return Short.class;
+        if(primitive == long.class) return Long.class;
+        if(primitive == float.class) return Float.class;
+        return Double.class;
     }
 
     public boolean isBridge() {

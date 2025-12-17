@@ -21,6 +21,26 @@ public abstract sealed class Executable implements Member permits Constructor, M
         return false;
     }
 
+    final static void checkAccess(Class<?> caller, Class<?> targetClass, int modifiers) throws IllegalAccessException {
+        if((modifiers & Modifier.PUBLIC) != 0)
+            return;
+        if((modifiers & Modifier.PRIVATE) != 0) {
+            if(caller == targetClass)
+                return;
+            throw new IllegalAccessException("private access denied");
+        }
+        if((modifiers & Modifier.PROTECTED) != 0) {
+            if(targetClass.isAssignableFrom(caller))
+                return;
+            if(caller.getPackageName().equals(targetClass.getPackageName()))
+                return;
+            throw new IllegalAccessException("protected access denied");
+        }
+        if(caller.getPackageName().equals(targetClass.getPackageName()))
+            return;
+        throw new IllegalAccessException("package-private access denied");
+    }
+
     public abstract Class<?> getDeclaringClass();
 
     public abstract String getName();
