@@ -1,4 +1,12 @@
 # Change Log
+## V1.3.0
+- Add class ByteArrayOutputStream.
+- Implement Character.forDigit method.
+- Implement String.regionMatches method.
+- Implement Method.toString and Constructor.toString methods.
+- Implement java.lang.reflect.Method.invoke and java.lang.reflect.Constructor.newInstance methods.
+- Fix String.utf8Decode not working correctly with ASCII characters.
+- Implement the missing method to support get and set bufferSize in I2sMaster.
 ## V1.2.0
 - Split flint.machine.CommPort class into flint.machine.InputPort and flint.machine.OutputPort.
 - Support RxBufferSize parameter for SerialPort.
