@@ -55,6 +55,8 @@ public final class String implements Comparable<String>, CharSequence {
     }
 
     private static int utf8Decode(byte[] utf8Value, int offset, int byteCount) {
+        if(byteCount == 1)
+            return utf8Value[offset];
         byte b = utf8Value[offset];
         int code = b & (0xFF >> (byteCount + 1));
         while(--byteCount > 0) {
