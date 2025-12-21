@@ -74,6 +74,15 @@ public class I2sMaster implements InputPort, OutputPort, AnalogInputStream, Anal
         return this;
     }
 
+    public int getBufferSize() {
+        return bufferSize;
+    }
+
+    public I2sMaster setBufferSize(int size) {
+        bufferSize = size;
+        return this;
+    }
+
     public int getDataBits() {
         return (mode >>> 2) & 0x3F;
     }
