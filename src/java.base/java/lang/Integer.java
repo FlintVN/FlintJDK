@@ -14,7 +14,7 @@ public final class Integer extends Number implements Comparable<Integer> {
         if(0 <= i && i < 10)
             return (char)(i + '0');
         else if(10 <= i && i < Character.MAX_RADIX)
-            return (char)(i + 'a');
+            return (char)(i - 10 + 'a');
         throw new NumberFormatException("Cannot convert number " + i + " to char");
     }
 
