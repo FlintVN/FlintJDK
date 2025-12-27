@@ -127,7 +127,7 @@ public class Socket {
     public int getSoLinger() throws SocketException {
         Object o = impl.getOption(SocketOptions.SO_LINGER);
         if(o instanceof Integer)
-            return ((Integer) o).intValue();
+            return ((Integer)o).intValue();
         else
             return -1;
     }
@@ -139,7 +139,7 @@ public class Socket {
     public synchronized int getSoTimeout() throws SocketException {
         Object o = impl.getOption(SocketOptions.SO_TIMEOUT);
         if(o instanceof Integer)
-            return ((Integer) o).intValue();
+            return ((Integer)o).intValue();
         else
             return 0;
     }

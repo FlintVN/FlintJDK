@@ -66,7 +66,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
         if(value == null)
             throw new NullPointerException();
 
-        Entry<?,?> tab[] = table;
+        Entry<?,?>[] tab = table;
         for(int i = tab.length ; i-- > 0 ;) {
             for(Entry<?,?> e = tab[i] ; e != null ; e = e.next) {
                 if(e.value.equals(value)) {
@@ -82,7 +82,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
     }
 
     public synchronized boolean containsKey(Object key) {
-        Entry<?,?> tab[] = table;
+        Entry<?,?>[] tab = table;
         int hash = key.hashCode();
         int index = (hash & 0x7FFFFFFF) % tab.length;
         for(Entry<?,?> e = tab[index] ; e != null ; e = e.next) {
@@ -94,7 +94,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
 
     @SuppressWarnings("unchecked")
     public synchronized V get(Object key) {
-        Entry<?,?> tab[] = table;
+        Entry<?,?>[] tab = table;
         int hash = key.hashCode();
         int index = (hash & 0x7FFFFFFF) % tab.length;
         for(Entry<?,?> e = tab[index] ; e != null ; e = e.next) {
@@ -137,7 +137,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
     }
 
     private void addEntry(int hash, K key, V value, int index) {
-        Entry<?,?> tab[] = table;
+        Entry<?,?>[] tab = table;
         if(count >= threshold) {
             rehash();
 
@@ -157,7 +157,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
         if(value == null)
             throw new NullPointerException();
 
-        Entry<?,?> tab[] = table;
+        Entry<?,?>[] tab = table;
         int hash = key.hashCode();
         int index = (hash & 0x7FFFFFFF) % tab.length;
         @SuppressWarnings("unchecked")
@@ -175,7 +175,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
     }
 
     public synchronized V remove(Object key) {
-        Entry<?,?> tab[] = table;
+        Entry<?,?>[] tab = table;
         int hash = key.hashCode();
         int index = (hash & 0x7FFFFFFF) % tab.length;
         @SuppressWarnings("unchecked")
@@ -203,7 +203,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
 
 
     public synchronized void clear() {
-        Entry<?,?> tab[] = table;
+        Entry<?,?>[] tab = table;
         for(int index = tab.length; --index >= 0; )
             tab[index] = null;
         modCount++;
@@ -486,7 +486,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
     public synchronized V putIfAbsent(K key, V value) {
         Objects.requireNonNull(value);
 
-        Entry<?,?> tab[] = table;
+        Entry<?,?>[] tab = table;
         int hash = key.hashCode();
         int index = (hash & 0x7FFFFFFF) % tab.length;
         @SuppressWarnings("unchecked")
@@ -508,7 +508,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
     public synchronized boolean remove(Object key, Object value) {
         Objects.requireNonNull(value);
 
-        Entry<?,?> tab[] = table;
+        Entry<?,?>[] tab = table;
         int hash = key.hashCode();
         int index = (hash & 0x7FFFFFFF) % tab.length;
         @SuppressWarnings("unchecked")
@@ -532,7 +532,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
     public synchronized boolean replace(K key, V oldValue, V newValue) {
         Objects.requireNonNull(oldValue);
         Objects.requireNonNull(newValue);
-        Entry<?,?> tab[] = table;
+        Entry<?,?>[] tab = table;
         int hash = key.hashCode();
         int index = (hash & 0x7FFFFFFF) % tab.length;
         @SuppressWarnings("unchecked")
@@ -553,7 +553,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
     @Override
     public synchronized V replace(K key, V value) {
         Objects.requireNonNull(value);
-        Entry<?,?> tab[] = table;
+        Entry<?,?>[] tab = table;
         int hash = key.hashCode();
         int index = (hash & 0x7FFFFFFF) % tab.length;
         @SuppressWarnings("unchecked")
@@ -572,7 +572,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
     public synchronized V computeIfAbsent(K key, Function<? super K, ? extends V> mappingFunction) {
         Objects.requireNonNull(mappingFunction);
 
-        Entry<?,?> tab[] = table;
+        Entry<?,?>[] tab = table;
         int hash = key.hashCode();
         int index = (hash & 0x7FFFFFFF) % tab.length;
         @SuppressWarnings("unchecked")
@@ -595,7 +595,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
     public synchronized V computeIfPresent(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
         Objects.requireNonNull(remappingFunction);
 
-        Entry<?,?> tab[] = table;
+        Entry<?,?>[] tab = table;
         int hash = key.hashCode();
         int index = (hash & 0x7FFFFFFF) % tab.length;
         @SuppressWarnings("unchecked")
@@ -626,7 +626,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
     public synchronized V compute(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
         Objects.requireNonNull(remappingFunction);
 
-        Entry<?,?> tab[] = table;
+        Entry<?,?>[] tab = table;
         int hash = key.hashCode();
         int index = (hash & 0x7FFFFFFF) % tab.length;
         @SuppressWarnings("unchecked")
@@ -667,7 +667,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
     public synchronized V merge(K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
         Objects.requireNonNull(remappingFunction);
 
-        Entry<?,?> tab[] = table;
+        Entry<?,?>[] tab = table;
         int hash = key.hashCode();
         int index = (hash & 0x7FFFFFFF) % tab.length;
         @SuppressWarnings("unchecked")

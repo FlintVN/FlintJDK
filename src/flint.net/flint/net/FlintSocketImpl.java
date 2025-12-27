@@ -93,7 +93,7 @@ class FlintSocketImpl extends SocketImpl {
             case SO_TIMEOUT:
                 if(val == null || (!(val instanceof Integer)))
                     throw new SocketException("Bad parameter for SO_TIMEOUT");
-                int tmp = ((Integer) val).intValue();
+                int tmp = ((Integer)val).intValue();
                 if(tmp < 0)
                     throw new IllegalArgumentException("timeout < 0");
                 timeout = tmp;
