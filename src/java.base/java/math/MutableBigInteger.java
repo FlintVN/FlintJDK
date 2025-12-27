@@ -1112,7 +1112,7 @@ class MutableBigInteger {
             skipCorrection = qrem + 0x80000000 < nh2;
         }
         else {
-            long nChunk = (((long) nh) << 32) | (nm & LONG_MASK);
+            long nChunk = (((long)nh) << 32) | (nm & LONG_MASK);
             if(nChunk >= 0) {
                 qhat = (int) (nChunk / dhLong);
                 qrem = (int) (nChunk - (qhat * dhLong));
@@ -1213,7 +1213,7 @@ class MutableBigInteger {
                 skipCorrection = qrem + 0x80000000 < nh2;
             }
             else {
-                long nChunk = (((long) nh) << 32) | (nm & LONG_MASK);
+                long nChunk = (((long)nh) << 32) | (nm & LONG_MASK);
                 if(nChunk >= 0) {
                     qhat = (int) (nChunk / dhLong);
                     qrem = (int) (nChunk - (qhat * dhLong));

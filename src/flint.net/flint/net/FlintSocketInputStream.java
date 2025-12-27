@@ -14,13 +14,13 @@ class FlintSocketInputStream extends FileInputStream {
         this.impl = impl;
     }
 
-    private native int socketRead(byte b[], int off, int len) throws IOException;
+    private native int socketRead(byte[] b, int off, int len) throws IOException;
 
-    public int read(byte b[]) throws IOException {
+    public int read(byte[] b) throws IOException {
         return read(b, 0, b.length);
     }
 
-    public int read(byte b[], int off, int length) throws IOException {
+    public int read(byte[] b, int off, int length) throws IOException {
         if(eof)
             return -1;
         int n = socketRead(b, off, length);

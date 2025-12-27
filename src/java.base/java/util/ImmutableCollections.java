@@ -221,7 +221,7 @@ class ImmutableCollections {
             if(!(o instanceof List))
                 return false;
 
-            Iterator<?> oit = ((List<?>) o).iterator();
+            Iterator<?> oit = ((List<?>)o).iterator();
             for(int i = 0, s = size(); i < s; i++) {
                 if(!oit.hasNext() || !Objects.equals(get(i), oit.next()))
                     return false;
