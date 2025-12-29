@@ -4,7 +4,7 @@ JC                  :=  javac
 MODULE_SOURCE_PATH  :=  src
 OUT_DIR          	?=  bin
 
-RUN_OPT             :=  
+RUN_OPT             :=
 DEV_OPT             :=  -g
 JFLAGS              :=  -Xlint:all -XDstringConcat=inline --system=none -encoding UTF-8
 
@@ -13,6 +13,9 @@ DEV_DIR				:= 	$(OUT_DIR)/dev
 JAR_DIR				:= 	$(OUT_DIR)/jar
 
 all: run dev jar
+
+$(JAR_DIR):
+	@mkdir -p $(JAR_DIR)
 
 run: $(foreach m,$(MODULES),$(RUN_DIR)/$(m))
 
@@ -28,7 +31,7 @@ $(DEV_DIR)/%:
 	@echo Compiling $* for development mode
 	@$(JC) $(DEV_OPT) $(JFLAGS) -d $(DEV_DIR) --module $* --module-source-path $(MODULE_SOURCE_PATH)
 
-$(JAR_DIR)/%.jar: $(DEV_DIR)/%
+$(JAR_DIR)/%.jar: $(JAR_DIR) $(DEV_DIR)/%
 	@cp -r $(MODULE_SOURCE_PATH)/$* $(DEV_DIR)/$*/src
 	@jar --create --file $(JAR_DIR)/$*.jar --manifest META-INF/MANIFEST.MF -C $(OUT_DIR)/dev/$* "."
 	@echo Created $(JAR_DIR)/$*.jar
