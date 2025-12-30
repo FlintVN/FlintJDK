@@ -7,7 +7,12 @@ import java.io.OutputStream;
 import java.io.FileDescriptor;
 import java.io.ByteArrayOutputStream;
 
-class FlintSocketImpl extends SocketImpl {
+/**
+ * FlintJVM can access non-public classes via Class.forName.
+ * This could be because the access validation feature has not been implemented at the VM layer.
+ * Which could be considered a bug, and FlintSocketImpl is exploiting this bug.
+ */
+/* public */ class FlintSocketImpl extends SocketImpl {
     private int timeout;
 
     static {
