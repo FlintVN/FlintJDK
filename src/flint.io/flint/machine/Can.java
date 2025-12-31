@@ -5,29 +5,25 @@ import java.util.Arrays;
 
 public class Can implements InputPort, OutputPort {
     private static final int UNDEFINED_ID = -1;
-    private static final int UNDEFINED_PIN = -2;
+    private static final int DEFAULT_PIN = -2;
 
     private String name;
     private int id = UNDEFINED_ID;
     private int baudRate = 500_000;
-    private int pinRx = UNDEFINED_PIN;
-    private int pinTx = UNDEFINED_PIN;
+    private int rxPin = DEFAULT_PIN;
+    private int txPin = DEFAULT_PIN;
 
     private GeneralConfig generalConfig = new GeneralConfig();
     private TimingConfig timingConfig = TimingConfig.fromBaudRate(500_000);
     private FilterConfig filterConfig = FilterConfig.acceptAll();
-    
+
     private static final byte[] SINGLE_BYTE_BUFFER = new byte[1];
 
-    public Can(String name, int id, int baudRate, int pinRx, int pinTx) {
+    public Can(String name, int id, int baudRate) {
         this.name = name;
         this.id = id;
         this.baudRate = baudRate;
-        this.pinRx = pinRx;
-        this.pinTx = pinTx;
 
-        this.generalConfig.txPin = pinTx;
-        this.generalConfig.rxPin = pinRx;
         this.timingConfig = TimingConfig.fromBaudRate(baudRate);
     }
 
@@ -66,38 +62,42 @@ public class Can implements InputPort, OutputPort {
     @Override
     public void write(byte[] b, int off, int count) throws IOException {
         validateWriteParameters(b, off, count);
-        
+
         if (count == 0) return;
-        
+
         if (count <= 64) {
             writeSmall(b, off, count);
-        } else {
+        }
+        else {
             byte[] temp = new byte[count];
             System.arraycopy(b, off, temp, 0, count);
             write(temp);
         }
     }
-    
-    private void validateWriteParameters(byte[] b, int off, int count) {
+
+    private static void validateWriteParameters(byte[] b, int off, int count) {
         if (b == null) throw new NullPointerException("b");
         if (off < 0 || count < 0 || off + count > b.length) {
             throw new IndexOutOfBoundsException("Invalid parameters: offset=" + off + ", count=" + count + ", array length=" + b.length);
         }
     }
-    
+
     private void writeSmall(byte[] b, int off, int count) throws IOException {
         if (count == 1 && off == 0) {
             write(b[0]);
-        } else if (count <= 8) {
+        }
+        else if (count <= 8) {
             byte[] smallBuffer = new byte[count];
             System.arraycopy(b, off, smallBuffer, 0, count);
             write(smallBuffer);
-        } else {
+        }
+        else {
             synchronized (SINGLE_BYTE_BUFFER) {
                 if (count <= SINGLE_BYTE_BUFFER.length) {
                     System.arraycopy(b, off, SINGLE_BYTE_BUFFER, 0, count);
                     write(SINGLE_BYTE_BUFFER, 0, count);
-                } else {
+                }
+                else {
                     byte[] temp = new byte[count];
                     System.arraycopy(b, off, temp, 0, count);
                     write(temp);
@@ -151,19 +151,19 @@ public class Can implements InputPort, OutputPort {
         return this;
     }
 
-    public int getPinRx() { return pinRx; }
-    public Can setPinRx(int pinRx) {
+    public int getRxPin() { return rxPin; }
+    public Can setRxPin(int rxPin) {
         checkStateBeforeConfig();
-        this.pinRx = pinRx;
-        this.generalConfig.rxPin = pinRx;
+        this.rxPin = rxPin;
+        this.generalConfig.rxPin = rxPin;
         return this;
     }
 
-    public int getPinTx() { return pinTx; }
-    public Can setPinTx(int pinTx) {
+    public int getTxPin() { return txPin; }
+    public Can setTxPin(int txPin) {
         checkStateBeforeConfig();
-        this.pinTx = pinTx;
-        this.generalConfig.txPin = pinTx;
+        this.txPin = txPin;
+        this.generalConfig.txPin = txPin;
         return this;
     }
 
@@ -190,8 +190,8 @@ public class Can implements InputPort, OutputPort {
     }
 
     public static class GeneralConfig {
-        public int txPin = UNDEFINED_PIN;
-        public int rxPin = UNDEFINED_PIN;
+        public int txPin = DEFAULT_PIN;
+        public int rxPin = DEFAULT_PIN;
         public Mode mode = Mode.SELF_TEST;
         public int txQueueLen = 32;
         public int rxQueueLen = 32;
@@ -215,7 +215,7 @@ public class Can implements InputPort, OutputPort {
         public int sjw;
 
         public TimingConfig() {}
-        
+
         public static TimingConfig fromBaudRate(int baudRate) {
             TimingConfig t = new TimingConfig();
             t.brp = 10;
@@ -232,7 +232,7 @@ public class Can implements InputPort, OutputPort {
         public boolean singleFilter = true;
 
         public FilterConfig() {}
-        
+
         public static FilterConfig acceptAll() {
             FilterConfig f = new FilterConfig();
             f.acceptanceCode = 0;
