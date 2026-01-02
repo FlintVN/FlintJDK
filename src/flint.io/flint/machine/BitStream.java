@@ -1,6 +1,7 @@
 package flint.machine;
 
 import java.io.IOException;
+import java.io.OutputStream;
 
 public class BitStream implements OutputPort {
     private String name;
@@ -72,4 +73,8 @@ public class BitStream implements OutputPort {
 
     @Override
     public native void write(byte[] b, int off, int count) throws IOException;
+
+    public OutputStream getOutputStream() {
+        return new OutputPortStream(this);
+    }
 }
