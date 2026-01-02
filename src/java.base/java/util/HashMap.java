@@ -79,7 +79,7 @@ public class HashMap<K,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneabl
                 for(Type t : ts) {
                     if(
                         (t instanceof ParameterizedType) &&
-                        ((p = (ParameterizedType) t).getRawType() == Comparable.class) &&
+                        ((p = (ParameterizedType)t).getRawType() == Comparable.class) &&
                         (as = p.getActualTypeArguments()) != null &&
                         as.length == 1 && as[0] == c
                     ) {
@@ -1807,7 +1807,7 @@ public class HashMap<K,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneabl
     }
 
     static int calculateHashMapCapacity(int numMappings) {
-        return (int) Math.ceil(numMappings / (double) DEFAULT_LOAD_FACTOR);
+        return (int) Math.ceil(numMappings / (double)DEFAULT_LOAD_FACTOR);
     }
 
     public static <K, V> HashMap<K, V> newHashMap(int numMappings) {
