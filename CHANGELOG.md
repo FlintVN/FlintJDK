@@ -1,4 +1,11 @@
 # Change Log
+## V1.4.0
+- Rename package flint.network -> flint.net.
+- Fix Integer.digitToChar method is not working correctly.
+- Supports the java.net package:
+  - Support Socket (TCP client).
+  - Support ServerSocket (TCP server).
+  - Support DatagramSocket (UDP).
 ## V1.3.0
 - Add class ByteArrayOutputStream.
 - Implement Character.forDigit method.
