@@ -1,8 +1,10 @@
 package flint.machine;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
-public class I2sMaster implements InputPort, OutputPort, AnalogInputStream, AnalogOutputStream {
+public class I2sMaster implements InputPort, OutputPort, AnalogInput, AnalogOutput {
     private String i2sName;
     private int i2sId = -1;
     private int mode = 0;
@@ -192,4 +194,12 @@ public class I2sMaster implements InputPort, OutputPort, AnalogInputStream, Anal
 
     @Override
     public native void write(int[] b, int off, int count) throws IOException;
+
+    public InputStream getInputStream() {
+        return new InputPortStream(this);
+    }
+
+    public OutputStream getOutputStream() {
+        return new OutputPortStream(this);
+    }
 }

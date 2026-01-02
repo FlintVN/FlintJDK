@@ -1,6 +1,8 @@
 package flint.machine;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class SerialPort implements InputPort, OutputPort {
     private String portName;
@@ -130,4 +132,12 @@ public class SerialPort implements InputPort, OutputPort {
 
     @Override
     public native void write(byte[] b, int off, int count) throws IOException;
+
+    public InputStream getInputStream() {
+        return new InputPortStream(this);
+    }
+
+    public OutputStream getOutputStream() {
+        return new OutputPortStream(this);
+    }
 }

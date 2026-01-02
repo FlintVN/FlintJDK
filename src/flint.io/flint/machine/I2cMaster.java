@@ -1,6 +1,8 @@
 package flint.machine;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class I2cMaster implements InputPort, OutputPort {
     private String i2cName;
@@ -166,5 +168,13 @@ public class I2cMaster implements InputPort, OutputPort {
     public void writeMem(int devAddr, int memAddr, byte[] b, int off, int count) throws IOException {
         this.devAddr = devAddr;
         writeMem(memAddr, b, off, count);
+    }
+
+    public InputStream getInputStream() {
+        return new InputPortStream(this);
+    }
+
+    public OutputStream getOutputStream() {
+        return new OutputPortStream(this);
     }
 }

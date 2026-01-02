@@ -6,6 +6,7 @@
   - Support Socket (TCP client).
   - Support ServerSocket (TCP server).
   - Support DatagramSocket (UDP).
+- Add support for flint.machine.OutputPortStream and flint.machine.InputPortStream.
 ## V1.3.0
 - Add class ByteArrayOutputStream.
 - Implement Character.forDigit method.
