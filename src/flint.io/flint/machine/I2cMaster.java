@@ -47,7 +47,7 @@ public class I2cMaster implements InputPort, OutputPort {
         return devAddr;
     }
 
-    public I2cMaster setdevAddr(int addr) {
+    public I2cMaster setDevAddr(int addr) {
         devAddr = addr;
         return this;
     }
