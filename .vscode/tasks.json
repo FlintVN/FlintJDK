@@ -20,9 +20,6 @@
             "dependsOn": ["clean"],
             "dependsOrder": "sequence",
             "command": "make",
-            "args": [
-                "-j${env:NUMBER_OF_PROCESSORS}"
-            ],
             "presentation": {
                 "echo": false,
                 "reveal": "always",
