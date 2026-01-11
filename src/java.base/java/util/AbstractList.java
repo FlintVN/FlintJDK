@@ -80,15 +80,12 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
 
     public ListIterator<E> listIterator(final int index) {
         rangeCheckForAdd(index);
-
         return new ListItr(index);
     }
 
     private class Itr implements Iterator<E> {
         int cursor = 0;
-
         int lastRet = -1;
-
         int expectedModCount = modCount;
 
         public boolean hasNext() {

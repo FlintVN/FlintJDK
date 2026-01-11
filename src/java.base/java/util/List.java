@@ -32,9 +32,8 @@ public interface List<E> extends Collection<E> {
     default void replaceAll(UnaryOperator<E> operator) {
         Objects.requireNonNull(operator);
         final ListIterator<E> li = this.listIterator();
-        while(li.hasNext()) {
+        while(li.hasNext())
             li.set(operator.apply(li.next()));
-        }
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})

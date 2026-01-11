@@ -12,6 +12,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
     private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {};
     transient Object[] elementData;
     private int size;
+
     public ArrayList(int initialCapacity) {
         if(initialCapacity > 0)
             this.elementData = new Object[initialCapacity];
@@ -228,9 +229,8 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
     }
 
     public E removeFirst() {
-        if(size == 0) {
+        if(size == 0)
             throw new NoSuchElementException();
-        }
         else {
             Object[] es = elementData;
             @SuppressWarnings("unchecked")
@@ -242,9 +242,8 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
 
     public E removeLast() {
         int last = size - 1;
-        if(last < 0) {
+        if(last < 0)
             throw new NoSuchElementException();
-        }
         else {
             Object[] es = elementData;
             @SuppressWarnings("unchecked")
@@ -255,13 +254,11 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
     }
 
     public boolean equals(Object o) {
-        if(o == this) {
+        if(o == this)
             return true;
-        }
 
-        if(!(o instanceof List)) {
+        if(!(o instanceof List))
             return false;
-        }
 
         final int expectedModCount = modCount;
         boolean equal = (o.getClass() == ArrayList.class) ? equalsArrayList((ArrayList<?>)o) : equalsRange((List<?>)o, 0, size);
@@ -417,7 +414,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
     }
 
     private String outOfBoundsMsg(int index) {
-        return "Index: "+index+", Size: "+size;
+        return "Index: " + index + ", Size: " + size;
     }
 
     private static String outOfBoundsMsg(int fromIndex, int toIndex) {
