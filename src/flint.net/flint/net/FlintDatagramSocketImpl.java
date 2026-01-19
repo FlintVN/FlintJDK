@@ -77,26 +77,11 @@ import java.io.IOException;
     public Object getOption(int optID) throws SocketException {
         if(optID == SO_TIMEOUT)
             return new Integer(timeout);
-        int ret = socketGetOption(optID);
-        if(optID == SO_BINDADDR || optID == IP_MULTICAST_IF) {
-            byte[] ipBytes = new byte[4];
-            ipBytes[0] = (byte)((ret >> 24) & 0xFF);
-            ipBytes[0] = (byte)((ret >> 16) & 0xFF);
-            ipBytes[0] = (byte)((ret >> 8) & 0xFF);
-            ipBytes[0] = (byte)(ret & 0xFF);
-            try {
-                return InetAddress.getByAddress(ipBytes);
-            }
-            catch(UnknownHostException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        else
-            return null;
+        return socketGetOption(optID);
     }
 
     private native void datagramSocketCreate() throws SocketException;
     private native void datagramSocketClose();
     private native void socketSetOption(int opt, Object val) throws SocketException;
-    private native int socketGetOption(int opt) throws SocketException;
+    private native Object socketGetOption(int opt) throws SocketException;
 }

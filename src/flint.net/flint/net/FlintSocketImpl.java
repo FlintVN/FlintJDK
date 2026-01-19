@@ -120,28 +120,7 @@ import java.io.ByteArrayOutputStream;
     public Object getOption(int opt) throws SocketException {
         if(opt == SO_TIMEOUT)
             return new Integer(timeout);
-        int ret = socketGetOption(opt);
-
-        switch(opt) {
-            case TCP_NODELAY:
-                return (ret == -1) ? new Boolean(false) : new Boolean(true);
-            case SO_LINGER:
-                return (ret == -1) ? new Boolean(false) : new Integer(ret);
-            case SO_BINDADDR: {
-                byte[] ipBytes = new byte[4];
-                ipBytes[0] = (byte)((ret >> 24) & 0xFF);
-                ipBytes[0] = (byte)((ret >> 16) & 0xFF);
-                ipBytes[0] = (byte)((ret >> 8) & 0xFF);
-                ipBytes[0] = (byte)(ret & 0xFF);
-                try {
-                    return InetAddress.getByAddress(ipBytes);
-                }
-                catch(UnknownHostException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-        return null;
+        return socketGetOption(opt);
     }
 
     @Override
@@ -215,5 +194,5 @@ import java.io.ByteArrayOutputStream;
     private native void socketClose() throws IOException;
     private native static void initProto();
     private native void socketSetOption(int cmd, boolean on, Object value) throws SocketException;
-    private native int socketGetOption(int opt) throws SocketException;
+    private native Object socketGetOption(int opt) throws SocketException;
 }
