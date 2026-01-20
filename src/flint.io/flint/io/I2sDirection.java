@@ -1,4 +1,4 @@
-package flint.machine;
+package flint.io;
 
 public enum I2sDirection {
     TX(0),

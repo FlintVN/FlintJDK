@@ -1,4 +1,4 @@
-package flint.machine;
+package flint.io;
 
 import java.io.IOException;
 

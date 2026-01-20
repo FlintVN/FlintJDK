@@ -1,4 +1,4 @@
-package flint.machine;
+package flint.io;
 
 public enum SpiDataMode {
     MSB_MODE0(0),

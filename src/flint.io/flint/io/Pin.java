@@ -1,4 +1,4 @@
-package flint.machine;
+package flint.io;
 
 public class Pin {
     final int pin;
