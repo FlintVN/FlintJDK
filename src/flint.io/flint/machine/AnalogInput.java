@@ -1,6 +1,7 @@
 package flint.machine;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 public interface AnalogInput {
     int read(byte[] b) throws IOException;
@@ -11,4 +12,6 @@ public interface AnalogInput {
 
     int read(int[] b) throws IOException;
     int read(int[] b, int off, int count) throws IOException;
+
+    InputStream getInputStream();
 }
