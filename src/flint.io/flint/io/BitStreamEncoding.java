@@ -1,4 +1,4 @@
-package flint.machine;
+package flint.io;
 
 public enum BitStreamEncoding {
     HIGH_LOW(0),
