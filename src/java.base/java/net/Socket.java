@@ -1,11 +1,12 @@
 package java.net;
 
+import java.io.Closeable;
 import java.lang.reflect.*;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.IOException;
 
-public class Socket {
+public class Socket implements Closeable {
     private static SocketImplFactory factory;
 
     SocketImpl impl;

@@ -1,10 +1,11 @@
 package java.net;
 
+import java.io.Closeable;
 import java.lang.reflect.*;
 import java.io.IOException;
 import java.io.FileDescriptor;
 
-public class ServerSocket {
+public class ServerSocket implements Closeable {
     private static SocketImplFactory factory;
 
     private SocketImpl impl;

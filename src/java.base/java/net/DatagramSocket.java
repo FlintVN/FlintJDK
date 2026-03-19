@@ -1,9 +1,10 @@
 package java.net;
 
+import java.io.Closeable;
 import java.io.FileDescriptor;
 import java.io.IOException;
 
-public class DatagramSocket {
+public class DatagramSocket implements Closeable {
     DatagramSocketImpl impl;
     static Class<?> implClass;
 
