@@ -1,4 +1,6 @@
 # Change Log
+## V1.5.1
+- Sockets in java.net must be a Closeable implementation.
 ## V1.5.0
 - Fix typo: `I2cMaster.setdevAddr` to `I2cMaster.setDevAddr`.
 - Add `getInputStream` and `getInputStream` methods in `OutputPort`, `InputPort`, `AnalogOutput` and `AnalogInput` interfaces.
