@@ -3,10 +3,10 @@ package flint.machine;
 import java.util.Arrays;
 
 public final class CanMessage {
-    public int id; // 11-bit or 29-bit
-    public boolean extended; // IDE
-    public boolean rtr; // RTR
-    public int dlc; // 0..8
+    public int id;
+    public boolean extended;
+    public boolean rtr;
+    public int dlc;
     public byte[] data;
 
     public CanMessage() {

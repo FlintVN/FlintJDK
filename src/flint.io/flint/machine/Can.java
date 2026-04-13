@@ -71,7 +71,7 @@ public class Can implements InputPort, OutputPort {
 
     private void checkConfigState() {
         if (isOpen()) {
-            throw new IllegalStateException("Cannot change configuration while CAN is open");
+            throw new IllegalStateException("CAN is already open");
         }
     }
 
@@ -85,18 +85,10 @@ public class Can implements InputPort, OutputPort {
     @Override
     public native boolean isOpen();
 
-    public native void start() throws IOException;
-
-    public native void stop() throws IOException;
-
     public native void recover() throws IOException;
 
     // ================= STATUS & ALERTS =================
     public native CanStatus getStatus() throws IOException;
-
-    public native void configureAlerts(long alertsMask) throws IOException;
-
-    public native long readAlerts(long timeoutMs) throws IOException;
 
     public native void clearTxQueue() throws IOException;
 
@@ -104,62 +96,37 @@ public class Can implements InputPort, OutputPort {
 
     // ================= DATA TRANSFER =================
     @Override
-    public void write(int b) throws IOException {
-        write(new byte[] { (byte) b });
+    public synchronized void write(int b) throws IOException {
+        write(new byte[] { (byte) b }, 0, 1);
     }
 
     @Override
-    public native void write(byte[] data) throws IOException;
+    public synchronized native void write(byte[] data, int off, int len) throws IOException;
 
     @Override
-    public void write(byte[] b, int off, int len) throws IOException {
-        if (b == null)
-            throw new NullPointerException();
-        if (off < 0 || len < 0 || off + len > b.length) {
-            throw new IndexOutOfBoundsException();
-        }
-        if (len == 0)
-            return;
-
-        byte[] tmp = Arrays.copyOfRange(b, off, off + Math.min(len, 8));
-        write(tmp);
+    public synchronized void write(byte[] b) throws IOException {
+        write(b, 0, b.length);
     }
 
     @Override
-    public int read() throws IOException {
-        byte[] frame = readFrame(0);
-        return (frame == null || frame.length == 0) ? -1 : (frame[0] & 0xFF);
+    public synchronized int read() throws IOException {
+        byte[] b = new byte[1];
+        if (read(b, 0, 1) <= 0)
+            return -1;
+        return b[0] & 0xFF;
     }
 
     @Override
-    public int read(byte[] b) throws IOException {
+    public synchronized native int read(byte[] b, int off, int len) throws IOException;
+
+    @Override
+    public synchronized int read(byte[] b) throws IOException {
         return read(b, 0, b.length);
     }
-
-    @Override
-    public int read(byte[] b, int off, int len) throws IOException {
-        if (b == null)
-            throw new NullPointerException();
-        if (off < 0 || len < 0 || off + len > b.length) {
-            throw new IndexOutOfBoundsException();
-        }
-
-        byte[] frame = readFrame(0);
-        if (frame == null)
-            return -1;
-
-        int n = Math.min(len, frame.length);
-        System.arraycopy(frame, 0, b, off, n);
-        return n;
-    }
-
-    public native byte[] readFrame(long timeoutMs) throws IOException;
 
     public native CanMessage readMessage(long timeoutMs) throws IOException;
 
     public native void writeMessage(CanMessage msg, long timeoutMs) throws IOException;
-
-    public native CanMessage receiveMessage(long timeoutMs) throws IOException;
 
     // ================= GETTERS =================
     public String getName() {

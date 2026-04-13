@@ -19,7 +19,7 @@ public final class CanStatus {
 
     @Override
     public String toString() {
-        return "Status{state=" + state +
+        return "CanStatus{state=" + state +
                 ", txErr=" + txErrorCounter +
                 ", rxErr=" + rxErrorCounter +
                 ", txFree=" + txQueueFree +
