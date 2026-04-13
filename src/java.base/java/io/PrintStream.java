@@ -160,6 +160,10 @@ public class PrintStream extends FilterOutputStream implements Appendable, Close
         write(String.valueOf(s));
     }
 
+    public final void print(char c) {
+        write(String.valueOf(c));
+    }
+
     public final void print(char[] c) {
         write(String.valueOf(c));
     }
@@ -202,6 +206,10 @@ public class PrintStream extends FilterOutputStream implements Appendable, Close
 
     public final void println(short s) {
         writeln(String.valueOf(s));
+    }
+
+    public final void println(char c) {
+        writeln(String.valueOf(c));
     }
 
     public final void println(char[] c) {
