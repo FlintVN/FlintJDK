@@ -24,7 +24,7 @@ public final class Inet4Address extends InetAddress {
             return null;
         for(int i = 0; i < len; i++) {
             char c = src.charAt(i);
-            if (c == '.') {
+            if(c == '.') {
                 if(newOctet || tmpValue < 0 || tmpValue > 0xff || currByte == 3)
                     return null;
                 res[currByte++] = (byte) (tmpValue & 0xff);

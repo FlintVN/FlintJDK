@@ -740,13 +740,13 @@ public final class String implements Comparable<String>, CharSequence {
         }
         else {
             if(coder == LATIN1) {
-                while (len-- > 0) {
+                while(len-- > 0) {
                     if((char)(tv[toffset++] & 0xFF) != StringUTF16.charAt(ov, ooffset++))
                         return false;
                 }
             }
             else {
-                while (len-- > 0) {
+                while(len-- > 0) {
                     if(StringUTF16.charAt(tv, toffset++) != (char)(ov[ooffset++] & 0xFF))
                         return false;
                 }
