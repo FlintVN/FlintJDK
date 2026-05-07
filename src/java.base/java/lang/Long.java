@@ -429,8 +429,7 @@ public final class Long extends Number implements Comparable<Long> {
 
     public static int numberOfLeadingZeros(long i) {
         int x = (int)(i >>> 32);
-        return x == 0 ? 32 + Integer.numberOfLeadingZeros((int)i)
-                : Integer.numberOfLeadingZeros(x);
+        return x == 0 ? 32 + Integer.numberOfLeadingZeros((int)i) : Integer.numberOfLeadingZeros(x);
     }
 
     public static int numberOfTrailingZeros(long i) {

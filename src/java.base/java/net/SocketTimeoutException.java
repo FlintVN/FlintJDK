@@ -5,5 +5,7 @@ public class SocketTimeoutException extends java.io.InterruptedIOException {
         super(msg);
     }
 
-    public SocketTimeoutException() {}
+    public SocketTimeoutException() {
+
+    }
 }

@@ -78,7 +78,6 @@ public final class Math {
             return ((a == 0.0) ? a : ((a < 0.0) ? negativeBoundary : positiveBoundary));
         else if(exponent >= 52)
             return a;
-        // assert exponent >= 0 && exponent <= 51;
 
         long doppel = Double.doubleToRawLongBits(a);
         long mask = DOUBLE_SIGNIF_BIT_MASK >> exponent;
@@ -641,12 +640,10 @@ public final class Math {
     }
 
     static double powerOfTwoD(int n) {
-        // assert(n >= Double.MIN_EXPONENT && n <= Double.MAX_EXPONENT);
         return Double.longBitsToDouble((((long)n + (long)DOUBLE_EXP_BIAS) << (DOUBLE_SIGNIFICAND_WIDTH-1)) & DOUBLE_EXP_BIT_MASK);
     }
 
     static float powerOfTwoF(int n) {
-        // assert(n >= Float.MIN_EXPONENT && n <= Float.MAX_EXPONENT);
         return Float.intBitsToFloat(((n + FLOAT_EXP_BIAS) << (FLOAT_SIGNIFICAND_WIDTH-1)) & FLOAT_EXP_BIT_MASK);
     }
 }
