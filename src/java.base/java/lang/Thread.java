@@ -1,6 +1,9 @@
 package java.lang;
 
 public class Thread implements Runnable {
+    private volatile int handle;
+    private volatile String name;
+    volatile boolean interrupted;
     private final Runnable task;
     private volatile int threadStatus;
 
@@ -42,11 +45,31 @@ public class Thread implements Runnable {
         sleep0(millis);
     }
 
+    private void exit() {
+        // TODO
+    }
+
     public void interrupt() {
+        interrupted = true;
         interrupt0();
     }
 
-    private void exit() {
-        // TODO
+    public static boolean interrupted() {
+        return currentThread().getAndClearInterrupt();
+    }
+
+    public boolean isInterrupted() {
+        return interrupted;
+    }
+
+    boolean getAndClearInterrupt() {
+        boolean oldValue = interrupted;
+        if(oldValue)
+            interrupted = false;
+        return oldValue;
+    }
+
+    public final boolean isAlive() {
+        return handle != 0;
     }
 }
