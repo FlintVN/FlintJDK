@@ -30,7 +30,7 @@ public final class Object {
     public final native void wait(long timeoutMillis) throws InterruptedException;
 
     public final void wait() throws InterruptedException {
-        wait(0L);
+        wait(0);
     }
 
     public final void wait(long timeoutMillis, int nanos) throws InterruptedException {
