@@ -30,11 +30,7 @@ public final class System {
     @IntrinsicCandidate
     public static native int identityHashCode(Object x);
 
-    public static void exit(int status) {
-        // TODO
-    }
+    public static native void exit(int status);
 
-    public static void gc() {
-        // TODO
-    }
+    public static native void gc();
 }
