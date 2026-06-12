@@ -1,4 +1,18 @@
 # Change Log
+## V1.6.0
+- Add the missing methods `PrintStream.print(char)` and `PrintStream.println(char)`.
+- Add `flint.drawing` module to support 2D graphics.
+- Implement the `Object.notify()` `Object.notifyAll()` and `Object.wait()`.
+- Add more basic methods to the Thread class:
+  - `Thread.interrupt()`
+  - `Thread.isAlive()`
+  - `Thread.threadId()`
+  - `Thread.setPriority(int)` and `Thread.getPriority()`
+  - `Thread.setName(String)` and `Thread.getName()`
+  - `Thread.setDaemon(bool)` and `Thread.isDaemon()`
+  - `Thread.toString()`
+- Added support for `java.util.Timer`.
+- Implement `System.exit()`.
 ## V1.5.1
 - Sockets in java.net must be a Closeable implementation.
 ## V1.5.0
