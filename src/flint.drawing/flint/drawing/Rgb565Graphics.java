@@ -6,9 +6,9 @@ public class Rgb565Graphics extends Graphics {
     private byte[] data;
 
     private Rgb565Graphics(int width, int height, byte[] buff) {
+        super(width, height);
         if((width * height * 2) > buff.length)
             throw new IllegalArgumentException("The buffer is not large enough to create graphics of the specified size");
-        super(width, height);
         this.data = buff;
     }
 

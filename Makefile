@@ -6,7 +6,7 @@ OUT_DIR          	?=  bin
 
 RUN_OPT             :=
 DEV_OPT             :=  -g
-JFLAGS              :=  -Xlint:all -XDstringConcat=inline --system=none -encoding UTF-8
+JFLAGS              :=  -Xlint:all -XDstringConcat=inline --release 17 -encoding UTF-8
 
 RUN_DIR				:=	$(OUT_DIR)/run
 DEV_DIR				:= 	$(OUT_DIR)/dev

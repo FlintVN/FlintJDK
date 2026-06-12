@@ -13,6 +13,7 @@
   - `Thread.toString()`
 - Added support for `java.util.Timer`.
 - Implement `System.exit()`.
+- Support build with java 17.
 ## V1.5.1
 - Sockets in java.net must be a Closeable implementation.
 ## V1.5.0
