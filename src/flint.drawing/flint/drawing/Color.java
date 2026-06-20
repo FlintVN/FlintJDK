@@ -3,6 +3,10 @@ package flint.drawing;
 public final class Color {
     private final int value;
 
+    public Color(int value) {
+        this.value = value;
+    }
+
     public Color(int r, int g, int b) {
         this(255, r, g, b);
     }
