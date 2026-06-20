@@ -49,6 +49,30 @@ public abstract class Graphics {
             factory = Rgb565Graphics.getGraphicsFactory();
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getClipX() {
+        return clipX;
+    }
+
+    public int getClipY() {
+        return clipY;
+    }
+
+    public int getClipWidth() {
+        return clipWidth;
+    }
+
+    public int getClipHeight() {
+        return clipHeight;
+    }
+
     public int getWidth() {
         return width;
     }
@@ -95,6 +119,8 @@ public abstract class Graphics {
             clipHeight = (yend < height ? yend : height) - clipY;
         }
         else {
+            x += this.x;
+            y += this.y;
             int xend1 = clipX + clipWidth;
             int yend1 = clipY + clipHeight;
             int xend2 = x + w;

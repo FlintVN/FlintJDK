@@ -38,16 +38,4 @@ public final class Color {
     public int getBlue() {
         return value & 0xFF;
     }
-
-    @Override
-    public int hashCode() {
-        return getValue();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(obj instanceof Color)
-            return getValue() == ((Color)obj).getValue();
-        return false;
-    }
 }
