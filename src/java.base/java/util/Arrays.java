@@ -291,8 +291,8 @@ public class Arrays {
         int length = high - low;
         if(length < INSERTIONSORT_THRESHOLD) {
             for(int i = low; i < high; i++)
-                for(int j = i; j > low && ((Comparable)dest[j-1]).compareTo(dest[j])>0; j--)
-                    swap(dest, j, j-1);
+                for(int j = i; j > low && ((Comparable)dest[j - 1]).compareTo(dest[j]) > 0; j--)
+                    swap(dest, j, j - 1);
             return;
         }
 
@@ -304,7 +304,7 @@ public class Arrays {
         mergeSort(dest, src, low, mid, -off);
         mergeSort(dest, src, mid, high, -off);
 
-        if(((Comparable)src[mid-1]).compareTo(src[mid]) <= 0) {
+        if(((Comparable)src[mid - 1]).compareTo(src[mid]) <= 0) {
             System.arraycopy(src, low, dest, destLow, length);
             return;
         }
@@ -368,8 +368,8 @@ public class Arrays {
 
         if(length < INSERTIONSORT_THRESHOLD) {
             for(int i = low; i < high; i++)
-                for(int j = i; j > low && c.compare(dest[j-1], dest[j]) > 0; j--)
-                    swap(dest, j, j-1);
+                for(int j = i; j > low && c.compare(dest[j - 1], dest[j]) > 0; j--)
+                    swap(dest, j, j - 1);
             return;
         }
 
@@ -381,7 +381,7 @@ public class Arrays {
         mergeSort(dest, src, low, mid, -off, c);
         mergeSort(dest, src, mid, high, -off, c);
 
-        if(c.compare(src[mid-1], src[mid]) <= 0) {
+        if(c.compare(src[mid - 1], src[mid]) <= 0) {
            System.arraycopy(src, low, dest, destLow, length);
            return;
         }

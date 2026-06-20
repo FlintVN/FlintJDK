@@ -42,7 +42,7 @@ public final class MathContext {
             int off = 10;                     // where value starts
             setPrecision = Integer.parseInt(val.substring(10, fence));
 
-            if(!val.startsWith("roundingMode=", fence+1))
+            if(!val.startsWith("roundingMode=", fence + 1))
                 throw new RuntimeException();
             off = fence + 1 + 13;
             String str = val.substring(off, val.length());

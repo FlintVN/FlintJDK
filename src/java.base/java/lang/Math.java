@@ -86,7 +86,7 @@ public final class Math {
             return a;
         else {
             double result = Double.longBitsToDouble(doppel & (~mask));
-            if(sign*a > 0.0)
+            if(sign * a > 0.0)
                 result = result + sign;
             return result;
         }
@@ -620,7 +620,7 @@ public final class Math {
             exp_delta = powerOfTwoD(512);
         }
 
-        int t = (scaleFactor >> 9-1) >>> 32 - 9;
+        int t = (scaleFactor >> 9 - 1) >>> 32 - 9;
         exp_adjust = ((scaleFactor + t) & (512 -1)) - t;
 
         d *= powerOfTwoD(exp_adjust);
@@ -636,14 +636,14 @@ public final class Math {
     public static float scalb(float f, int scaleFactor) {
         final int MAX_SCALE = Float.MAX_EXPONENT + -Float.MIN_EXPONENT + FLOAT_SIGNIFICAND_WIDTH + 1;
         scaleFactor = Math.max(Math.min(scaleFactor, MAX_SCALE), -MAX_SCALE);
-        return (float)((double)f*powerOfTwoD(scaleFactor));
+        return (float)((double)f * powerOfTwoD(scaleFactor));
     }
 
     static double powerOfTwoD(int n) {
-        return Double.longBitsToDouble((((long)n + (long)DOUBLE_EXP_BIAS) << (DOUBLE_SIGNIFICAND_WIDTH-1)) & DOUBLE_EXP_BIT_MASK);
+        return Double.longBitsToDouble((((long)n + (long)DOUBLE_EXP_BIAS) << (DOUBLE_SIGNIFICAND_WIDTH - 1)) & DOUBLE_EXP_BIT_MASK);
     }
 
     static float powerOfTwoF(int n) {
-        return Float.intBitsToFloat(((n + FLOAT_EXP_BIAS) << (FLOAT_SIGNIFICAND_WIDTH-1)) & FLOAT_EXP_BIT_MASK);
+        return Float.intBitsToFloat(((n + FLOAT_EXP_BIAS) << (FLOAT_SIGNIFICAND_WIDTH - 1)) & FLOAT_EXP_BIT_MASK);
     }
 }

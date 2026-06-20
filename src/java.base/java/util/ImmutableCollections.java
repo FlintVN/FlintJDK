@@ -1042,14 +1042,14 @@ class ImmutableCollections {
                 @SuppressWarnings("unchecked")
                 K k = Objects.requireNonNull((K)input[i]);
                 @SuppressWarnings("unchecked")
-                V v = Objects.requireNonNull((V)input[i+1]);
+                V v = Objects.requireNonNull((V)input[i + 1]);
                 int idx = probe(k);
                 if(idx >= 0)
                     throw new IllegalArgumentException("duplicate key: " + k);
                 else {
                     int dest = -(idx + 1);
                     table[dest] = k;
-                    table[dest+1] = v;
+                    table[dest + 1] = v;
                 }
             }
         }
@@ -1091,7 +1091,7 @@ class ImmutableCollections {
             }
             int i = probe(o);
             if(i >= 0)
-                return (V)table[i+1];
+                return (V)table[i + 1];
             else
                 return null;
         }
@@ -1141,7 +1141,7 @@ class ImmutableCollections {
                     int idx;
                     while(table[idx = nextIndex()] == null) {}
                     @SuppressWarnings("unchecked")
-                    Map.Entry<K,V> e = new KeyValueHolder<>((K)table[idx], (V)table[idx+1]);
+                    Map.Entry<K,V> e = new KeyValueHolder<>((K)table[idx], (V)table[idx + 1]);
                     remaining--;
                     return e;
                 }
@@ -1193,7 +1193,7 @@ class ImmutableCollections {
             for(int i = 0; i < len; i += 2) {
                 if(table[i] != null) {
                     array[dest++] = table[i];
-                    array[dest++] = table[i+1];
+                    array[dest++] = table[i + 1];
                 }
             }
             return new CollSer(CollSer.IMM_MAP, array);

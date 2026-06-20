@@ -132,7 +132,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
     }
 
     public synchronized int lastIndexOf(Object o) {
-        return lastIndexOf(o, elementCount-1);
+        return lastIndexOf(o, elementCount - 1);
     }
 
     public synchronized int lastIndexOf(Object o, int index) {
@@ -304,7 +304,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
 
         int numMoved = elementCount - index - 1;
         if(numMoved > 0)
-            System.arraycopy(elementData, index+1, elementData, index, numMoved);
+            System.arraycopy(elementData, index + 1, elementData, index, numMoved);
         elementData[--elementCount] = null;
 
         return oldValue;

@@ -193,7 +193,7 @@ class TaskQueue {
 
     void add(TimerTask task) {
         if(size + 1 == queue.length)
-            queue = Arrays.copyOf(queue, 2*queue.length);
+            queue = Arrays.copyOf(queue, 2 * queue.length);
 
         queue[++size] = task;
         fixUp(size);
