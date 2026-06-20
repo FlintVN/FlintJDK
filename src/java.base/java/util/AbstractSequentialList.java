@@ -10,7 +10,7 @@ public abstract class AbstractSequentialList<E> extends AbstractList<E> {
             return listIterator(index).next();
         }
         catch(NoSuchElementException exc) {
-            throw new IndexOutOfBoundsException("Index: "+index);
+            throw new IndexOutOfBoundsException("Index: " + index);
         }
     }
 
@@ -22,7 +22,7 @@ public abstract class AbstractSequentialList<E> extends AbstractList<E> {
             return oldVal;
         }
         catch(NoSuchElementException exc) {
-            throw new IndexOutOfBoundsException("Index: "+index);
+            throw new IndexOutOfBoundsException("Index: " + index);
         }
     }
 
@@ -31,7 +31,7 @@ public abstract class AbstractSequentialList<E> extends AbstractList<E> {
             listIterator(index).add(element);
         }
         catch(NoSuchElementException exc) {
-            throw new IndexOutOfBoundsException("Index: "+index);
+            throw new IndexOutOfBoundsException("Index: " + index);
         }
     }
 
@@ -43,7 +43,7 @@ public abstract class AbstractSequentialList<E> extends AbstractList<E> {
             return outCast;
         }
         catch(NoSuchElementException exc) {
-            throw new IndexOutOfBoundsException("Index: "+index);
+            throw new IndexOutOfBoundsException("Index: " + index);
         }
     }
 
@@ -58,7 +58,7 @@ public abstract class AbstractSequentialList<E> extends AbstractList<E> {
             return modified;
         }
         catch(NoSuchElementException exc) {
-            throw new IndexOutOfBoundsException("Index: "+index);
+            throw new IndexOutOfBoundsException("Index: " + index);
         }
     }
 

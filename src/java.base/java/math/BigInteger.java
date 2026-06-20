@@ -504,7 +504,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     //         p >>= 2;
     //     if((p & 1) == 0) {
     //         p >>= 1;
-    //         if(((u ^ (u>>1)) & 2) != 0)
+    //         if(((u ^ (u >> 1)) & 2) != 0)
     //             j = -j;
     //     }
     //     if(p == 1)
@@ -518,7 +518,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     //             u >>= 2;
     //         if((u & 1) == 0) {
     //             u >>= 1;
-    //             if(((p ^ (p>>1)) & 2) != 0)
+    //             if(((p ^ (p >> 1)) & 2) != 0)
     //                 j = -j;
     //         }
     //         if(u == 1)

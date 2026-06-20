@@ -40,7 +40,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
 
     @SuppressWarnings("this-escape")
     public Hashtable(Map<? extends K, ? extends V> t) {
-        this(Math.max(2*t.size(), 11), 0.75f);
+        this(Math.max(2 * t.size(), 11), 0.75f);
         putAll(t);
     }
 

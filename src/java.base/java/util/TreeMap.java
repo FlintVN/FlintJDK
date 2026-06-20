@@ -2110,7 +2110,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     // TODO
     // private void buildFromSorted(int size, Iterator<?> it, java.io.ObjectInputStream str, V defaultVal) throws java.io.IOException, ClassNotFoundException {
     //     this.size = size;
-    //     root = buildFromSorted(0, 0, size-1, computeRedLevel(size), it, str, defaultVal);
+    //     root = buildFromSorted(0, 0, size - 1, computeRedLevel(size), it, str, defaultVal);
     // }
 
     // TODO
@@ -2153,7 +2153,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     //     }
 
     //     if(mid < hi) {
-    //         Entry<K,V> right = buildFromSorted(level+1, mid + 1, hi, redLevel, it, str, defaultVal);
+    //         Entry<K,V> right = buildFromSorted(level + 1, mid + 1, hi, redLevel, it, str, defaultVal);
     //         middle.right = right;
     //         right.parent = middle;
     //     }

@@ -1076,7 +1076,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
 
         BigDecimal acc = ONE;
         boolean seenbit = false;
-        for(int i=1;;i++) {
+        for(int i = 1; ; i++) {
             mag += mag;
             if(mag < 0) {
                 seenbit = true;
@@ -1088,7 +1088,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
                 acc = acc.multiply(acc, workmc);
         }
         if(n < 0)
-            acc=ONE.divide(acc, workmc);
+            acc = ONE.divide(acc, workmc);
         return doRound(acc, mc);
     }
 
@@ -1874,24 +1874,24 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
 
     private static final long[] THRESHOLDS_TABLE = {
         Long.MAX_VALUE,
-        Long.MAX_VALUE/10L,
-        Long.MAX_VALUE/100L,
-        Long.MAX_VALUE/1000L,
-        Long.MAX_VALUE/10000L,
-        Long.MAX_VALUE/100000L,
-        Long.MAX_VALUE/1000000L,
-        Long.MAX_VALUE/10000000L,
-        Long.MAX_VALUE/100000000L,
-        Long.MAX_VALUE/1000000000L,
-        Long.MAX_VALUE/10000000000L,
-        Long.MAX_VALUE/100000000000L,
-        Long.MAX_VALUE/1000000000000L,
-        Long.MAX_VALUE/10000000000000L,
-        Long.MAX_VALUE/100000000000000L,
-        Long.MAX_VALUE/1000000000000000L,
-        Long.MAX_VALUE/10000000000000000L,
-        Long.MAX_VALUE/100000000000000000L,
-        Long.MAX_VALUE/1000000000000000000L
+        Long.MAX_VALUE / 10L,
+        Long.MAX_VALUE / 100L,
+        Long.MAX_VALUE / 1000L,
+        Long.MAX_VALUE / 10000L,
+        Long.MAX_VALUE / 100000L,
+        Long.MAX_VALUE / 1000000L,
+        Long.MAX_VALUE / 10000000L,
+        Long.MAX_VALUE / 100000000L,
+        Long.MAX_VALUE / 1000000000L,
+        Long.MAX_VALUE / 10000000000L,
+        Long.MAX_VALUE / 100000000000L,
+        Long.MAX_VALUE / 1000000000000L,
+        Long.MAX_VALUE / 10000000000000L,
+        Long.MAX_VALUE / 100000000000000L,
+        Long.MAX_VALUE / 1000000000000000L,
+        Long.MAX_VALUE / 10000000000000000L,
+        Long.MAX_VALUE / 100000000000000000L,
+        Long.MAX_VALUE / 1000000000000000000L
     };
 
     private static long longMultiplyPowerTen(long val, int n) {

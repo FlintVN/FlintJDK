@@ -22,7 +22,7 @@ class BitSieve {
     }
 
     BitSieve(BigInteger base, int searchLen) {
-        bits = new long[(unitIndex(searchLen-1) + 1)];
+        bits = new long[(unitIndex(searchLen - 1) + 1)];
         length = searchLen;
         int start = 0;
 
@@ -49,7 +49,7 @@ class BitSieve {
     }
 
     private static long bit(int bitIndex) {
-        return 1L << (bitIndex & ((1<<6) - 1));
+        return 1L << (bitIndex & ((1 << 6) - 1));
     }
 
     private boolean get(int bitIndex) {

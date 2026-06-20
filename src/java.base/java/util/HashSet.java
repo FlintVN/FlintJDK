@@ -107,7 +107,7 @@ public class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable {
 
     //     map = (this instanceof LinkedHashSet ? new LinkedHashMap<>(capacity, loadFactor) : new HashMap<>(capacity, loadFactor));
 
-    //     for(int i=0; i<size; i++) {
+    //     for(int i = 0; i<size; i++) {
     //         @SuppressWarnings("unchecked")
     //         E e = (E) s.readObject();
     //         map.put(e, PRESENT);
