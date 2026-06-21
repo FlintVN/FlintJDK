@@ -214,6 +214,12 @@ public abstract class Graphics {
         drawString(str, font, c, p.x, p.y);
     }
 
+    public static native Size measureString(String str, Font font);
+
+    public static native int measureStringWidth(String str, Font font);
+
+    public static native int measureStringHeight(String str, Font font);
+
     public abstract void drawString(String str, Font font, Color c, int x, int y);
 
     public void drawImage(Image img, Point p) {
