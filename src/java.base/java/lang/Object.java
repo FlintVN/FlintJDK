@@ -27,7 +27,11 @@ public final class Object {
     @IntrinsicCandidate
     public final native void notifyAll();
 
-    public final native void wait(long timeoutMillis) throws InterruptedException;
+    private final native void wait0(long timeoutMillis) throws InterruptedException;
+
+    public final void wait(long timeoutMillis) throws InterruptedException {
+        wait0(timeoutMillis);
+    }
 
     public final void wait() throws InterruptedException {
         wait(0);
