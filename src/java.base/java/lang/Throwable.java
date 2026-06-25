@@ -95,4 +95,18 @@ public class Throwable {
             return ret;
         }
     }
+
+    public void printStackTrace() {
+        System.out.println(toString());
+        Throwable c = cause;
+        if(c != null && c != this)
+            System.out.println("Caused by: " + c.toString());
+    }
+
+    public void printStackTrace(java.io.PrintStream s) {
+        s.println(toString());
+        Throwable c = cause;
+        if(c != null && c != this)
+            s.println("Caused by: " + c.toString());
+    }
 }
