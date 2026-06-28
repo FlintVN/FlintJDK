@@ -135,8 +135,10 @@ public final class Math {
             return (long)a;
     }
 
+    private static final Random rng = new Random();
+
     public static double random() {
-        return Random.nextDouble();
+        return rng.nextDouble();
     }
 
     public static int addExact(int x, int y) {

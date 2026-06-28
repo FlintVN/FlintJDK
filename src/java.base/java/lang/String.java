@@ -144,6 +144,20 @@ public final class String implements Comparable<String>, CharSequence {
         this.coder = isLatin1 ? (byte)0 : (byte)1;
     }
 
+    public String(byte[] bytes, int offset, int length, String charsetName) {
+        this(decodeBytes(bytes, offset, length, charsetName));
+    }
+
+    public String(byte[] bytes, String charsetName) {
+        this(bytes, 0, bytes.length, charsetName);
+    }
+
+    private static String decodeBytes(byte[] bytes, int offset, int length, String charsetName) {
+        if(charsetName != null && (charsetName.equalsIgnoreCase("UTF-8") || charsetName.equalsIgnoreCase("UTF8")))
+            return new String(bytes, offset, length);
+        return new String(bytes, offset, length, LATIN1);
+    }
+
     public String(StringBuffer buffer) {
         this(buffer.toString());
     }
@@ -168,7 +182,7 @@ public final class String implements Comparable<String>, CharSequence {
     @Override
     public char charAt(int index) {
         if(coder == LATIN1)
-            return (char)value[index];
+            return (char)(value[index] & 0xFF);
         return StringUTF16.charAt(value, index);
     }
 
@@ -381,7 +395,7 @@ public final class String implements Comparable<String>, CharSequence {
                 retLen += value[i] > 0 ? 1 : 2;
             byte[] ret = new byte[retLen];
             for(int i = 0; i < len; i++)
-                idx += utf8EncodeOneChar((char)value[i], ret, idx);
+                idx += utf8EncodeOneChar((char)(value[i] & 0xFF), ret, idx);
             return ret;
         }
         else {
