@@ -81,6 +81,8 @@ public abstract class Graphics {
         return height;
     }
 
+    public native boolean isVisible(int x, int y, int w, int h);
+
     public void setTransform(int x, int y) {
         this.x = x;
         this.y = y;
@@ -92,45 +94,26 @@ public abstract class Graphics {
     }
 
     public void resetClip() {
-        setClip(0, 0, width, height);
+        setClip0(0, 0, width, height, ClipMode.REPLACE.value);
     }
 
     public void setClip(Rectangle clip) {
-        setClip(clip.x, clip.y, clip.width, clip.height, ClipMode.REPLACE);
+        setClip0(clip.x, clip.y, clip.width, clip.height, ClipMode.REPLACE.value);
     }
 
     public void setClip(Rectangle clip, ClipMode mode) {
-        setClip(clip.x, clip.y, clip.width, clip.height, mode);
+        setClip0(clip.x, clip.y, clip.width, clip.height, mode.value);
     }
 
     public void setClip(int x, int y, int w, int h) {
-        setClip(x, y, w, h, ClipMode.REPLACE);
+        setClip0(x, y, w, h, ClipMode.REPLACE.value);
     }
 
     public void setClip(int x, int y, int w, int h, ClipMode mode) {
-        if(width < 0 || height < 0)
-            throw new IllegalArgumentException("Width and height cannot be negative");
-        if(mode.value == ClipMode.REPLACE.value) {
-            int xend = x + w;
-            int yend = y + h;
-            clipX = x > 0 ? x : 0;
-            clipY = y > 0 ? y : 0;
-            clipWidth = (xend < width ? xend : width) - clipX;
-            clipHeight = (yend < height ? yend : height) - clipY;
-        }
-        else {
-            x += this.x;
-            y += this.y;
-            int xend1 = clipX + clipWidth;
-            int yend1 = clipY + clipHeight;
-            int xend2 = x + w;
-            int yend2 = y + h;
-            clipX = x > clipX ? x : clipX;
-            clipY = y > clipY ? y : clipY;
-            clipWidth = ((xend2 < xend1) ? xend2 : xend1) - clipX;
-            clipHeight = ((yend2 < yend1) ? yend2 : yend1) - clipY;
-        }
+        setClip0(x, y, w, h, mode.value);
     }
+
+    private native void setClip0(int x, int y, int w, int h, int mode);
 
     public abstract void clear();
 
