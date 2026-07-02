@@ -1,4 +1,17 @@
 # Change Log
+## V1.6.1
+- flint.drawing:
+  - Support creating `Color` from an integer value.
+  - Add the methods `Graphics.measureString`, `Graphics.measureStringWidth` and `Graphics.measureStringHeight`.
+  - Add `Graphics.isVisible` method.
+  - Nativeize method `Graphics.setClip` to improve for perfomance.
+- Add the following classes:
+  - `java.io.UncheckedIOException`.
+  - `java.io.ByteArrayInputStream`.
+  - `java.io.DataInputStream`.
+  - `java.io.FilterInputStream`.
+  - `java.lang.SecurityException`.
+  - `java.io.Serializable`.
 ## V1.6.0
 - Add the missing methods `PrintStream.print(char)` and `PrintStream.println(char)`.
 - Add `flint.drawing` module to support 2D graphics.
