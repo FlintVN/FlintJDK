@@ -28,6 +28,15 @@ $(DEV_DIR)/%:
 	@cp -r $(MODULE_SOURCE_PATH)/$* $(DEV_DIR)/$*/src
 	@jar --create --file $(DEV_DIR)/$*.jar --manifest META-INF/MANIFEST.MF -C $(DEV_DIR)/$* "."
 
+deploy: all
+	@echo Deploying to FlintExample...
+	@mkdir -p ../FlintExample/jdk
+	@cp -r $(JAR_DIR)/* ../FlintExample/jdk/
+	@echo Deploying to FlintESPJVM...
+	@mkdir -p ../FlintESPJVM/BUILD_SYSTEM/Resources/lib
+	@cp -r $(RUN_DIR)/* ../FlintESPJVM/BUILD_SYSTEM/Resources/lib/
+	@echo Deploy complete
+
 clean:
 	@rm -rf $(OUT_DIR)
 	@echo Clean complete
