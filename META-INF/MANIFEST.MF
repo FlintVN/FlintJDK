@@ -1,1 +1,1 @@
-Manifest-Version: 1.6.0
+Manifest-Version: 1.6.1
