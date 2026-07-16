@@ -38,6 +38,10 @@ public final class System {
 
     public static native void gc();
 
+    static native String getProgramPath0();
+
+    static native byte[] getResourceBytes0(String name);
+
     public static synchronized String getProperty(String key) {
         checkPropertyKey(key);
         int index = findProperty(key);

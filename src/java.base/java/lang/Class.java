@@ -1,5 +1,9 @@
 package java.lang;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ByteArrayInputStream;
 import java.util.Objects;
 import java.lang.invoke.TypeDescriptor;
 import java.lang.reflect.Array;
@@ -66,6 +70,54 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     public String getName() {
         String name = this.name;
         return name != null ? name : initClassName();
+    }
+
+    public InputStream getResourceAsStream(String name) {
+        Objects.requireNonNull(name);
+
+        String resourceName;
+        if(name.startsWith("/"))
+            resourceName = name.substring(1);
+        else {
+            String className = getName();
+            int packageEnd = className.lastIndexOf('.');
+            resourceName = packageEnd < 0
+                    ? name
+                    : className.substring(0, packageEnd + 1).replace('.', '/') + name;
+        }
+
+          String suite = System.getProperty("flint.resource.dir");
+
+          byte[] embedded = System.getResourceBytes0(resourceName);
+          if(embedded != null)
+              return new ByteArrayInputStream(embedded);
+
+          String path = resourceRootForProgram(System.getProgramPath0()) + "/";
+        if(suite != null && suite.length() != 0)
+            path += suite + "/";
+        path += resourceName;
+
+        try {
+            return new FileInputStream(path);
+        }
+        catch(IOException exception) {
+            return null;
+        }
+    }
+
+    private static String resourceRootForProgram(String programPath) {
+        if(programPath == null || !programPath.startsWith("/mnt/sd"))
+            return "/res";
+
+        int volumeEnd = programPath.indexOf('/', 7);
+        if(volumeEnd < 0 || volumeEnd == 7)
+            return "/res";
+        for(int i = 7; i < volumeEnd; i++) {
+            char character = programPath.charAt(i);
+            if(character < '0' || character > '9')
+                return "/res";
+        }
+        return programPath.substring(0, volumeEnd) + "/res";
     }
 
     private native String initClassName();
