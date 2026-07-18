@@ -1,5 +1,7 @@
 package java.lang;
 
+import java.io.InputStream;
+import java.io.ByteArrayInputStream;
 import java.util.Objects;
 import java.lang.invoke.TypeDescriptor;
 import java.lang.reflect.Array;
@@ -66,6 +68,24 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     public String getName() {
         String name = this.name;
         return name != null ? name : initClassName();
+    }
+
+    public InputStream getResourceAsStream(String name) {
+        Objects.requireNonNull(name);
+
+        String resourceName;
+        if(name.startsWith("/"))
+            resourceName = name.substring(1);
+        else {
+            String className = getName();
+            int packageEnd = className.lastIndexOf('.');
+            resourceName = packageEnd < 0
+                    ? name
+                    : className.substring(0, packageEnd + 1).replace('.', '/') + name;
+        }
+
+        byte[] embedded = System.getResourceBytes0(resourceName);
+        return embedded == null ? null : new ByteArrayInputStream(embedded);
     }
 
     private native String initClassName();
