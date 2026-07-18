@@ -1,1 +1,3 @@
-Manifest-Version: 1.6.1
+Manifest-Version: 1.0
+Implementation-Title: FlintJDK
+Implementation-Version: 1.6.1
