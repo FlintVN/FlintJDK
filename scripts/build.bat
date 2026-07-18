@@ -4,7 +4,6 @@ setlocal EnableExtensions EnableDelayedExpansion
 set "ROOT=%~dp0.."
 for %%I in ("%ROOT%") do set "ROOT=%%~fI"
 set "SOURCE_ROOT=%ROOT%\src"
-set "MANIFEST=%ROOT%\META-INF\MANIFEST.MF"
 set "OUTPUT_ROOT=%ROOT%\bin"
 set "RUN_ROOT=%OUTPUT_ROOT%\run"
 set "DEV_ROOT=%OUTPUT_ROOT%\dev"
@@ -18,7 +17,6 @@ if not "%~1"=="" (echo Usage: %~nx0 [--clean]>&2 & exit /b 2)
 
 where javac >nul 2>nul || (echo javac was not found in PATH. Install JDK 17 or newer.>&2 & exit /b 1)
 where jar >nul 2>nul || (echo jar was not found in PATH. Install JDK 17 or newer.>&2 & exit /b 1)
-if not exist "%MANIFEST%" (echo Common manifest not found: %MANIFEST%>&2 & exit /b 1)
 for /f "tokens=2 delims=. " %%V in ('javac -version 2^>^&1') do set "JAVAC_MAJOR=%%V"
 if not defined JAVAC_MAJOR (echo Unable to detect the JDK version.>&2 & exit /b 1)
 if !JAVAC_MAJOR! LSS 17 (echo JDK 17 or newer is required; found version !JAVAC_MAJOR!.>&2 & exit /b 1)
@@ -45,11 +43,13 @@ javac -g -Xlint:all -XDstringConcat=inline --release 17 -encoding UTF-8 -d "%DEV
 if errorlevel 1 exit /b 1
 
 for %%M in (!MODULES!) do (
-  jar cf0m "%RUN_ROOT%\%%M.jar" "%MANIFEST%" -C "%RUN_ROOT%\%%M" .
+  set "MODULE_MANIFEST=%ROOT%\META-INF\%%M.MF"
+  if not exist "!MODULE_MANIFEST!" (echo Module manifest not found: !MODULE_MANIFEST!>&2 & exit /b 1)
+  jar cf0m "%RUN_ROOT%\%%M.jar" "!MODULE_MANIFEST!" -C "%RUN_ROOT%\%%M" .
   if errorlevel 1 exit /b 1
   xcopy "%SOURCE_ROOT%\%%M" "%DEV_ROOT%\%%M\src\" /E /I /Q /Y >nul
   if errorlevel 1 exit /b 1
-  jar cfm "%DEV_ROOT%\%%M.jar" "%MANIFEST%" -C "%DEV_ROOT%\%%M" .
+  jar cfm "%DEV_ROOT%\%%M.jar" "!MODULE_MANIFEST!" -C "%DEV_ROOT%\%%M" .
   if errorlevel 1 exit /b 1
 )
 

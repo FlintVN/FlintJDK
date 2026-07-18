@@ -8,7 +8,6 @@ Set-StrictMode -Version Latest
 
 $root = Split-Path -Parent $PSScriptRoot
 $sourceRoot = Join-Path $root 'src'
-$manifest = Join-Path $root 'META-INF/MANIFEST.MF'
 $outputRoot = Join-Path $root 'bin'
 $runRoot = Join-Path $outputRoot 'run'
 $devRoot = Join-Path $outputRoot 'dev'
@@ -25,9 +24,6 @@ foreach($tool in @('javac', 'jar')) {
     if(-not (Get-Command $tool -ErrorAction SilentlyContinue)) {
         throw "$tool was not found in PATH. Install JDK 17 or newer."
     }
-}
-if(-not (Test-Path -LiteralPath $manifest -PathType Leaf)) {
-    throw "Common manifest not found: $manifest"
 }
 
 $probe = [Diagnostics.ProcessStartInfo]::new()
@@ -67,12 +63,16 @@ Write-Host "Building development modules: $moduleList"
 if($LASTEXITCODE -ne 0) { throw 'Development compilation failed.' }
 
 foreach($module in $modules) {
-    & jar cf0m (Join-Path $runRoot "$module.jar") $manifest -C (Join-Path $runRoot $module) .
+    $moduleManifest = Join-Path $root "META-INF/$module.MF"
+    if(-not (Test-Path -LiteralPath $moduleManifest -PathType Leaf)) {
+        throw "Module manifest not found: $moduleManifest"
+    }
+    & jar cf0m (Join-Path $runRoot "$module.jar") $moduleManifest -C (Join-Path $runRoot $module) .
     if($LASTEXITCODE -ne 0) { throw "Failed to package runtime module: $module" }
 
     $devModule = Join-Path $devRoot $module
     Copy-Item -LiteralPath (Join-Path $sourceRoot $module) -Destination (Join-Path $devModule 'src') -Recurse
-    & jar cfm (Join-Path $devRoot "$module.jar") $manifest -C $devModule .
+    & jar cfm (Join-Path $devRoot "$module.jar") $moduleManifest -C $devModule .
     if($LASTEXITCODE -ne 0) { throw "Failed to package development module: $module" }
 }
 

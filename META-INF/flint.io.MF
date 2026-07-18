@@ -1,7 +1,8 @@
 Manifest-Version: 1.0
-Specification-Title: Flint Java Runtime
+Specification-Title: Flint I/O API
 Specification-Version: 1.6.1
 Specification-Vendor: FlintVN
-Implementation-Title: FlintJDK Distribution
+Implementation-Title: FlintJDK flint.io
 Implementation-Version: 1.6.1
 Implementation-Vendor: FlintVN
+

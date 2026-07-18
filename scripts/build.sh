@@ -4,7 +4,6 @@ set -euo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 ROOT="$(cd -- "$SCRIPT_DIR/.." && pwd -P)"
 SOURCE_ROOT="$ROOT/src"
-MANIFEST="$ROOT/META-INF/MANIFEST.MF"
 OUTPUT_ROOT="$ROOT/bin"
 RUN_ROOT="$OUTPUT_ROOT/run"
 DEV_ROOT="$OUTPUT_ROOT/dev"
@@ -19,7 +18,6 @@ fi
 for tool in javac jar; do
   command -v "$tool" >/dev/null 2>&1 || { echo "$tool was not found in PATH. Install JDK 17 or newer." >&2; exit 1; }
 done
-[[ -f "$MANIFEST" ]] || { echo "Common manifest not found: $MANIFEST" >&2; exit 1; }
 
 JAVAC_VERSION="$(javac -version 2>&1)"
 JAVAC_MAJOR="$(printf '%s' "$JAVAC_VERSION" | sed -E 's/.* ([0-9]+).*/\1/')"
@@ -48,9 +46,11 @@ javac -g -Xlint:all -XDstringConcat=inline --release 17 -encoding UTF-8 \
   -d "$DEV_ROOT" --module "$MODULE_LIST" --module-source-path "$SOURCE_ROOT"
 
 for module in "${MODULES[@]}"; do
-  jar cf0m "$RUN_ROOT/$module.jar" "$MANIFEST" -C "$RUN_ROOT/$module" .
+  module_manifest="$ROOT/META-INF/$module.MF"
+  [[ -f "$module_manifest" ]] || { echo "Module manifest not found: $module_manifest" >&2; exit 1; }
+  jar cf0m "$RUN_ROOT/$module.jar" "$module_manifest" -C "$RUN_ROOT/$module" .
   cp -R -- "$SOURCE_ROOT/$module" "$DEV_ROOT/$module/src"
-  jar cfm "$DEV_ROOT/$module.jar" "$MANIFEST" -C "$DEV_ROOT/$module" .
+  jar cfm "$DEV_ROOT/$module.jar" "$module_manifest" -C "$DEV_ROOT/$module" .
 done
 
 echo "Build complete: $OUTPUT_ROOT"
