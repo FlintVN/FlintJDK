@@ -1,7 +1,5 @@
 package java.lang;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.ByteArrayInputStream;
 import java.util.Objects;
@@ -86,38 +84,8 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
                     : className.substring(0, packageEnd + 1).replace('.', '/') + name;
         }
 
-          String suite = System.getProperty("flint.resource.dir");
-
-          byte[] embedded = System.getResourceBytes0(resourceName);
-          if(embedded != null)
-              return new ByteArrayInputStream(embedded);
-
-          String path = resourceRootForProgram(System.getProgramPath0()) + "/";
-        if(suite != null && suite.length() != 0)
-            path += suite + "/";
-        path += resourceName;
-
-        try {
-            return new FileInputStream(path);
-        }
-        catch(IOException exception) {
-            return null;
-        }
-    }
-
-    private static String resourceRootForProgram(String programPath) {
-        if(programPath == null || !programPath.startsWith("/mnt/sd"))
-            return "/res";
-
-        int volumeEnd = programPath.indexOf('/', 7);
-        if(volumeEnd < 0 || volumeEnd == 7)
-            return "/res";
-        for(int i = 7; i < volumeEnd; i++) {
-            char character = programPath.charAt(i);
-            if(character < '0' || character > '9')
-                return "/res";
-        }
-        return programPath.substring(0, volumeEnd) + "/res";
+        byte[] embedded = System.getResourceBytes0(resourceName);
+        return embedded == null ? null : new ByteArrayInputStream(embedded);
     }
 
     private native String initClassName();
