@@ -24,7 +24,7 @@ public class PrintStream extends FilterOutputStream implements Appendable, Close
     @Override
     public void write(byte[] buf, int off, int len) {
         try {
-            synchronized (this) {
+            synchronized(this) {
                 out.write(buf, off, len);
             }
         }
