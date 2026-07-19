@@ -5,6 +5,7 @@ module java.base {
     exports java.lang;
     exports java.math;
     exports java.util;
+    exports java.util.zip;
     exports java.util.function;
     exports java.lang.invoke;
     exports java.lang.reflect;
