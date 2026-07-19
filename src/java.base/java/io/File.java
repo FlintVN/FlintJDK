@@ -321,7 +321,7 @@ public class File implements Comparable<File> {
     // public Path toPath() {
     //     Path result = filePath;
     //     if(result == null) {
-    //         synchronized (this) {
+    //         synchronized(this) {
     //             result = filePath;
     //             if(result == null) {
     //                 result = FileSystems.getDefault().getPath(path);
