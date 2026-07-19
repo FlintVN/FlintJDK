@@ -81,6 +81,10 @@ public class DataOutputStream extends FilterOutputStream implements DataOutput {
     }
 
     public final void writeUTF(String str) throws IOException {
+        writeUTF(str, this);
+    }
+
+    static final void writeUTF(String str, DataOutput out) throws IOException {
         int strlen = str.length(), utflen = 0;
         for(int i = 0; i < strlen; i++) {
             int c = str.charAt(i);
@@ -93,19 +97,19 @@ public class DataOutputStream extends FilterOutputStream implements DataOutput {
         }
         if(utflen > 65535)
             throw new IOException("encoded string too long");
-        writeShort(utflen);
+        out.writeShort(utflen);
         for(int i = 0; i < strlen; i++) {
             int c = str.charAt(i);
             if(c >= 0x0001 && c <= 0x007F)
-                writeByte(c);
+                out.writeByte(c);
             else if(c > 0x07FF) {
-                writeByte(0xE0 | ((c >> 12) & 0x0F));
-                writeByte(0x80 | ((c >> 6) & 0x3F));
-                writeByte(0x80 | (c & 0x3F));
+                out.writeByte(0xE0 | ((c >> 12) & 0x0F));
+                out.writeByte(0x80 | ((c >> 6) & 0x3F));
+                out.writeByte(0x80 | (c & 0x3F));
             }
             else {
-                writeByte(0xC0 | ((c >> 6) & 0x1F));
-                writeByte(0x80 | (c & 0x3F));
+                out.writeByte(0xC0 | ((c >> 6) & 0x1F));
+                out.writeByte(0x80 | (c & 0x3F));
             }
         }
     }
