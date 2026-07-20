@@ -76,7 +76,7 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
             if(count < 0)
                 throw new EOFException();
             n += count;
-        } while (n < len);
+        } while(n < len);
     }
 
     @Override
@@ -193,8 +193,8 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
         int c = -1;
         boolean eol = false;
 
-        while (!eol) {
-            switch (c = read()) {
+        while(!eol) {
+            switch(c = read()) {
                 case -1, '\n' -> eol = true;
                 case '\r' -> {
                     eol = true;
