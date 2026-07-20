@@ -1,3 +1,7 @@
 Manifest-Version: 1.0
+Specification-Title: FlintJDK
+Specification-Version: 1.6.1
+Specification-Vendor: FlintVN
 Implementation-Title: FlintJDK
 Implementation-Version: 1.6.1
+Implementation-Vendor: FlintVN
