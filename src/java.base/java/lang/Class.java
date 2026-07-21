@@ -1,9 +1,10 @@
 package java.lang;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.FileInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.Objects;
@@ -431,36 +432,53 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
 
     @CallerSensitive
     public InputStream getResourceAsStream(String name) {
-        String packageName = getPackageName();
+        Objects.requireNonNull(name);
+
+        // Resolve classpath-relative name.
+        String resourceName;
+        if(name.startsWith("/"))
+            resourceName = name.substring(1);
+        else {
+            String className = getName();
+            int packageEnd = className.lastIndexOf('.');
+            resourceName = packageEnd < 0
+                    ? name
+                    : className.substring(0, packageEnd + 1).replace('.', '/') + name;
+        }
+
+        // Primary path: read from the running JAR (embedded resource).
+        // This is the same native that ResourceLoader uses, ensuring
+        // all resource loading on FlintOS goes through one code path.
+        byte[] embedded = System.getResourceBytes0(resourceName);
+        if(embedded != null)
+            return new ByteArrayInputStream(embedded);
+
+        // Fallback: read from the class-parent directory (flat filesystem,
+        // used by host-side tooling that does not run from a JAR).
         String parent = getParentPath();
+        if(parent == null)
+            return null;
         File file = new File(parent);
         try {
             if(file.isFile()) {
-                if(name.startsWith("/"))
-                    name = name.substring(1);
-                else
-                    name = packageName.replace('.', File.separatorChar) + File.separator + name;
+                // Class came from a JAR — open it as a zip.
                 ZipEntry entry;
                 ZipInputStream zis = new ZipInputStream(new FileInputStream(parent));
                 while((entry = zis.getNextEntry()) != null) {
-                    if(entry.getName().equals(name))
+                    if(entry.getName().equals(resourceName))
                         return zis;
                     zis.closeEntry();
                 }
             }
             else {
-                if(name.startsWith("/")) {
-                    String root = parent.substring(0, parent.length() - (packageName.length() + 1));
-                    name = root + name;
-                }
-                else
-                    name = parent + File.separator + name;
-                return new FileInputStream(name);
+                // Class came from a directory — construct the file path.
+                String path = file.isDirectory()
+                    ? parent + File.separator + resourceName
+                    : resourceName;
+                return new FileInputStream(path);
             }
         }
-        catch(IOException ex) {
-
-        }
+        catch(IOException ex) {}
         return null;
     }
 
