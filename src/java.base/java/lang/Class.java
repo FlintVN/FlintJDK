@@ -1,5 +1,11 @@
 package java.lang;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.FileInputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import java.util.Objects;
 import java.lang.invoke.TypeDescriptor;
 import java.lang.reflect.Array;
@@ -419,6 +425,43 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
                 declaredConstructors = getDeclaredConstructors0();
             return declaredConstructors;
         }
+    }
+
+    private native String getParentPath();
+
+    @CallerSensitive
+    public InputStream getResourceAsStream(String name) {
+        String packageName = getPackageName();
+        String parent = getParentPath();
+        File file = new File(parent);
+        try {
+            if(file.isFile()) {
+                if(name.startsWith("/"))
+                    name = name.substring(1);
+                else
+                    name = packageName.replace('.', File.separatorChar) + File.separator + name;
+                ZipEntry entry;
+                ZipInputStream zis = new ZipInputStream(new FileInputStream(parent));
+                while((entry = zis.getNextEntry()) != null) {
+                    if(entry.getName().equals(name))
+                        return zis;
+                    zis.closeEntry();
+                }
+            }
+            else {
+                if(name.startsWith("/")) {
+                    String root = parent.substring(0, parent.length() - (packageName.length() + 1));
+                    name = root + name;
+                }
+                else
+                    name = parent + File.separator + name;
+                return new FileInputStream(name);
+            }
+        }
+        catch(IOException ex) {
+
+        }
+        return null;
     }
 
     private String methodToString(String name, Class<?>[] argTypes) {
