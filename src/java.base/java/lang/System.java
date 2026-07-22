@@ -30,6 +30,21 @@ public final class System {
     @IntrinsicCandidate
     public static native int identityHashCode(Object x);
 
+    public static String lineSeparator() {
+        if(lineSeparator == null)
+            lineSeparator = getProperty("line.separator");
+        return lineSeparator;
+    }
+
+    private static String lineSeparator;
+
+    public native static String getProperty(String key);
+
+    public static String getProperty(String key, String def) {
+        String v = getProperty(key);
+        return (v != null) ? v : def;
+    }
+
     public static native void exit(int status);
 
     public static native void gc();
