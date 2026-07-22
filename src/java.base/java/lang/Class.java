@@ -1,12 +1,7 @@
 package java.lang;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 import java.util.Objects;
 import java.lang.invoke.TypeDescriptor;
 import java.lang.reflect.Array;
@@ -432,54 +427,74 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
 
     @CallerSensitive
     public InputStream getResourceAsStream(String name) {
-        Objects.requireNonNull(name);
+        /* MIDP 2.0 § (java.lang): null → NPE */
+        if(name == null)
+            throw new NullPointerException("name");
 
-        // Resolve classpath-relative name.
-        String resourceName;
-        if(name.startsWith("/"))
-            resourceName = name.substring(1);
-        else {
-            String className = getName();
-            int packageEnd = className.lastIndexOf('.');
-            resourceName = packageEnd < 0
-                    ? name
-                    : className.substring(0, packageEnd + 1).replace('.', '/') + name;
-        }
-
-        // Primary path: read from the running JAR (embedded resource).
-        // This is the same native that ResourceLoader uses, ensuring
-        // all resource loading on FlintOS goes through one code path.
-        byte[] embedded = System.getResourceBytes0(resourceName);
-        if(embedded != null)
-            return new ByteArrayInputStream(embedded);
-
-        // Fallback: read from the class-parent directory (flat filesystem,
-        // used by host-side tooling that does not run from a JAR).
-        String parent = getParentPath();
-        if(parent == null)
+        String res = resolveResourceName(name);
+        if(res == null)
             return null;
-        File file = new File(parent);
-        try {
-            if(file.isFile()) {
-                // Class came from a JAR — open it as a zip.
-                ZipEntry entry;
-                ZipInputStream zis = new ZipInputStream(new FileInputStream(parent));
-                while((entry = zis.getNextEntry()) != null) {
-                    if(entry.getName().equals(resourceName))
-                        return zis;
-                    zis.closeEntry();
-                }
+
+        /* MIDP must not expose .class files as resources (security). */
+        if(res.endsWith(".class"))
+            return null;
+
+        /* Canonicalize (strip /./ and resolve /../, never leave JAR root). */
+        res = canonicalizeResourceName(res);
+        if(res == null)
+            return null;
+
+        byte[] data = System.getResourceBytes0(res);
+        return data != null ? new ByteArrayInputStream(data) : null;
+    }
+
+    /**
+     * Resolves a resource name relative to this class's package.
+     * Absolute names (starting with '/') are used as-is.
+     */
+    private String resolveResourceName(String name) {
+        if(name.isEmpty())
+            return null;
+        if(name.charAt(0) == '/')
+            return name.substring(1);
+
+        /* Relative to the class's package. */
+        String cn = getName();
+        int dot = cn.lastIndexOf('.');
+        if(dot < 0)
+            return name;
+        return cn.substring(0, dot).replace('.', '/') + "/" + name;
+    }
+
+    /**
+     * Normalises a JAR-entry path: collapses {@code /./} and
+     * {@code /segment/../}, rejects traversal above root.
+     */
+    private static String canonicalizeResourceName(String path) {
+        java.util.Vector<String> segs = new java.util.Vector<>();
+        int len = path.length(), p = 0;
+        while(p <= len) {
+            int slash = path.indexOf('/', p);
+            if(slash < 0) slash = len;
+            String seg = path.substring(p, slash);
+            if(seg.isEmpty() || ".".equals(seg)) {
+                /* skip */
+            } else if("..".equals(seg)) {
+                if(segs.isEmpty())
+                    return null;   // escape above root
+                segs.removeElementAt(segs.size() - 1);
+            } else {
+                segs.addElement(seg);
             }
-            else {
-                // Class came from a directory — construct the file path.
-                String path = file.isDirectory()
-                    ? parent + File.separator + resourceName
-                    : resourceName;
-                return new FileInputStream(path);
-            }
+            if(slash >= len) break;
+            p = slash + 1;
         }
-        catch(IOException ex) {}
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < segs.size(); i++) {
+            if(i > 0) sb.append('/');
+            sb.append(segs.elementAt(i));
+        }
+        return sb.toString();
     }
 
     private String methodToString(String name, Class<?>[] argTypes) {
