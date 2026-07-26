@@ -25,16 +25,16 @@ public class Socket implements Closeable {
                 impl = (SocketImpl)Class.forName("flint.net.FlintSocketImpl").getConstructor().newInstance();
             }
             catch(ClassNotFoundException e) {
-                System.out.println("Class not found: flint.net.FlintInetAddressImpl");
+                System.out.println("Class not found: flint.net.FlintSocketImpl");
             }
             catch(NoSuchMethodException e) {
-                System.out.println("Method not found: flint.net.FlintInetAddressImpl.<init>()");
+                System.out.println("Method not found: flint.net.FlintSocketImpl.<init>()");
             }
             catch(InstantiationException | IllegalArgumentException | InvocationTargetException e) {
-                System.out.println("Could not instantiate: flint.net.FlintInetAddressImpl");
+                System.out.println("Could not instantiate: flint.net.FlintSocketImpl");
             }
             catch(IllegalAccessException e) {
-                System.out.println("Cannot access class: flint.net.FlintInetAddressImpl");
+                System.out.println("Cannot access class: flint.net.FlintSocketImpl");
             }
         }
     }

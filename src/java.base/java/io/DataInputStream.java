@@ -3,7 +3,6 @@ package java.io;
 import java.util.Objects;
 
 public class DataInputStream extends FilterInputStream implements DataInput {
-
     public DataInputStream(InputStream in) {
         super(in);
     }

@@ -6,24 +6,24 @@ public final class DatagramPacket {
     InetAddress address;
     int port;
 
+    @SuppressWarnings("this-escape")
     public DatagramPacket(byte ibuf[], int ilength) {
-        if(ilength > ibuf.length)
-            throw new IllegalArgumentException("illegal length");
+        if(buf == null)
+            throw new IllegalArgumentException("buffer is null");
         buf = ibuf;
-        length = ilength;
+        setLength(ilength);
         address = null;
         port = -1;
     }
 
+    @SuppressWarnings("this-escape")
     public DatagramPacket(byte ibuf[], int ilength, InetAddress iaddr, int iport) {
-        if(ilength > ibuf.length)
-            throw new IllegalArgumentException("illegal length");
-        if(iport < 0 || iport > 0xFFFF)
-            throw new IllegalArgumentException("Port out of range:" + iport);
+        if(buf == null)
+            throw new IllegalArgumentException("buffer is null");
         buf = ibuf;
-        length = ilength;
+        setLength(ilength);
         address = iaddr;
-        port = iport;
+        setPort(iport);
     }
 
     public synchronized InetAddress getAddress() {
@@ -57,7 +57,7 @@ public final class DatagramPacket {
     }
 
     public synchronized void setLength(int ilength) {
-        if(ilength > buf.length)
+        if(ilength < 0 || ilength > buf.length)
             throw new IllegalArgumentException("illegal length");
         length = ilength;
     }
