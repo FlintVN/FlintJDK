@@ -123,20 +123,20 @@ public class DataInputStream extends FilterInputStream implements DataInput {
             else if(x == 12 || x == 13) {
                 count += 2;
                 if(count > utflen)
-                    throw new IOException();
+                    throw new UTFDataFormatException("malformed input: partial character at end");
                 int c2 = bytearr[count - 1];
                 chararr[cc++] = (char) (((c & 0x1F) << 6) | (c2 & 0x3F));
             }
             else if(x == 14) {
                 count += 3;
                 if(count > utflen)
-                    throw new IOException();
+                    throw new UTFDataFormatException("malformed input: partial character at end");
                 int c2 = bytearr[count - 2];
                 int c3 = bytearr[count - 1];
                 chararr[cc++] = (char) (((c & 0x0F) << 12) | ((c2 & 0x3F) << 6) | (c3 & 0x3F));
             }
             else
-                throw new IOException();
+                throw new UTFDataFormatException("malformed input around byte " + count);
         }
         return new String(chararr, 0, cc);
     }
