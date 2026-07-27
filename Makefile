@@ -1,32 +1,35 @@
 
-MODULES         	:=  java.base flint.io flint.net flint.drawing
+MODULES             ?=  java.base flint.io flint.net flint.drawing
 JC                  :=  javac
 MODULE_SOURCE_PATH  :=  src
-OUT_DIR          	?=  bin
+OUT_DIR             ?=  bin
 
 RUN_OPT             :=
 DEV_OPT             :=  -g
 JFLAGS              :=  -Xlint:all -XDstringConcat=inline --release 17 -encoding UTF-8
 
-RUN_DIR				:=	$(OUT_DIR)/run
-DEV_DIR				:= 	$(OUT_DIR)/dev
+RUN_OUT_DIR         :=  $(OUT_DIR)/run
+DEV_OUT_DIR         :=  $(OUT_DIR)/dev
+
+RUN_JAR_OUT_DIR     ?=  $(RUN_OUT_DIR)
+DEV_JAR_OUT_DIR     ?=  $(DEV_OUT_DIR)
 
 all: run dev
 
-run: $(foreach m,$(MODULES),$(RUN_DIR)/$(m))
+run: $(foreach m,$(MODULES),$(RUN_OUT_DIR)/$(m))
 
-dev: $(foreach m,$(MODULES),$(DEV_DIR)/$(m))
+dev: $(foreach m,$(MODULES),$(DEV_OUT_DIR)/$(m))
 
-$(RUN_DIR)/%:
+$(RUN_OUT_DIR)/%: $(shell find $(MODULE_SOURCE_PATH)/$* -name *.java)
 	@echo Compiling $* for runtime mode
-	@$(JC) $(RUN_OPT) $(JFLAGS) -d $(RUN_DIR) --module $* --module-source-path $(MODULE_SOURCE_PATH)
-	@jar --create --file $(RUN_DIR)/$*.jar --manifest META-INF/MANIFEST.MF -0 -C $(RUN_DIR)/$* "."
+	@$(JC) $(RUN_OPT) $(JFLAGS) -d $(RUN_OUT_DIR) --module $* --module-source-path $(MODULE_SOURCE_PATH)
+	@jar --create --file $(RUN_JAR_OUT_DIR)/$*.jar --manifest META-INF/MANIFEST.MF -0 -C $(RUN_OUT_DIR)/$* "."
 
-$(DEV_DIR)/%:
+$(DEV_OUT_DIR)/%: $(shell find $(MODULE_SOURCE_PATH)/$* -name *.java)
 	@echo Compiling $* for development mode
-	@$(JC) $(DEV_OPT) $(JFLAGS) -d $(DEV_DIR) --module $* --module-source-path $(MODULE_SOURCE_PATH)
-	@cp -r $(MODULE_SOURCE_PATH)/$* $(DEV_DIR)/$*/src
-	@jar --create --file $(DEV_DIR)/$*.jar --manifest META-INF/MANIFEST.MF -C $(DEV_DIR)/$* "."
+	@$(JC) $(DEV_OPT) $(JFLAGS) -d $(DEV_OUT_DIR) --module $* --module-source-path $(MODULE_SOURCE_PATH)
+	@cp -r $(MODULE_SOURCE_PATH)/$* $(DEV_OUT_DIR)/$*/src
+	@jar --create --file $(DEV_JAR_OUT_DIR)/$*.jar --manifest META-INF/MANIFEST.MF -C $(DEV_OUT_DIR)/$* "."
 
 clean:
 	@rm -rf $(OUT_DIR)
