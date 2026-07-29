@@ -7,9 +7,9 @@ public final class DatagramPacket {
     int port;
 
     @SuppressWarnings("this-escape")
-    public DatagramPacket(byte ibuf[], int ilength) {
-        if(buf == null)
-            throw new IllegalArgumentException("buffer is null");
+    public DatagramPacket(byte[] ibuf, int ilength) {
+        if(ibuf == null)
+            throw new NullPointerException("buffer is null");
         buf = ibuf;
         setLength(ilength);
         address = null;
@@ -17,9 +17,9 @@ public final class DatagramPacket {
     }
 
     @SuppressWarnings("this-escape")
-    public DatagramPacket(byte ibuf[], int ilength, InetAddress iaddr, int iport) {
-        if(buf == null)
-            throw new IllegalArgumentException("buffer is null");
+    public DatagramPacket(byte[] ibuf, int ilength, InetAddress iaddr, int iport) {
+        if(ibuf == null)
+            throw new NullPointerException("buffer is null");
         buf = ibuf;
         setLength(ilength);
         address = iaddr;
