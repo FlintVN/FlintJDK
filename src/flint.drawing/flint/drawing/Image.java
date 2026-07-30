@@ -1,10 +1,14 @@
 package flint.drawing;
 
 public abstract class Image {
-    int format;
-    int width;
-    int height;
-    byte[] data;
+    protected int format;
+    protected int width;
+    protected int height;
+    protected byte[] data;
+
+    public Image() {
+
+    }
 
     public Image(String filePath) {
 
