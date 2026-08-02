@@ -76,7 +76,7 @@ public class DataOutputStream extends FilterOutputStream implements DataOutput {
 
     public final void writeChars(String s) throws IOException {
         int n = s.length();
-        for (int i = 0; i < n; i++)
+        for(int i = 0; i < n; i++)
             writeChar(s.charAt(i));
     }
 
