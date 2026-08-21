@@ -10,10 +10,20 @@ final class StringUTF16 {
     }
 
     @IntrinsicCandidate
-    public static void putChar(byte[] value, int index, int c) {
+    static void putChar(byte[] value, int index, int c) {
         index <<= 1;
         value[index] = (byte)c;
         value[index + 1] = (byte)(c >>> 8);
+    }
+
+    public static int codePointAt(byte[] value, int index, int end) {
+        char c1 = charAt(value, index);
+        if(Character.isHighSurrogate(c1) && ++index < end) {
+            char c2 = charAt(value, index);
+            if(Character.isLowSurrogate(c2))
+               return Character.toCodePoint(c1, c2);
+        }
+        return c1;
     }
 
     @IntrinsicCandidate

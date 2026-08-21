@@ -186,6 +186,13 @@ public final class String implements Comparable<String>, CharSequence {
         return StringUTF16.charAt(value, index);
     }
 
+    public int codePointAt(int index) {
+        if(coder == LATIN1)
+            return value[index] & 0xff;
+        int length = value.length >> 1;
+        return StringUTF16.codePointAt(value, index, length);
+    }
+
     @Override
     public boolean isEmpty() {
         return value.length == 0;
