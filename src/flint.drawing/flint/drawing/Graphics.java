@@ -119,17 +119,17 @@ public abstract class Graphics {
 
     public abstract void clear(Color c);
 
-    public void drawLine(Color color, int thickness, Rectangle rect) {
-        drawLine(color, thickness, rect.x, rect.y, rect.width, rect.height);
+    public void drawLine(Color color, Rectangle rect) {
+        drawLine(color, rect.x, rect.y, rect.width, rect.height);
     }
 
-    public abstract void drawLine(Color color, int thickness, int x1, int y1, int x2, int y2);
+    public abstract void drawLine(Color color, int x1, int y1, int x2, int y2);
 
-    public void drawRect(Color color, int thickness, Rectangle rect) {
-        drawRect(color, thickness, rect.x, rect.y, rect.width, rect.height);
+    public void drawRect(Color color, Rectangle rect) {
+        drawRect(color, rect.x, rect.y, rect.width, rect.height);
     }
 
-    public abstract void drawRect(Color color, int thickness, int x, int y, int w, int h);
+    public abstract void drawRect(Color color, int x, int y, int w, int h);
 
     public void fillRect(Color c, Rectangle rect) {
         fillRect(c, rect.x, rect.y, rect.width, rect.height);
@@ -137,19 +137,19 @@ public abstract class Graphics {
 
     public abstract void fillRect(Color c, int x, int y, int w, int h);
 
-    public void drawRoundRect(Color color, int thickness, Rectangle rect, int r) {
-        drawRoundRect(color, thickness, rect.x, rect.y, rect.width, rect.height, r, r, r, r);
+    public void drawRoundRect(Color color, Rectangle rect, int r) {
+        drawRoundRect(color, rect.x, rect.y, rect.width, rect.height, r, r, r, r);
     }
 
-    public void drawRoundRect(Color color, int thickness, Rectangle rect, int r1, int r2, int r3, int r4) {
-        drawRoundRect(color, thickness, rect.x, rect.y, rect.width, rect.height, r1, r2, r3, r4);
+    public void drawRoundRect(Color color, Rectangle rect, int r1, int r2, int r3, int r4) {
+        drawRoundRect(color, rect.x, rect.y, rect.width, rect.height, r1, r2, r3, r4);
     }
 
-    public void drawRoundRect(Color color, int thickness, int x, int y, int w, int h, int r) {
-        drawRoundRect(color, thickness, x, y, w, h, r, r, r, r);
+    public void drawRoundRect(Color color, int x, int y, int w, int h, int r) {
+        drawRoundRect(color, x, y, w, h, r, r, r, r);
     }
 
-    public abstract void drawRoundRect(Color color, int thickness, int x, int y, int w, int h, int r1, int r2, int r3, int r4);
+    public abstract void drawRoundRect(Color color, int x, int y, int w, int h, int r1, int r2, int r3, int r4);
 
     public void fillRoundRect(Color c, Rectangle rect, int r) {
         fillRoundRect(c, rect.x, rect.y, rect.width, rect.height, r, r, r, r);
@@ -165,11 +165,11 @@ public abstract class Graphics {
 
     public abstract void fillRoundRect(Color c, int x, int y, int w, int h, int r1, int r2, int r3, int r4);
 
-    public void drawEllipse(Color color, int thickness, Rectangle rect) {
-        drawEllipse(color, thickness, rect);
+    public void drawEllipse(Color color, Rectangle rect) {
+        drawEllipse(color, rect);
     }
 
-    public abstract void drawEllipse(Color color, int thickness, int x, int y, int w, int h);
+    public abstract void drawEllipse(Color color, int x, int y, int w, int h);
 
     public void fillEllipse(Color c, Rectangle rect) {
         fillEllipse(c, rect);
@@ -177,11 +177,11 @@ public abstract class Graphics {
 
     public abstract void fillEllipse(Color c, int x, int y, int w, int h);
 
-    public void drawArc(Color color, int thickness, Rectangle rect, float startAngle, float sweepAngle) {
-        drawArc(color, thickness, rect.x, rect.y, rect.width, rect.height, startAngle, sweepAngle);
+    public void drawArc(Color color, Rectangle rect, float startAngle, float sweepAngle) {
+        drawArc(color, rect.x, rect.y, rect.width, rect.height, startAngle, sweepAngle);
     }
 
-    public abstract void drawArc(Color color, int thickness, int x, int y, int w, int h, float startAngle, float sweepAngle);
+    public abstract void drawArc(Color color, int x, int y, int w, int h, float startAngle, float sweepAngle);
 
     public void fillArc(Color c, Rectangle rect, float startAngle, float sweepAngle) {
         fillArc(c, rect.x, rect.y, rect.width, rect.height, startAngle, sweepAngle);
@@ -189,7 +189,7 @@ public abstract class Graphics {
 
     public abstract void fillArc(Color c, int x, int y, int w, int h, float startAngle, float sweepAngle);
 
-    public abstract void drawPolygon(Color color, int thickness, Point[] points);
+    public abstract void drawPolygon(Color color, Point[] points);
 
     public abstract void fillPolygon(Color c, Point[] points);
 

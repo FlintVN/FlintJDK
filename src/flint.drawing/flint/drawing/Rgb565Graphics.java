@@ -25,34 +25,34 @@ public class Rgb565Graphics extends Graphics {
     public native void clear(Color c);
 
     @Override
-    public native void drawLine(Color color, int thickness, int x1, int y1, int x2, int y2);
+    public native void drawLine(Color color, int x1, int y1, int x2, int y2);
 
     @Override
-    public native void drawRect(Color color, int thickness, int x, int y, int w, int h);
+    public native void drawRect(Color color, int x, int y, int w, int h);
 
     @Override
     public native void fillRect(Color c, int x, int y, int w, int h);
 
     @Override
-    public native void drawRoundRect(Color color, int thickness, int x, int y, int w, int h, int r1, int r2, int r3, int r4);
+    public native void drawRoundRect(Color color, int x, int y, int w, int h, int r1, int r2, int r3, int r4);
 
     @Override
     public native void fillRoundRect(Color c, int x, int y, int w, int h, int r1, int r2, int r3, int r4);
 
     @Override
-    public native void drawEllipse(Color color, int thickness, int x, int y, int w, int h);
+    public native void drawEllipse(Color color, int x, int y, int w, int h);
 
     @Override
     public native void fillEllipse(Color c, int x, int y, int w, int h);
 
     @Override
-    public native void drawArc(Color color, int thickness, int x, int y, int w, int h, float startAngle, float sweepAngle);
+    public native void drawArc(Color color, int x, int y, int w, int h, float startAngle, float sweepAngle);
 
     @Override
     public native void fillArc(Color c, int x, int y, int w, int h, float startAngle, float sweepAngle);
 
     @Override
-    public native void drawPolygon(Color color, int thickness, Point[] points);
+    public native void drawPolygon(Color color, Point[] points);
 
     @Override
     public native void fillPolygon(Color c, Point[] points);
