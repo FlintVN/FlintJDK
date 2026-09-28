@@ -4,13 +4,10 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.FilterInputStream;
 import java.io.PushbackInputStream;
-import java.util.Objects;
-
 import static java.util.zip.ZipConstants64.*;
 
-public class ZipInputStream extends FilterInputStream implements ZipConstants {
+public class ZipInputStream extends InflaterInputStream implements ZipConstants {
     private ZipEntry entry;
     private int flag;
     private CRC32 crc = new CRC32();
@@ -29,9 +26,10 @@ public class ZipInputStream extends FilterInputStream implements ZipConstants {
     }
 
     public ZipInputStream(InputStream in) {
-        super(new PushbackInputStream(in, 512));
+        super(new PushbackInputStream(in, 512), new Inflater(true), 512);
+        usesDefaultInflater = true;
         if(in == null)
-           throw new NullPointerException("in is null");
+            throw new NullPointerException("in is null");
     }
 
     public ZipEntry getNextEntry() throws IOException {
@@ -39,6 +37,7 @@ public class ZipInputStream extends FilterInputStream implements ZipConstants {
         if(entry != null)
             closeEntry();
         crc.reset();
+        inf.reset();
         if((entry = readLOC()) == null)
             return null;
         if(entry.method == STORED)
@@ -94,12 +93,24 @@ public class ZipInputStream extends FilterInputStream implements ZipConstants {
 
     public int read(byte[] b, int off, int len) throws IOException {
         ensureOpen();
-        Objects.checkFromIndexSize(off, len, b.length);
+        if(off < 0 || len < 0 || off > b.length - len)
+            throw new IndexOutOfBoundsException();
+        else if(len == 0)
+            return 0;
+
         if(entry == null)
             return -1;
         switch(entry.method) {
             case DEFLATED:
-                throw new ZipException("compression method not supported");
+                len = super.read(b, off, len);
+                if(len == -1) {
+                    readEnd(entry);
+                    entryEOF = true;
+                    entry = null;
+                }
+                else
+                    crc.update(b, off, len);
+                return len;
             case STORED:
                 if(remaining <= 0) {
                     entryEOF = true;
@@ -194,6 +205,50 @@ public class ZipInputStream extends FilterInputStream implements ZipConstants {
 
     protected ZipEntry createZipEntry(String name) {
         return new ZipEntry(name);
+    }
+
+    private void readEnd(ZipEntry e) throws IOException {
+        int n = inf.getRemaining();
+        if(n > 0)
+            ((PushbackInputStream)in).unread(buf, len - n, n);
+        if ((flag & 8) == 8) {
+            if(inf.getBytesWritten() > ZIP64_MAGICVAL || inf.getBytesRead() > ZIP64_MAGICVAL) {
+                readFully(tmpbuf, 0, ZIP64_EXTHDR);
+                long sig = get32(tmpbuf, 0);
+                if (sig != EXTSIG) {
+                    e.crc = sig;
+                    e.csize = get64(tmpbuf, ZIP64_EXTSIZ - ZIP64_EXTCRC);
+                    e.size = get64(tmpbuf, ZIP64_EXTLEN - ZIP64_EXTCRC);
+                    ((PushbackInputStream)in).unread(tmpbuf, ZIP64_EXTHDR - ZIP64_EXTCRC - 1, ZIP64_EXTCRC);
+                }
+                else {
+                    e.crc = get32(tmpbuf, ZIP64_EXTCRC);
+                    e.csize = get64(tmpbuf, ZIP64_EXTSIZ);
+                    e.size = get64(tmpbuf, ZIP64_EXTLEN);
+                }
+            }
+            else {
+                readFully(tmpbuf, 0, EXTHDR);
+                long sig = get32(tmpbuf, 0);
+                if(sig != EXTSIG) {
+                    e.crc = sig;
+                    e.csize = get32(tmpbuf, EXTSIZ - EXTCRC);
+                    e.size = get32(tmpbuf, EXTLEN - EXTCRC);
+                    ((PushbackInputStream)in).unread(tmpbuf, EXTHDR - EXTCRC - 1, EXTCRC);
+                }
+                else {
+                    e.crc = get32(tmpbuf, EXTCRC);
+                    e.csize = get32(tmpbuf, EXTSIZ);
+                    e.size = get32(tmpbuf, EXTLEN);
+                }
+            }
+        }
+        if(e.size != inf.getBytesWritten())
+            throw new ZipException("invalid entry size (expected " + e.size +" but got " + inf.getBytesWritten() + " bytes)");
+        if(e.csize != inf.getBytesRead())
+            throw new ZipException("invalid entry compressed size (expected " + e.csize + " but got " + inf.getBytesRead() + " bytes)");
+        if(e.crc != crc.getValue())
+            throw new ZipException("invalid entry CRC (expected 0x" + Long.toHexString(e.crc) + " but got 0x" + Long.toHexString(crc.getValue()) + ")");
     }
 
     private void readFully(byte[] b, int off, int len) throws IOException {
