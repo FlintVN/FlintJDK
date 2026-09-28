@@ -48,6 +48,8 @@ public class Thread implements Runnable {
 
     private static native void sleep0(long millis) throws InterruptedException;
 
+    public static native boolean holdsLock(Object obj);
+
     public void start() {
         synchronized(this) {
             if(threadStatus != 0)
