@@ -1,15 +1,14 @@
 package flint.drawing;
 
+import java.io.InputStream;
+
 public class Rgb565Graphics extends Graphics {
     private static GraphicsFactory factory;
 
-    private byte[] data;
-
     private Rgb565Graphics(int width, int height, byte[] buff) {
-        super(width, height);
+        super(width, height, buff);
         if((width * height * 2) > buff.length)
             throw new IllegalArgumentException("The buffer is not large enough to create graphics of the specified size");
-        this.data = buff;
     }
 
     public static synchronized GraphicsFactory getGraphicsFactory() {
@@ -75,5 +74,18 @@ public class Rgb565Graphics extends Graphics {
         public Graphics createGraphic(int width, int height, byte[] buff) {
             return new Rgb565Graphics(width, height, buff);
         }
+
+        @Override
+        public Image createImage(int width, int height) {
+            return new Rgb565Image(width, height);
+        }
+
+        @Override
+        public Image createImage(byte[] imageData, int off, int len) {
+            return ImageDecoder.decodeToRgb565(imageData, off, len);
+        }
+
+        @Override
+        public native Image createImage(int[] rgb, int w, int h, boolean processAlpha);
     }
 }

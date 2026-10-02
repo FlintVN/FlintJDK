@@ -14,12 +14,15 @@ public abstract class Graphics {
     protected int clipWidth;
     protected int clipHeight;
 
+    protected byte[] data;
+
     @SuppressWarnings("this-escape")
-    protected Graphics(int width, int height) {
+    protected Graphics(int width, int height, byte[] data) {
         this.x = 0;
         this.y = 0;
         this.width = width;
         this.height = height;
+        this.data = data;
         setClip(0, 0, width, height);
     }
 
