@@ -13,11 +13,6 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
     private final byte[] buffer = new byte[Long.BYTES];
 
     public RandomAccessFile(String name, String mode) throws FileNotFoundException {
-        this(name != null ? new File(name) : null, mode);
-    }
-
-    public RandomAccessFile(File file, String mode) throws FileNotFoundException {
-        String name = (file != null ? file.getPath() : null);
         int imode = -1;
 
         if(mode.equals("r"))
@@ -43,6 +38,10 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
         this.fd = new FileDescriptor();
         this.path = name;
         open(name, imode);
+    }
+
+    public RandomAccessFile(File file, String mode) throws FileNotFoundException {
+        this(file != null ? file.getPath() : null, mode);
     }
 
     public final FileDescriptor getFD() throws IOException {

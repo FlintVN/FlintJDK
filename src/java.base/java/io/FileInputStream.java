@@ -10,16 +10,15 @@ public class FileInputStream extends InputStream {
     private final String path;
 
     public FileInputStream(String name) throws FileNotFoundException {
-        this(name != null ? new File(name) : null);
-    }
-
-    public FileInputStream(File file) throws FileNotFoundException {
-        String name = (file != null ? file.getPath() : null);
         if(name == null)
             throw new NullPointerException();
         fd = new FileDescriptor();
         path = name;
         open(name);
+    }
+
+    public FileInputStream(File file) throws FileNotFoundException {
+        this(file != null ? file.getPath() : null);
     }
 
     public FileInputStream(FileDescriptor fdObj) {

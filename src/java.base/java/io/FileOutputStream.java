@@ -5,24 +5,23 @@ public class FileOutputStream extends OutputStream {
     private final String path;
 
     public FileOutputStream(String name) throws FileNotFoundException {
-        this(name != null ? new File(name) : null, false);
+        this(name, false);
     }
 
     public FileOutputStream(String name, boolean append) throws FileNotFoundException {
-        this(name != null ? new File(name) : null, append);
-    }
-
-    public FileOutputStream(File file) throws FileNotFoundException {
-        this(file, false);
-    }
-
-    public FileOutputStream(File file, boolean append) throws FileNotFoundException {
-        String name = (file != null ? file.getPath() : null);
         if(name == null)
             throw new NullPointerException();
         this.fd = new FileDescriptor();
         this.path = name;
         open(name, append);
+    }
+
+    public FileOutputStream(File file) throws FileNotFoundException {
+        this(file != null ? file.getPath() : null, false);
+    }
+
+    public FileOutputStream(File file, boolean append) throws FileNotFoundException {
+        this(file != null ? file.getPath() : null, append);
     }
 
     public FileOutputStream(FileDescriptor fdObj) {
