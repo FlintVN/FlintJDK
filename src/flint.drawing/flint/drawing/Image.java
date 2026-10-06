@@ -38,12 +38,17 @@ public abstract class Image {
         return img;
     }
 
-    public static Image create(String path) throws IOException {
-        return create(new FileInputStream(path));
+    public static Image create(String fileName) throws IOException {
+        if(fileName == null)
+            throw new NullPointerException("fileName cannot be null");
+        FileInputStream fi = new FileInputStream(fileName);
+        Image img = create(fi);
+        fi.close();
+        return img;
     }
 
     public static Image create(File file) throws IOException {
-        return create(new FileInputStream(file));
+        return create(file.getPath());
     }
 
     public int getWidth() {
