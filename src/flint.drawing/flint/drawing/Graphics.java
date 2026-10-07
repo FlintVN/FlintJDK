@@ -38,6 +38,8 @@ public abstract class Graphics {
     }
 
     public static Graphics create(Image img) {
+        if(!img.isMutable())
+            throw new IllegalStateException("immutable image");
         ensureFactoryNotNull();
         return factory.createGraphic(img.width, img.height, img.data);
     }
