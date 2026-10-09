@@ -40,9 +40,9 @@ class Comparators {
 
         @Override
         public int compare(T a, T b) {
-            if(a == null)
+            if (a == null)
                 return (b == null) ? 0 : (nullFirst ? -1 : 1);
-            else if(b == null)
+            else if (b == null)
                 return nullFirst ? 1: -1;
             else
                 return (real == null) ? 0 : real.compare(a, b);

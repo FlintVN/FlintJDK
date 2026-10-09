@@ -30,7 +30,7 @@ public class BitStream implements OutputPort {
     public native boolean isOpen();
 
     private void checkStateBeforeConfig() {
-        if(isOpen())
+        if (isOpen())
             throw new IllegalStateException();
     }
 

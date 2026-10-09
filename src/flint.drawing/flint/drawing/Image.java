@@ -56,7 +56,7 @@ public abstract class Image {
     }
 
     public static Image create(String fileName) throws IOException {
-        if(fileName == null)
+        if (fileName == null)
             throw new NullPointerException("fileName cannot be null");
         FileInputStream fi = new FileInputStream(fileName);
         Image img = create(fi);

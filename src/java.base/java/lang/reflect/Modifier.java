@@ -78,19 +78,19 @@ public class Modifier {
     public static String toString(int mod) {
         StringJoiner sj = new StringJoiner(" ");
 
-        if((mod & PUBLIC) != 0) sj.add("public");
-        if((mod & PROTECTED) != 0) sj.add("protected");
-        if((mod & PRIVATE) != 0) sj.add("private");
+        if ((mod & PUBLIC) != 0) sj.add("public");
+        if ((mod & PROTECTED) != 0) sj.add("protected");
+        if ((mod & PRIVATE) != 0) sj.add("private");
 
-        if((mod & ABSTRACT) != 0) sj.add("abstract");
-        if((mod & STATIC) != 0) sj.add("static");
-        if((mod & FINAL) != 0) sj.add("final");
-        if((mod & TRANSIENT) != 0) sj.add("transient");
-        if((mod & VOLATILE) != 0) sj.add("volatile");
-        if((mod & SYNCHRONIZED) != 0) sj.add("synchronized");
-        if((mod & NATIVE) != 0) sj.add("native");
-        if((mod & STRICT) != 0) sj.add("strictfp");
-        if((mod & INTERFACE) != 0) sj.add("interface");
+        if ((mod & ABSTRACT) != 0) sj.add("abstract");
+        if ((mod & STATIC) != 0) sj.add("static");
+        if ((mod & FINAL) != 0) sj.add("final");
+        if ((mod & TRANSIENT) != 0) sj.add("transient");
+        if ((mod & VOLATILE) != 0) sj.add("volatile");
+        if ((mod & SYNCHRONIZED) != 0) sj.add("synchronized");
+        if ((mod & NATIVE) != 0) sj.add("native");
+        if ((mod & STRICT) != 0) sj.add("strictfp");
+        if ((mod & INTERFACE) != 0) sj.add("interface");
 
         return sj.toString();
     }

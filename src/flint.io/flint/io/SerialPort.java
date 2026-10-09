@@ -36,7 +36,7 @@ public class SerialPort implements InputPort, OutputPort {
     public native boolean isOpen();
 
     private void checkStateBeforeConfig() {
-        if(isOpen())
+        if (isOpen())
             throw new IllegalStateException();
     }
 
@@ -74,7 +74,7 @@ public class SerialPort implements InputPort, OutputPort {
 
     public SerialPort setDataBits(int dataBits) {
         checkStateBeforeConfig();
-        if(5 <= dataBits && dataBits <= 8)
+        if (5 <= dataBits && dataBits <= 8)
             this.dataBits = dataBits;
         else
             throw new IllegalArgumentException("Argument must be between 5 and 8");

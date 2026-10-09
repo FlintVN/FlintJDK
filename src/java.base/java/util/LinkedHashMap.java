@@ -21,10 +21,10 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
     final boolean accessOrder;
 
     private void linkNodeAtEnd(LinkedHashMap.Entry<K,V> p) {
-        if(putMode == PUT_FIRST) {
+        if (putMode == PUT_FIRST) {
             LinkedHashMap.Entry<K,V> first = head;
             head = p;
-            if(first == null)
+            if (first == null)
                 tail = p;
             else {
                 p.after = first;
@@ -34,7 +34,7 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
         else {
             LinkedHashMap.Entry<K,V> last = tail;
             tail = p;
-            if(last == null)
+            if (last == null)
                 head = p;
             else {
                 p.before = last;
@@ -46,11 +46,11 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
     private void transferLinks(LinkedHashMap.Entry<K,V> src, LinkedHashMap.Entry<K,V> dst) {
         LinkedHashMap.Entry<K,V> b = dst.before = src.before;
         LinkedHashMap.Entry<K,V> a = dst.after = src.after;
-        if(b == null)
+        if (b == null)
             head = dst;
         else
             b.after = dst;
-        if(a == null)
+        if (a == null)
             tail = dst;
         else
             a.before = dst;
@@ -90,11 +90,11 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
     void afterNodeRemoval(Node<K,V> e) {
         LinkedHashMap.Entry<K,V> p = (LinkedHashMap.Entry<K,V>)e, b = p.before, a = p.after;
         p.before = p.after = null;
-        if(b == null)
+        if (b == null)
             head = a;
         else
             b.after = a;
-        if(a == null)
+        if (a == null)
             tail = b;
         else
             a.before = b;
@@ -102,7 +102,7 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
 
     void afterNodeInsertion(boolean evict) {
         LinkedHashMap.Entry<K,V> first;
-        if(evict && (first = head) != null && removeEldestEntry(first)) {
+        if (evict && (first = head) != null && removeEldestEntry(first)) {
             K key = first.key;
             removeNode(hash(key), key, null, false, true);
         }
@@ -116,18 +116,18 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
     void afterNodeAccess(Node<K,V> e) {
         LinkedHashMap.Entry<K,V> last;
         LinkedHashMap.Entry<K,V> first;
-        if((putMode == PUT_LAST || (putMode == PUT_NORM && accessOrder)) && (last = tail) != e) {
+        if ((putMode == PUT_LAST || (putMode == PUT_NORM && accessOrder)) && (last = tail) != e) {
             LinkedHashMap.Entry<K,V> p = (LinkedHashMap.Entry<K,V>)e, b = p.before, a = p.after;
             p.after = null;
-            if(b == null)
+            if (b == null)
                 head = a;
             else
                 b.after = a;
-            if(a != null)
+            if (a != null)
                 a.before = b;
             else
                 last = b;
-            if(last == null)
+            if (last == null)
                 head = p;
             else {
                 p.before = last;
@@ -136,18 +136,18 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
             tail = p;
             ++modCount;
         }
-        else if(putMode == PUT_FIRST && (first = head) != e) {
+        else if (putMode == PUT_FIRST && (first = head) != e) {
             LinkedHashMap.Entry<K,V> p = (LinkedHashMap.Entry<K,V>)e, b = p.before, a = p.after;
             p.before = null;
-            if(a == null)
+            if (a == null)
                 tail = b;
             else
                 a.before = b;
-            if(b != null)
+            if (b != null)
                 b.after = a;
             else
                 first = a;
-            if(first == null)
+            if (first == null)
                 tail = p;
             else {
                 p.after = first;
@@ -179,7 +179,7 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
 
     // TODO
     // void internalWriteEntries(java.io.ObjectOutputStream s) throws IOException {
-    //     for(LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after) {
+    //     for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after) {
     //         s.writeObject(e.key);
     //         s.writeObject(e.value);
     //     }
@@ -213,9 +213,9 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
     }
 
     public boolean containsValue(Object value) {
-        for(LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after) {
+        for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after) {
             V v = e.value;
-            if(v == value || (value != null && value.equals(v)))
+            if (v == value || (value != null && value.equals(v)))
                 return true;
         }
         return false;
@@ -223,18 +223,18 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
 
     public V get(Object key) {
         Node<K,V> e;
-        if((e = getNode(key)) == null)
+        if ((e = getNode(key)) == null)
             return null;
-        if(accessOrder)
+        if (accessOrder)
             afterNodeAccess(e);
         return e.value;
     }
 
     public V getOrDefault(Object key, V defaultValue) {
        Node<K,V> e;
-       if((e = getNode(key)) == null)
+       if ((e = getNode(key)) == null)
            return defaultValue;
-       if(accessOrder)
+       if (accessOrder)
            afterNodeAccess(e);
        return e.value;
     }
@@ -254,7 +254,7 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
 
     public SequencedSet<K> sequencedKeySet() {
         Set<K> ks = keySet;
-        if(ks == null) {
+        if (ks == null) {
             SequencedSet<K> sks = new LinkedKeySet(false);
             keySet = sks;
             return sks;
@@ -264,7 +264,7 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
     }
 
     static <K1,V1> Node<K1,V1> nsee(Node<K1,V1> node) {
-        if(node == null)
+        if (node == null)
             throw new NoSuchElementException();
         else
             return node;
@@ -277,12 +277,12 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
     final <T> T[] keysToArray(T[] a, boolean reversed) {
         Object[] r = a;
         int idx = 0;
-        if(reversed) {
-            for(LinkedHashMap.Entry<K,V> e = tail; e != null; e = e.before)
+        if (reversed) {
+            for (LinkedHashMap.Entry<K,V> e = tail; e != null; e = e.before)
                 r[idx++] = e.key;
         }
         else {
-            for(LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
+            for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
                 r[idx++] = e.key;
         }
         return a;
@@ -291,13 +291,13 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
     final <T> T[] valuesToArray(T[] a, boolean reversed) {
         Object[] r = a;
         int idx = 0;
-        if(reversed) {
-            for(LinkedHashMap.Entry<K,V> e = tail; e != null; e = e.before) {
+        if (reversed) {
+            for (LinkedHashMap.Entry<K,V> e = tail; e != null; e = e.before) {
                 r[idx++] = e.value;
             }
         }
         else {
-            for(LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
+            for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
                 r[idx++] = e.value;
         }
         return a;
@@ -342,18 +342,18 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
         }
 
         public final void forEach(Consumer<? super K> action) {
-            if(action == null)
+            if (action == null)
                 throw new NullPointerException();
             int mc = modCount;
-            if(reversed) {
-                for(LinkedHashMap.Entry<K,V> e = tail; e != null; e = e.before)
+            if (reversed) {
+                for (LinkedHashMap.Entry<K,V> e = tail; e != null; e = e.before)
                     action.accept(e.key);
             }
             else {
-                for(LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
+                for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
                     action.accept(e.key);
             }
-            if(modCount != mc)
+            if (modCount != mc)
                 throw new ConcurrentModificationException();
         }
 
@@ -386,7 +386,7 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
         }
 
         public SequencedSet<K> reversed() {
-            if(reversed)
+            if (reversed)
                 return LinkedHashMap.this.sequencedKeySet();
             else
                 return new LinkedKeySet(true);
@@ -399,7 +399,7 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
 
     public SequencedCollection<V> sequencedValues() {
         Collection<V> vs = values;
-        if(vs == null) {
+        if (vs == null) {
             SequencedCollection<V> svs = new LinkedValues(false);
             values = svs;
             return svs;
@@ -443,18 +443,18 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
         }
 
         public final void forEach(Consumer<? super V> action) {
-            if(action == null)
+            if (action == null)
                 throw new NullPointerException();
             int mc = modCount;
-            if(reversed) {
-                for(LinkedHashMap.Entry<K,V> e = tail; e != null; e = e.before)
+            if (reversed) {
+                for (LinkedHashMap.Entry<K,V> e = tail; e != null; e = e.before)
                     action.accept(e.value);
             }
             else {
-                for(LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
+                for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
                     action.accept(e.value);
             }
-            if(modCount != mc)
+            if (modCount != mc)
                 throw new ConcurrentModificationException();
         }
         public final void addFirst(V v) {
@@ -486,7 +486,7 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
         }
 
         public SequencedCollection<V> reversed() {
-            if(reversed)
+            if (reversed)
                 return LinkedHashMap.this.sequencedValues();
             else
                 return new LinkedValues(true);
@@ -499,7 +499,7 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
 
     public SequencedSet<Map.Entry<K, V>> sequencedEntrySet() {
         Set<Map.Entry<K, V>> es = entrySet;
-        if(es == null) {
+        if (es == null) {
             SequencedSet<Map.Entry<K, V>> ses = new LinkedEntrySet(false);
             entrySet = ses;
             return ses;
@@ -527,7 +527,7 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
         }
 
         public final boolean contains(Object o) {
-            if(!(o instanceof Map.Entry<?, ?> e))
+            if (!(o instanceof Map.Entry<?, ?> e))
                 return false;
             Object key = e.getKey();
             Node<K,V> candidate = getNode(key);
@@ -535,7 +535,7 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
         }
 
         public final boolean remove(Object o) {
-            if(o instanceof Map.Entry<?, ?> e) {
+            if (o instanceof Map.Entry<?, ?> e) {
                 Object key = e.getKey();
                 Object value = e.getValue();
                 return removeNode(hash(key), key, value, true, true) != null;
@@ -548,23 +548,23 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
         }
 
         public final void forEach(Consumer<? super Map.Entry<K,V>> action) {
-            if(action == null)
+            if (action == null)
                 throw new NullPointerException();
             int mc = modCount;
-            if(reversed) {
-                for(LinkedHashMap.Entry<K,V> e = tail; e != null; e = e.before)
+            if (reversed) {
+                for (LinkedHashMap.Entry<K,V> e = tail; e != null; e = e.before)
                     action.accept(e);
             }
             else {
-                for(LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
+                for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
                     action.accept(e);
             }
-            if(modCount != mc)
+            if (modCount != mc)
                 throw new ConcurrentModificationException();
         }
 
         final Node<K,V> nsee(Node<K,V> e) {
-            if(e == null)
+            if (e == null)
                 throw new NoSuchElementException();
             else
                 return e;
@@ -599,7 +599,7 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
         }
 
         public SequencedSet<Map.Entry<K,V>> reversed() {
-            if(reversed)
+            if (reversed)
                 return LinkedHashMap.this.sequencedEntrySet();
             else
                 return new LinkedEntrySet(true);
@@ -607,22 +607,22 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
     }
 
     public void forEach(BiConsumer<? super K, ? super V> action) {
-        if(action == null)
+        if (action == null)
             throw new NullPointerException();
         int mc = modCount;
-        for(LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
+        for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
             action.accept(e.key, e.value);
-        if(modCount != mc)
+        if (modCount != mc)
             throw new ConcurrentModificationException();
     }
 
     public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
-        if(function == null)
+        if (function == null)
             throw new NullPointerException();
         int mc = modCount;
-        for(LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
+        for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
             e.value = function.apply(e.key, e.value);
-        if(modCount != mc)
+        if (modCount != mc)
             throw new ConcurrentModificationException();
     }
 
@@ -645,9 +645,9 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
 
         final LinkedHashMap.Entry<K,V> nextNode() {
             LinkedHashMap.Entry<K,V> e = next;
-            if(modCount != expectedModCount)
+            if (modCount != expectedModCount)
                 throw new ConcurrentModificationException();
-            if(e == null)
+            if (e == null)
                 throw new NoSuchElementException();
             current = e;
             next = reversed ? e.before : e.after;
@@ -656,9 +656,9 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
 
         public final void remove() {
             Node<K,V> p = current;
-            if(p == null)
+            if (p == null)
                 throw new IllegalStateException();
-            if(modCount != expectedModCount)
+            if (modCount != expectedModCount)
                 throw new ConcurrentModificationException();
             current = null;
             removeNode(p.hash, p.key, null, false, false);
@@ -682,7 +682,7 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
     }
 
     public static <K, V> LinkedHashMap<K, V> newLinkedHashMap(int numMappings) {
-        if(numMappings < 0)
+        if (numMappings < 0)
             throw new IllegalArgumentException("Negative number of mappings: " + numMappings);
         return new LinkedHashMap<>(HashMap.calculateHashMapCapacity(numMappings));
     }
@@ -759,22 +759,22 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements SequencedMap<K,V
         }
 
         public void forEach(BiConsumer<? super K, ? super V> action) {
-            if(action == null)
+            if (action == null)
                 throw new NullPointerException();
             int mc = base.modCount;
-            for(LinkedHashMap.Entry<K,V> e = base.tail; e != null; e = e.before)
+            for (LinkedHashMap.Entry<K,V> e = base.tail; e != null; e = e.before)
                 action.accept(e.key, e.value);
-            if(base.modCount != mc)
+            if (base.modCount != mc)
                 throw new ConcurrentModificationException();
         }
 
         public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
-            if(function == null)
+            if (function == null)
                 throw new NullPointerException();
             int mc = base.modCount;
-            for(LinkedHashMap.Entry<K,V> e = base.tail; e != null; e = e.before)
+            for (LinkedHashMap.Entry<K,V> e = base.tail; e != null; e = e.before)
                 e.value = function.apply(e.key, e.value);
-            if(base.modCount != mc)
+            if (base.modCount != mc)
                 throw new ConcurrentModificationException();
         }
 

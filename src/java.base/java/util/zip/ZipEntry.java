@@ -21,7 +21,7 @@ public class ZipEntry implements ZipConstants, Cloneable {
 
     public ZipEntry(String name) {
         Objects.requireNonNull(name, "name");
-        if(name.length() > 0xFFFF)
+        if (name.length() > 0xFFFF)
             throw new IllegalArgumentException("entry name too long");
         this.name = name;
     }
@@ -52,7 +52,7 @@ public class ZipEntry implements ZipConstants, Cloneable {
     }
 
     public void setSize(long size) {
-        if(size < 0)
+        if (size < 0)
             throw new IllegalArgumentException("invalid entry size");
         this.size = size;
     }
@@ -66,7 +66,7 @@ public class ZipEntry implements ZipConstants, Cloneable {
     }
 
     public void setCrc(long crc) {
-        if(crc < 0 || crc > 0xFFFFFFFFL)
+        if (crc < 0 || crc > 0xFFFFFFFFL)
             throw new IllegalArgumentException("invalid entry crc-32");
         this.crc = crc;
     }
@@ -76,7 +76,7 @@ public class ZipEntry implements ZipConstants, Cloneable {
     }
 
     public void setMethod(int method) {
-        if(method != STORED && method != DEFLATED)
+        if (method != STORED && method != DEFLATED)
             throw new IllegalArgumentException("invalid compression method");
         this.method = method;
     }
@@ -90,34 +90,34 @@ public class ZipEntry implements ZipConstants, Cloneable {
     }
 
     void setExtra0(byte[] extra, boolean doZIP64, boolean isLOC) {
-        if(extra != null) {
-            if(extra.length > 0xFFFF)
+        if (extra != null) {
+            if (extra.length > 0xFFFF)
                 throw new IllegalArgumentException("invalid extra field length");
             int off = 0;
             int len = extra.length;
-            while(off + 4 < len) {
+            while (off + 4 < len) {
                 int tag = get16(extra, off);
                 int sz = get16(extra, off + 2);
                 off += 4;
-                if(off + sz > len)
+                if (off + sz > len)
                     break;
-                switch(tag) {
+                switch (tag) {
                     case EXTID_ZIP64:
-                        if(doZIP64) {
-                            if(isLOC) {
-                                if(sz >= 16) {
+                        if (doZIP64) {
+                            if (isLOC) {
+                                if (sz >= 16) {
                                     size = get64(extra, off);
                                     csize = get64(extra, off + 8);
                                 }
                             }
                             else {
-                                if(size == ZIP64_MAGICVAL) {
-                                    if(off + 8 > len)
+                                if (size == ZIP64_MAGICVAL) {
+                                    if (off + 8 > len)
                                         break;
                                     size = get64(extra, off);
                                 }
-                                if(csize == ZIP64_MAGICVAL) {
-                                    if(off + 16 > len)
+                                if (csize == ZIP64_MAGICVAL) {
+                                    if (off + 16 > len)
                                         break;
                                     csize = get64(extra, off + 8);
                                 }
@@ -125,35 +125,35 @@ public class ZipEntry implements ZipConstants, Cloneable {
                         }
                         break;
                     case EXTID_NTFS:
-                        if(sz < 32)
+                        if (sz < 32)
                             break;
                         int pos = off + 4;
-                        if(get16(extra, pos) !=  0x0001 || get16(extra, pos + 2) != 24)
+                        if (get16(extra, pos) !=  0x0001 || get16(extra, pos + 2) != 24)
                             break;
                         long wtime = get64(extra, pos + 4);
                         // TODO
-                        // if(wtime != WINDOWS_TIME_NOT_AVAILABLE)
+                        // if (wtime != WINDOWS_TIME_NOT_AVAILABLE)
                         //     mtime = winTimeToFileTime(wtime);
                         // wtime = get64(extra, pos + 12);
-                        // if(wtime != WINDOWS_TIME_NOT_AVAILABLE)
+                        // if (wtime != WINDOWS_TIME_NOT_AVAILABLE)
                         //     atime = winTimeToFileTime(wtime);
                         // wtime = get64(extra, pos + 20);
-                        // if(wtime != WINDOWS_TIME_NOT_AVAILABLE)
+                        // if (wtime != WINDOWS_TIME_NOT_AVAILABLE)
                         //     ctime = winTimeToFileTime(wtime);
                         break;
                     case EXTID_EXTT:
                         // TODO
                         // int flag = Byte.toUnsignedInt(extra[off]);
                         // int sz0 = 1;
-                        // if((flag & 0x1) != 0 && (sz0 + 4) <= sz) {
+                        // if ((flag & 0x1) != 0 && (sz0 + 4) <= sz) {
                         //     mtime = unixTimeToFileTime(get32S(extra, off + sz0));
                         //     sz0 += 4;
                         // }
-                        // if((flag & 0x2) != 0 && (sz0 + 4) <= sz) {
+                        // if ((flag & 0x2) != 0 && (sz0 + 4) <= sz) {
                         //     atime = unixTimeToFileTime(get32S(extra, off + sz0));
                         //     sz0 += 4;
                         // }
-                        // if((flag & 0x4) != 0 && (sz0 + 4) <= sz) {
+                        // if ((flag & 0x4) != 0 && (sz0 + 4) <= sz) {
                         //     ctime = unixTimeToFileTime(get32S(extra, off + sz0));
                         //     sz0 += 4;
                         // }
@@ -196,7 +196,7 @@ public class ZipEntry implements ZipConstants, Cloneable {
             e.extra = (extra == null) ? null : extra.clone();
             return e;
         }
-        catch(CloneNotSupportedException e) {
+        catch (CloneNotSupportedException e) {
             throw new InternalError(e);
         }
     }
@@ -219,7 +219,7 @@ public class ZipEntry implements ZipConstants, Cloneable {
     private static long javaToDosTime(long time) {
         // Date d = new Date(time);
         // int year = d.getYear() + 1900;
-        // if(year < 1980)
+        // if (year < 1980)
         //     return (1 << 21) | (1 << 16);
         // return (year - 1980) << 25 | (d.getMonth() + 1) << 21 | d.getDate() << 16 | d.getHours() << 11 | d.getMinutes() << 5 | d.getSeconds() >> 1;
 

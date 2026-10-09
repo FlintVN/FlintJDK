@@ -39,7 +39,7 @@ public class SpiMaster implements InputPort, OutputPort {
     public native boolean isOpen();
 
     private void checkStateBeforeConfig() {
-        if(isOpen())
+        if (isOpen())
             throw new IllegalStateException();
     }
 
@@ -70,7 +70,7 @@ public class SpiMaster implements InputPort, OutputPort {
     public SpiMaster setCsLevel(boolean level) {
         checkStateBeforeConfig();
         synchronized(this) {
-            if(level)
+            if (level)
                 mode |= 0x08;
             else
                 mode &= ~0x08;

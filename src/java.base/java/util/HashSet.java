@@ -64,7 +64,7 @@ public class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable {
             newSet.map = (HashMap<E, Object>) map.clone();
             return newSet;
         }
-        catch(CloneNotSupportedException e) {
+        catch (CloneNotSupportedException e) {
             throw new InternalError(e);
         }
     }
@@ -79,7 +79,7 @@ public class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable {
 
     //     s.writeInt(map.size());
 
-    //     for(E e : map.keySet())
+    //     for (E e : map.keySet())
     //         s.writeObject(e);
     // }
 
@@ -89,16 +89,16 @@ public class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable {
     //     s.readFields();
 
     //     int capacity = s.readInt();
-    //     if(capacity < 0)
+    //     if (capacity < 0)
     //         throw new InvalidObjectException("Illegal capacity: " + capacity);
 
     //     float loadFactor = s.readFloat();
-    //     if(loadFactor <= 0 || Float.isNaN(loadFactor))
+    //     if (loadFactor <= 0 || Float.isNaN(loadFactor))
     //         throw new InvalidObjectException("Illegal load factor: " + loadFactor);
     //     loadFactor = Math.clamp(loadFactor, 0.25f, 4.0f);
 
     //     int size = s.readInt();
-    //     if(size < 0)
+    //     if (size < 0)
     //         throw new InvalidObjectException("Illegal size: " + size);
 
     //     capacity = (int) Math.min(size * Math.min(1 / loadFactor, 4.0f), HashMap.MAXIMUM_CAPACITY);
@@ -107,7 +107,7 @@ public class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable {
 
     //     map = (this instanceof LinkedHashSet ? new LinkedHashMap<>(capacity, loadFactor) : new HashMap<>(capacity, loadFactor));
 
-    //     for(int i = 0; i<size; i++) {
+    //     for (int i = 0; i<size; i++) {
     //         @SuppressWarnings("unchecked")
     //         E e = (E) s.readObject();
     //         map.put(e, PRESENT);
@@ -129,7 +129,7 @@ public class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable {
     }
 
     public static <T> HashSet<T> newHashSet(int numElements) {
-        if(numElements < 0)
+        if (numElements < 0)
             throw new IllegalArgumentException("Negative number of elements: " + numElements);
         return new HashSet<>(HashMap.calculateHashMapCapacity(numElements));
     }

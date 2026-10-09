@@ -22,7 +22,7 @@ public class CRC32 implements Checksum {
 
     @Override
     public void update(byte[] b, int off, int len) {
-        if(b == null)
+        if (b == null)
             throw new NullPointerException();
         Objects.checkFromIndexSize(off, len, b.length);
         crc = updateBytes(crc, b, off, len);
@@ -42,7 +42,7 @@ public class CRC32 implements Checksum {
     private static native int update(int crc, int b);
 
     private static int updateBytes(int crc, byte[] b, int off, int len) {
-        if(b == null)
+        if (b == null)
             throw new NullPointerException();
         Objects.checkFromIndexSize(off, len, b.length);
         return updateBytes0(crc, b, off, len);

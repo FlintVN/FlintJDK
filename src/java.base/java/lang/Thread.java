@@ -32,7 +32,7 @@ public class Thread implements Runnable {
 
     @Override
     public void run() {
-        if(task != null)
+        if (task != null)
             task.run();
     }
 
@@ -52,7 +52,7 @@ public class Thread implements Runnable {
 
     public void start() {
         synchronized(this) {
-            if(threadStatus != 0)
+            if (threadStatus != 0)
                 throw new IllegalThreadStateException();
             start0();
         }
@@ -63,7 +63,7 @@ public class Thread implements Runnable {
     }
 
     public static void sleep(long millis) throws InterruptedException {
-        if(millis < 0)
+        if (millis < 0)
             throw new IllegalArgumentException("timeout value is negative");
         sleep0(millis);
     }
@@ -87,7 +87,7 @@ public class Thread implements Runnable {
 
     boolean getAndClearInterrupt() {
         boolean oldValue = interrupted;
-        if(oldValue)
+        if (oldValue)
             interrupted = false;
         return oldValue;
     }
@@ -101,7 +101,7 @@ public class Thread implements Runnable {
     }
 
     public final void setPriority(int newPriority) {
-        if(newPriority > MAX_PRIORITY || newPriority < MIN_PRIORITY)
+        if (newPriority > MAX_PRIORITY || newPriority < MIN_PRIORITY)
             throw new IllegalArgumentException();
         setPriority0(priority = newPriority);
     }
@@ -111,7 +111,7 @@ public class Thread implements Runnable {
     }
 
     public final synchronized void setName(String name) {
-        if(name == null)
+        if (name == null)
             throw new NullPointerException("name cannot be null");
         this.name = name;
     }
@@ -121,7 +121,7 @@ public class Thread implements Runnable {
     }
 
     public final void setDaemon(boolean on) {
-        if(isAlive())
+        if (isAlive())
             throw new IllegalThreadStateException();
         daemon = on;
     }

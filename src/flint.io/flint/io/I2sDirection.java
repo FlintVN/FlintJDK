@@ -11,7 +11,7 @@ public enum I2sDirection {
     }
 
     static I2sDirection fromValue(int value) {
-        return switch(value) {
+        return switch (value) {
             case 0 -> TX;
             default -> RX;
         };

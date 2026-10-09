@@ -40,7 +40,7 @@ public class Collections {
     }
 
     public static <T> int binarySearch(List<? extends Comparable<? super T>> list, T key) {
-        if(list instanceof RandomAccess || list.size()<BINARYSEARCH_THRESHOLD)
+        if (list instanceof RandomAccess || list.size()<BINARYSEARCH_THRESHOLD)
             return Collections.indexedBinarySearch(list, key);
         else
             return Collections.iteratorBinarySearch(list, key);
@@ -51,14 +51,14 @@ public class Collections {
         int low = 0;
         int high = list.size()-1;
 
-        while(low <= high) {
+        while (low <= high) {
             int mid = (low + high) >>> 1;
             Comparable<? super T> midVal = list.get(mid);
             int cmp = midVal.compareTo(key);
 
-            if(cmp < 0)
+            if (cmp < 0)
                 low = mid + 1;
-            else if(cmp > 0)
+            else if (cmp > 0)
                 high = mid - 1;
             else
                 return mid;
@@ -71,14 +71,14 @@ public class Collections {
         int high = list.size()-1;
         ListIterator<? extends Comparable<? super T>> i = list.listIterator();
 
-        while(low <= high) {
+        while (low <= high) {
             int mid = (low + high) >>> 1;
             Comparable<? super T> midVal = get(i, mid);
             int cmp = midVal.compareTo(key);
 
-            if(cmp < 0)
+            if (cmp < 0)
                 low = mid + 1;
-            else if(cmp > 0)
+            else if (cmp > 0)
                 high = mid - 1;
             else
                 return mid;
@@ -89,25 +89,25 @@ public class Collections {
     private static <T> T get(ListIterator<? extends T> i, int index) {
         T obj;
         int pos = i.nextIndex();
-        if(pos <= index) {
+        if (pos <= index) {
             do {
                 obj = i.next();
-            } while(pos++ < index);
+            } while (pos++ < index);
         }
         else {
             do {
                 obj = i.previous();
-            } while(--pos > index);
+            } while (--pos > index);
         }
         return obj;
     }
 
     @SuppressWarnings("unchecked")
     public static <T> int binarySearch(List<? extends T> list, T key, Comparator<? super T> c) {
-        if(c == null)
+        if (c == null)
             return binarySearch((List<? extends Comparable<? super T>>)list, key);
 
-        if(list instanceof RandomAccess || list.size()<BINARYSEARCH_THRESHOLD)
+        if (list instanceof RandomAccess || list.size()<BINARYSEARCH_THRESHOLD)
             return Collections.indexedBinarySearch(list, key, c);
         else
             return Collections.iteratorBinarySearch(list, key, c);
@@ -117,14 +117,14 @@ public class Collections {
         int low = 0;
         int high = l.size()-1;
 
-        while(low <= high) {
+        while (low <= high) {
             int mid = (low + high) >>> 1;
             T midVal = l.get(mid);
             int cmp = c.compare(midVal, key);
 
-            if(cmp < 0)
+            if (cmp < 0)
                 low = mid + 1;
-            else if(cmp > 0)
+            else if (cmp > 0)
                 high = mid - 1;
             else
                 return mid;
@@ -137,14 +137,14 @@ public class Collections {
         int high = l.size()-1;
         ListIterator<? extends T> i = l.listIterator();
 
-        while(low <= high) {
+        while (low <= high) {
             int mid = (low + high) >>> 1;
             T midVal = get(i, mid);
             int cmp = c.compare(midVal, key);
 
-            if(cmp < 0)
+            if (cmp < 0)
                 low = mid + 1;
-            else if(cmp > 0)
+            else if (cmp > 0)
                 high = mid - 1;
             else
                 return mid;
@@ -155,14 +155,14 @@ public class Collections {
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static void reverse(List<?> list) {
         int size = list.size();
-        if(size < REVERSE_THRESHOLD || list instanceof RandomAccess) {
-            for(int i = 0, mid = size >> 1, j = size - 1; i < mid; i++, j--)
+        if (size < REVERSE_THRESHOLD || list instanceof RandomAccess) {
+            for (int i = 0, mid = size >> 1, j = size - 1; i < mid; i++, j--)
                 swap(list, i, j);
         }
         else {
             ListIterator fwd = list.listIterator();
             ListIterator rev = list.listIterator(size);
-            for(int i = 0, mid = list.size() >> 1; i < mid; i++) {
+            for (int i = 0, mid = list.size() >> 1; i < mid; i++) {
                 Object tmp = fwd.next();
                 fwd.set(rev.previous());
                 rev.set(tmp);
@@ -173,7 +173,7 @@ public class Collections {
     // TODO
     // public static void shuffle(List<?> list) {
     //     Random rnd = r;
-    //     if(rnd == null)
+    //     if (rnd == null)
     //         r = rnd = new Random();
     //     shuffle(list, rnd);
     // }
@@ -190,18 +190,18 @@ public class Collections {
     // @SuppressWarnings({"rawtypes", "unchecked"})
     // public static void shuffle(List<?> list, RandomGenerator rnd) {
     //     int size = list.size();
-    //     if(size < SHUFFLE_THRESHOLD || list instanceof RandomAccess) {
-    //         for(int i = size; i > 1; i--)
+    //     if (size < SHUFFLE_THRESHOLD || list instanceof RandomAccess) {
+    //         for (int i = size; i > 1; i--)
     //             swap(list, i - 1, rnd.nextInt(i));
     //     }
     //     else {
     //         Object[] arr = list.toArray();
 
-    //         for(int i = size; i > 1; i--)
+    //         for (int i = size; i > 1; i--)
     //             swap(arr, i - 1, rnd.nextInt(i));
 
     //         ListIterator it = list.listIterator();
-    //         for(Object e : arr) {
+    //         for (Object e : arr) {
     //             it.next();
     //             it.set(e);
     //         }
@@ -224,13 +224,13 @@ public class Collections {
     public static <T> void fill(List<? super T> list, T obj) {
         int size = list.size();
 
-        if(size < FILL_THRESHOLD || list instanceof RandomAccess) {
-            for(int i = 0; i<size; i++)
+        if (size < FILL_THRESHOLD || list instanceof RandomAccess) {
+            for (int i = 0; i<size; i++)
                 list.set(i, obj);
         }
         else {
             ListIterator<? super T> itr = list.listIterator();
-            for(int i = 0; i<size; i++) {
+            for (int i = 0; i<size; i++) {
                 itr.next();
                 itr.set(obj);
             }
@@ -239,17 +239,17 @@ public class Collections {
 
     public static <T> void copy(List<? super T> dest, List<? extends T> src) {
         int srcSize = src.size();
-        if(srcSize > dest.size())
+        if (srcSize > dest.size())
             throw new IndexOutOfBoundsException("Source does not fit in dest");
 
-        if(srcSize < COPY_THRESHOLD || (src instanceof RandomAccess && dest instanceof RandomAccess)) {
-            for(int i = 0; i<srcSize; i++)
+        if (srcSize < COPY_THRESHOLD || (src instanceof RandomAccess && dest instanceof RandomAccess)) {
+            for (int i = 0; i<srcSize; i++)
                 dest.set(i, src.get(i));
         }
         else {
             ListIterator<? super T> di = dest.listIterator();
             ListIterator<? extends T> si = src.listIterator();
-            for(int i = 0; i<srcSize; i++) {
+            for (int i = 0; i<srcSize; i++) {
                 di.next();
                 di.set(si.next());
             }
@@ -260,9 +260,9 @@ public class Collections {
         Iterator<? extends T> i = coll.iterator();
         T candidate = i.next();
 
-        while(i.hasNext()) {
+        while (i.hasNext()) {
             T next = i.next();
-            if(next.compareTo(candidate) < 0)
+            if (next.compareTo(candidate) < 0)
                 candidate = next;
         }
         return candidate;
@@ -270,15 +270,15 @@ public class Collections {
 
     @SuppressWarnings({"unchecked"})
     public static <T> T min(Collection<? extends T> coll, Comparator<? super T> comp) {
-        if(comp == null)
+        if (comp == null)
             return (T)min((Collection<Comparable<Object>>)coll);
 
         Iterator<? extends T> i = coll.iterator();
         T candidate = i.next();
 
-        while(i.hasNext()) {
+        while (i.hasNext()) {
             T next = i.next();
-            if(comp.compare(next, candidate) < 0)
+            if (comp.compare(next, candidate) < 0)
                 candidate = next;
         }
         return candidate;
@@ -288,9 +288,9 @@ public class Collections {
         Iterator<? extends T> i = coll.iterator();
         T candidate = i.next();
 
-        while(i.hasNext()) {
+        while (i.hasNext()) {
             T next = i.next();
-            if(next.compareTo(candidate) > 0)
+            if (next.compareTo(candidate) > 0)
                 candidate = next;
         }
         return candidate;
@@ -298,22 +298,22 @@ public class Collections {
 
     @SuppressWarnings({"unchecked"})
     public static <T> T max(Collection<? extends T> coll, Comparator<? super T> comp) {
-        if(comp == null)
+        if (comp == null)
             return (T)max((Collection<Comparable<Object>>)coll);
 
         Iterator<? extends T> i = coll.iterator();
         T candidate = i.next();
 
-        while(i.hasNext()) {
+        while (i.hasNext()) {
             T next = i.next();
-            if(comp.compare(next, candidate) > 0)
+            if (comp.compare(next, candidate) > 0)
                 candidate = next;
         }
         return candidate;
     }
 
     public static void rotate(List<?> list, int distance) {
-        if(list instanceof RandomAccess || list.size() < ROTATE_THRESHOLD)
+        if (list instanceof RandomAccess || list.size() < ROTATE_THRESHOLD)
             rotate1(list, distance);
         else
             rotate2(list, distance);
@@ -321,35 +321,35 @@ public class Collections {
 
     private static <T> void rotate1(List<T> list, int distance) {
         int size = list.size();
-        if(size == 0)
+        if (size == 0)
             return;
         distance = distance % size;
-        if(distance < 0)
+        if (distance < 0)
             distance += size;
-        if(distance == 0)
+        if (distance == 0)
             return;
 
-        for(int cycleStart = 0, nMoved = 0; nMoved != size; cycleStart++) {
+        for (int cycleStart = 0, nMoved = 0; nMoved != size; cycleStart++) {
             T displaced = list.get(cycleStart);
             int i = cycleStart;
             do {
                 i += distance;
-                if(i >= size)
+                if (i >= size)
                     i -= size;
                 displaced = list.set(i, displaced);
                 nMoved ++;
-            } while(i != cycleStart);
+            } while (i != cycleStart);
         }
     }
 
     private static void rotate2(List<?> list, int distance) {
         int size = list.size();
-        if(size == 0)
+        if (size == 0)
             return;
         int mid = -distance % size;
-        if(mid < 0)
+        if (mid < 0)
             mid += size;
-        if(mid == 0)
+        if (mid == 0)
             return;
 
         reverse(list.subList(0, mid));
@@ -360,18 +360,18 @@ public class Collections {
     public static <T> boolean replaceAll(List<T> list, T oldVal, T newVal) {
         boolean result = false;
         int size = list.size();
-        if(size < REPLACEALL_THRESHOLD || list instanceof RandomAccess) {
-            if(oldVal == null) {
-                for(int i = 0; i<size; i++) {
-                    if(list.get(i) == null) {
+        if (size < REPLACEALL_THRESHOLD || list instanceof RandomAccess) {
+            if (oldVal == null) {
+                for (int i = 0; i<size; i++) {
+                    if (list.get(i) == null) {
                         list.set(i, newVal);
                         result = true;
                     }
                 }
             }
             else {
-                for(int i = 0; i<size; i++) {
-                    if(oldVal.equals(list.get(i))) {
+                for (int i = 0; i<size; i++) {
+                    if (oldVal.equals(list.get(i))) {
                         list.set(i, newVal);
                         result = true;
                     }
@@ -380,17 +380,17 @@ public class Collections {
         }
         else {
             ListIterator<T> itr = list.listIterator();
-            if(oldVal == null) {
-                for(int i = 0; i<size; i++) {
-                    if(itr.next() == null) {
+            if (oldVal == null) {
+                for (int i = 0; i<size; i++) {
+                    if (itr.next() == null) {
                         itr.set(newVal);
                         result = true;
                     }
                 }
             }
             else {
-                for(int i = 0; i<size; i++) {
-                    if(oldVal.equals(itr.next())) {
+                for (int i = 0; i<size; i++) {
+                    if (oldVal.equals(itr.next())) {
                         itr.set(newVal);
                         result = true;
                     }
@@ -405,11 +405,11 @@ public class Collections {
         int targetSize = target.size();
         int maxCandidate = sourceSize - targetSize;
 
-        if(sourceSize < INDEXOFSUBLIST_THRESHOLD || (source instanceof RandomAccess&&target instanceof RandomAccess)) {
+        if (sourceSize < INDEXOFSUBLIST_THRESHOLD || (source instanceof RandomAccess&&target instanceof RandomAccess)) {
         nextCand:
-            for(int candidate = 0; candidate <= maxCandidate; candidate++) {
-                for(int i = 0, j = candidate; i<targetSize; i++, j++)
-                    if(!eq(target.get(i), source.get(j)))
+            for (int candidate = 0; candidate <= maxCandidate; candidate++) {
+                for (int i = 0, j = candidate; i<targetSize; i++, j++)
+                    if (!eq(target.get(i), source.get(j)))
                         continue nextCand;
                 return candidate;
             }
@@ -417,11 +417,11 @@ public class Collections {
         else {
             ListIterator<?> si = source.listIterator();
         nextCand:
-            for(int candidate = 0; candidate <= maxCandidate; candidate++) {
+            for (int candidate = 0; candidate <= maxCandidate; candidate++) {
                 ListIterator<?> ti = target.listIterator();
-                for(int i = 0; i<targetSize; i++) {
-                    if(!eq(ti.next(), si.next())) {
-                        for(int j = 0; j<i; j++)
+                for (int i = 0; i<targetSize; i++) {
+                    if (!eq(ti.next(), si.next())) {
+                        for (int j = 0; j<i; j++)
                             si.previous();
                         continue nextCand;
                     }
@@ -437,26 +437,26 @@ public class Collections {
         int targetSize = target.size();
         int maxCandidate = sourceSize - targetSize;
 
-        if(sourceSize < INDEXOFSUBLIST_THRESHOLD || source instanceof RandomAccess) {
+        if (sourceSize < INDEXOFSUBLIST_THRESHOLD || source instanceof RandomAccess) {
         nextCand:
-            for(int candidate = maxCandidate; candidate >= 0; candidate--) {
-                for(int i = 0, j = candidate; i<targetSize; i++, j++)
-                    if(!eq(target.get(i), source.get(j)))
+            for (int candidate = maxCandidate; candidate >= 0; candidate--) {
+                for (int i = 0, j = candidate; i<targetSize; i++, j++)
+                    if (!eq(target.get(i), source.get(j)))
                         continue nextCand;
                 return candidate;
             }
         }
         else {
-            if(maxCandidate < 0)
+            if (maxCandidate < 0)
                 return -1;
             ListIterator<?> si = source.listIterator(maxCandidate);
         nextCand:
-            for(int candidate = maxCandidate; candidate >= 0; candidate--) {
+            for (int candidate = maxCandidate; candidate >= 0; candidate--) {
                 ListIterator<?> ti = target.listIterator();
-                for(int i = 0; i<targetSize; i++) {
-                    if(!eq(ti.next(), si.next())) {
-                        if(candidate != 0) {
-                            for(int j = 0; j <= i + 1; j++)
+                for (int i = 0; i<targetSize; i++) {
+                    if (!eq(ti.next(), si.next())) {
+                        if (candidate != 0) {
+                            for (int j = 0; j <= i + 1; j++)
                                 si.previous();
                         }
                         continue nextCand;
@@ -470,7 +470,7 @@ public class Collections {
 
     @SuppressWarnings("unchecked")
     public static <T> Collection<T> unmodifiableCollection(Collection<? extends T> c) {
-        if(c.getClass() == UnmodifiableCollection.class)
+        if (c.getClass() == UnmodifiableCollection.class)
             return (Collection<T>)c;
         return new UnmodifiableCollection<>(c);
     }
@@ -480,7 +480,7 @@ public class Collections {
         final Collection<? extends E> c;
 
         UnmodifiableCollection(Collection<? extends E> c) {
-            if(c == null)
+            if (c == null)
                 throw new NullPointerException();
             this.c = c;
         }
@@ -597,7 +597,7 @@ public class Collections {
 
     @SuppressWarnings("unchecked")
     public static <T> SequencedCollection<T> unmodifiableSequencedCollection(SequencedCollection<? extends T> c) {
-        if(c.getClass() == UnmodifiableSequencedCollection.class)
+        if (c.getClass() == UnmodifiableSequencedCollection.class)
             return (SequencedCollection<T>)c;
         return new UnmodifiableSequencedCollection<>(c);
     }
@@ -643,7 +643,7 @@ public class Collections {
 
     @SuppressWarnings("unchecked")
     public static <T> Set<T> unmodifiableSet(Set<? extends T> s) {
-        if(s.getClass() == UnmodifiableSet.class)
+        if (s.getClass() == UnmodifiableSet.class)
             return (Set<T>)s;
         return new UnmodifiableSet<>(s);
     }
@@ -664,7 +664,7 @@ public class Collections {
 
     @SuppressWarnings("unchecked")
     public static <T> SequencedSet<T> unmodifiableSequencedSet(SequencedSet<? extends T> s) {
-        if(s.getClass() == UnmodifiableSequencedSet.class)
+        if (s.getClass() == UnmodifiableSequencedSet.class)
             return (SequencedSet<T>)s;
         return new UnmodifiableSequencedSet<>(s);
     }
@@ -693,7 +693,7 @@ public class Collections {
     }
 
     public static <T> SortedSet<T> unmodifiableSortedSet(SortedSet<T> s) {
-        if(s.getClass() == UnmodifiableSortedSet.class)
+        if (s.getClass() == UnmodifiableSortedSet.class)
             return s;
         return new UnmodifiableSortedSet<>(s);
     }
@@ -733,7 +733,7 @@ public class Collections {
     }
 
     public static <T> NavigableSet<T> unmodifiableNavigableSet(NavigableSet<T> s) {
-        if(s.getClass() == UnmodifiableNavigableSet.class)
+        if (s.getClass() == UnmodifiableNavigableSet.class)
             return s;
         return new UnmodifiableNavigableSet<>(s);
     }
@@ -802,7 +802,7 @@ public class Collections {
 
     @SuppressWarnings("unchecked")
     public static <T> List<T> unmodifiableList(List<? extends T> list) {
-        if(list.getClass() == UnmodifiableList.class || list.getClass() == UnmodifiableRandomAccessList.class)
+        if (list.getClass() == UnmodifiableList.class || list.getClass() == UnmodifiableRandomAccessList.class)
            return (List<T>)list;
 
         return (list instanceof RandomAccess ? new UnmodifiableRandomAccessList<>(list) : new UnmodifiableList<>(list));
@@ -941,7 +941,7 @@ public class Collections {
 
     @SuppressWarnings("unchecked")
     public static <K,V> Map<K,V> unmodifiableMap(Map<? extends K, ? extends V> m) {
-        if(m.getClass() == UnmodifiableMap.class)
+        if (m.getClass() == UnmodifiableMap.class)
             return (Map<K,V>)m;
         return new UnmodifiableMap<>(m);
     }
@@ -951,7 +951,7 @@ public class Collections {
         final Map<? extends K, ? extends V> m;
 
         UnmodifiableMap(Map<? extends K, ? extends V> m) {
-            if(m == null)
+            if (m == null)
                 throw new NullPointerException();
             this.m = m;
         }
@@ -997,19 +997,19 @@ public class Collections {
         private transient Collection<V> values;
 
         public Set<K> keySet() {
-            if(keySet == null)
+            if (keySet == null)
                 keySet = unmodifiableSet(m.keySet());
             return keySet;
         }
 
         public Set<Map.Entry<K,V>> entrySet() {
-            if(entrySet == null)
+            if (entrySet == null)
                 entrySet = new UnmodifiableEntrySet<>(m.entrySet());
             return entrySet;
         }
 
         public Collection<V> values() {
-            if(values == null)
+            if (values == null)
                 values = unmodifiableCollection(m.values());
             return values;
         }
@@ -1196,7 +1196,7 @@ public class Collections {
             @SuppressWarnings("unchecked")
             public Object[] toArray() {
                 Object[] a = c.toArray();
-                for(int i = 0; i<a.length; i++)
+                for (int i = 0; i<a.length; i++)
                     a[i] = new UnmodifiableEntry<>((Map.Entry<? extends K, ? extends V>)a[i]);
                 return a;
             }
@@ -1205,33 +1205,33 @@ public class Collections {
             public <T> T[] toArray(T[] a) {
                 Object[] arr = c.toArray(a.length == 0 ? a : Arrays.copyOf(a, 0));
 
-                for(int i = 0; i<arr.length; i++)
+                for (int i = 0; i<arr.length; i++)
                     arr[i] = new UnmodifiableEntry<>((Map.Entry<? extends K, ? extends V>)arr[i]);
 
-                if(arr.length > a.length)
+                if (arr.length > a.length)
                     return (T[])arr;
 
                 System.arraycopy(arr, 0, a, 0, arr.length);
-                if(a.length > arr.length)
+                if (a.length > arr.length)
                     a[arr.length] = null;
                 return a;
             }
 
             public boolean contains(Object o) {
-                if(!(o instanceof Map.Entry))
+                if (!(o instanceof Map.Entry))
                     return false;
                 return c.contains(new UnmodifiableEntry<>((Map.Entry<?,?>)o));
             }
 
             public boolean containsAll(Collection<?> coll) {
-                for(Object e : coll) {
-                    if(!contains(e))
+                for (Object e : coll) {
+                    if (!contains(e))
                         return false;
                 }
                 return true;
             }
             public boolean equals(Object o) {
-                if(o == this)
+                if (o == this)
                     return true;
 
                 return o instanceof Set<?> s && s.size() == c.size() && containsAll(s);
@@ -1261,7 +1261,7 @@ public class Collections {
                 }
 
                 public boolean equals(Object o) {
-                    if(this == o)
+                    if (this == o)
                         return true;
                     return o instanceof Map.Entry<?, ?> t && eq(e.getKey(), t.getKey()) && eq(e.getValue(), t.getValue());
                 }
@@ -1275,7 +1275,7 @@ public class Collections {
 
     @SuppressWarnings("unchecked")
     public static <K,V> SequencedMap<K,V> unmodifiableSequencedMap(SequencedMap<? extends K, ? extends V> m) {
-        if(m.getClass() == UnmodifiableSequencedMap.class)
+        if (m.getClass() == UnmodifiableSequencedMap.class)
             return (SequencedMap<K,V>)m;
         return new UnmodifiableSequencedMap<>(m);
     }
@@ -1313,7 +1313,7 @@ public class Collections {
 
     @SuppressWarnings("unchecked")
     public static <K,V> SortedMap<K,V> unmodifiableSortedMap(SortedMap<K, ? extends V> m) {
-        if(m.getClass() == UnmodifiableSortedMap.class)
+        if (m.getClass() == UnmodifiableSortedMap.class)
             return (SortedMap<K,V>)m;
         return new UnmodifiableSortedMap<>(m);
     }
@@ -1353,7 +1353,7 @@ public class Collections {
 
     @SuppressWarnings("unchecked")
     public static <K,V> NavigableMap<K,V> unmodifiableNavigableMap(NavigableMap<K, ? extends V> m) {
-        if(m.getClass() == UnmodifiableNavigableMap.class)
+        if (m.getClass() == UnmodifiableNavigableMap.class)
             return (NavigableMap<K,V>)m;
         return new UnmodifiableNavigableMap<>(m);
     }
@@ -1640,7 +1640,7 @@ public class Collections {
         }
 
         public boolean equals(Object o) {
-            if(this == o)
+            if (this == o)
                 return true;
             synchronized(mutex) {
                 return c.equals(o);
@@ -1836,7 +1836,7 @@ public class Collections {
         }
 
         public boolean equals(Object o) {
-            if(this == o)
+            if (this == o)
                 return true;
             synchronized(mutex) {
                 return list.equals(o);
@@ -2028,7 +2028,7 @@ public class Collections {
 
         public Set<K> keySet() {
             synchronized(mutex) {
-                if(keySet == null)
+                if (keySet == null)
                     keySet = new SynchronizedSet<>(m.keySet(), mutex);
                 return keySet;
             }
@@ -2036,7 +2036,7 @@ public class Collections {
 
         public Set<Map.Entry<K,V>> entrySet() {
             synchronized(mutex) {
-                if(entrySet == null)
+                if (entrySet == null)
                     entrySet = new SynchronizedSet<>(m.entrySet(), mutex);
                 return entrySet;
             }
@@ -2044,14 +2044,14 @@ public class Collections {
 
         public Collection<V> values() {
             synchronized(mutex) {
-                if(values == null)
+                if (values == null)
                     values = new SynchronizedCollection<>(m.values(), mutex);
                 return values;
             }
         }
 
         public boolean equals(Object o) {
-            if(this == o)
+            if (this == o)
                 return true;
             synchronized(mutex) {
                 return m.equals(o);
@@ -2366,7 +2366,7 @@ public class Collections {
 
         @SuppressWarnings("unchecked")
         E typeCheck(Object o) {
-            if(o != null && !type.isInstance(o))
+            if (o != null && !type.isInstance(o))
                 throw new ClassCastException(badElementMsg(o));
             return (E)o;
         }
@@ -2466,12 +2466,12 @@ public class Collections {
             try {
                 E[] z = zeroLengthElementArray();
                 a = coll.toArray(z);
-                if(a.getClass() != z.getClass())
+                if (a.getClass() != z.getClass())
                     a = Arrays.copyOf(a, a.length, z.getClass());
             }
-            catch(ArrayStoreException ignore) {
+            catch (ArrayStoreException ignore) {
                 a = coll.toArray().clone();
-                for(Object o : a)
+                for (Object o : a)
                     typeCheck(o);
             }
 
@@ -2822,10 +2822,10 @@ public class Collections {
         final Class<V> valueType;
 
         private void typeCheck(Object key, Object value) {
-            if(key != null && !keyType.isInstance(key))
+            if (key != null && !keyType.isInstance(key))
                 throw new ClassCastException(badKeyMsg(key));
 
-            if(value != null && !valueType.isInstance(value))
+            if (value != null && !valueType.isInstance(value))
                 throw new ClassCastException(badValueMsg(value));
         }
 
@@ -2912,21 +2912,21 @@ public class Collections {
         public void putAll(Map<? extends K, ? extends V> t) {
             Object[] entries = t.entrySet().toArray();
             List<Map.Entry<K,V>> checked = new ArrayList<>(entries.length);
-            for(Object o : entries) {
+            for (Object o : entries) {
                 Map.Entry<?,?> e = (Map.Entry<?,?>)o;
                 Object k = e.getKey();
                 Object v = e.getValue();
                 typeCheck(k, v);
                 checked.add(new AbstractMap.SimpleImmutableEntry<>((K)k, (V)v));
             }
-            for(Map.Entry<K,V> e : checked)
+            for (Map.Entry<K,V> e : checked)
                 m.put(e.getKey(), e.getValue());
         }
 
         private transient Set<Map.Entry<K,V>> entrySet;
 
         public Set<Map.Entry<K,V>> entrySet() {
-            if(entrySet == null)
+            if (entrySet == null)
                 entrySet = new CheckedEntrySet<>(m.entrySet(), valueType);
             return entrySet;
         }
@@ -3071,7 +3071,7 @@ public class Collections {
 
                 Object[] dest = (source.getClass() == Object[].class) ? source : new Object[source.length];
 
-                for(int i = 0; i < source.length; i++)
+                for (int i = 0; i < source.length; i++)
                     dest[i] = checkedEntry((Map.Entry<K,V>)source[i], valueType);
                 return dest;
             }
@@ -3080,13 +3080,13 @@ public class Collections {
             public <T> T[] toArray(T[] a) {
                 T[] arr = s.toArray(a.length == 0 ? a : Arrays.copyOf(a, 0));
 
-                for(int i = 0; i<arr.length; i++)
+                for (int i = 0; i<arr.length; i++)
                     arr[i] = (T)checkedEntry((Map.Entry<K,V>)arr[i], valueType);
-                if(arr.length > a.length)
+                if (arr.length > a.length)
                     return arr;
 
                 System.arraycopy(arr, 0, a, 0, arr.length);
-                if(a.length > arr.length)
+                if (a.length > arr.length)
                     a[arr.length] = null;
                 return a;
             }
@@ -3096,14 +3096,14 @@ public class Collections {
             }
 
             public boolean containsAll(Collection<?> c) {
-                for(Object o : c)
-                    if(!contains(o))
+                for (Object o : c)
+                    if (!contains(o))
                         return false;
                 return true;
             }
 
             public boolean remove(Object o) {
-                if(!(o instanceof Map.Entry))
+                if (!(o instanceof Map.Entry))
                     return false;
                 return s.remove(new AbstractMap.SimpleImmutableEntry<>((Map.Entry<?,?>)o));
             }
@@ -3120,8 +3120,8 @@ public class Collections {
                 Objects.requireNonNull(c);
                 boolean modified = false;
                 Iterator<Map.Entry<K,V>> it = iterator();
-                while(it.hasNext()) {
-                    if(c.contains(it.next()) != complement) {
+                while (it.hasNext()) {
+                    if (c.contains(it.next()) != complement) {
                         it.remove();
                         modified = true;
                     }
@@ -3130,7 +3130,7 @@ public class Collections {
             }
 
             public boolean equals(Object o) {
-                if(o == this)
+                if (o == this)
                     return true;
                 return o instanceof Set<?> that && that.size() == s.size() && containsAll(that);
             }
@@ -3165,7 +3165,7 @@ public class Collections {
                 }
 
                 public V setValue(V value) {
-                    if(value != null && !valueType.isInstance(value))
+                    if (value != null && !valueType.isInstance(value))
                         throw new ClassCastException(badValueMsg(value));
                     return e.setValue(value);
                 }
@@ -3175,9 +3175,9 @@ public class Collections {
                 }
 
                 public boolean equals(Object o) {
-                    if(o == this)
+                    if (o == this)
                         return true;
-                    if(!(o instanceof Map.Entry))
+                    if (!(o instanceof Map.Entry))
                         return false;
                     return e.equals(new AbstractMap.SimpleImmutableEntry<>((Map.Entry<?,?>)o));
                 }
@@ -3466,7 +3466,7 @@ public class Collections {
         }
 
         public <T> T[] toArray(T[] a) {
-            if(a.length > 0)
+            if (a.length > 0)
                 a[0] = null;
             return a;
         }
@@ -3550,7 +3550,7 @@ public class Collections {
         }
 
         public <T> T[] toArray(T[] a) {
-            if(a.length > 0)
+            if (a.length > 0)
                 a[0] = null;
             return a;
         }
@@ -3735,7 +3735,7 @@ public class Collections {
             }
 
             public E next() {
-                if(hasNext) {
+                if (hasNext) {
                     hasNext = false;
                     return e;
                 }
@@ -3749,7 +3749,7 @@ public class Collections {
             @Override
             public void forEachRemaining(Consumer<? super E> action) {
                 Objects.requireNonNull(action);
-                if(hasNext) {
+                if (hasNext) {
                     hasNext = false;
                     action.accept(e);
                 }
@@ -3769,7 +3769,7 @@ public class Collections {
             @Override
             public boolean tryAdvance(Consumer<? super T> consumer) {
                 Objects.requireNonNull(consumer);
-                if(est > 0) {
+                if (est > 0) {
                     est--;
                     consumer.accept(element);
                     return true;
@@ -3862,7 +3862,7 @@ public class Collections {
         }
 
         public E get(int index) {
-            if(index != 0)
+            if (index != 0)
               throw new IndexOutOfBoundsException("Index: "+index+", Size: 1");
             return element;
         }
@@ -3937,19 +3937,19 @@ public class Collections {
         private transient Collection<V> values;
 
         public Set<K> keySet() {
-            if(keySet == null)
+            if (keySet == null)
                 keySet = singleton(k);
             return keySet;
         }
 
         public Set<Map.Entry<K,V>> entrySet() {
-            if(entrySet == null)
+            if (entrySet == null)
                 entrySet = Collections.singleton(new SimpleImmutableEntry<>(k, v));
             return entrySet;
         }
 
         public Collection<V> values() {
-            if(values == null)
+            if (values == null)
                 values = singleton(v);
             return values;
         }
@@ -4016,7 +4016,7 @@ public class Collections {
     }
 
     public static <T> List<T> nCopies(int n, T o) {
-        if(n < 0)
+        if (n < 0)
             throw new IllegalArgumentException("List length = " + n);
         return new CopiesList<>(n, o);
     }
@@ -4058,14 +4058,14 @@ public class Collections {
             Objects.requireNonNull(action);
             int n = this.n;
             E element = this.element;
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 action.accept(element);
             }
         }
 
         public Object[] toArray() {
             final Object[] a = new Object[n];
-            if(element != null)
+            if (element != null)
                 Arrays.fill(a, 0, n, element);
             return a;
         }
@@ -4073,39 +4073,39 @@ public class Collections {
         @SuppressWarnings("unchecked")
         public <T> T[] toArray(T[] a) {
             final int n = this.n;
-            if(a.length < n) {
+            if (a.length < n) {
                 a = (T[])java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), n);
-                if(element != null)
+                if (element != null)
                     Arrays.fill(a, 0, n, element);
             }
             else {
                 Arrays.fill(a, 0, n, element);
-                if(a.length > n)
+                if (a.length > n)
                     a[n] = null;
             }
             return a;
         }
 
         public List<E> subList(int fromIndex, int toIndex) {
-            if(fromIndex < 0)
+            if (fromIndex < 0)
                 throw new IndexOutOfBoundsException("fromIndex = " + fromIndex);
-            if(toIndex > n)
+            if (toIndex > n)
                 throw new IndexOutOfBoundsException("toIndex = " + toIndex);
-            if(fromIndex > toIndex)
+            if (fromIndex > toIndex)
                 throw new IllegalArgumentException("fromIndex(" + fromIndex + ") > toIndex(" + toIndex + ")");
             return new CopiesList<>(toIndex - fromIndex, element);
         }
 
         @Override
         public int hashCode() {
-            if(n == 0)
+            if (n == 0)
                 return 1;
             int pow = 31;
             int sum = 1;
-            for(int i = Integer.numberOfLeadingZeros(n) + 1; i < Integer.SIZE; i++) {
+            for (int i = Integer.numberOfLeadingZeros(n) + 1; i < Integer.SIZE; i++) {
                 sum *= pow + 1;
                 pow *= pow;
-                if((n << i) < 0) {
+                if ((n << i) < 0) {
                     pow *= 31;
                     sum = sum * 31 + 1;
                 }
@@ -4115,25 +4115,25 @@ public class Collections {
 
         @Override
         public boolean equals(Object o) {
-            if(o == this)
+            if (o == this)
                 return true;
-            if(o instanceof CopiesList<?> other)
+            if (o instanceof CopiesList<?> other)
                 return n == other.n && (n == 0 || eq(element, other.element));
-            if(!(o instanceof List))
+            if (!(o instanceof List))
                 return false;
 
             int remaining = n;
             E e = element;
             Iterator<?> itr = ((List<?>)o).iterator();
-            if(e == null) {
-                while(itr.hasNext() && remaining-- > 0) {
-                    if(itr.next() != null)
+            if (e == null) {
+                while (itr.hasNext() && remaining-- > 0) {
+                    if (itr.next() != null)
                         return false;
                 }
             }
             else {
-                while(itr.hasNext() && remaining-- > 0) {
-                    if(!e.equals(itr.next()))
+                while (itr.hasNext() && remaining-- > 0) {
+                    if (!e.equals(itr.next()))
                         return false;
                 }
             }
@@ -4192,13 +4192,13 @@ public class Collections {
 
     @SuppressWarnings("unchecked")
     public static <T> Comparator<T> reverseOrder(Comparator<T> cmp) {
-        if(cmp == null)
+        if (cmp == null)
             return (Comparator<T>)ReverseComparator.REVERSE_ORDER;
-        else if(cmp == ReverseComparator.REVERSE_ORDER)
+        else if (cmp == ReverseComparator.REVERSE_ORDER)
             return (Comparator<T>)Comparators.NaturalOrderComparator.INSTANCE;
-        else if(cmp == Comparators.NaturalOrderComparator.INSTANCE)
+        else if (cmp == Comparators.NaturalOrderComparator.INSTANCE)
             return (Comparator<T>)ReverseComparator.REVERSE_ORDER;
-        else if(cmp instanceof ReverseComparator2)
+        else if (cmp instanceof ReverseComparator2)
             return ((ReverseComparator2<T>)cmp).cmp;
         else
             return new ReverseComparator2<>(cmp);
@@ -4247,7 +4247,7 @@ public class Collections {
 
     public static <T> ArrayList<T> list(Enumeration<T> e) {
         ArrayList<T> l = new ArrayList<>();
-        while(e.hasMoreElements())
+        while (e.hasMoreElements())
             l.add(e.nextElement());
         return l;
     }
@@ -4258,14 +4258,14 @@ public class Collections {
 
     public static int frequency(Collection<?> c, Object o) {
         int result = 0;
-        if(o == null) {
-            for(Object e : c)
-                if(e == null)
+        if (o == null) {
+            for (Object e : c)
+                if (e == null)
                     result++;
         }
         else {
-            for(Object e : c)
-                if(o.equals(e))
+            for (Object e : c)
+                if (o.equals(e))
                     result++;
         }
         return result;
@@ -4276,24 +4276,24 @@ public class Collections {
 
         Collection<?> iterate = c1;
 
-        if(c1 instanceof Set) {
+        if (c1 instanceof Set) {
             iterate = c2;
             contains = c1;
         }
-        else if(!(c2 instanceof Set)) {
+        else if (!(c2 instanceof Set)) {
             int c1size = c1.size();
             int c2size = c2.size();
-            if(c1size == 0 || c2size == 0)
+            if (c1size == 0 || c2size == 0)
                 return true;
 
-            if(c1size > c2size) {
+            if (c1size > c2size) {
                 iterate = c2;
                 contains = c1;
             }
         }
 
-        for(Object e : iterate) {
-            if(contains.contains(e)) {
+        for (Object e : iterate) {
+            if (contains.contains(e)) {
                 return false;
             }
         }
@@ -4304,13 +4304,13 @@ public class Collections {
     @SafeVarargs
     public static <T> boolean addAll(Collection<? super T> c, T... elements) {
         boolean result = false;
-        for(T element : elements)
+        for (T element : elements)
             result |= c.add(element);
         return result;
     }
 
     public static <E> Set<E> newSetFromMap(Map<E, Boolean> map) {
-        if(!map.isEmpty())
+        if (!map.isEmpty())
             throw new IllegalArgumentException("Map is non-empty");
         return new SetFromMap<>(map);
     }
@@ -4427,14 +4427,14 @@ public class Collections {
     }
 
     public static <E> SequencedSet<E> newSequencedSetFromMap(SequencedMap<E, Boolean> map) {
-        if(!map.isEmpty())
+        if (!map.isEmpty())
             throw new IllegalArgumentException("Map is non-empty");
         return new SequencedSetFromMap<>(map);
     }
 
     private static class SequencedSetFromMap<E> extends SetFromMap<E> implements SequencedSet<E> {
         private E nsee(Map.Entry<E, Boolean> e) {
-            if(e == null)
+            if (e == null)
                 throw new NoSuchElementException();
             else
                 return e.getKey();

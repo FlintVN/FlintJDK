@@ -36,11 +36,11 @@ import java.io.ByteArrayOutputStream;
             connectToAddress(address, port);
             return;
         }
-        catch(UnknownHostException e) {
+        catch (UnknownHostException e) {
             close();
             throw e;
         }
-        catch(IOException e) {
+        catch (IOException e) {
             close();
             throw e;
         }
@@ -55,7 +55,7 @@ import java.io.ByteArrayOutputStream;
             connectToAddress(address, port);
             return;
         }
-        catch(IOException e) {
+        catch (IOException e) {
             close();
             throw e;
         }
@@ -64,18 +64,18 @@ import java.io.ByteArrayOutputStream;
     private void connectToAddress(InetAddress address, int port) throws IOException {
         IOException pending = null;
 
-        for(int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++) {
             try {
                 socketConnect(address, port);
                 return;
             }
-            catch(ProtocolException e) {
+            catch (ProtocolException e) {
                 close();
                 fd = new FileDescriptor();
                 socketCreate();
                 pending = e;
             }
-            catch(IOException e) {
+            catch (IOException e) {
                 close();
                 throw e;
             }
@@ -88,25 +88,25 @@ import java.io.ByteArrayOutputStream;
     @Override
     public void setOption(int opt, Object val) throws SocketException {
         boolean on = true;
-        switch(opt) {
+        switch (opt) {
             case SO_LINGER:
-                if(val == null || (!(val instanceof Integer) && !(val instanceof Boolean)))
+                if (val == null || (!(val instanceof Integer) && !(val instanceof Boolean)))
                     throw new SocketException("Bad parameter for option");
-                if(val instanceof Boolean)
+                if (val instanceof Boolean)
                     on = false;
                 break;
             case SO_TIMEOUT:
-                if(val == null || (!(val instanceof Integer)))
+                if (val == null || (!(val instanceof Integer)))
                     throw new SocketException("Bad parameter for SO_TIMEOUT");
                 int tmp = ((Integer)val).intValue();
-                if(tmp < 0)
+                if (tmp < 0)
                     throw new IllegalArgumentException("timeout < 0");
                 timeout = tmp;
                 return;
             case SO_BINDADDR:
                 throw new SocketException("Cannot re-bind socket");
             case TCP_NODELAY:
-                if(val == null || !(val instanceof Boolean))
+                if (val == null || !(val instanceof Boolean))
                     throw new SocketException("bad parameter for TCP_NODELAY");
                 on = ((Boolean)val).booleanValue();
                 break;
@@ -118,7 +118,7 @@ import java.io.ByteArrayOutputStream;
 
     @Override
     public Object getOption(int opt) throws SocketException {
-        if(opt == SO_TIMEOUT)
+        if (opt == SO_TIMEOUT)
             return new Integer(timeout);
         return socketGetOption(opt);
     }
@@ -155,7 +155,7 @@ import java.io.ByteArrayOutputStream;
 
     @Override
     protected void close() throws IOException {
-        if(fd != null) {
+        if (fd != null) {
             socketClose();
             fd = null;
         }

@@ -18,16 +18,16 @@ public class File implements Comparable<File> {
     private native boolean setLastModified0(long time);
 
     public File(String pathname) {
-        if(pathname == null)
+        if (pathname == null)
             throw new NullPointerException();
         this.path = pathname;
     }
 
     public File(String parent, String child) {
-        if(child == null)
+        if (child == null)
             throw new NullPointerException();
-        if(parent != null) {
-            if(parent.endsWith(separator))
+        if (parent != null) {
+            if (parent.endsWith(separator))
                 this.path = parent + child;
             else
                 this.path = parent + separator + child;
@@ -47,18 +47,18 @@ public class File implements Comparable<File> {
 
     public String getParent() {
         int index = path.lastIndexOf(separatorChar);
-        if(index < 0)
+        if (index < 0)
             return null;
-        if(!isAbsolute() || (path.indexOf(separatorChar) != index))
+        if (!isAbsolute() || (path.indexOf(separatorChar) != index))
             return path.substring(0, index);
-        if(index < path.length() - 1)
+        if (index < path.length() - 1)
             return path.substring(0, index + 1);
         return null;
     }
 
     public File getParentFile() {
         String p = this.getParent();
-        if(p == null) return null;
+        if (p == null) return null;
         return new File(p);
     }
 
@@ -101,7 +101,7 @@ public class File implements Comparable<File> {
     public native boolean createNewFile() throws IOException;
 
     public boolean delete() {
-        if(isDirectory())
+        if (isDirectory())
             return rmdir0();
         else
             return delete0();
@@ -116,11 +116,11 @@ public class File implements Comparable<File> {
 
     public String[] list(FilenameFilter filter) {
         String[] names = list();
-        if((names == null) || (filter == null))
+        if ((names == null) || (filter == null))
             return names;
         List<String> v = new ArrayList<>();
-        for(int i = 0 ; i < names.length ; i++) {
-            if(filter.accept(this, names[i]))
+        for (int i = 0 ; i < names.length ; i++) {
+            if (filter.accept(this, names[i]))
                 v.add(names[i]);
         }
         return v.toArray(new String[v.size()]);
@@ -128,13 +128,13 @@ public class File implements Comparable<File> {
 
     public File[] listFiles() {
         String[] ss = list();
-        if(ss == null) return null;
+        if (ss == null) return null;
         String dir = this.getPath();
-        if(!dir.endsWith(separator))
+        if (!dir.endsWith(separator))
             dir += separator;
         int n = ss.length;
         File[] fs = new File[n];
-        for(int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             String p = dir + ss[i];
             fs[i] = new File(p);
         }
@@ -143,13 +143,13 @@ public class File implements Comparable<File> {
 
     public File[] listFiles(FilenameFilter filter) {
         String[] ss = list();
-        if(ss == null) return null;
+        if (ss == null) return null;
         String dir = this.getPath();
-        if(!dir.endsWith(separator))
+        if (!dir.endsWith(separator))
             dir += separator;
         ArrayList<File> files = new ArrayList<>();
-        for(String s : ss) {
-            if((filter == null) || filter.accept(this, s)) {
+        for (String s : ss) {
+            if ((filter == null) || filter.accept(this, s)) {
                 String p = dir + s;
                 files.add(new File(p));
             }
@@ -159,15 +159,15 @@ public class File implements Comparable<File> {
 
     public File[] listFiles(FileFilter filter) {
         String[] ss = list();
-        if(ss == null) return null;
+        if (ss == null) return null;
         String dir = this.getPath();
-        if(!dir.endsWith(separator))
+        if (!dir.endsWith(separator))
             dir += separator;
         ArrayList<File> files = new ArrayList<>();
-        for(String s : ss) {
+        for (String s : ss) {
             String p = dir + s;
             File f = new File(p);
-            if((filter == null) || filter.accept(f))
+            if ((filter == null) || filter.accept(f))
                 files.add(f);
         }
         return files.toArray(new File[files.size()]);
@@ -176,15 +176,15 @@ public class File implements Comparable<File> {
     public native boolean mkdir();
 
     public boolean mkdirs() {
-        if(exists())
+        if (exists())
             return false;
-        if(mkdir())
+        if (mkdir())
             return true;
         File canonFile = null;
         try {
             canonFile = getCanonicalFile();
         }
-        catch(IOException e) {
+        catch (IOException e) {
             return false;
         }
 
@@ -195,7 +195,7 @@ public class File implements Comparable<File> {
     public native boolean renameTo(File dest);
 
     public boolean setLastModified(long time) {
-        if(time < 0)
+        if (time < 0)
             throw new IllegalArgumentException("Negative time");
         return setLastModified0(time);
     }
@@ -279,7 +279,7 @@ public class File implements Comparable<File> {
     }
 
     public boolean equals(Object obj) {
-        if(obj instanceof File file)
+        if (obj instanceof File file)
             return compareTo(file) == 0;
         return false;
     }
@@ -305,7 +305,7 @@ public class File implements Comparable<File> {
     //     ObjectInputStream.GetField fields = s.readFields();
     //     String pathField = (String)fields.get("path", null);
     //     char sep = s.readChar();
-    //     if(sep != separatorChar)
+    //     if (sep != separatorChar)
     //         pathField = pathField.replace(sep, separatorChar);
     //     String path = FS.normalize(pathField);
     //     UNSAFE.putReference(this, PATH_OFFSET, path);
@@ -320,10 +320,10 @@ public class File implements Comparable<File> {
 
     // public Path toPath() {
     //     Path result = filePath;
-    //     if(result == null) {
+    //     if (result == null) {
     //         synchronized(this) {
     //             result = filePath;
-    //             if(result == null) {
+    //             if (result == null) {
     //                 result = FileSystems.getDefault().getPath(path);
     //                 filePath = result;
     //             }

@@ -20,9 +20,9 @@ public class Inflater implements AutoCloseable {
     }
 
     public void setInput(byte[] b, int off, int len) {
-        if(b == null)
+        if (b == null)
             throw new NullPointerException();
-        if(off < 0 || len < 0 || off > b.length - len)
+        if (off < 0 || len < 0 || off > b.length - len)
             throw new ArrayIndexOutOfBoundsException();
         synchronized(zsRef) {
             this.buf = b;
@@ -36,9 +36,9 @@ public class Inflater implements AutoCloseable {
     }
 
     public void setDictionary(byte[] b, int off, int len) {
-        if(b == null)
+        if (b == null)
             throw new NullPointerException();
-        if(off < 0 || len < 0 || off > b.length - len)
+        if (off < 0 || len < 0 || off > b.length - len)
             throw new ArrayIndexOutOfBoundsException();
         synchronized(zsRef) {
             ensureOpen();
@@ -76,9 +76,9 @@ public class Inflater implements AutoCloseable {
     }
 
     public int inflate(byte[] b, int off, int len) throws DataFormatException {
-        if(b == null)
+        if (b == null)
             throw new NullPointerException();
-        if(off < 0 || len < 0 || off > b.length - len)
+        if (off < 0 || len < 0 || off > b.length - len)
             throw new ArrayIndexOutOfBoundsException();
         synchronized(zsRef) {
             ensureOpen();
@@ -139,7 +139,7 @@ public class Inflater implements AutoCloseable {
         synchronized(zsRef) {
             int addr = zsRef.address();
             zsRef.clear();
-            if(addr != 0) {
+            if (addr != 0) {
                 end(addr);
                 buf = null;
             }
@@ -147,7 +147,7 @@ public class Inflater implements AutoCloseable {
     }
 
     private void ensureOpen() {
-        if(zsRef.address() == 0)
+        if (zsRef.address() == 0)
             throw new NullPointerException("Inflater has been closed");
     }
 

@@ -53,7 +53,7 @@ public final class Field implements Member {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Field other)
+        if (obj instanceof Field other)
             return (clazz == other.clazz) && (name.equals(other.name)) && (type == other.type);
         return false;
     }

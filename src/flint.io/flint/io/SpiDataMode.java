@@ -17,7 +17,7 @@ public enum SpiDataMode {
     }
 
     static SpiDataMode fromValue(int value) {
-        return switch(value) {
+        return switch (value) {
             case 0 -> MSB_MODE0;
             case 1 -> MSB_MODE1;
             case 2 -> MSB_MODE2;

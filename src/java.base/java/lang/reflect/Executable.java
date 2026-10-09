@@ -11,9 +11,9 @@ public abstract sealed class Executable implements Member permits Constructor, M
     }
 
     boolean equalParamTypes(Class<?>[] params1, Class<?>[] params2) {
-        if(params1.length == params2.length) {
-            for(int i = 0; i < params1.length; i++) {
-                if(params1[i] != params2[i])
+        if (params1.length == params2.length) {
+            for (int i = 0; i < params1.length; i++) {
+                if (params1[i] != params2[i])
                     return false;
             }
             return true;
@@ -22,21 +22,21 @@ public abstract sealed class Executable implements Member permits Constructor, M
     }
 
     final static void checkAccess(Class<?> caller, Class<?> targetClass, int modifiers) throws IllegalAccessException {
-        if((modifiers & Modifier.PUBLIC) != 0)
+        if ((modifiers & Modifier.PUBLIC) != 0)
             return;
-        if((modifiers & Modifier.PRIVATE) != 0) {
-            if(caller == targetClass)
+        if ((modifiers & Modifier.PRIVATE) != 0) {
+            if (caller == targetClass)
                 return;
             throw new IllegalAccessException("private access denied");
         }
-        if((modifiers & Modifier.PROTECTED) != 0) {
-            if(targetClass.isAssignableFrom(caller))
+        if ((modifiers & Modifier.PROTECTED) != 0) {
+            if (targetClass.isAssignableFrom(caller))
                 return;
-            if(caller.getPackageName().equals(targetClass.getPackageName()))
+            if (caller.getPackageName().equals(targetClass.getPackageName()))
                 return;
             throw new IllegalAccessException("protected access denied");
         }
-        if(caller.getPackageName().equals(targetClass.getPackageName()))
+        if (caller.getPackageName().equals(targetClass.getPackageName()))
             return;
         throw new IllegalAccessException("package-private access denied");
     }

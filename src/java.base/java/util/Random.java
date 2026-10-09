@@ -29,16 +29,16 @@ public class Random {
     }
 
     public int nextInt(int bound) {
-        if(bound <= 0)
+        if (bound <= 0)
             throw new IllegalArgumentException("bound must be positive");
-        if((bound & -bound) == bound)
+        if ((bound & -bound) == bound)
             return (int)((bound * (long)next(31)) >> 31);
         int bits, val;
         do {
             bits = next(31);
             val = bits % bound;
         }
-        while(bits - val + (bound - 1) < 0);
+        while (bits - val + (bound - 1) < 0);
         return val;
     }
 
@@ -59,9 +59,9 @@ public class Random {
     }
 
     public void nextBytes(byte[] bytes) {
-        for(int i = 0, len = bytes.length; i < len;) {
+        for (int i = 0, len = bytes.length; i < len;) {
             int rnd = nextInt();
-            for(int n = Math.min(len - i, 4); n-- > 0; rnd >>= 8)
+            for (int n = Math.min(len - i, 4); n-- > 0; rnd >>= 8)
                 bytes[i++] = (byte)rnd;
         }
     }

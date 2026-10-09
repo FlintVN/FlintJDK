@@ -15,25 +15,25 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
     public RandomAccessFile(String name, String mode) throws FileNotFoundException {
         int imode = -1;
 
-        if(mode.equals("r"))
+        if (mode.equals("r"))
             imode = O_RDONLY;
-        else if(mode.startsWith("rw")) {
+        else if (mode.startsWith("rw")) {
             imode = O_RDWR;
-            if(mode.length() > 2) {
-                if(mode.equals("rws"))
+            if (mode.length() > 2) {
+                if (mode.equals("rws"))
                     imode |= O_SYNC;
-                else if(mode.equals("rwd"))
+                else if (mode.equals("rwd"))
                     imode |= O_DSYNC;
                 else
                     imode = -1;
             }
         }
 
-        if(imode < 0)
+        if (imode < 0)
             throw new IllegalArgumentException("Illegal mode \"" + mode + "\" must be one of " + "\"r\", \"rw\", \"rws\"," + " or \"rwd\"");
         this.imode = imode;
 
-        if(name == null)
+        if (name == null)
             throw new NullPointerException();
         this.fd = new FileDescriptor();
         this.path = name;
@@ -72,10 +72,10 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
         int n = 0;
         do {
             int count = this.read(b, off + n, len - n);
-            if(count < 0)
+            if (count < 0)
                 throw new EOFException();
             n += count;
-        } while(n < len);
+        } while (n < len);
     }
 
     @Override
@@ -84,12 +84,12 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
         long len;
         long newpos;
 
-        if(n <= 0)
+        if (n <= 0)
             return 0;
         pos = getFilePointer();
         len = length();
         newpos = pos + n;
-        if(newpos > len)
+        if (newpos > len)
             newpos = len;
         seek(newpos);
 
@@ -134,7 +134,7 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
     @Override
     public final int readUnsignedByte() throws IOException {
         int ch = this.read();
-        if(ch < 0)
+        if (ch < 0)
             throw new EOFException();
         return ch;
     }
@@ -192,20 +192,20 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
         int c = -1;
         boolean eol = false;
 
-        while(!eol) {
-            switch(c = read()) {
+        while (!eol) {
+            switch (c = read()) {
                 case -1, '\n' -> eol = true;
                 case '\r' -> {
                     eol = true;
                     long cur = getFilePointer();
-                    if((read()) != '\n')
+                    if ((read()) != '\n')
                         seek(cur);
                 }
                 default -> input.append((char) c);
             }
         }
 
-        if((c == -1) && (input.length() == 0))
+        if ((c == -1) && (input.length() == 0))
             return null;
         return input.toString();
     }
@@ -276,7 +276,7 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
         byte[] b = new byte[len];
         char[] c = new char[len];
         s.getChars(0, len, c, 0);
-        for(int i = 0; i < len; i++)
+        for (int i = 0; i < len; i++)
             b[i] = (byte)c[i];
         writeBytes(b, 0, len);
     }
@@ -288,7 +288,7 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
         byte[] b = new byte[blen];
         char[] c = new char[clen];
         s.getChars(0, clen, c, 0);
-        for(int i = 0, j = 0; i < clen; i++) {
+        for (int i = 0, j = 0; i < clen; i++) {
             b[j++] = (byte)(c[i] >>> 8);
             b[j++] = (byte)(c[i] >>> 0);
         }

@@ -9,7 +9,7 @@ public class FileOutputStream extends OutputStream {
     }
 
     public FileOutputStream(String name, boolean append) throws FileNotFoundException {
-        if(name == null)
+        if (name == null)
             throw new NullPointerException();
         this.fd = new FileDescriptor();
         this.path = name;
@@ -25,7 +25,7 @@ public class FileOutputStream extends OutputStream {
     }
 
     public FileOutputStream(FileDescriptor fdObj) {
-        if(fdObj == null)
+        if (fdObj == null)
             throw new NullPointerException();
         this.fd = fdObj;
         this.path = null;
@@ -52,7 +52,7 @@ public class FileOutputStream extends OutputStream {
     public native void close() throws IOException;
 
     public final FileDescriptor getFD()  throws IOException {
-        if(fd != null)
+        if (fd != null)
             return fd;
         throw new IOException();
     }

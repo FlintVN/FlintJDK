@@ -38,7 +38,7 @@ import java.io.IOException;
     protected native void leave(InetAddress inetaddr) throws IOException;
 
     protected void close() {
-        if(fd != null) {
+        if (fd != null) {
             datagramSocketClose();
             fd = null;
         }
@@ -49,23 +49,23 @@ import java.io.IOException;
     }
 
     public void setOption(int optID, Object o) throws SocketException {
-        switch(optID) {
+        switch (optID) {
             case SO_TIMEOUT:
-                if(o == null || !(o instanceof Integer))
+                if (o == null || !(o instanceof Integer))
                     throw new SocketException("bad argument for SO_TIMEOUT");
                 int tmp = ((Integer) o).intValue();
-                if(tmp < 0)
+                if (tmp < 0)
                     throw new IllegalArgumentException("timeout < 0");
                 timeout = tmp;
                 return;
             case SO_BINDADDR:
                 throw new SocketException("Cannot re-bind Socket");
             case SO_REUSEADDR:
-                if(o == null || !(o instanceof Integer))
+                if (o == null || !(o instanceof Integer))
                     throw new SocketException("bad argument for SO_REUSEADDR");
                 break;
             case IP_MULTICAST_IF:
-                if(o == null || !(o instanceof InetAddress))
+                if (o == null || !(o instanceof InetAddress))
                     throw new SocketException("bad argument for IP_MULTICAST_IF");
                 break;
             default:
@@ -75,7 +75,7 @@ import java.io.IOException;
     }
 
     public Object getOption(int optID) throws SocketException {
-        if(optID == SO_TIMEOUT)
+        if (optID == SO_TIMEOUT)
             return new Integer(timeout);
         return socketGetOption(optID);
     }

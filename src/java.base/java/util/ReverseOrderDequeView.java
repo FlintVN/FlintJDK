@@ -14,14 +14,14 @@ class ReverseOrderDequeView<E> implements Deque<E> {
     }
 
     public static <T> Deque<T> of(Deque<T> deque) {
-        if(deque instanceof ReverseOrderDequeView<T> rodv)
+        if (deque instanceof ReverseOrderDequeView<T> rodv)
             return rodv.base;
         else
             return new ReverseOrderDequeView<>(deque);
     }
 
     public void forEach(Consumer<? super E> action) {
-        for(E e : this)
+        for (E e : this)
             action.accept(e);
     }
 
@@ -40,7 +40,7 @@ class ReverseOrderDequeView<E> implements Deque<E> {
 
     public boolean addAll(Collection<? extends E> c) {
         boolean modified = false;
-        for(E e : c) {
+        for (E e : c) {
             base.addFirst(e);
             modified = true;
         }
@@ -64,17 +64,17 @@ class ReverseOrderDequeView<E> implements Deque<E> {
     }
     public boolean remove(Object o) {
         Iterator<E> it = iterator();
-        if(o == null) {
-            while(it.hasNext()) {
-                if(it.next() == null) {
+        if (o == null) {
+            while (it.hasNext()) {
+                if (it.next() == null) {
                     it.remove();
                     return true;
                 }
             }
         }
         else {
-            while(it.hasNext()) {
-                if(o.equals(it.next())) {
+            while (it.hasNext()) {
+                if (o.equals(it.next())) {
                     it.remove();
                     return true;
                 }
@@ -87,8 +87,8 @@ class ReverseOrderDequeView<E> implements Deque<E> {
         Objects.requireNonNull(c);
         boolean modified = false;
         Iterator<?> it = iterator();
-        while(it.hasNext()) {
-            if(c.contains(it.next())) {
+        while (it.hasNext()) {
+            if (c.contains(it.next())) {
                 it.remove();
                 modified = true;
             }
@@ -100,8 +100,8 @@ class ReverseOrderDequeView<E> implements Deque<E> {
         Objects.requireNonNull(c);
         boolean modified = false;
         Iterator<E> it = iterator();
-        while(it.hasNext()) {
-            if(!c.contains(it.next())) {
+        while (it.hasNext()) {
+            if (!c.contains(it.next())) {
                 it.remove();
                 modified = true;
             }
@@ -138,15 +138,15 @@ class ReverseOrderDequeView<E> implements Deque<E> {
 
     public String toString() {
         Iterator<E> it = iterator();
-        if(! it.hasNext())
+        if (! it.hasNext())
             return "[]";
 
         StringBuilder sb = new StringBuilder();
         sb.append('[');
-        for(;;) {
+        for (;;) {
             E e = it.next();
             sb.append(e == this ? "(this Collection)" : e);
-            if(! it.hasNext())
+            if (! it.hasNext())
                 return sb.append(']').toString();
             sb.append(',').append(' ');
         }

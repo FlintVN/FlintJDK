@@ -18,9 +18,9 @@ final class StringUTF16 {
 
     public static int codePointAt(byte[] value, int index, int end) {
         char c1 = charAt(value, index);
-        if(Character.isHighSurrogate(c1) && ++index < end) {
+        if (Character.isHighSurrogate(c1) && ++index < end) {
             char c2 = charAt(value, index);
-            if(Character.isLowSurrogate(c2))
+            if (Character.isLowSurrogate(c2))
                return Character.toCodePoint(c1, c2);
         }
         return c1;
@@ -28,10 +28,10 @@ final class StringUTF16 {
 
     @IntrinsicCandidate
     public static int indexOf(byte[] value, int ch, int fromIndex) {
-        if(ch > 65535)
+        if (ch > 65535)
             return -1;
-        for(int i = fromIndex; i < value.length; i++) {
-            if(ch == charAt(value, i))
+        for (int i = fromIndex; i < value.length; i++) {
+            if (ch == charAt(value, i))
                 return i;
         }
         return -1;
@@ -39,22 +39,22 @@ final class StringUTF16 {
 
     @IntrinsicCandidate
     public static int indexOf(byte[] value, byte[] str, int fromIndex) {
-        if(str.length == 0)
+        if (str.length == 0)
             return 0;
-        if(value.length == 0)
+        if (value.length == 0)
             return -1;
         int valueCount = value.length >>> 1;
         int strCount = str.length >>> 1;
         char first = charAt(str, 0);
         int max = (valueCount - strCount);
-        for(int i = fromIndex; i <= max; i++) {
-            if(charAt(value, i) != first)
-                while(++i <= max && charAt(value, i) != first);
-            if(i <= max) {
+        for (int i = fromIndex; i <= max; i++) {
+            if (charAt(value, i) != first)
+                while (++i <= max && charAt(value, i) != first);
+            if (i <= max) {
                 int j = i + 1;
                 int end = j + strCount - 1;
-                for(int k = 1; j < end && charAt(value, j) == charAt(str, k); j++, k++);
-                if(j == end)
+                for (int k = 1; j < end && charAt(value, j) == charAt(str, k); j++, k++);
+                if (j == end)
                     return i;
             }
         }
@@ -63,22 +63,22 @@ final class StringUTF16 {
 
     @IntrinsicCandidate
     public static int indexOfLatin1(byte[] value, byte[] str, int fromIndex) {
-        if(str.length == 0)
+        if (str.length == 0)
             return 0;
-        if(value.length == 0)
+        if (value.length == 0)
             return -1;
         int valueCount = value.length >>> 1;
         int strCount = str.length;
         char first = (char)str[0];
         int max = (valueCount - strCount);
-        for(int i = fromIndex; i <= max; i++) {
-            if(charAt(value, i) != first)
-                while(++i <= max && charAt(value, i) != first);
-            if(i <= max) {
+        for (int i = fromIndex; i <= max; i++) {
+            if (charAt(value, i) != first)
+                while (++i <= max && charAt(value, i) != first);
+            if (i <= max) {
                 int j = i + 1;
                 int end = j + strCount - 1;
-                for(int k = 1; j < end && charAt(value, j) == (char)str[k]; j++, k++);
-                if(j == end)
+                for (int k = 1; j < end && charAt(value, j) == (char)str[k]; j++, k++);
+                if (j == end)
                     return i;
             }
         }
@@ -86,31 +86,31 @@ final class StringUTF16 {
     }
 
     public static int lastIndexOf(byte[] value, int ch, int fromIndex) {
-        if(ch > 65535)
+        if (ch > 65535)
             return -1;
-        for(int i = fromIndex; i >= 0; i--) {
-            if(ch == charAt(value, i))
+        for (int i = fromIndex; i >= 0; i--) {
+            if (ch == charAt(value, i))
                 return i;
         }
         return -1;
     }
 
     public static int lastIndexOf(byte[] value, byte[] str, int fromIndex) {
-        if(str.length == 0)
+        if (str.length == 0)
             return value.length - 1;
-        if(value.length < str.length)
+        if (value.length < str.length)
             return -1;
         int strCount = str.length >>> 1;
-        for(int i = fromIndex - (strCount - 1); i >= 0; i--) {
-            if(charAt(value, i) == charAt(str, 0)) {
+        for (int i = fromIndex - (strCount - 1); i >= 0; i--) {
+            if (charAt(value, i) == charAt(str, 0)) {
                 boolean found = true;
-                for(int j = 1; j < strCount; j++) {
-                    if(charAt(value, i + j) != charAt(str, j)) {
+                for (int j = 1; j < strCount; j++) {
+                    if (charAt(value, i + j) != charAt(str, j)) {
                         found = false;
                         break;
                     }
                 }
-                if(found)
+                if (found)
                     return i;
             }
         }
@@ -118,21 +118,21 @@ final class StringUTF16 {
     }
 
     public static int lastIndexOfLatin1(byte[] value, byte[] str, int fromIndex) {
-        if(str.length == 0)
+        if (str.length == 0)
             return value.length - 1;
-        if(value.length < str.length)
+        if (value.length < str.length)
             return -1;
         int strCount = str.length >>> 1;
-        for(int i = fromIndex - (strCount - 1); i >= 0; i--) {
-            if(charAt(value, i) == str[0]) {
+        for (int i = fromIndex - (strCount - 1); i >= 0; i--) {
+            if (charAt(value, i) == str[0]) {
                 boolean found = true;
-                for(int j = 1; j < strCount; j++) {
-                    if(charAt(value, i + j) != str[j]) {
+                for (int j = 1; j < strCount; j++) {
+                    if (charAt(value, i + j) != str[j]) {
                         found = false;
                         break;
                     }
                 }
-                if(found)
+                if (found)
                     return i;
             }
         }
@@ -143,9 +143,9 @@ final class StringUTF16 {
         int i = 0;
         int len = value.length >>> 1;
         byte[] ret = null;
-        for(; i < len; i++) {
+        for (; i < len; i++) {
             char c = charAt(value, i);
-            if(c == oldChar) {
+            if (c == oldChar) {
                 ret = new byte[len << 1];
                 System.arraycopy(value, 0, ret, 0, i << 1);
                 int index = i << 1;
@@ -154,10 +154,10 @@ final class StringUTF16 {
                 break;
             }
         }
-        for(; i < len; i++) {
+        for (; i < len; i++) {
             char c = charAt(value, i);
             int index = i << 1;
-            if(c == oldChar) {
+            if (c == oldChar) {
                 ret[index] = (byte)newChar;
                 ret[index + 1] = (byte)(newChar >>> 8);
             }
@@ -166,14 +166,14 @@ final class StringUTF16 {
                 ret[index + 1] = (byte)(c >>> 8);
             }
         }
-        if(ret != null) {
-            for(i = 0; i < len; i++) {
+        if (ret != null) {
+            for (i = 0; i < len; i++) {
                 int index = i << 1;
-                if(ret[index + 1] != 0)
+                if (ret[index + 1] != 0)
                     return new String(ret, (byte)1);
             }
             byte[] buff = new byte[len];
-            for(i = 0; i < len; i++)
+            for (i = 0; i < len; i++)
                 buff[i] = ret[i << 1];
             return new String(ret, (byte)0);
         }
@@ -183,9 +183,9 @@ final class StringUTF16 {
     public static String[] split(byte[] value) {
         int len = value.length >> 1;
         String[] ret = new String[len];
-        for(int i = 0; i < len; i++) {
+        for (int i = 0; i < len; i++) {
             char c = charAt(value, i);
-            if(c < 256)
+            if (c < 256)
                 ret[i] = new String(new byte[] {(byte)c}, 0, 1, (byte)0);
             else {
                 byte b1 = (byte)c;
@@ -197,28 +197,28 @@ final class StringUTF16 {
     }
 
     public static String[] split(byte[] value, char ch) {
-        if(ch > 65535)
+        if (ch > 65535)
             return null;
         int len = value.length >>> 1;
         int arrayCount = 1;
-        for(int i = 0; i < len; i++) {
-            if(ch == charAt(value, i))
+        for (int i = 0; i < len; i++) {
+            if (ch == charAt(value, i))
                 arrayCount++;
         }
-        if(arrayCount == 1)
+        if (arrayCount == 1)
             return null;
         String[] ret = new String[arrayCount];
         int index = 0;
         int start = 0;
         boolean isLatin1 = true;
-        for(int i = 0; i < len; i++) {
-            if(ch == charAt(value, i)) {
+        for (int i = 0; i < len; i++) {
+            if (ch == charAt(value, i)) {
                 int count = i - start;
-                if(!isLatin1)
+                if (!isLatin1)
                     ret[index] = new String(value, (start << 1), count << 1, (byte)1);
                 else {
                     byte[] buff = new byte[count];
-                    for(int j = 0; j < count; j++)
+                    for (int j = 0; j < count; j++)
                         buff[j] = value[(j + start) << 1];
                     ret[index] = new String(buff, (byte)0);
                 }
@@ -226,16 +226,16 @@ final class StringUTF16 {
                 index++;
                 isLatin1 = true;
             }
-            if(isLatin1 && ch > 255)
+            if (isLatin1 && ch > 255)
                 isLatin1 = false;
         }
-        if(start < len) {
+        if (start < len) {
             int count = len - start;
-            if(!isLatin1)
+            if (!isLatin1)
                 ret[index] = new String(value, (start << 1), count << 1, (byte)1);
             else {
                 byte[] buff = new byte[count];
-                for(int j = 0; j < count; j++)
+                for (int j = 0; j < count; j++)
                     buff[j] = value[(j + start) << 1];
                 ret[index] = new String(buff, (byte)0);
             }
@@ -247,10 +247,10 @@ final class StringUTF16 {
         int i;
         int length = value.length >>> 1;
         byte[] ret = null;
-        for(i = 0; i < length; i++) {
+        for (i = 0; i < length; i++) {
             char c = charAt(value, i);
             char lower = Character.toLowerCase(c);
-            if(lower != c) {
+            if (lower != c) {
                 ret = new byte[value.length];
                 int index = i << 1;
                 System.arraycopy(value, 0, ret, 0, index);
@@ -260,7 +260,7 @@ final class StringUTF16 {
                 break;
             }
         }
-        for(; i < length; i++) {
+        for (; i < length; i++) {
             int index = i << 1;
             char lower = Character.toLowerCase(charAt(value, i));
             ret[index] = (byte)lower;
@@ -273,10 +273,10 @@ final class StringUTF16 {
         int i;
         int length = value.length >>> 1;
         byte[] ret = null;
-        for(i = 0; i < length; i++) {
+        for (i = 0; i < length; i++) {
             char c = charAt(value, i);
             char upper = Character.toUpperCase(c);
-            if(upper != c) {
+            if (upper != c) {
                 ret = new byte[value.length];
                 int index = i << 1;
                 System.arraycopy(value, 0, ret, 0, index);
@@ -286,7 +286,7 @@ final class StringUTF16 {
                 break;
             }
         }
-        for(; i < length; i++) {
+        for (; i < length; i++) {
             int index = i << 1;
             char upper = Character.toUpperCase(charAt(value, i));
             ret[index] = (byte)upper;
@@ -298,9 +298,9 @@ final class StringUTF16 {
     public static String trim(byte[] value) {
         int len = value.length >>> 1;
         int st = 0;
-        while((st < len) && (charAt(value, st) <= ' '))
+        while ((st < len) && (charAt(value, st) <= ' '))
             st++;
-        while((st < len) && (charAt(value, len - 1) <= ' '))
+        while ((st < len) && (charAt(value, len - 1) <= ' '))
             len--;
         return ((st > 0) || (len < value.length)) ? new String(value, (st << 1), (len - st) << 1, (byte)1) : null;
     }
@@ -308,7 +308,7 @@ final class StringUTF16 {
     public static char[] toChars(byte[] value) {
         int len = value.length >> 1;
         char[] ret = new char[len];
-        for(int i = 0; i < len; i++) {
+        for (int i = 0; i < len; i++) {
             char c = charAt(value, i);
             ret[i] = c;
         }
@@ -317,14 +317,14 @@ final class StringUTF16 {
 
     @IntrinsicCandidate
     public static void getChars(byte[] value, int srcBegin, int srcEnd, char[] dst, int dstBegin) {
-        if(srcBegin < srcEnd) {
+        if (srcBegin < srcEnd) {
             int length = value.length >> 1;
-            if(srcBegin < 0)
+            if (srcBegin < 0)
                 throw new StringIndexOutOfBoundsException("Index " + srcBegin + " out of bounds for length " + length);
-            else if(srcEnd > length)
+            else if (srcEnd > length)
                 throw new StringIndexOutOfBoundsException("Last index " + srcEnd + " out of bounds for length" + length);
         }
-        for(int i = srcBegin; i < srcEnd; i++)
+        for (int i = srcBegin; i < srcEnd; i++)
             dst[dstBegin++] = charAt(value, i);
     }
 
@@ -333,10 +333,10 @@ final class StringUTF16 {
         int len1 = value.length >>> 1;
         int len2 = other.length >>> 1;
         int lim = Math.min(len1, len2);
-        for(int i = 0; i < lim; i++) {
+        for (int i = 0; i < lim; i++) {
             char c1 = charAt(value, i);
             char c2 = charAt(value, i);
-            if(c1 != c2)
+            if (c1 != c2)
                 return c1 - c2;
         }
         return len1 - len2;
@@ -351,16 +351,16 @@ final class StringUTF16 {
         int len1 = value.length >> 1;
         int len2 = other.length >> 1;
         int lim = Math.min(len1, len2);
-        for(int k = 0; k < lim; k++) {
+        for (int k = 0; k < lim; k++) {
             char c1 = charAt(value, k);
             char c2 = charAt(other, k);
-            if(c1 != c2) {
+            if (c1 != c2) {
                 c1 = Character.toUpperCase(c1);
                 c2 = Character.toUpperCase(c2);
-                if(c1 != c2) {
+                if (c1 != c2) {
                     c1 = Character.toLowerCase(c1);
                     c2 = Character.toLowerCase(c2);
-                    if(c1 != c2)
+                    if (c1 != c2)
                         return c1 - c2;
                 }
             }
@@ -374,16 +374,16 @@ final class StringUTF16 {
 
     public static boolean regionMatchesCI(byte[] value, int toffset, byte[] other, int ooffset, int len) {
         int last = toffset + len;
-        while(toffset < last) {
+        while (toffset < last) {
             char c1 = charAt(value, toffset++);
             char c2 = charAt(other, ooffset++);
-            if(c1 == c2)
+            if (c1 == c2)
                 continue;
             c1 = Character.toUpperCase(c1);
             c2 = Character.toUpperCase(c2);
-            if(c1 == c2)
+            if (c1 == c2)
                 continue;
-            if(Character.toLowerCase(c1) == Character.toLowerCase(c2))
+            if (Character.toLowerCase(c1) == Character.toLowerCase(c2))
                 continue;
             return false;
         }
@@ -396,8 +396,8 @@ final class StringUTF16 {
 
     public static boolean equalsIgnoreCase(byte[] value, byte[] other) {
         int len = value.length >>> 1;
-        for(int i = 0; i < len; i++)
-            if(Character.toLowerCase(charAt(value, i)) != Character.toLowerCase(charAt(other, i)))
+        for (int i = 0; i < len; i++)
+            if (Character.toLowerCase(charAt(value, i)) != Character.toLowerCase(charAt(other, i)))
                 return false;
         return true;
     }
@@ -405,7 +405,7 @@ final class StringUTF16 {
     public static int hashCode(byte[] value) {
         int h = 0;
         int length = value.length >> 1;
-        for(int i = 0; i < length; i++)
+        for (int i = 0; i < length; i++)
             h = 31 * h + charAt(value, i);
         return h;
     }

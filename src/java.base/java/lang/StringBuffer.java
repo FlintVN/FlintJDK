@@ -280,7 +280,7 @@ public final class StringBuffer extends AbstractStringBuilder implements Compara
 
     @Override
     public synchronized String toString() {
-        if(toStringCache == null)
+        if (toStringCache == null)
             return toStringCache = super.substring(0, count);
         return toStringCache;
     }

@@ -13,7 +13,7 @@ public interface Iterator<E> {
 
     default void forEachRemaining(Consumer<? super E> action) {
         Objects.requireNonNull(action);
-        while(hasNext())
+        while (hasNext())
             action.accept(next());
     }
 }

@@ -20,12 +20,12 @@ public final class Inet4Address extends InetAddress {
         boolean newOctet = true;
 
         int len = src.length();
-        if(len == 0 || len > 15)
+        if (len == 0 || len > 15)
             return null;
-        for(int i = 0; i < len; i++) {
+        for (int i = 0; i < len; i++) {
             char c = src.charAt(i);
-            if(c == '.') {
-                if(newOctet || tmpValue < 0 || tmpValue > 0xff || currByte == 3)
+            if (c == '.') {
+                if (newOctet || tmpValue < 0 || tmpValue > 0xff || currByte == 3)
                     return null;
                 res[currByte++] = (byte) (tmpValue & 0xff);
                 tmpValue = 0;
@@ -33,16 +33,16 @@ public final class Inet4Address extends InetAddress {
             }
             else {
                 int digit = ('0' <= c && c <= '9') ? (c - '0') : -1;
-                if(digit < 0)
+                if (digit < 0)
                     return null;
                 tmpValue *= 10;
                 tmpValue += digit;
                 newOctet = false;
             }
         }
-        if(newOctet || tmpValue < 0 || tmpValue >= (1L << ((4 - currByte) * 8)))
+        if (newOctet || tmpValue < 0 || tmpValue >= (1L << ((4 - currByte) * 8)))
             return null;
-        switch(currByte) {
+        switch (currByte) {
             case 0:
                 res[0] = (byte)((tmpValue >> 24) & 0xff);
             case 1:

@@ -94,14 +94,14 @@ public final class Character implements Comparable<Character> {
     }
 
     public static int digit(char ch, int radix) {
-        if('A' <= ch && ch <= 'Z')
+        if ('A' <= ch && ch <= 'Z')
             ch += 32;
         int ret = -1;
-        if('0' <= ch && ch <= '9')
+        if ('0' <= ch && ch <= '9')
             ret = ch - '0';
-        else if('a' <= ch && ch <= 'z')
+        else if ('a' <= ch && ch <= 'z')
             ret = ch - 'a' + 10;
-        if(ret >= radix)
+        if (ret >= radix)
             return -1;
         return ret;
     }
@@ -129,7 +129,7 @@ public final class Character implements Comparable<Character> {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Character)
+        if (obj instanceof Character)
             return value == ((Character)obj).charValue();
         return false;
     }
@@ -182,9 +182,9 @@ public final class Character implements Comparable<Character> {
 
     public static int codePointAt(CharSequence seq, int index) {
         char c1 = seq.charAt(index);
-        if(isHighSurrogate(c1) && ++index < seq.length()) {
+        if (isHighSurrogate(c1) && ++index < seq.length()) {
             char c2 = seq.charAt(index);
-            if(isLowSurrogate(c2))
+            if (isLowSurrogate(c2))
                 return toCodePoint(c1, c2);
         }
         return c1;
@@ -195,16 +195,16 @@ public final class Character implements Comparable<Character> {
     }
 
     public static int codePointAt(char[] a, int index, int limit) {
-        if(index >= limit || index < 0 || limit > a.length)
+        if (index >= limit || index < 0 || limit > a.length)
             throw new IndexOutOfBoundsException();
         return codePointAtImpl(a, index, limit);
     }
 
     static int codePointAtImpl(char[] a, int index, int limit) {
         char c1 = a[index];
-        if(isHighSurrogate(c1) && ++index < limit) {
+        if (isHighSurrogate(c1) && ++index < limit) {
             char c2 = a[index];
-            if(isLowSurrogate(c2))
+            if (isLowSurrogate(c2))
                 return toCodePoint(c1, c2);
         }
         return c1;
@@ -212,9 +212,9 @@ public final class Character implements Comparable<Character> {
 
     public static int codePointBefore(CharSequence seq, int index) {
         char c2 = seq.charAt(--index);
-        if(isLowSurrogate(c2) && index > 0) {
+        if (isLowSurrogate(c2) && index > 0) {
             char c1 = seq.charAt(--index);
-            if(isHighSurrogate(c1))
+            if (isHighSurrogate(c1))
                 return toCodePoint(c1, c2);
         }
         return c2;
@@ -225,16 +225,16 @@ public final class Character implements Comparable<Character> {
     }
 
     public static int codePointBefore(char[] a, int index, int start) {
-        if(index <= start || start < 0 || index > a.length)
+        if (index <= start || start < 0 || index > a.length)
             throw new IndexOutOfBoundsException();
         return codePointBeforeImpl(a, index, start);
     }
 
     static int codePointBeforeImpl(char[] a, int index, int start) {
         char c2 = a[--index];
-        if(isLowSurrogate(c2) && index > start) {
+        if (isLowSurrogate(c2) && index > start) {
             char c1 = a[--index];
-            if(isHighSurrogate(c1))
+            if (isHighSurrogate(c1))
                 return toCodePoint(c1, c2);
         }
         return c2;
@@ -249,11 +249,11 @@ public final class Character implements Comparable<Character> {
     }
 
     public static int toChars(int codePoint, char[] dst, int dstIndex) {
-        if(isBmpCodePoint(codePoint)) {
+        if (isBmpCodePoint(codePoint)) {
             dst[dstIndex] = (char) codePoint;
             return 1;
         }
-        else if(isValidCodePoint(codePoint)) {
+        else if (isValidCodePoint(codePoint)) {
             toSurrogates(codePoint, dst, dstIndex);
             return 2;
         }
@@ -262,9 +262,9 @@ public final class Character implements Comparable<Character> {
     }
 
     public static char[] toChars(int codePoint) {
-        if(isBmpCodePoint(codePoint))
+        if (isBmpCodePoint(codePoint))
             return new char[] { (char) codePoint };
-        else if(isValidCodePoint(codePoint)) {
+        else if (isValidCodePoint(codePoint)) {
             char[] result = new char[2];
             toSurrogates(codePoint, result, 0);
             return result;
@@ -281,8 +281,8 @@ public final class Character implements Comparable<Character> {
     public static int codePointCount(CharSequence seq, int beginIndex, int endIndex) {
         Objects.checkFromToIndex(beginIndex, endIndex, seq.length());
         int n = endIndex - beginIndex;
-        for(int i = beginIndex; i < endIndex; ) {
-            if(isHighSurrogate(seq.charAt(i++)) && i < endIndex && isLowSurrogate(seq.charAt(i))) {
+        for (int i = beginIndex; i < endIndex; ) {
+            if (isHighSurrogate(seq.charAt(i++)) && i < endIndex && isLowSurrogate(seq.charAt(i))) {
                 n--;
                 i++;
             }
@@ -298,8 +298,8 @@ public final class Character implements Comparable<Character> {
     static int codePointCountImpl(char[] a, int offset, int count) {
         int endIndex = offset + count;
         int n = count;
-        for(int i = offset; i < endIndex; ) {
-            if(isHighSurrogate(a[i++]) && i < endIndex && isLowSurrogate(a[i])) {
+        for (int i = offset; i < endIndex; ) {
+            if (isHighSurrogate(a[i++]) && i < endIndex && isLowSurrogate(a[i])) {
                 n--;
                 i++;
             }
@@ -309,71 +309,71 @@ public final class Character implements Comparable<Character> {
 
     public static int offsetByCodePoints(CharSequence seq, int index, int codePointOffset) {
         int length = seq.length();
-        if(index < 0 || index > length)
+        if (index < 0 || index > length)
             throw new IndexOutOfBoundsException();
 
         int x = index;
-        if(codePointOffset >= 0) {
+        if (codePointOffset >= 0) {
             int i;
-            for(i = 0; x < length && i < codePointOffset; i++) {
-                if(isHighSurrogate(seq.charAt(x++)) && x < length && isLowSurrogate(seq.charAt(x)))
+            for (i = 0; x < length && i < codePointOffset; i++) {
+                if (isHighSurrogate(seq.charAt(x++)) && x < length && isLowSurrogate(seq.charAt(x)))
                     x++;
             }
-            if(i < codePointOffset)
+            if (i < codePointOffset)
                 throw new IndexOutOfBoundsException();
         }
         else {
             int i;
-            for(i = codePointOffset; x > 0 && i < 0; i++) {
-                if(isLowSurrogate(seq.charAt(--x)) && x > 0 &&
+            for (i = codePointOffset; x > 0 && i < 0; i++) {
+                if (isLowSurrogate(seq.charAt(--x)) && x > 0 &&
                     isHighSurrogate(seq.charAt(x-1))) {
                     x--;
                 }
             }
-            if(i < 0)
+            if (i < 0)
                 throw new IndexOutOfBoundsException();
         }
         return x;
     }
 
     public static int offsetByCodePoints(char[] a, int start, int count, int index, int codePointOffset) {
-        if(count > a.length-start || start < 0 || count < 0 || index < start || index > start + count)
+        if (count > a.length-start || start < 0 || count < 0 || index < start || index > start + count)
             throw new IndexOutOfBoundsException();
         return offsetByCodePointsImpl(a, start, count, index, codePointOffset);
     }
 
     static int offsetByCodePointsImpl(char[]a, int start, int count, int index, int codePointOffset) {
         int x = index;
-        if(codePointOffset >= 0) {
+        if (codePointOffset >= 0) {
             int limit = start + count;
             int i;
-            for(i = 0; x < limit && i < codePointOffset; i++) {
-                if(isHighSurrogate(a[x++]) && x < limit && isLowSurrogate(a[x]))
+            for (i = 0; x < limit && i < codePointOffset; i++) {
+                if (isHighSurrogate(a[x++]) && x < limit && isLowSurrogate(a[x]))
                     x++;
             }
-            if(i < codePointOffset)
+            if (i < codePointOffset)
                 throw new IndexOutOfBoundsException();
         }
         else {
             int i;
-            for(i = codePointOffset; x > start && i < 0; i++) {
-                if(isLowSurrogate(a[--x]) && x > start &&
+            for (i = codePointOffset; x > start && i < 0; i++) {
+                if (isLowSurrogate(a[--x]) && x > start &&
                     isHighSurrogate(a[x-1])) {
                     x--;
                 }
             }
-            if(i < 0)
+            if (i < 0)
                 throw new IndexOutOfBoundsException();
         }
         return x;
     }
 
     public static char forDigit(int digit, int radix) {
-        if((digit >= radix) || (digit < 0))
+        if ((digit >= radix) || (digit < 0))
             return '\0';
-        if((radix < Character.MIN_RADIX) || (radix > Character.MAX_RADIX))
+        if ((radix < Character.MIN_RADIX) || (radix > Character.MAX_RADIX))
             return '\0';
-        if(digit < 10)
+        if (digit < 10)
             return (char)('0' + digit);
         return (char)('a' - 10 + digit);
     }

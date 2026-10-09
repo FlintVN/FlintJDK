@@ -16,7 +16,7 @@ public class PrintStream extends FilterOutputStream implements Appendable, Close
                 out.write(b);
             }
         }
-        catch(IOException x) {
+        catch (IOException x) {
             trouble = true;
         }
     }
@@ -28,7 +28,7 @@ public class PrintStream extends FilterOutputStream implements Appendable, Close
                 out.write(buf, off, len);
             }
         }
-        catch(IOException x) {
+        catch (IOException x) {
             trouble = true;
         }
     }
@@ -45,7 +45,7 @@ public class PrintStream extends FilterOutputStream implements Appendable, Close
                 out.flush();
             }
         }
-        catch(IOException x) {
+        catch (IOException x) {
             trouble = true;
         }
     }
@@ -57,24 +57,24 @@ public class PrintStream extends FilterOutputStream implements Appendable, Close
                 out.close();
             }
         }
-        catch(IOException x) {
+        catch (IOException x) {
             trouble = true;
         }
         out = null;
     }
 
     public boolean checkError() {
-        if(out != null)
+        if (out != null)
             flush();
         return trouble;
     }
 
     private static int utf8EncodeOneChar(char c, byte[] buff, int index) {
-        if(c < 0x80) {
+        if (c < 0x80) {
             buff[index] = (byte)c;
             return 1;
         }
-        else if(c < 0x0800) {
+        else if (c < 0x0800) {
             buff[index] = (byte)(0xC0 | (c >> 6));
             buff[index + 1] = (byte)(0x80 | (c & 0x3F));
             return 2;
@@ -94,23 +94,23 @@ public class PrintStream extends FilterOutputStream implements Appendable, Close
             int strlen = str.length();
             int cidx = 0;
             int bidx = 0;
-            while(cidx < strlen) {
+            while (cidx < strlen) {
                 int remaining = strlen - cidx;
                 int len = remaining > CHAR_BUFF_SIZE ? CHAR_BUFF_SIZE : remaining;
                 str.getChars(cidx, cidx + len, chars, 0);
                 cidx += len;
-                for(int i = 0; i < len; i++) {
-                    if((bidx + 3) > buff.length) {
+                for (int i = 0; i < len; i++) {
+                    if ((bidx + 3) > buff.length) {
                         out.write(buff, 0, bidx);
                         bidx = 0;
                     }
                     bidx += utf8EncodeOneChar(chars[i], buff, bidx);
                 }
             }
-            if(bidx > 0)
+            if (bidx > 0)
                 out.write(buff, 0, bidx);
         }
-        catch(IOException x) {
+        catch (IOException x) {
             trouble = true;
         }
     }
@@ -120,7 +120,7 @@ public class PrintStream extends FilterOutputStream implements Appendable, Close
             out.write(0x0D);    /* "\r" */
             out.write(0x0A);    /* "\n" */
         }
-        catch(IOException x) {
+        catch (IOException x) {
             trouble = true;
         }
     }
@@ -242,7 +242,7 @@ public class PrintStream extends FilterOutputStream implements Appendable, Close
     }
 
     public PrintStream append(CharSequence csq, int start, int end) {
-        if(csq == null)
+        if (csq == null)
             csq = "null";
         return append(csq.subSequence(start, end));
     }

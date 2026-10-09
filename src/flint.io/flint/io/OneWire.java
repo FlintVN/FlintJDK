@@ -30,7 +30,7 @@ public class OneWire implements InputPort, OutputPort {
     public native boolean isOpen();
 
     private void checkStateBeforeConfig() {
-        if(isOpen())
+        if (isOpen())
             throw new IllegalStateException();
     }
 

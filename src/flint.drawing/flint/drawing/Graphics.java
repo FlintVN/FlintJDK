@@ -27,7 +27,7 @@ public abstract class Graphics {
     }
 
     public static synchronized void setGraphicsFactory(GraphicsFactory factory) {
-        if(Graphics.factory != null)
+        if (Graphics.factory != null)
             throw new IllegalStateException("Graphics factory has been previously configured and cannot be reconfigured");
         Graphics.factory = factory;
     }
@@ -38,7 +38,7 @@ public abstract class Graphics {
     }
 
     public static Graphics create(Image img) {
-        if(!img.isMutable())
+        if (!img.isMutable())
             throw new IllegalStateException("immutable image");
         ensureFactoryNotNull();
         return factory.createGraphic(img.width, img.height, img.data);
@@ -50,7 +50,7 @@ public abstract class Graphics {
     }
 
     private static synchronized void ensureFactoryNotNull() {
-        if(factory == null)
+        if (factory == null)
             factory = Rgb565Graphics.getGraphicsFactory();
     }
 

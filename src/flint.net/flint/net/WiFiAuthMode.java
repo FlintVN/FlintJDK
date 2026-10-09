@@ -24,7 +24,7 @@ public enum WiFiAuthMode {
     }
 
     static WiFiAuthMode fromValue(int value) {
-        return switch(value) {
+        return switch (value) {
             case 0 -> OPEN;
             case 1 -> WEP;
             case 2 -> WPA_PSK;

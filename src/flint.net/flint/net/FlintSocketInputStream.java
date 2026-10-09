@@ -21,10 +21,10 @@ class FlintSocketInputStream extends FileInputStream {
     }
 
     public int read(byte[] b, int off, int length) throws IOException {
-        if(eof)
+        if (eof)
             return -1;
         int n = socketRead(b, off, length);
-        if(n <= 0) {
+        if (n <= 0) {
             eof = true;
             return -1;
         }
@@ -32,24 +32,24 @@ class FlintSocketInputStream extends FileInputStream {
     }
 
     public int read() throws IOException {
-        if(eof)
+        if (eof)
             return -1;
 
         int n = read(temp, 0, 1);
-        if(n <= 0)
+        if (n <= 0)
             return -1;
         return temp[0] & 0xff;
     }
 
     public long skip(long numbytes) throws IOException {
-        if(numbytes <= 0)
+        if (numbytes <= 0)
             return 0;
         long n = numbytes;
         int buflen = (int) Math.min(1024, n);
         byte data[] = new byte[buflen];
-        while(n > 0) {
+        while (n > 0) {
             int r = read(data, 0, (int) Math.min((long) buflen, n));
-            if(r < 0)
+            if (r < 0)
                 break;
             n -= r;
         }

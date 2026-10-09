@@ -12,7 +12,7 @@ public abstract class OutputStream implements Closeable, Flushable {
             private volatile boolean closed;
 
             private void ensureOpen() throws IOException {
-                if(closed)
+                if (closed)
                     throw new IOException("Stream closed");
             }
 
@@ -42,7 +42,7 @@ public abstract class OutputStream implements Closeable, Flushable {
 
     public void write(byte[] b, int off, int len) throws IOException {
         Objects.checkFromIndexSize(off, len, b.length);
-        for(int i = 0 ; i < len ; i++)
+        for (int i = 0 ; i < len ; i++)
             write(b[off + i]);
     }
 

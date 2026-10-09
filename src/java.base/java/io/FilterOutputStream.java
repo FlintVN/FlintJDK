@@ -32,10 +32,10 @@ public class FilterOutputStream extends OutputStream {
 
     @Override
     public void close() throws IOException {
-        if(closed)
+        if (closed)
             return;
         synchronized(this) {
-            if(closed)
+            if (closed)
                 return;
             closed = true;
         }
@@ -45,19 +45,19 @@ public class FilterOutputStream extends OutputStream {
             try {
                 flush();
             }
-            catch(Throwable e) {
+            catch (Throwable e) {
                 flushException = e;
                 throw e;
             }
             finally {
-                if(flushException == null)
+                if (flushException == null)
                     out.close();
                 else {
                     try {
                         out.close();
                     }
-                    catch(Throwable closeException) {
-                        if(flushException != closeException)
+                    catch (Throwable closeException) {
+                        if (flushException != closeException)
                             closeException.addSuppressed(flushException);
                         throw closeException;
                     }

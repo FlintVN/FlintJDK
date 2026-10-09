@@ -38,7 +38,7 @@ class ImmutableCollections {
     static final MapN<?,?> EMPTY_MAP;
 
     static {
-        if(archivedObjects == null) {
+        if (archivedObjects == null) {
             EMPTY = new Object();
             EMPTY_LIST = new ListN<>(new Object[0], false);
             EMPTY_LIST_NULLS = new ListN<>(new Object[0], true);
@@ -113,9 +113,9 @@ class ImmutableCollections {
 
     @SuppressWarnings("unchecked")
     static <E> List<E> listCopy(Collection<? extends E> coll) {
-        if(coll instanceof List12 || (coll instanceof ListN<?> c && !c.allowNulls))
+        if (coll instanceof List12 || (coll instanceof ListN<?> c && !c.allowNulls))
             return (List<E>)coll;
-        else if(coll.isEmpty())
+        else if (coll.isEmpty())
             return List.of();
         else
             return (List<E>)List.of(coll.toArray());
@@ -125,7 +125,7 @@ class ImmutableCollections {
     static <E> List<E> listFromArray(E... input) {
         @SuppressWarnings("unchecked")
         E[] tmp = (E[])new Object[input.length];
-        for(int i = 0; i < input.length; i++)
+        for (int i = 0; i < input.length; i++)
             tmp[i] = Objects.requireNonNull(input[i]);
         return new ListN<>(tmp, false);
     }
@@ -133,10 +133,10 @@ class ImmutableCollections {
     @SuppressWarnings("unchecked")
     static <E> List<E> listFromTrustedArray(Object... input) {
         assert input.getClass() == Object[].class;
-        for(Object o : input)
+        for (Object o : input)
             Objects.requireNonNull(o);
 
-        return switch(input.length) {
+        return switch (input.length) {
             case 0  -> (List<E>) ImmutableCollections.EMPTY_LIST;
             case 1  -> (List<E>) new List12<>(input[0]);
             case 2  -> (List<E>) new List12<>(input[0], input[1]);
@@ -147,7 +147,7 @@ class ImmutableCollections {
     @SuppressWarnings("unchecked")
     static <E> List<E> listFromTrustedArrayNullsAllowed(Object... input) {
         assert input.getClass() == Object[].class;
-        if(input.length == 0)
+        if (input.length == 0)
             return (List<E>) EMPTY_LIST_NULLS;
         else
             return new ListN<>((E[])input, true);
@@ -187,11 +187,11 @@ class ImmutableCollections {
         }
 
         static void subListRangeCheck(int fromIndex, int toIndex, int size) {
-            if(fromIndex < 0)
+            if (fromIndex < 0)
                 throw new IndexOutOfBoundsException("fromIndex = " + fromIndex);
-            if(toIndex > size)
+            if (toIndex > size)
                 throw new IndexOutOfBoundsException("toIndex = " + toIndex);
-            if(fromIndex > toIndex)
+            if (fromIndex > toIndex)
                 throw new IllegalArgumentException("fromIndex(" + fromIndex + ") > toIndex(" + toIndex + ")");
         }
 
@@ -208,22 +208,22 @@ class ImmutableCollections {
         @Override
         public ListIterator<E> listIterator(final int index) {
             int size = size();
-            if(index < 0 || index > size)
+            if (index < 0 || index > size)
                 throw outOfBounds(index);
             return new ListItr<E>(this, size, index);
         }
 
         @Override
         public boolean equals(Object o) {
-            if(o == this)
+            if (o == this)
                 return true;
 
-            if(!(o instanceof List))
+            if (!(o instanceof List))
                 return false;
 
             Iterator<?> oit = ((List<?>)o).iterator();
-            for(int i = 0, s = size(); i < s; i++) {
-                if(!oit.hasNext() || !Objects.equals(get(i), oit.next()))
+            for (int i = 0, s = size(); i < s; i++) {
+                if (!oit.hasNext() || !Objects.equals(get(i), oit.next()))
                     return false;
             }
             return !oit.hasNext();
@@ -232,7 +232,7 @@ class ImmutableCollections {
         @Override
         public int hashCode() {
             int hash = 1;
-            for(int i = 0, s = size(); i < s; i++)
+            for (int i = 0, s = size(); i < s; i++)
                 hash = 31 * hash + Objects.hashCode(get(i));
             return hash;
         }
@@ -290,7 +290,7 @@ class ImmutableCollections {
                 cursor = i + 1;
                 return next;
             }
-            catch(IndexOutOfBoundsException e) {
+            catch (IndexOutOfBoundsException e) {
                 throw new NoSuchElementException();
             }
         }
@@ -300,13 +300,13 @@ class ImmutableCollections {
         }
 
         public boolean hasPrevious() {
-            if(!isListIterator)
+            if (!isListIterator)
                 throw uoe();
             return cursor != 0;
         }
 
         public E previous() {
-            if(!isListIterator)
+            if (!isListIterator)
                 throw uoe();
             try {
                 int i = cursor - 1;
@@ -314,19 +314,19 @@ class ImmutableCollections {
                 cursor = i;
                 return previous;
             }
-            catch(IndexOutOfBoundsException e) {
+            catch (IndexOutOfBoundsException e) {
                 throw new NoSuchElementException();
             }
         }
 
         public int nextIndex() {
-            if(!isListIterator)
+            if (!isListIterator)
                 throw uoe();
             return cursor;
         }
 
         public int previousIndex() {
-            if(!isListIterator)
+            if (!isListIterator)
                 throw uoe();
             return cursor - 1;
         }
@@ -389,7 +389,7 @@ class ImmutableCollections {
         }
 
         private void rangeCheck(int index) {
-            if(index < 0 || index > size)
+            if (index < 0 || index > size)
                 throw outOfBounds(index);
         }
 
@@ -399,10 +399,10 @@ class ImmutableCollections {
 
         @Override
         public int indexOf(Object o) {
-            if(!allowNulls() && o == null)
+            if (!allowNulls() && o == null)
                 throw new NullPointerException();
-            for(int i = 0, s = size(); i < s; i++) {
-                if(Objects.equals(o, get(i)))
+            for (int i = 0, s = size(); i < s; i++) {
+                if (Objects.equals(o, get(i)))
                     return i;
             }
             return -1;
@@ -410,10 +410,10 @@ class ImmutableCollections {
 
         @Override
         public int lastIndexOf(Object o) {
-            if(!allowNulls() && o == null)
+            if (!allowNulls() && o == null)
                 throw new NullPointerException();
-            for(int i = size() - 1; i >= 0; i--) {
-                if(Objects.equals(o, get(i)))
+            for (int i = size() - 1; i >= 0; i--) {
+                if (Objects.equals(o, get(i)))
                     return i;
             }
             return -1;
@@ -422,7 +422,7 @@ class ImmutableCollections {
         @Override
         public Object[] toArray() {
             Object[] array = new Object[size];
-            for(int i = 0; i < size; i++)
+            for (int i = 0; i < size; i++)
                 array[i] = get(i);
             return array;
         }
@@ -431,9 +431,9 @@ class ImmutableCollections {
         @SuppressWarnings("unchecked")
         public <T> T[] toArray(T[] a) {
             T[] array = a.length >= size ? a : (T[])java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
-            for(int i = 0; i < size; i++)
+            for (int i = 0; i < size; i++)
                 array[i] = (T)get(i);
-            if(array.length > size)
+            if (array.length > size)
                 array[size] = null;
             return array;
         }
@@ -470,9 +470,9 @@ class ImmutableCollections {
         @Override
         @SuppressWarnings("unchecked")
         public E get(int index) {
-            if(index == 0)
+            if (index == 0)
                 return e0;
-            else if(index == 1 && e1 != EMPTY)
+            else if (index == 1 && e1 != EMPTY)
                 return (E)e1;
             throw outOfBounds(index);
         }
@@ -480,9 +480,9 @@ class ImmutableCollections {
         @Override
         public int indexOf(Object o) {
             Objects.requireNonNull(o);
-            if(o.equals(e0))
+            if (o.equals(e0))
                 return 0;
-            else if(e1 != EMPTY && o.equals(e1))
+            else if (e1 != EMPTY && o.equals(e1))
                 return 1;
             else
                 return -1;
@@ -491,9 +491,9 @@ class ImmutableCollections {
         @Override
         public int lastIndexOf(Object o) {
             Objects.requireNonNull(o);
-            if(e1 != EMPTY && o.equals(e1))
+            if (e1 != EMPTY && o.equals(e1))
                 return 1;
-            else if(o.equals(e0))
+            else if (o.equals(e0))
                 return 0;
             else
                 return -1;
@@ -508,7 +508,7 @@ class ImmutableCollections {
         // TODO
         // @java.io.Serial
         // private Object writeReplace() {
-        //     if(e1 == EMPTY)
+        //     if (e1 == EMPTY)
         //         return new CollSer(CollSer.IMM_LIST, e0);
         //     else
         //         return new CollSer(CollSer.IMM_LIST, e0, e1);
@@ -516,7 +516,7 @@ class ImmutableCollections {
 
         @Override
         public Object[] toArray() {
-            if(e1 == EMPTY)
+            if (e1 == EMPTY)
                 return new Object[] { e0 };
             else
                 return new Object[] { e0, e1 };
@@ -528,9 +528,9 @@ class ImmutableCollections {
             int size = size();
             T[] array = a.length >= size ? a : (T[])Array.newInstance(a.getClass().getComponentType(), size);
             array[0] = (T)e0;
-            if(size == 2)
+            if (size == 2)
                 array[1] = (T)e1;
-            if(array.length > size)
+            if (array.length > size)
                 array[size] = null;
             return array;
         }
@@ -585,21 +585,21 @@ class ImmutableCollections {
         @SuppressWarnings("unchecked")
         public <T> T[] toArray(T[] a) {
             int size = elements.length;
-            if(a.length < size)
+            if (a.length < size)
                 return (T[]) Arrays.copyOf(elements, size, a.getClass());
             System.arraycopy(elements, 0, a, 0, size);
-            if(a.length > size)
+            if (a.length > size)
                 a[size] = null;
             return a;
         }
 
         @Override
         public int indexOf(Object o) {
-            if(!allowNulls && o == null)
+            if (!allowNulls && o == null)
                 throw new NullPointerException();
             Object[] es = elements;
-            for(int i = 0; i < es.length; i++) {
-                if(Objects.equals(o, es[i]))
+            for (int i = 0; i < es.length; i++) {
+                if (Objects.equals(o, es[i]))
                     return i;
             }
             return -1;
@@ -607,11 +607,11 @@ class ImmutableCollections {
 
         @Override
         public int lastIndexOf(Object o) {
-            if(!allowNulls && o == null)
+            if (!allowNulls && o == null)
                 throw new NullPointerException();
             Object[] es = elements;
-            for(int i = es.length - 1; i >= 0; i--) {
-                if(Objects.equals(o, es[i]))
+            for (int i = es.length - 1; i >= 0; i--) {
+                if (Objects.equals(o, es[i]))
                     return i;
             }
             return -1;
@@ -622,16 +622,16 @@ class ImmutableCollections {
     abstract static class AbstractImmutableSet<E> extends AbstractImmutableCollection<E> implements Set<E> {
         @Override
         public boolean equals(Object o) {
-            if(o == this)
+            if (o == this)
                 return true;
-            else if(!(o instanceof Set))
+            else if (!(o instanceof Set))
                 return false;
 
             Collection<?> c = (Collection<?>) o;
-            if(c.size() != size())
+            if (c.size() != size())
                 return false;
-            for(Object e : c) {
-                if(e == null || !contains(e))
+            for (Object e : c) {
+                if (e == null || !contains(e))
                     return false;
             }
             return true;
@@ -655,7 +655,7 @@ class ImmutableCollections {
         }
 
         Set12(E e0, E e1) {
-            if(e0.equals(Objects.requireNonNull(e1)))
+            if (e0.equals(Objects.requireNonNull(e1)))
                 throw new IllegalArgumentException("duplicate element: " + e0);
 
             this.e0 = e0;
@@ -695,11 +695,11 @@ class ImmutableCollections {
                 @Override
                 @SuppressWarnings("unchecked")
                 public E next() {
-                    if(idx == 1) {
+                    if (idx == 1) {
                         idx = 0;
                         return (REVERSE || e1 == EMPTY) ? e0 : (E)e1;
                     }
-                    else if(idx == 2) {
+                    else if (idx == 2) {
                         idx = 1;
                         return REVERSE ? (E)e1 : e0;
                     }
@@ -717,7 +717,7 @@ class ImmutableCollections {
 
         @java.io.Serial
         private Object writeReplace() {
-            if(e1 == EMPTY)
+            if (e1 == EMPTY)
                 return new CollSer(CollSer.IMM_SET, e0);
             else
                 return new CollSer(CollSer.IMM_SET, e0, e1);
@@ -725,9 +725,9 @@ class ImmutableCollections {
 
         @Override
         public Object[] toArray() {
-            if(e1 == EMPTY)
+            if (e1 == EMPTY)
                 return new Object[] { e0 };
-            else if(REVERSE)
+            else if (REVERSE)
                 return new Object[] { e1, e0 };
             else
                 return new Object[] { e0, e1 };
@@ -738,9 +738,9 @@ class ImmutableCollections {
         public <T> T[] toArray(T[] a) {
             int size = size();
             T[] array = a.length >= size ? a : (T[])Array.newInstance(a.getClass().getComponentType(), size);
-            if(size == 1)
+            if (size == 1)
                 array[0] = (T)e0;
-            else if(REVERSE) {
+            else if (REVERSE) {
                 array[0] = (T)e1;
                 array[1] = (T)e0;
             }
@@ -748,7 +748,7 @@ class ImmutableCollections {
                 array[0] = (T)e0;
                 array[1] = (T)e1;
             }
-            if(array.length > size)
+            if (array.length > size)
                 array[size] = null;
             return array;
         }
@@ -769,10 +769,10 @@ class ImmutableCollections {
             size = input.length;
 
             elements = (E[])new Object[EXPAND_FACTOR * input.length];
-            for(int i = 0; i < input.length; i++) {
+            for (int i = 0; i < input.length; i++) {
                 E e = input[i];
                 int idx = probe(e);
-                if(idx >= 0)
+                if (idx >= 0)
                     throw new IllegalArgumentException("duplicate element: " + e);
                 else
                     elements[-(idx + 1)] = e;
@@ -813,20 +813,20 @@ class ImmutableCollections {
 
             @Override
             public E next() {
-                if(remaining > 0) {
+                if (remaining > 0) {
                     E element;
                     int idx = this.idx;
                     int len = elements.length;
                     do {
-                        if(REVERSE) {
-                            if(++idx >= len)
+                        if (REVERSE) {
+                            if (++idx >= len)
                                 idx = 0;
                         }
                         else {
-                            if(--idx < 0)
+                            if (--idx < 0)
                                 idx = len - 1;
                         }
-                    } while((element = elements[idx]) == null);
+                    } while ((element = elements[idx]) == null);
                     this.idx = idx;
                     remaining--;
                     return element;
@@ -844,8 +844,8 @@ class ImmutableCollections {
         @Override
         public int hashCode() {
             int h = 0;
-            for(E e : elements) {
-                if(e != null)
+            for (E e : elements) {
+                if (e != null)
                     h += e.hashCode();
             }
             return h;
@@ -853,13 +853,13 @@ class ImmutableCollections {
 
         private int probe(Object pe) {
             int idx = Math.floorMod(pe.hashCode(), elements.length);
-            while(true) {
+            while (true) {
                 E ee = elements[idx];
-                if(ee == null)
+                if (ee == null)
                     return -idx - 1;
-                else if(pe.equals(ee))
+                else if (pe.equals(ee))
                     return idx;
-                else if(++idx == elements.length)
+                else if (++idx == elements.length)
                     idx = 0;
             }
         }
@@ -874,8 +874,8 @@ class ImmutableCollections {
         private Object writeReplace() {
             Object[] array = new Object[size];
             int dest = 0;
-            for(Object o : elements) {
-                if(o != null)
+            for (Object o : elements) {
+                if (o != null)
                     array[dest++] = o;
             }
             return new CollSer(CollSer.IMM_SET, array);
@@ -885,7 +885,7 @@ class ImmutableCollections {
         public Object[] toArray() {
             Object[] array = new Object[size];
             Iterator<E> it = iterator();
-            for(int i = 0; i < size; i++)
+            for (int i = 0; i < size; i++)
                 array[i] = it.next();
             return array;
         }
@@ -895,9 +895,9 @@ class ImmutableCollections {
         public <T> T[] toArray(T[] a) {
             T[] array = a.length >= size ? a : (T[])Array.newInstance(a.getClass().getComponentType(), size);
             Iterator<E> it = iterator();
-            for(int i = 0; i < size; i++)
+            for (int i = 0; i < size; i++)
                 array[i] = (T)it.next();
-            if(array.length > size)
+            if (array.length > size)
                 array[size] = null;
             return array;
         }
@@ -1030,7 +1030,7 @@ class ImmutableCollections {
         final int size;
 
         MapN(Object... input) {
-            if((input.length & 1) != 0)
+            if ((input.length & 1) != 0)
                 throw new InternalError("length is odd");
             size = input.length >> 1;
 
@@ -1038,13 +1038,13 @@ class ImmutableCollections {
             len = (len + 1) & ~1;
             table = new Object[len];
 
-            for(int i = 0; i < input.length; i += 2) {
+            for (int i = 0; i < input.length; i += 2) {
                 @SuppressWarnings("unchecked")
                 K k = Objects.requireNonNull((K)input[i]);
                 @SuppressWarnings("unchecked")
                 V v = Objects.requireNonNull((V)input[i + 1]);
                 int idx = probe(k);
-                if(idx >= 0)
+                if (idx >= 0)
                     throw new IllegalArgumentException("duplicate key: " + k);
                 else {
                     int dest = -(idx + 1);
@@ -1063,9 +1063,9 @@ class ImmutableCollections {
         @Override
         public boolean containsValue(Object o) {
             Objects.requireNonNull(o);
-            for(int i = 1; i < table.length; i += 2) {
+            for (int i = 1; i < table.length; i += 2) {
                 Object v = table[i];
-                if(v != null && o.equals(v))
+                if (v != null && o.equals(v))
                     return true;
             }
             return false;
@@ -1074,9 +1074,9 @@ class ImmutableCollections {
         @Override
         public int hashCode() {
             int hash = 0;
-            for(int i = 0; i < table.length; i += 2) {
+            for (int i = 0; i < table.length; i += 2) {
                 Object k = table[i];
-                if(k != null)
+                if (k != null)
                     hash += k.hashCode() ^ table[i + 1].hashCode();
             }
             return hash;
@@ -1085,12 +1085,12 @@ class ImmutableCollections {
         @Override
         @SuppressWarnings("unchecked")
         public V get(Object o) {
-            if(size == 0) {
+            if (size == 0) {
                 Objects.requireNonNull(o);
                 return null;
             }
             int i = probe(o);
-            if(i >= 0)
+            if (i >= 0)
                 return (V)table[i + 1];
             else
                 return null;
@@ -1124,12 +1124,12 @@ class ImmutableCollections {
 
             private int nextIndex() {
                 int idx = this.idx;
-                if(REVERSE) {
-                    if((idx += 2) >= table.length)
+                if (REVERSE) {
+                    if ((idx += 2) >= table.length)
                         idx = 0;
                 }
                 else {
-                    if((idx -= 2) < 0)
+                    if ((idx -= 2) < 0)
                         idx = table.length - 2;
                 }
                 return this.idx = idx;
@@ -1137,9 +1137,9 @@ class ImmutableCollections {
 
             @Override
             public Map.Entry<K,V> next() {
-                if(remaining > 0) {
+                if (remaining > 0) {
                     int idx;
-                    while(table[idx = nextIndex()] == null) {}
+                    while (table[idx = nextIndex()] == null) {}
                     @SuppressWarnings("unchecked")
                     Map.Entry<K,V> e = new KeyValueHolder<>((K)table[idx], (V)table[idx + 1]);
                     remaining--;
@@ -1167,14 +1167,14 @@ class ImmutableCollections {
 
         private int probe(Object pk) {
             int idx = Math.floorMod(pk.hashCode(), table.length >> 1) << 1;
-            while(true) {
+            while (true) {
                 @SuppressWarnings("unchecked")
                 K ek = (K)table[idx];
-                if(ek == null)
+                if (ek == null)
                     return -idx - 1;
-                else if(pk.equals(ek))
+                else if (pk.equals(ek))
                     return idx;
-                else if((idx += 2) == table.length)
+                else if ((idx += 2) == table.length)
                     idx = 0;
             }
         }
@@ -1190,8 +1190,8 @@ class ImmutableCollections {
             Object[] array = new Object[2 * size];
             int len = table.length;
             int dest = 0;
-            for(int i = 0; i < len; i += 2) {
-                if(table[i] != null) {
+            for (int i = 0; i < len; i += 2) {
+                if (table[i] != null) {
                     array[dest++] = table[i];
                     array[dest++] = table[i + 1];
                 }
@@ -1222,13 +1222,13 @@ final class CollSer {
     //     ois.defaultReadObject();
     //     int len = ois.readInt();
 
-    //     if(len < 0) {
+    //     if (len < 0) {
     //         throw new InvalidObjectException("negative length " + len);
     //     }
 
     //     SharedSecrets.getJavaObjectInputStreamAccess().checkArray(ois, Object[].class, len);
     //     Object[] a = new Object[len];
-    //     for(int i = 0; i < len; i++)
+    //     for (int i = 0; i < len; i++)
     //         a[i] = ois.readObject();
 
     //     array = a;
@@ -1239,7 +1239,7 @@ final class CollSer {
     // private void writeObject(ObjectOutputStream oos) throws IOException {
     //     oos.defaultWriteObject();
     //     oos.writeInt(array.length);
-    //     for(int i = 0; i < array.length; i++)
+    //     for (int i = 0; i < array.length; i++)
     //         oos.writeObject(array[i]);
     // }
 
@@ -1247,10 +1247,10 @@ final class CollSer {
     // @java.io.Serial
     // private Object readResolve() throws ObjectStreamException {
     //     try {
-    //         if(array == null)
+    //         if (array == null)
     //             throw new InvalidObjectException("null array");
 
-    //         switch(tag & 0xff) {
+    //         switch (tag & 0xff) {
     //             case IMM_LIST:
     //                 return List.of(array);
     //             case IMM_LIST_NULLS:
@@ -1259,9 +1259,9 @@ final class CollSer {
     //             case IMM_SET:
     //                 return Set.of(array);
     //             case IMM_MAP:
-    //                 if(array.length == 0)
+    //                 if (array.length == 0)
     //                     return ImmutableCollections.EMPTY_MAP;
-    //                 else if(array.length == 2)
+    //                 else if (array.length == 2)
     //                     return new ImmutableCollections.Map1<>(array[0], array[1]);
     //                 else
     //                     return new ImmutableCollections.MapN<>(array);
@@ -1269,7 +1269,7 @@ final class CollSer {
     //                 throw new InvalidObjectException(String.format("invalid flags 0x%x", tag));
     //         }
     //     }
-    //     catch(NullPointerException|IllegalArgumentException ex) {
+    //     catch (NullPointerException|IllegalArgumentException ex) {
     //         InvalidObjectException ioe = new InvalidObjectException("invalid object");
     //         ioe.initCause(ex);
     //         throw ioe;

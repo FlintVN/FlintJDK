@@ -38,7 +38,7 @@ public class I2sMaster implements InputPort, OutputPort, AnalogInput, AnalogOutp
     public native boolean isOpen();
 
     private void checkStateBeforeConfig() {
-        if(isOpen())
+        if (isOpen())
             throw new IllegalStateException();
     }
 
@@ -91,7 +91,7 @@ public class I2sMaster implements InputPort, OutputPort, AnalogInput, AnalogOutp
 
     public I2sMaster setDataBits(int dataBits) {
         checkStateBeforeConfig();
-        if(dataBits == 8 || dataBits == 16 || dataBits == 24 || dataBits == 32) {
+        if (dataBits == 8 || dataBits == 16 || dataBits == 24 || dataBits == 32) {
             synchronized(this) {
                 mode = (mode & 0xFFFFFF03) | (dataBits << 2);
             }

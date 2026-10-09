@@ -36,7 +36,7 @@ public interface Predicate<T> {
     }
 
     static <T> Predicate<T> isEqual(Object targetRef) {
-        if(null == targetRef) {
+        if (null == targetRef) {
             return new Predicate<T>() {
                 @Override
                 public boolean test(T t) {

@@ -11,7 +11,7 @@ public enum BitStreamEncoding {
     }
 
     static BitStreamEncoding fromValue(int value) {
-        return switch(value) {
+        return switch (value) {
             case 0 -> HIGH_LOW;
             default -> LOW_HIGH;
         };

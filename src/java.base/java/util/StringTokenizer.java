@@ -14,7 +14,7 @@ public class StringTokenizer implements Enumeration<Object> {
     private int[] delimiterCodePoints;
 
     private void setMaxDelimCodePoint() {
-        if(delimiters == null) {
+        if (delimiters == null) {
             maxDelimCodePoint = 0;
             return;
         }
@@ -22,21 +22,21 @@ public class StringTokenizer implements Enumeration<Object> {
         int m = 0;
         int c;
         int count = 0;
-        for(int i = 0; i < delimiters.length(); i += Character.charCount(c)) {
+        for (int i = 0; i < delimiters.length(); i += Character.charCount(c)) {
             c = delimiters.charAt(i);
-            if(c >= Character.MIN_HIGH_SURROGATE && c <= Character.MAX_LOW_SURROGATE) {
+            if (c >= Character.MIN_HIGH_SURROGATE && c <= Character.MAX_LOW_SURROGATE) {
                 c = delimiters.codePointAt(i);
                 hasSurrogates = true;
             }
-            if(m < c)
+            if (m < c)
                 m = c;
             count++;
         }
         maxDelimCodePoint = m;
 
-        if(hasSurrogates) {
+        if (hasSurrogates) {
             delimiterCodePoints = new int[count];
-            for(int i = 0, j = 0; i < count; i++, j += Character.charCount(c)) {
+            for (int i = 0, j = 0; i < count; i++, j += Character.charCount(c)) {
                 c = delimiters.codePointAt(j);
                 delimiterCodePoints[i] = c;
             }
@@ -63,20 +63,20 @@ public class StringTokenizer implements Enumeration<Object> {
     }
 
     private int skipDelimiters(int startPos) {
-        if(delimiters == null)
+        if (delimiters == null)
             throw new NullPointerException();
 
         int position = startPos;
         while (!retDelims && position < maxPosition) {
-            if(!hasSurrogates) {
+            if (!hasSurrogates) {
                 char c = str.charAt(position);
-                if((c > maxDelimCodePoint) || (delimiters.indexOf(c) < 0))
+                if ((c > maxDelimCodePoint) || (delimiters.indexOf(c) < 0))
                     break;
                 position++;
             }
             else {
                 int c = str.codePointAt(position);
-                if((c > maxDelimCodePoint) || !isDelimiter(c))
+                if ((c > maxDelimCodePoint) || !isDelimiter(c))
                     break;
                 position += Character.charCount(c);
             }
@@ -87,28 +87,28 @@ public class StringTokenizer implements Enumeration<Object> {
     private int scanToken(int startPos) {
         int position = startPos;
         while (position < maxPosition) {
-            if(!hasSurrogates) {
+            if (!hasSurrogates) {
                 char c = str.charAt(position);
-                if((c <= maxDelimCodePoint) && (delimiters.indexOf(c) >= 0))
+                if ((c <= maxDelimCodePoint) && (delimiters.indexOf(c) >= 0))
                     break;
                 position++;
             }
             else {
                 int c = str.codePointAt(position);
-                if((c <= maxDelimCodePoint) && isDelimiter(c))
+                if ((c <= maxDelimCodePoint) && isDelimiter(c))
                     break;
                 position += Character.charCount(c);
             }
         }
-        if(retDelims && (startPos == position)) {
-            if(!hasSurrogates) {
+        if (retDelims && (startPos == position)) {
+            if (!hasSurrogates) {
                 char c = str.charAt(position);
-                if((c <= maxDelimCodePoint) && (delimiters.indexOf(c) >= 0))
+                if ((c <= maxDelimCodePoint) && (delimiters.indexOf(c) >= 0))
                     position++;
             }
             else {
                 int c = str.codePointAt(position);
-                if((c <= maxDelimCodePoint) && isDelimiter(c))
+                if ((c <= maxDelimCodePoint) && isDelimiter(c))
                     position += Character.charCount(c);
             }
         }
@@ -116,8 +116,8 @@ public class StringTokenizer implements Enumeration<Object> {
     }
 
     private boolean isDelimiter(int codePoint) {
-        for(int delimiterCodePoint : delimiterCodePoints) {
-            if(delimiterCodePoint == codePoint)
+        for (int delimiterCodePoint : delimiterCodePoints) {
+            if (delimiterCodePoint == codePoint)
                 return true;
         }
         return false;
@@ -134,7 +134,7 @@ public class StringTokenizer implements Enumeration<Object> {
         delimsChanged = false;
         newPosition = -1;
 
-        if(currentPosition >= maxPosition)
+        if (currentPosition >= maxPosition)
             throw new NoSuchElementException();
         int start = currentPosition;
         currentPosition = scanToken(currentPosition);
@@ -161,7 +161,7 @@ public class StringTokenizer implements Enumeration<Object> {
         int currpos = currentPosition;
         while (currpos < maxPosition) {
             currpos = skipDelimiters(currpos);
-            if(currpos >= maxPosition)
+            if (currpos >= maxPosition)
                 break;
             currpos = scanToken(currpos);
             count++;

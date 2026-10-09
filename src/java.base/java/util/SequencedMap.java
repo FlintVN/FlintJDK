@@ -17,7 +17,7 @@ public interface SequencedMap<K, V> extends Map<K, V> {
 
     default Map.Entry<K,V> pollFirstEntry() {
         var it = entrySet().iterator();
-        if(it.hasNext()) {
+        if (it.hasNext()) {
             var entry = new NullableKeyValueHolder<>(it.next());
             it.remove();
             return entry;
@@ -28,7 +28,7 @@ public interface SequencedMap<K, V> extends Map<K, V> {
 
     default Map.Entry<K,V> pollLastEntry() {
         var it = reversed().entrySet().iterator();
-        if(it.hasNext()) {
+        if (it.hasNext()) {
             var entry = new NullableKeyValueHolder<>(it.next());
             it.remove();
             return entry;

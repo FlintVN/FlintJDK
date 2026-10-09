@@ -10,7 +10,7 @@ public class FileInputStream extends InputStream {
     private final String path;
 
     public FileInputStream(String name) throws FileNotFoundException {
-        if(name == null)
+        if (name == null)
             throw new NullPointerException();
         fd = new FileDescriptor();
         path = name;
@@ -22,7 +22,7 @@ public class FileInputStream extends InputStream {
     }
 
     public FileInputStream(FileDescriptor fdObj) {
-        if(fdObj == null)
+        if (fdObj == null)
             throw new NullPointerException();
         fd = fdObj;
         path = null;
@@ -51,10 +51,10 @@ public class FileInputStream extends InputStream {
         long position = position();
         long size = length - position;
 
-        if(length <= 0 || size <= 0)
+        if (length <= 0 || size <= 0)
             return super.readAllBytes();
 
-        if(size > (long)Integer.MAX_VALUE) {
+        if (size > (long)Integer.MAX_VALUE) {
             String msg = "Required array size too large for" + path + ":" + size + " = " + length + " - " + position;
             throw new OutOfMemoryError(msg);
         }
@@ -64,11 +64,11 @@ public class FileInputStream extends InputStream {
 
         int nread = 0;
         int n;
-        for(;;) {
-            while((n = read(buf, nread, capacity - nread)) > 0)
+        for (;;) {
+            while ((n = read(buf, nread, capacity - nread)) > 0)
                 nread += n;
 
-            if(n < 0 || (n = read()) < 0)
+            if (n < 0 || (n = read()) < 0)
                 break;
 
             capacity = Math.max(ArraysSupport.newLength(capacity, 1, capacity), DEFAULT_BUFFER_SIZE);
@@ -80,16 +80,16 @@ public class FileInputStream extends InputStream {
 
     @Override
     public byte[] readNBytes(int len) throws IOException {
-        if(len < 0)
+        if (len < 0)
             throw new IllegalArgumentException("len < 0");
-        if(len == 0)
+        if (len == 0)
             return new byte[0];
 
         long length = length();
         long position = position();
         long size = length - position;
 
-        if(length <= 0 || size <= 0)
+        if (length <= 0 || size <= 0)
             return super.readNBytes(len);
 
         int capacity = (int)Math.min(len, size);
@@ -100,18 +100,18 @@ public class FileInputStream extends InputStream {
         int n;
         do {
             n = read(buf, nread, remaining);
-            if(n > 0) {
+            if (n > 0) {
                 nread += n;
                 remaining -= n;
             }
-            else if(n == 0) {
+            else if (n == 0) {
                 byte b = (byte)read();
-                if(b == -1)
+                if (b == -1)
                     break;
                 buf[nread++] = b;
                 remaining--;
             }
-        } while(n >= 0 && remaining > 0);
+        } while (n >= 0 && remaining > 0);
         return (capacity == nread) ? buf : Arrays.copyOf(buf, nread);
     }
 
@@ -120,7 +120,7 @@ public class FileInputStream extends InputStream {
         long transferred = 0;
         int br;
         byte[] buff = new byte[16];
-        while((br = read(buff)) != -1) {
+        while ((br = read(buff)) != -1) {
             out.write(buff, 0, br);
             transferred += br;
         }
@@ -141,7 +141,7 @@ public class FileInputStream extends InputStream {
     public native void close() throws IOException;
 
     public final FileDescriptor getFD() throws IOException {
-        if(fd != null)
+        if (fd != null)
             return fd;
         throw new IOException();
     }

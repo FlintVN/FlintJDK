@@ -12,8 +12,8 @@ public class Reflection {
     public static native int getClassAccessFlags(Class<?> c);
 
     static boolean isSubclassOf(Class<?> queryClass, Class<?> ofClass) {
-        while(queryClass != null) {
-            if(queryClass == ofClass)
+        while (queryClass != null) {
+            if (queryClass == ofClass)
                 return true;
             queryClass = queryClass.getSuperclass();
         }

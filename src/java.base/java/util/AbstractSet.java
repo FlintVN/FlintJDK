@@ -6,18 +6,18 @@ public abstract class AbstractSet<E> extends AbstractCollection<E> implements Se
     }
 
     public boolean equals(Object o) {
-        if(o == this)
+        if (o == this)
             return true;
 
-        if(!(o instanceof Set))
+        if (!(o instanceof Set))
             return false;
         Collection<?> c = (Collection<?>)o;
-        if(c.size() != size())
+        if (c.size() != size())
             return false;
         try {
             return containsAll(c);
         }
-        catch(ClassCastException | NullPointerException unused) {
+        catch (ClassCastException | NullPointerException unused) {
             return false;
         }
     }
@@ -25,9 +25,9 @@ public abstract class AbstractSet<E> extends AbstractCollection<E> implements Se
     public int hashCode() {
         int h = 0;
         Iterator<E> i = iterator();
-        while(i.hasNext()) {
+        while (i.hasNext()) {
             E obj = i.next();
-            if(obj != null)
+            if (obj != null)
                 h += obj.hashCode();
         }
         return h;
@@ -37,13 +37,13 @@ public abstract class AbstractSet<E> extends AbstractCollection<E> implements Se
         Objects.requireNonNull(c);
         boolean modified = false;
 
-        if(size() > c.size()) {
-            for(Object e : c)
+        if (size() > c.size()) {
+            for (Object e : c)
                 modified |= remove(e);
         }
         else {
-            for(Iterator<?> i = iterator(); i.hasNext(); ) {
-                if(c.contains(i.next())) {
+            for (Iterator<?> i = iterator(); i.hasNext(); ) {
+                if (c.contains(i.next())) {
                     i.remove();
                     modified = true;
                 }

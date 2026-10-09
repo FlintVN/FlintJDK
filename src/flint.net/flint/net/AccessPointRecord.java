@@ -27,7 +27,7 @@ public class AccessPointRecord {
     }
 
     public WiFiAuthMode getAuthMode() {
-        if(authModeInEnum == null)
+        if (authModeInEnum == null)
             authModeInEnum = WiFiAuthMode.fromValue(authMode);
         return authModeInEnum;
     }

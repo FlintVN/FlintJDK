@@ -15,7 +15,7 @@ public class MulticastSocket extends DatagramSocket {
         try {
             this.impl = (DatagramSocketImpl)implClass.getConstructor().newInstance();
         }
-        catch(Exception e) {
+        catch (Exception e) {
             throw new SocketException("can't instantiate DatagramSocketImpl" + e.toString());
         }
         impl.create();
@@ -50,10 +50,10 @@ public class MulticastSocket extends DatagramSocket {
     public synchronized void send(DatagramPacket p, byte ttl) throws IOException {
         byte dttl = getTTL();
 
-        if(ttl != dttl)
+        if (ttl != dttl)
             impl.setTTL(ttl);
         impl.send(p);
-        if(ttl != dttl)
+        if (ttl != dttl)
             impl.setTTL(dttl);
     }
 }

@@ -40,8 +40,8 @@ public final class StringJoiner {
     public String toString() {
         final int size = this.size;
         var elts = this.elts;
-        if(size == 0) {
-            if(emptyValue != null)
+        if (size == 0) {
+            if (emptyValue != null)
                 return emptyValue;
             elts = EMPTY_STRING_ARRAY;
         }
@@ -50,10 +50,10 @@ public final class StringJoiner {
 
     public StringJoiner add(CharSequence newElement) {
         final String elt = String.valueOf(newElement);
-        if(elts == null)
+        if (elts == null)
             elts = new String[8];
         else {
-            if(size == elts.length) {
+            if (size == elts.length) {
                 String[] tmp = new String[2 * size];
                 System.arraycopy(elts, 0, tmp, 0, size);
                 elts = tmp;
@@ -68,14 +68,14 @@ public final class StringJoiner {
     private int checkAddLength(int oldLen, int inc) {
         long newLen = (long)oldLen + (long)inc;
         long tmpLen = newLen + (long)prefix.length() + (long)suffix.length();
-        if(tmpLen != (int)tmpLen)
+        if (tmpLen != (int)tmpLen)
             throw new OutOfMemoryError("Requested array size exceeds VM limit");
         return (int)newLen;
     }
 
     public StringJoiner merge(StringJoiner other) {
         Objects.requireNonNull(other);
-        if(other.size == 0)
+        if (other.size == 0)
             return this;
         other.compactElts();
         return add(other.elts[0]);
@@ -83,9 +83,9 @@ public final class StringJoiner {
 
     private void compactElts() {
         int sz = size;
-        if(sz > 1) {
+        if (sz > 1) {
             elts[0] = String.join("", "", delimiter, elts, sz);
-            for(int i = 1; i < sz; i++)
+            for (int i = 1; i < sz; i++)
                 elts[i] = null;
             size = 1;
         }

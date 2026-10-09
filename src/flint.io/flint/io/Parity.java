@@ -14,7 +14,7 @@ public enum Parity {
     }
 
     static Parity fromValue(int value) {
-        return switch(value) {
+        return switch (value) {
             case 0 -> NONE;
             case 1 -> ODD;
             case 2 -> EVEN;

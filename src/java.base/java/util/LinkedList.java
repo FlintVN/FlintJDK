@@ -31,7 +31,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
         final Node<E> f = first;
         final Node<E> newNode = new Node<>(null, e, f);
         first = newNode;
-        if(f == null)
+        if (f == null)
             last = newNode;
         else
             f.prev = newNode;
@@ -43,7 +43,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
         final Node<E> l = last;
         final Node<E> newNode = new Node<>(l, e, null);
         last = newNode;
-        if(l == null)
+        if (l == null)
             first = newNode;
         else
             l.next = newNode;
@@ -55,7 +55,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
         final Node<E> pred = succ.prev;
         final Node<E> newNode = new Node<>(pred, e, succ);
         succ.prev = newNode;
-        if(pred == null)
+        if (pred == null)
             first = newNode;
         else
             pred.next = newNode;
@@ -69,7 +69,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
         f.item = null;
         f.next = null;
         first = next;
-        if(next == null)
+        if (next == null)
             last = null;
         else
             next.prev = null;
@@ -84,7 +84,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
         l.item = null;
         l.prev = null;
         last = prev;
-        if(prev == null)
+        if (prev == null)
             first = null;
         else
             prev.next = null;
@@ -98,7 +98,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
         final Node<E> next = x.next;
         final Node<E> prev = x.prev;
 
-        if(prev == null) {
+        if (prev == null) {
             first = next;
         }
         else {
@@ -106,7 +106,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
             x.prev = null;
         }
 
-        if(next == null) {
+        if (next == null) {
             last = prev;
         }
         else {
@@ -122,28 +122,28 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
 
     public E getFirst() {
         final Node<E> f = first;
-        if(f == null)
+        if (f == null)
             throw new NoSuchElementException();
         return f.item;
     }
 
     public E getLast() {
         final Node<E> l = last;
-        if(l == null)
+        if (l == null)
             throw new NoSuchElementException();
         return l.item;
     }
 
     public E removeFirst() {
         final Node<E> f = first;
-        if(f == null)
+        if (f == null)
             throw new NoSuchElementException();
         return unlinkFirst(f);
     }
 
     public E removeLast() {
         final Node<E> l = last;
-        if(l == null)
+        if (l == null)
             throw new NoSuchElementException();
         return unlinkLast(l);
     }
@@ -170,17 +170,17 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
     }
 
     public boolean remove(Object o) {
-        if(o == null) {
-            for(Node<E> x = first; x != null; x = x.next) {
-                if(x.item == null) {
+        if (o == null) {
+            for (Node<E> x = first; x != null; x = x.next) {
+                if (x.item == null) {
                     unlink(x);
                     return true;
                 }
             }
         }
         else {
-            for(Node<E> x = first; x != null; x = x.next) {
-                if(o.equals(x.item)) {
+            for (Node<E> x = first; x != null; x = x.next) {
+                if (o.equals(x.item)) {
                     unlink(x);
                     return true;
                 }
@@ -198,11 +198,11 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
 
         Object[] a = c.toArray();
         int numNew = a.length;
-        if(numNew == 0)
+        if (numNew == 0)
             return false;
 
         Node<E> pred, succ;
-        if(index == size) {
+        if (index == size) {
             succ = null;
             pred = last;
         }
@@ -211,18 +211,18 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
             pred = succ.prev;
         }
 
-        for(Object o : a) {
+        for (Object o : a) {
             @SuppressWarnings("unchecked")
             E e = (E)o;
             Node<E> newNode = new Node<>(pred, e, null);
-            if(pred == null)
+            if (pred == null)
                 first = newNode;
             else
                 pred.next = newNode;
             pred = newNode;
         }
 
-        if(succ == null) {
+        if (succ == null) {
             last = pred;
         }
         else {
@@ -236,7 +236,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
     }
 
     public void clear() {
-        for(Node<E> x = first; x != null; ) {
+        for (Node<E> x = first; x != null; ) {
             Node<E> next = x.next;
             x.item = null;
             x.next = null;
@@ -264,7 +264,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
     public void add(int index, E element) {
         checkPositionIndex(index);
 
-        if(index == size)
+        if (index == size)
             linkLast(element);
         else
             linkBefore(element, node(index));
@@ -288,25 +288,25 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
     }
 
     private void checkElementIndex(int index) {
-        if(!isElementIndex(index))
+        if (!isElementIndex(index))
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
     }
 
     private void checkPositionIndex(int index) {
-        if(!isPositionIndex(index))
+        if (!isPositionIndex(index))
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
     }
 
     Node<E> node(int index) {
-        if(index < (size >> 1)) {
+        if (index < (size >> 1)) {
             Node<E> x = first;
-            for(int i = 0; i < index; i++)
+            for (int i = 0; i < index; i++)
                 x = x.next;
             return x;
         }
         else {
             Node<E> x = last;
-            for(int i = size - 1; i > index; i--)
+            for (int i = size - 1; i > index; i--)
                 x = x.prev;
             return x;
         }
@@ -314,16 +314,16 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
 
     public int indexOf(Object o) {
         int index = 0;
-        if(o == null) {
-            for(Node<E> x = first; x != null; x = x.next) {
-                if(x.item == null)
+        if (o == null) {
+            for (Node<E> x = first; x != null; x = x.next) {
+                if (x.item == null)
                     return index;
                 index++;
             }
         }
         else {
-            for(Node<E> x = first; x != null; x = x.next) {
-                if(o.equals(x.item))
+            for (Node<E> x = first; x != null; x = x.next) {
+                if (o.equals(x.item))
                     return index;
                 index++;
             }
@@ -333,17 +333,17 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
 
     public int lastIndexOf(Object o) {
         int index = size;
-        if(o == null) {
-            for(Node<E> x = last; x != null; x = x.prev) {
+        if (o == null) {
+            for (Node<E> x = last; x != null; x = x.prev) {
                 index--;
-                if(x.item == null)
+                if (x.item == null)
                     return index;
             }
         }
         else {
-            for(Node<E> x = last; x != null; x = x.prev) {
+            for (Node<E> x = last; x != null; x = x.prev) {
                 index--;
-                if(o.equals(x.item))
+                if (o.equals(x.item))
                     return index;
             }
         }
@@ -415,17 +415,17 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
     }
 
     public boolean removeLastOccurrence(Object o) {
-        if(o == null) {
-            for(Node<E> x = last; x != null; x = x.prev) {
-                if(x.item == null) {
+        if (o == null) {
+            for (Node<E> x = last; x != null; x = x.prev) {
+                if (x.item == null) {
                     unlink(x);
                     return true;
                 }
             }
         }
         else {
-            for(Node<E> x = last; x != null; x = x.prev) {
-                if(o.equals(x.item)) {
+            for (Node<E> x = last; x != null; x = x.prev) {
+                if (o.equals(x.item)) {
                     unlink(x);
                     return true;
                 }
@@ -456,7 +456,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
 
         public E next() {
             checkForComodification();
-            if(!hasNext())
+            if (!hasNext())
                 throw new NoSuchElementException();
 
             lastReturned = next;
@@ -471,7 +471,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
 
         public E previous() {
             checkForComodification();
-            if(!hasPrevious())
+            if (!hasPrevious())
                 throw new NoSuchElementException();
 
             lastReturned = next = (next == null) ? last : next.prev;
@@ -489,12 +489,12 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
 
         public void remove() {
             checkForComodification();
-            if(lastReturned == null)
+            if (lastReturned == null)
                 throw new IllegalStateException();
 
             Node<E> lastNext = lastReturned.next;
             unlink(lastReturned);
-            if(next == lastReturned)
+            if (next == lastReturned)
                 next = lastNext;
             else
                 nextIndex--;
@@ -503,7 +503,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
         }
 
         public void set(E e) {
-            if(lastReturned == null)
+            if (lastReturned == null)
                 throw new IllegalStateException();
             checkForComodification();
             lastReturned.item = e;
@@ -512,7 +512,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
         public void add(E e) {
             checkForComodification();
             lastReturned = null;
-            if(next == null)
+            if (next == null)
                 linkLast(e);
             else
                 linkBefore(e, next);
@@ -522,7 +522,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
 
         public void forEachRemaining(Consumer<? super E> action) {
             Objects.requireNonNull(action);
-            while(modCount == expectedModCount && nextIndex < size) {
+            while (modCount == expectedModCount && nextIndex < size) {
                 action.accept(next.item);
                 lastReturned = next;
                 next = next.next;
@@ -532,7 +532,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
         }
 
         final void checkForComodification() {
-            if(modCount != expectedModCount)
+            if (modCount != expectedModCount)
                 throw new ConcurrentModificationException();
         }
     }
@@ -571,7 +571,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
         try {
             return (LinkedList<E>)super.clone();
         }
-        catch(CloneNotSupportedException e) {
+        catch (CloneNotSupportedException e) {
             throw new InternalError(e);
         }
     }
@@ -583,7 +583,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
         clone.size = 0;
         clone.modCount = 0;
 
-        for(Node<E> x = first; x != null; x = x.next)
+        for (Node<E> x = first; x != null; x = x.next)
             clone.add(x.item);
 
         return clone;
@@ -592,22 +592,22 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
     public Object[] toArray() {
         Object[] result = new Object[size];
         int i = 0;
-        for(Node<E> x = first; x != null; x = x.next)
+        for (Node<E> x = first; x != null; x = x.next)
             result[i++] = x.item;
         return result;
     }
 
     @SuppressWarnings("unchecked")
     public <T> T[] toArray(T[] a) {
-        if(a.length < size)
+        if (a.length < size)
             a = (T[])java.lang.reflect.Array.newInstance(
                                 a.getClass().getComponentType(), size);
         int i = 0;
         Object[] result = a;
-        for(Node<E> x = first; x != null; x = x.next)
+        for (Node<E> x = first; x != null; x = x.next)
             result[i++] = x.item;
 
-        if(a.length > size)
+        if (a.length > size)
             a[size] = null;
 
         return a;
@@ -624,7 +624,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
     //     s.writeInt(size);
 
     //     // Write out all elements in the proper order.
-    //     for(Node<E> x = first; x != null; x = x.next)
+    //     for (Node<E> x = first; x != null; x = x.next)
     //         s.writeObject(x.item);
     // }
 
@@ -640,7 +640,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
     //     int size = s.readInt();
 
     //     // Read in all elements in the proper order.
-    //     for(int i = 0; i < size; i++)
+    //     for (int i = 0; i < size; i++)
     //         linkLast((E)s.readObject());
     // }
 
@@ -667,8 +667,8 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
         final int getEst() {
             int s;
             final LinkedList<E> lst;
-            if((s = est) < 0) {
-                if((lst = list) == null)
+            if ((s = est) < 0) {
+                if ((lst = list) == null)
                     s = est = 0;
                 else {
                     expectedModCount = lst.modCount;
@@ -686,17 +686,17 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
         public Spliterator<E> trySplit() {
             Node<E> p;
             int s = getEst();
-            if(s > 1 && (p = current) != null) {
+            if (s > 1 && (p = current) != null) {
                 int n = batch + BATCH_UNIT;
-                if(n > s)
+                if (n > s)
                     n = s;
-                if(n > MAX_BATCH)
+                if (n > MAX_BATCH)
                     n = MAX_BATCH;
                 Object[] a = new Object[n];
                 int j = 0;
                 do {
                     a[j++] = p.item;
-                } while((p = p.next) != null && j < n);
+                } while ((p = p.next) != null && j < n);
                 current = p;
                 batch = j;
                 est = s - j;
@@ -707,29 +707,29 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
 
         public void forEachRemaining(Consumer<? super E> action) {
             Node<E> p; int n;
-            if(action == null) throw new NullPointerException();
-            if((n = getEst()) > 0 && (p = current) != null) {
+            if (action == null) throw new NullPointerException();
+            if ((n = getEst()) > 0 && (p = current) != null) {
                 current = null;
                 est = 0;
                 do {
                     E e = p.item;
                     p = p.next;
                     action.accept(e);
-                } while(p != null && --n > 0);
+                } while (p != null && --n > 0);
             }
-            if(list.modCount != expectedModCount)
+            if (list.modCount != expectedModCount)
                 throw new ConcurrentModificationException();
         }
 
         public boolean tryAdvance(Consumer<? super E> action) {
             Node<E> p;
-            if(action == null) throw new NullPointerException();
-            if(getEst() > 0 && (p = current) != null) {
+            if (action == null) throw new NullPointerException();
+            if (getEst() > 0 && (p = current) != null) {
                 --est;
                 E e = p.item;
                 current = p.next;
                 action.accept(e);
-                if(list.modCount != expectedModCount)
+                if (list.modCount != expectedModCount)
                     throw new ConcurrentModificationException();
                 return true;
             }

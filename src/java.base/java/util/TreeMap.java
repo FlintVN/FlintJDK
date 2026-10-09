@@ -36,7 +36,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     //     try {
     //         buildFromSorted(m.size(), m.entrySet().iterator(), null, null);
     //     }
-    //     catch(java.io.IOException | ClassNotFoundException cannotHappen) {
+    //     catch (java.io.IOException | ClassNotFoundException cannotHappen) {
 
     //     }
     // }
@@ -50,8 +50,8 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     }
 
     public boolean containsValue(Object value) {
-        for(Entry<K,V> e = getFirstEntry(); e != null; e = successor(e))
-            if(valEquals(value, e.value))
+        for (Entry<K,V> e = getFirstEntry(); e != null; e = successor(e))
+            if (valEquals(value, e.value))
                 return true;
         return false;
     }
@@ -84,13 +84,13 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     // TODO
     // public void putAll(Map<? extends K, ? extends V> map) {
     //     int mapSize = map.size();
-    //     if(size == 0 && mapSize!=0 && map instanceof SortedMap) {
-    //         if(Objects.equals(comparator, ((SortedMap<?,?>)map).comparator())) {
+    //     if (size == 0 && mapSize!=0 && map instanceof SortedMap) {
+    //         if (Objects.equals(comparator, ((SortedMap<?,?>)map).comparator())) {
     //             ++modCount;
     //             try {
     //                 buildFromSorted(mapSize, map.entrySet().iterator(), null, null);
     //             }
-    //             catch(java.io.IOException | ClassNotFoundException cannotHappen) {
+    //             catch (java.io.IOException | ClassNotFoundException cannotHappen) {
 
     //             }
     //             return;
@@ -100,17 +100,17 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     // }
 
     final Entry<K,V> getEntry(Object key) {
-        if(comparator != null)
+        if (comparator != null)
             return getEntryUsingComparator(key);
         Objects.requireNonNull(key);
         @SuppressWarnings("unchecked")
             Comparable<? super K> k = (Comparable<? super K>) key;
         Entry<K,V> p = root;
-        while(p != null) {
+        while (p != null) {
             int cmp = k.compareTo(p.key);
-            if(cmp < 0)
+            if (cmp < 0)
                 p = p.left;
-            else if(cmp > 0)
+            else if (cmp > 0)
                 p = p.right;
             else
                 return p;
@@ -122,13 +122,13 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         @SuppressWarnings("unchecked")
         K k = (K) key;
         Comparator<? super K> cpr = comparator;
-        if(cpr != null) {
+        if (cpr != null) {
             Entry<K,V> p = root;
-            while(p != null) {
+            while (p != null) {
                 int cmp = cpr.compare(k, p.key);
-                if(cmp < 0)
+                if (cmp < 0)
                     p = p.left;
-                else if(cmp > 0)
+                else if (cmp > 0)
                     p = p.right;
                 else
                     return p;
@@ -139,21 +139,21 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
 
     final Entry<K,V> getCeilingEntry(K key) {
         Entry<K,V> p = root;
-        while(p != null) {
+        while (p != null) {
             int cmp = compare(key, p.key);
-            if(cmp < 0) {
-                if(p.left != null)
+            if (cmp < 0) {
+                if (p.left != null)
                     p = p.left;
                 else
                     return p;
             }
-            else if(cmp > 0) {
-                if(p.right != null)
+            else if (cmp > 0) {
+                if (p.right != null)
                     p = p.right;
                 else {
                     Entry<K,V> parent = p.parent;
                     Entry<K,V> ch = p;
-                    while(parent != null && ch == parent.right) {
+                    while (parent != null && ch == parent.right) {
                         ch = parent;
                         parent = parent.parent;
                     }
@@ -168,21 +168,21 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
 
     final Entry<K,V> getFloorEntry(K key) {
         Entry<K,V> p = root;
-        while(p != null) {
+        while (p != null) {
             int cmp = compare(key, p.key);
-            if(cmp > 0) {
-                if(p.right != null)
+            if (cmp > 0) {
+                if (p.right != null)
                     p = p.right;
                 else
                     return p;
             }
-            else if(cmp < 0) {
-                if(p.left != null)
+            else if (cmp < 0) {
+                if (p.left != null)
                     p = p.left;
                 else {
                     Entry<K,V> parent = p.parent;
                     Entry<K,V> ch = p;
-                    while(parent != null && ch == parent.left) {
+                    while (parent != null && ch == parent.left) {
                         ch = parent;
                         parent = parent.parent;
                     }
@@ -197,21 +197,21 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
 
     final Entry<K,V> getHigherEntry(K key) {
         Entry<K,V> p = root;
-        while(p != null) {
+        while (p != null) {
             int cmp = compare(key, p.key);
-            if(cmp < 0) {
-                if(p.left != null)
+            if (cmp < 0) {
+                if (p.left != null)
                     p = p.left;
                 else
                     return p;
             }
             else {
-                if(p.right != null)
+                if (p.right != null)
                     p = p.right;
                 else {
                     Entry<K,V> parent = p.parent;
                     Entry<K,V> ch = p;
-                    while(parent != null && ch == parent.right) {
+                    while (parent != null && ch == parent.right) {
                         ch = parent;
                         parent = parent.parent;
                     }
@@ -224,21 +224,21 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
 
     final Entry<K,V> getLowerEntry(K key) {
         Entry<K,V> p = root;
-        while(p != null) {
+        while (p != null) {
             int cmp = compare(key, p.key);
-            if(cmp > 0) {
-                if(p.right != null)
+            if (cmp > 0) {
+                if (p.right != null)
                     p = p.right;
                 else
                     return p;
             }
             else {
-                if(p.left != null)
+                if (p.left != null)
                     p = p.left;
                 else {
                     Entry<K,V> parent = p.parent;
                     Entry<K,V> ch = p;
-                    while(parent != null && ch == parent.left) {
+                    while (parent != null && ch == parent.left) {
                         ch = parent;
                         parent = parent.parent;
                     }
@@ -263,9 +263,9 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         Objects.requireNonNull(mappingFunction);
         V newValue;
         Entry<K,V> t = root;
-        if(t == null) {
+        if (t == null) {
             newValue = callMappingFunctionWithCheck(key, mappingFunction);
-            if(newValue != null) {
+            if (newValue != null) {
                 addEntryToEmptyMap(key, newValue);
                 return newValue;
             }
@@ -275,21 +275,21 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         int cmp;
         Entry<K,V> parent;
         Comparator<? super K> cpr = comparator;
-        if(cpr != null) {
+        if (cpr != null) {
             do {
                 parent = t;
                 cmp = cpr.compare(key, t.key);
-                if(cmp < 0)
+                if (cmp < 0)
                     t = t.left;
-                else if(cmp > 0)
+                else if (cmp > 0)
                     t = t.right;
                 else {
-                    if(t.value == null) {
+                    if (t.value == null) {
                         t.value = callMappingFunctionWithCheck(key, mappingFunction);
                     }
                     return t.value;
                 }
-            } while(t != null);
+            } while (t != null);
         }
         else {
             Objects.requireNonNull(key);
@@ -298,20 +298,20 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
             do {
                 parent = t;
                 cmp = k.compareTo(t.key);
-                if(cmp < 0)
+                if (cmp < 0)
                     t = t.left;
-                else if(cmp > 0)
+                else if (cmp > 0)
                     t = t.right;
                 else {
-                    if(t.value == null) {
+                    if (t.value == null) {
                         t.value = callMappingFunctionWithCheck(key, mappingFunction);
                     }
                     return t.value;
                 }
-            } while(t != null);
+            } while (t != null);
         }
         newValue = callMappingFunctionWithCheck(key, mappingFunction);
-        if(newValue != null) {
+        if (newValue != null) {
             addEntry(key, newValue, parent, cmp < 0);
             return newValue;
         }
@@ -322,7 +322,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     public V computeIfPresent(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
         Objects.requireNonNull(remappingFunction);
         Entry<K,V> oldEntry = getEntry(key);
-        if(oldEntry != null && oldEntry.value != null)
+        if (oldEntry != null && oldEntry.value != null)
             return remapValue(oldEntry, key, remappingFunction);
         else
             return null;
@@ -333,9 +333,9 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         Objects.requireNonNull(remappingFunction);
         V newValue;
         Entry<K,V> t = root;
-        if(t == null) {
+        if (t == null) {
             newValue = callRemappingFunctionWithCheck(key, null, remappingFunction);
-            if(newValue != null) {
+            if (newValue != null) {
                 addEntryToEmptyMap(key, newValue);
                 return newValue;
             }
@@ -345,17 +345,17 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         int cmp;
         Entry<K,V> parent;
         Comparator<? super K> cpr = comparator;
-        if(cpr != null) {
+        if (cpr != null) {
             do {
                 parent = t;
                 cmp = cpr.compare(key, t.key);
-                if(cmp < 0)
+                if (cmp < 0)
                     t = t.left;
-                else if(cmp > 0)
+                else if (cmp > 0)
                     t = t.right;
                 else
                     return remapValue(t, key, remappingFunction);
-            } while(t != null);
+            } while (t != null);
         }
         else {
             Objects.requireNonNull(key);
@@ -364,16 +364,16 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
             do {
                 parent = t;
                 cmp = k.compareTo(t.key);
-                if(cmp < 0)
+                if (cmp < 0)
                     t = t.left;
-                else if(cmp > 0)
+                else if (cmp > 0)
                     t = t.right;
                 else
                     return remapValue(t, key, remappingFunction);
-            } while(t != null);
+            } while (t != null);
         }
         newValue = callRemappingFunctionWithCheck(key, null, remappingFunction);
-        if(newValue != null) {
+        if (newValue != null) {
             addEntry(key, newValue, parent, cmp < 0);
             return newValue;
         }
@@ -385,24 +385,24 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         Objects.requireNonNull(remappingFunction);
         Objects.requireNonNull(value);
         Entry<K,V> t = root;
-        if(t == null) {
+        if (t == null) {
             addEntryToEmptyMap(key, value);
             return value;
         }
         int cmp;
         Entry<K,V> parent;
         Comparator<? super K> cpr = comparator;
-        if(cpr != null) {
+        if (cpr != null) {
             do {
                 parent = t;
                 cmp = cpr.compare(key, t.key);
-                if(cmp < 0)
+                if (cmp < 0)
                     t = t.left;
-                else if(cmp > 0)
+                else if (cmp > 0)
                     t = t.right;
                 else
                     return mergeValue(t, value, remappingFunction);
-            } while(t != null);
+            } while (t != null);
         }
         else {
             Objects.requireNonNull(key);
@@ -411,13 +411,13 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
             do {
                 parent = t;
                 cmp = k.compareTo(t.key);
-                if(cmp < 0)
+                if (cmp < 0)
                     t = t.left;
-                else if(cmp > 0)
+                else if (cmp > 0)
                     t = t.right;
                 else
                     return mergeValue(t, value, remappingFunction);
-            } while(t != null);
+            } while (t != null);
         }
         addEntry(key, value, parent, cmp < 0);
         return value;
@@ -426,7 +426,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     private V callMappingFunctionWithCheck(K key, Function<? super K, ? extends V> mappingFunction) {
         int mc = modCount;
         V newValue = mappingFunction.apply(key);
-        if(mc != modCount)
+        if (mc != modCount)
             throw new ConcurrentModificationException();
         return newValue;
     }
@@ -434,14 +434,14 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     private V callRemappingFunctionWithCheck(K key, V oldValue, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
         int mc = modCount;
         V newValue = remappingFunction.apply(key, oldValue);
-        if(mc != modCount)
+        if (mc != modCount)
             throw new ConcurrentModificationException();
         return newValue;
     }
 
     private void addEntry(K key, V value, Entry<K, V> parent, boolean addToLeft) {
         Entry<K,V> e = new Entry<>(key, value, parent);
-        if(addToLeft)
+        if (addToLeft)
             parent.left = e;
         else
             parent.right = e;
@@ -459,28 +459,28 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
 
     private V put(K key, V value, boolean replaceOld) {
         Entry<K,V> t = root;
-        if(t == null) {
+        if (t == null) {
             addEntryToEmptyMap(key, value);
             return null;
         }
         int cmp;
         Entry<K,V> parent;
         Comparator<? super K> cpr = comparator;
-        if(cpr != null) {
+        if (cpr != null) {
             do {
                 parent = t;
                 cmp = cpr.compare(key, t.key);
-                if(cmp < 0)
+                if (cmp < 0)
                     t = t.left;
-                else if(cmp > 0)
+                else if (cmp > 0)
                     t = t.right;
                 else {
                     V oldValue = t.value;
-                    if(replaceOld || oldValue == null)
+                    if (replaceOld || oldValue == null)
                         t.value = value;
                     return oldValue;
                 }
-            } while(t != null);
+            } while (t != null);
         }
         else {
             Objects.requireNonNull(key);
@@ -489,17 +489,17 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
             do {
                 parent = t;
                 cmp = k.compareTo(t.key);
-                if(cmp < 0)
+                if (cmp < 0)
                     t = t.left;
-                else if(cmp > 0)
+                else if (cmp > 0)
                     t = t.right;
                 else {
                     V oldValue = t.value;
-                    if(replaceOld || oldValue == null)
+                    if (replaceOld || oldValue == null)
                         t.value = value;
                     return oldValue;
                 }
-            } while(t != null);
+            } while (t != null);
         }
         addEntry(key, value, parent, cmp < 0);
         return null;
@@ -507,7 +507,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
 
     private V remapValue(Entry<K,V> t, K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
         V newValue = callRemappingFunctionWithCheck(key, t.value, remappingFunction);
-        if(newValue == null) {
+        if (newValue == null) {
             deleteEntry(t);
             return null;
         }
@@ -520,15 +520,15 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     private V mergeValue(Entry<K,V> t, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
         V oldValue = t.value;
         V newValue;
-        if(t.value == null)
+        if (t.value == null)
             newValue = value;
         else {
             int mc = modCount;
             newValue = remappingFunction.apply(oldValue, value);
-            if(mc != modCount)
+            if (mc != modCount)
                 throw new ConcurrentModificationException();
         }
-        if(newValue == null) {
+        if (newValue == null) {
             deleteEntry(t);
             return null;
         }
@@ -540,7 +540,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
 
     public V remove(Object key) {
         Entry<K,V> p = getEntry(key);
-        if(p == null)
+        if (p == null)
             return null;
 
         V oldValue = p.value;
@@ -560,7 +560,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     //     try {
     //         clone = (TreeMap<?,?>) super.clone();
     //     }
-    //     catch(CloneNotSupportedException e) {
+    //     catch (CloneNotSupportedException e) {
     //         throw new InternalError(e);
     //     }
 
@@ -574,7 +574,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     //     try {
     //         clone.buildFromSorted(size, entrySet().iterator(), null, null);
     //     }
-    //     catch(java.io.IOException | ClassNotFoundException cannotHappen) {
+    //     catch (java.io.IOException | ClassNotFoundException cannotHappen) {
 
     //     }
 
@@ -592,7 +592,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     public Map.Entry<K,V> pollFirstEntry() {
         Entry<K,V> p = getFirstEntry();
         Map.Entry<K,V> result = exportEntry(p);
-        if(p != null)
+        if (p != null)
             deleteEntry(p);
         return result;
     }
@@ -600,7 +600,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     public Map.Entry<K,V> pollLastEntry() {
         Entry<K,V> p = getLastEntry();
         Map.Entry<K,V> result = exportEntry(p);
-        if(p != null)
+        if (p != null)
             deleteEntry(p);
         return result;
     }
@@ -656,7 +656,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
 
     public Collection<V> values() {
         Collection<V> vs = values;
-        if(vs == null) {
+        if (vs == null) {
             vs = new Values();
             values = vs;
         }
@@ -701,7 +701,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     @Override
     public boolean replace(K key, V oldValue, V newValue) {
         Entry<K,V> p = getEntry(key);
-        if(p!=null && Objects.equals(oldValue, p.value)) {
+        if (p!=null && Objects.equals(oldValue, p.value)) {
             p.value = newValue;
             return true;
         }
@@ -711,7 +711,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     @Override
     public V replace(K key, V value) {
         Entry<K,V> p = getEntry(key);
-        if(p!=null) {
+        if (p!=null) {
             V oldValue = p.value;
             p.value = value;
             return oldValue;
@@ -723,10 +723,10 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     public void forEach(BiConsumer<? super K, ? super V> action) {
         Objects.requireNonNull(action);
         int expectedModCount = modCount;
-        for(Entry<K, V> e = getFirstEntry(); e != null; e = successor(e)) {
+        for (Entry<K, V> e = getFirstEntry(); e != null; e = successor(e)) {
             action.accept(e.key, e.value);
 
-            if(expectedModCount != modCount)
+            if (expectedModCount != modCount)
                 throw new ConcurrentModificationException();
         }
     }
@@ -736,10 +736,10 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         Objects.requireNonNull(function);
         int expectedModCount = modCount;
 
-        for(Entry<K, V> e = getFirstEntry(); e != null; e = successor(e)) {
+        for (Entry<K, V> e = getFirstEntry(); e != null; e = successor(e)) {
             e.value = function.apply(e.key, e.value);
 
-            if(expectedModCount != modCount)
+            if (expectedModCount != modCount)
                 throw new ConcurrentModificationException();
         }
     }
@@ -758,8 +758,8 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         }
 
         public boolean remove(Object o) {
-            for(Entry<K,V> e = getFirstEntry(); e != null; e = successor(e)) {
-                if(valEquals(e.getValue(), o)) {
+            for (Entry<K,V> e = getFirstEntry(); e != null; e = successor(e)) {
+                if (valEquals(e.getValue(), o)) {
                     deleteEntry(e);
                     return true;
                 }
@@ -782,7 +782,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         }
 
         public boolean contains(Object o) {
-            if(!(o instanceof Map.Entry<?, ?> entry))
+            if (!(o instanceof Map.Entry<?, ?> entry))
                 return false;
             Object value = entry.getValue();
             Entry<K,V> p = getEntry(entry.getKey());
@@ -790,11 +790,11 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         }
 
         public boolean remove(Object o) {
-            if(!(o instanceof Map.Entry<?, ?> entry))
+            if (!(o instanceof Map.Entry<?, ?> entry))
                 return false;
             Object value = entry.getValue();
             Entry<K,V> p = getEntry(entry.getKey());
-            if(p != null && valEquals(p.getValue(), value)) {
+            if (p != null && valEquals(p.getValue(), value)) {
                 deleteEntry(p);
                 return true;
             }
@@ -827,14 +827,14 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         KeySet(NavigableMap<E,?> map) { m = map; }
 
         public Iterator<E> iterator() {
-            if(m instanceof TreeMap)
+            if (m instanceof TreeMap)
                 return ((TreeMap<E,?>)m).keyIterator();
             else
                 return ((TreeMap.NavigableSubMap<E,?>)m).keyIterator();
         }
 
         public Iterator<E> descendingIterator() {
-            if(m instanceof TreeMap)
+            if (m instanceof TreeMap)
                 return ((TreeMap<E,?>)m).descendingKeyIterator();
             else
                 return ((TreeMap.NavigableSubMap<E,?>)m).descendingKeyIterator();
@@ -950,9 +950,9 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
 
         final Entry<K,V> nextEntry() {
             Entry<K,V> e = next;
-            if(e == null)
+            if (e == null)
                 throw new NoSuchElementException();
-            if(modCount != expectedModCount)
+            if (modCount != expectedModCount)
                 throw new ConcurrentModificationException();
             next = successor(e);
             lastReturned = e;
@@ -961,9 +961,9 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
 
         final Entry<K,V> prevEntry() {
             Entry<K,V> e = next;
-            if(e == null)
+            if (e == null)
                 throw new NoSuchElementException();
-            if(modCount != expectedModCount)
+            if (modCount != expectedModCount)
                 throw new ConcurrentModificationException();
             next = predecessor(e);
             lastReturned = e;
@@ -971,11 +971,11 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         }
 
         public void remove() {
-            if(lastReturned == null)
+            if (lastReturned == null)
                 throw new IllegalStateException();
-            if(modCount != expectedModCount)
+            if (modCount != expectedModCount)
                 throw new ConcurrentModificationException();
-            if(lastReturned.left != null && lastReturned.right != null)
+            if (lastReturned.left != null && lastReturned.right != null)
                 next = lastReturned;
             deleteEntry(lastReturned);
             expectedModCount = modCount;
@@ -1023,9 +1023,9 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         }
 
         public void remove() {
-            if(lastReturned == null)
+            if (lastReturned == null)
                 throw new IllegalStateException();
-            if(modCount != expectedModCount)
+            if (modCount != expectedModCount)
                 throw new ConcurrentModificationException();
             deleteEntry(lastReturned);
             lastReturned = null;
@@ -1052,7 +1052,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     }
 
     static <K> K key(Entry<K,?> e) {
-        if(e == null)
+        if (e == null)
             throw new NoSuchElementException();
         return e.key;
     }
@@ -1070,14 +1070,14 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         final boolean loInclusive, hiInclusive;
 
         NavigableSubMap(TreeMap<K,V> m, boolean fromStart, K lo, boolean loInclusive, boolean toEnd, K hi, boolean hiInclusive) {
-            if(!fromStart && !toEnd) {
-                if(m.compare(lo, hi) > 0)
+            if (!fromStart && !toEnd) {
+                if (m.compare(lo, hi) > 0)
                     throw new IllegalArgumentException("fromKey > toKey");
             }
             else {
-                if(!fromStart)
+                if (!fromStart)
                     m.compare(lo, lo);
-                if(!toEnd)
+                if (!toEnd)
                     m.compare(hi, hi);
             }
 
@@ -1091,18 +1091,18 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         }
 
         final boolean tooLow(Object key) {
-            if(!fromStart) {
+            if (!fromStart) {
                 int c = m.compare(key, lo);
-                if(c < 0 || (c == 0 && !loInclusive))
+                if (c < 0 || (c == 0 && !loInclusive))
                     return true;
             }
             return false;
         }
 
         final boolean tooHigh(Object key) {
-            if(!toEnd) {
+            if (!toEnd) {
                 int c = m.compare(key, hi);
-                if(c > 0 || (c == 0 && !hiInclusive))
+                if (c > 0 || (c == 0 && !hiInclusive))
                     return true;
             }
             return false;
@@ -1132,28 +1132,28 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         }
 
         final TreeMap.Entry<K,V> absCeiling(K key) {
-            if(tooLow(key))
+            if (tooLow(key))
                 return absLowest();
             TreeMap.Entry<K,V> e = m.getCeilingEntry(key);
             return (e == null || tooHigh(e.key)) ? null : e;
         }
 
         final TreeMap.Entry<K,V> absHigher(K key) {
-            if(tooLow(key))
+            if (tooLow(key))
                 return absLowest();
             TreeMap.Entry<K,V> e = m.getHigherEntry(key);
             return (e == null || tooHigh(e.key)) ? null : e;
         }
 
         final TreeMap.Entry<K,V> absFloor(K key) {
-            if(tooHigh(key))
+            if (tooHigh(key))
                 return absHighest();
             TreeMap.Entry<K,V> e = m.getFloorEntry(key);
             return (e == null || tooLow(e.key)) ? null : e;
         }
 
         final TreeMap.Entry<K,V> absLower(K key) {
-            if(tooHigh(key))
+            if (tooHigh(key))
                 return absHighest();
             TreeMap.Entry<K,V> e = m.getLowerEntry(key);
             return (e == null || tooLow(e.key)) ? null : e;
@@ -1193,34 +1193,34 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         }
 
         public final V put(K key, V value) {
-            if(!inRange(key))
+            if (!inRange(key))
                 throw new IllegalArgumentException("key out of range");
             return m.put(key, value);
         }
 
         public V putIfAbsent(K key, V value) {
-            if(!inRange(key))
+            if (!inRange(key))
                 throw new IllegalArgumentException("key out of range");
             return m.putIfAbsent(key, value);
         }
 
         public V merge(K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
-            if(!inRange(key))
+            if (!inRange(key))
                 throw new IllegalArgumentException("key out of range");
             return m.merge(key, value, remappingFunction);
         }
 
         public V computeIfAbsent(K key, Function<? super K, ? extends V> mappingFunction) {
-            if(!inRange(key)) {
-                if(mappingFunction.apply(key) == null) return null;
+            if (!inRange(key)) {
+                if (mappingFunction.apply(key) == null) return null;
                 throw new IllegalArgumentException("key out of range");
             }
             return m.computeIfAbsent(key, mappingFunction);
         }
 
         public V compute(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-            if(!inRange(key)) {
-                if(remappingFunction.apply(key, null) == null) return null;
+            if (!inRange(key)) {
+                if (remappingFunction.apply(key, null) == null) return null;
                 throw new IllegalArgumentException("key out of range");
             }
             return m.compute(key, remappingFunction);
@@ -1289,7 +1289,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         public final Map.Entry<K,V> pollFirstEntry() {
             TreeMap.Entry<K,V> e = subLowest();
             Map.Entry<K,V> result = exportEntry(e);
-            if(e != null)
+            if (e != null)
                 m.deleteEntry(e);
             return result;
         }
@@ -1297,7 +1297,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         public final Map.Entry<K,V> pollLastEntry() {
             TreeMap.Entry<K,V> e = subHighest();
             Map.Entry<K,V> result = exportEntry(e);
-            if(e != null)
+            if (e != null)
                 m.deleteEntry(e);
             return result;
         }
@@ -1335,13 +1335,13 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
             private transient int size = -1, sizeModCount;
 
             public int size() {
-                if(fromStart && toEnd)
+                if (fromStart && toEnd)
                     return m.size();
-                if(size == -1 || sizeModCount != m.modCount) {
+                if (size == -1 || sizeModCount != m.modCount) {
                     sizeModCount = m.modCount;
                     size = 0;
                     Iterator<?> i = iterator();
-                    while(i.hasNext()) {
+                    while (i.hasNext()) {
                         size++;
                         i.next();
                     }
@@ -1355,23 +1355,23 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
             }
 
             public boolean contains(Object o) {
-                if(!(o instanceof Entry<?, ?> entry))
+                if (!(o instanceof Entry<?, ?> entry))
                     return false;
                 Object key = entry.getKey();
-                if(!inRange(key))
+                if (!inRange(key))
                     return false;
                 TreeMap.Entry<?,?> node = m.getEntry(key);
                 return node != null && valEquals(node.getValue(), entry.getValue());
             }
 
             public boolean remove(Object o) {
-                if(!(o instanceof Entry<?, ?> entry))
+                if (!(o instanceof Entry<?, ?> entry))
                     return false;
                 Object key = entry.getKey();
-                if(!inRange(key))
+                if (!inRange(key))
                     return false;
                 TreeMap.Entry<K,V> node = m.getEntry(key);
-                if(node!=null && valEquals(node.getValue(), entry.getValue())) {
+                if (node!=null && valEquals(node.getValue(), entry.getValue())) {
                     m.deleteEntry(node);
                     return true;
                 }
@@ -1398,9 +1398,9 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
 
             final TreeMap.Entry<K,V> nextEntry() {
                 TreeMap.Entry<K,V> e = next;
-                if(e == null || e.key == fenceKey)
+                if (e == null || e.key == fenceKey)
                     throw new NoSuchElementException();
-                if(m.modCount != expectedModCount)
+                if (m.modCount != expectedModCount)
                     throw new ConcurrentModificationException();
                 next = successor(e);
                 lastReturned = e;
@@ -1409,9 +1409,9 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
 
             final TreeMap.Entry<K,V> prevEntry() {
                 TreeMap.Entry<K,V> e = next;
-                if(e == null || e.key == fenceKey)
+                if (e == null || e.key == fenceKey)
                     throw new NoSuchElementException();
-                if(m.modCount != expectedModCount)
+                if (m.modCount != expectedModCount)
                     throw new ConcurrentModificationException();
                 next = predecessor(e);
                 lastReturned = e;
@@ -1419,11 +1419,11 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
             }
 
             final void removeAscending() {
-                if(lastReturned == null)
+                if (lastReturned == null)
                     throw new IllegalStateException();
-                if(m.modCount != expectedModCount)
+                if (m.modCount != expectedModCount)
                     throw new ConcurrentModificationException();
-                if(lastReturned.left != null && lastReturned.right != null)
+                if (lastReturned.left != null && lastReturned.right != null)
                     next = lastReturned;
                 m.deleteEntry(lastReturned);
                 lastReturned = null;
@@ -1431,9 +1431,9 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
             }
 
             final void removeDescending() {
-                if(lastReturned == null)
+                if (lastReturned == null)
                     throw new IllegalStateException();
-                if(m.modCount != expectedModCount)
+                if (m.modCount != expectedModCount)
                     throw new ConcurrentModificationException();
                 m.deleteEntry(lastReturned);
                 lastReturned = null;
@@ -1487,12 +1487,12 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
             }
 
             public void forEachRemaining(Consumer<? super K> action) {
-                while(hasNext())
+                while (hasNext())
                     action.accept(next());
             }
 
             public boolean tryAdvance(Consumer<? super K> action) {
-                if(hasNext()) {
+                if (hasNext()) {
                     action.accept(next());
                     return true;
                 }
@@ -1530,12 +1530,12 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
             }
 
             public void forEachRemaining(Consumer<? super K> action) {
-                while(hasNext())
+                while (hasNext())
                     action.accept(next());
             }
 
             public boolean tryAdvance(Consumer<? super K> action) {
-                if(hasNext()) {
+                if (hasNext()) {
                     action.accept(next());
                     return true;
                 }
@@ -1562,21 +1562,21 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         }
 
         public NavigableMap<K,V> subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
-            if(!inRange(fromKey, fromInclusive))
+            if (!inRange(fromKey, fromInclusive))
                 throw new IllegalArgumentException("fromKey out of range");
-            if(!inRange(toKey, toInclusive))
+            if (!inRange(toKey, toInclusive))
                 throw new IllegalArgumentException("toKey out of range");
             return new AscendingSubMap<>(m, false, fromKey, fromInclusive, false, toKey, toInclusive);
         }
 
         public NavigableMap<K,V> headMap(K toKey, boolean inclusive) {
-            if(!inRange(toKey, inclusive))
+            if (!inRange(toKey, inclusive))
                 throw new IllegalArgumentException("toKey out of range");
             return new AscendingSubMap<>(m, fromStart, lo, loInclusive, false, toKey, inclusive);
         }
 
         public NavigableMap<K,V> tailMap(K fromKey, boolean inclusive) {
-            if(!inRange(fromKey, inclusive))
+            if (!inRange(fromKey, inclusive))
                 throw new IllegalArgumentException("fromKey out of range");
             return new AscendingSubMap<>(m, false, fromKey, inclusive, toEnd, hi, hiInclusive);
         }
@@ -1647,21 +1647,21 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         }
 
         public NavigableMap<K,V> subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
-            if(!inRange(fromKey, fromInclusive))
+            if (!inRange(fromKey, fromInclusive))
                 throw new IllegalArgumentException("fromKey out of range");
-            if(!inRange(toKey, toInclusive))
+            if (!inRange(toKey, toInclusive))
                 throw new IllegalArgumentException("toKey out of range");
             return new DescendingSubMap<>(m, false, toKey, toInclusive, false, fromKey, fromInclusive);
         }
 
         public NavigableMap<K,V> headMap(K toKey, boolean inclusive) {
-            if(!inRange(toKey, inclusive))
+            if (!inRange(toKey, inclusive))
                 throw new IllegalArgumentException("toKey out of range");
             return new DescendingSubMap<>(m, false, toKey, inclusive, toEnd, hi, hiInclusive);
         }
 
         public NavigableMap<K,V> tailMap(K fromKey, boolean inclusive) {
-            if(!inRange(fromKey, inclusive))
+            if (!inRange(fromKey, inclusive))
                 throw new IllegalArgumentException("fromKey out of range");
             return new DescendingSubMap<>(m, fromStart, lo, loInclusive, false, fromKey, inclusive);
         }
@@ -1810,33 +1810,33 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
 
     final Entry<K,V> getFirstEntry() {
         Entry<K,V> p = root;
-        if(p != null)
-            while(p.left != null)
+        if (p != null)
+            while (p.left != null)
                 p = p.left;
         return p;
     }
 
     final Entry<K,V> getLastEntry() {
         Entry<K,V> p = root;
-        if(p != null)
-            while(p.right != null)
+        if (p != null)
+            while (p.right != null)
                 p = p.right;
         return p;
     }
 
     static <K,V> TreeMap.Entry<K,V> successor(Entry<K,V> t) {
-        if(t == null)
+        if (t == null)
             return null;
-        else if(t.right != null) {
+        else if (t.right != null) {
             Entry<K,V> p = t.right;
-            while(p.left != null)
+            while (p.left != null)
                 p = p.left;
             return p;
         }
         else {
             Entry<K,V> p = t.parent;
             Entry<K,V> ch = t;
-            while(p != null && ch == p.right) {
+            while (p != null && ch == p.right) {
                 ch = p;
                 p = p.parent;
             }
@@ -1845,18 +1845,18 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     }
 
     static <K,V> Entry<K,V> predecessor(Entry<K,V> t) {
-        if(t == null)
+        if (t == null)
             return null;
-        else if(t.left != null) {
+        else if (t.left != null) {
             Entry<K,V> p = t.left;
-            while(p.right != null)
+            while (p.right != null)
                 p = p.right;
             return p;
         }
         else {
             Entry<K,V> p = t.parent;
             Entry<K,V> ch = t;
-            while(p != null && ch == p.left) {
+            while (p != null && ch == p.left) {
                 ch = p;
                 p = p.parent;
             }
@@ -1873,7 +1873,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     }
 
     private static <K,V> void setColor(Entry<K,V> p, boolean c) {
-        if(p != null)
+        if (p != null)
             p.color = c;
     }
 
@@ -1886,15 +1886,15 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     }
 
     private void rotateLeft(Entry<K,V> p) {
-        if(p != null) {
+        if (p != null) {
             Entry<K,V> r = p.right;
             p.right = r.left;
-            if(r.left != null)
+            if (r.left != null)
                 r.left.parent = p;
             r.parent = p.parent;
-            if(p.parent == null)
+            if (p.parent == null)
                 root = r;
-            else if(p.parent.left == p)
+            else if (p.parent.left == p)
                 p.parent.left = r;
             else
                 p.parent.right = r;
@@ -1904,14 +1904,14 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     }
 
     private void rotateRight(Entry<K,V> p) {
-        if(p != null) {
+        if (p != null) {
             Entry<K,V> l = p.left;
             p.left = l.right;
-            if(l.right != null) l.right.parent = p;
+            if (l.right != null) l.right.parent = p;
             l.parent = p.parent;
-            if(p.parent == null)
+            if (p.parent == null)
                 root = l;
-            else if(p.parent.right == p)
+            else if (p.parent.right == p)
                 p.parent.right = l;
             else p.parent.left = l;
             l.right = p;
@@ -1922,17 +1922,17 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     private void fixAfterInsertion(Entry<K,V> x) {
         x.color = RED;
 
-        while(x != null && x != root && x.parent.color == RED) {
-            if(parentOf(x) == leftOf(parentOf(parentOf(x)))) {
+        while (x != null && x != root && x.parent.color == RED) {
+            if (parentOf(x) == leftOf(parentOf(parentOf(x)))) {
                 Entry<K,V> y = rightOf(parentOf(parentOf(x)));
-                if(colorOf(y) == RED) {
+                if (colorOf(y) == RED) {
                     setColor(parentOf(x), BLACK);
                     setColor(y, BLACK);
                     setColor(parentOf(parentOf(x)), RED);
                     x = parentOf(parentOf(x));
                 }
                 else {
-                    if(x == rightOf(parentOf(x))) {
+                    if (x == rightOf(parentOf(x))) {
                         x = parentOf(x);
                         rotateLeft(x);
                     }
@@ -1943,14 +1943,14 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
             }
             else {
                 Entry<K,V> y = leftOf(parentOf(parentOf(x)));
-                if(colorOf(y) == RED) {
+                if (colorOf(y) == RED) {
                     setColor(parentOf(x), BLACK);
                     setColor(y, BLACK);
                     setColor(parentOf(parentOf(x)), RED);
                     x = parentOf(parentOf(x));
                 }
                 else {
-                    if(x == leftOf(parentOf(x))) {
+                    if (x == leftOf(parentOf(x))) {
                         x = parentOf(x);
                         rotateRight(x);
                     }
@@ -1967,7 +1967,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         modCount++;
         size--;
 
-        if(p.left != null && p.right != null) {
+        if (p.left != null && p.right != null) {
             Entry<K,V> s = successor(p);
             p.key = s.key;
             p.value = s.value;
@@ -1976,30 +1976,30 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
 
         Entry<K,V> replacement = (p.left != null ? p.left : p.right);
 
-        if(replacement != null) {
+        if (replacement != null) {
             replacement.parent = p.parent;
-            if(p.parent == null)
+            if (p.parent == null)
                 root = replacement;
-            else if(p == p.parent.left)
+            else if (p == p.parent.left)
                 p.parent.left  = replacement;
             else
                 p.parent.right = replacement;
 
             p.left = p.right = p.parent = null;
 
-            if(p.color == BLACK)
+            if (p.color == BLACK)
                 fixAfterDeletion(replacement);
         }
-        else if(p.parent == null)
+        else if (p.parent == null)
             root = null;
         else {
-            if(p.color == BLACK)
+            if (p.color == BLACK)
                 fixAfterDeletion(p);
 
-            if(p.parent != null) {
-                if(p == p.parent.left)
+            if (p.parent != null) {
+                if (p == p.parent.left)
                     p.parent.left = null;
-                else if(p == p.parent.right)
+                else if (p == p.parent.right)
                     p.parent.right = null;
                 p.parent = null;
             }
@@ -2007,23 +2007,23 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     }
 
     private void fixAfterDeletion(Entry<K,V> x) {
-        while(x != root && colorOf(x) == BLACK) {
-            if(x == leftOf(parentOf(x))) {
+        while (x != root && colorOf(x) == BLACK) {
+            if (x == leftOf(parentOf(x))) {
                 Entry<K,V> sib = rightOf(parentOf(x));
 
-                if(colorOf(sib) == RED) {
+                if (colorOf(sib) == RED) {
                     setColor(sib, BLACK);
                     setColor(parentOf(x), RED);
                     rotateLeft(parentOf(x));
                     sib = rightOf(parentOf(x));
                 }
 
-                if(colorOf(leftOf(sib)) == BLACK && colorOf(rightOf(sib)) == BLACK) {
+                if (colorOf(leftOf(sib)) == BLACK && colorOf(rightOf(sib)) == BLACK) {
                     setColor(sib, RED);
                     x = parentOf(x);
                 }
                 else {
-                    if(colorOf(rightOf(sib)) == BLACK) {
+                    if (colorOf(rightOf(sib)) == BLACK) {
                         setColor(leftOf(sib), BLACK);
                         setColor(sib, RED);
                         rotateRight(sib);
@@ -2039,19 +2039,19 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
             else {
                 Entry<K,V> sib = leftOf(parentOf(x));
 
-                if(colorOf(sib) == RED) {
+                if (colorOf(sib) == RED) {
                     setColor(sib, BLACK);
                     setColor(parentOf(x), RED);
                     rotateRight(parentOf(x));
                     sib = leftOf(parentOf(x));
                 }
 
-                if(colorOf(rightOf(sib)) == BLACK && colorOf(leftOf(sib)) == BLACK) {
+                if (colorOf(rightOf(sib)) == BLACK && colorOf(leftOf(sib)) == BLACK) {
                     setColor(sib, RED);
                     x = parentOf(x);
                 }
                 else {
-                    if(colorOf(leftOf(sib)) == BLACK) {
+                    if (colorOf(leftOf(sib)) == BLACK) {
                         setColor(rightOf(sib), BLACK);
                         setColor(sib, RED);
                         rotateLeft(sib);
@@ -2076,7 +2076,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
 
     //     s.writeInt(size);
 
-    //     for(Map.Entry<K, V> e : entrySet()) {
+    //     for (Map.Entry<K, V> e : entrySet()) {
     //         s.writeObject(e.getKey());
     //         s.writeObject(e.getValue());
     //     }
@@ -2102,7 +2102,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     //     try {
     //         buildFromSorted(set.size(), set.iterator(), null, defaultVal);
     //     }
-    //     catch(java.io.IOException | ClassNotFoundException cannotHappen) {
+    //     catch (java.io.IOException | ClassNotFoundException cannotHappen) {
 
     //     }
     // }
@@ -2116,18 +2116,18 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     // TODO
     // @SuppressWarnings("unchecked")
     // private final Entry<K,V> buildFromSorted(int level, int lo, int hi, int redLevel, Iterator<?> it, java.io.ObjectInputStream str, V defaultVal) throws java.io.IOException, ClassNotFoundException {
-    //     if(hi < lo) return null;
+    //     if (hi < lo) return null;
 
     //     int mid = (lo + hi) >>> 1;
 
     //     Entry<K,V> left  = null;
-    //     if(lo < mid)
+    //     if (lo < mid)
     //         left = buildFromSorted(level + 1, lo, mid - 1, redLevel, it, str, defaultVal);
 
     //     K key;
     //     V value;
-    //     if(it != null) {
-    //         if(defaultVal == null) {
+    //     if (it != null) {
+    //         if (defaultVal == null) {
     //             Map.Entry<?,?> entry = (Map.Entry<?,?>)it.next();
     //             key = (K)entry.getKey();
     //             value = (V)entry.getValue();
@@ -2144,15 +2144,15 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
 
     //     Entry<K,V> middle =  new Entry<>(key, value, null);
 
-    //     if(level == redLevel)
+    //     if (level == redLevel)
     //         middle.color = RED;
 
-    //     if(left != null) {
+    //     if (left != null) {
     //         middle.left = left;
     //         left.parent = middle;
     //     }
 
-    //     if(mid < hi) {
+    //     if (mid < hi) {
     //         Entry<K,V> right = buildFromSorted(level + 1, mid + 1, hi, redLevel, it, str, defaultVal);
     //         middle.right = right;
     //         right.parent = middle;
@@ -2167,14 +2167,14 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
     // }
 
     static <K> Spliterator<K> keySpliteratorFor(NavigableMap<K,?> m) {
-        if(m instanceof TreeMap) {
+        if (m instanceof TreeMap) {
             @SuppressWarnings("unchecked") TreeMap<K,Object> t = (TreeMap<K,Object>) m;
             return t.keySpliterator();
         }
-        if(m instanceof DescendingSubMap) {
+        if (m instanceof DescendingSubMap) {
             @SuppressWarnings("unchecked") DescendingSubMap<K,?> dm = (DescendingSubMap<K,?>) m;
             TreeMap<K,?> tm = dm.m;
-            if(dm == tm.descendingMap) {
+            if (dm == tm.descendingMap) {
                 @SuppressWarnings("unchecked") TreeMap<K,Object> t = (TreeMap<K,Object>) tm;
                 return t.descendingKeySpliterator();
             }
@@ -2210,8 +2210,8 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
 
         final int getEstimate() {
             int s; TreeMap<K,V> t;
-            if((s = est) < 0) {
-                if((t = tree) != null) {
+            if ((s = est) < 0) {
+                if ((t = tree) != null) {
                     current = (s == -1) ? t.getFirstEntry() : t.getLastEntry();
                     s = est = t.size;
                     expectedModCount = t.modCount;
@@ -2233,12 +2233,12 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         }
 
         public KeySpliterator<K,V> trySplit() {
-            if(est < 0)
+            if (est < 0)
                 getEstimate();
             int d = side;
             TreeMap.Entry<K,V> e = current, f = fence,
             s = ((e == null || e == f) ? null : (d == 0) ? tree.root : (d > 0) ? e.right : (d < 0 && f != null) ? f.left : null);
-            if(s != null && s != e && s != f && tree.compare(e.key, s.key) < 0) {
+            if (s != null && s != e && s != f && tree.compare(e.key, s.key) < 0) {
                 side = 1;
                 return new KeySpliterator<>(tree, e, current = s, -1, est >>>= 1, expectedModCount);
             }
@@ -2246,40 +2246,40 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         }
 
         public void forEachRemaining(Consumer<? super K> action) {
-            if(action == null)
+            if (action == null)
                 throw new NullPointerException();
-            if(est < 0)
+            if (est < 0)
                 getEstimate();
             TreeMap.Entry<K,V> f = fence, e, p, pl;
-            if((e = current) != null && e != f) {
+            if ((e = current) != null && e != f) {
                 current = f;
                 do {
                     action.accept(e.key);
-                    if((p = e.right) != null) {
-                        while((pl = p.left) != null)
+                    if ((p = e.right) != null) {
+                        while ((pl = p.left) != null)
                             p = pl;
                     }
                     else {
-                        while((p = e.parent) != null && e == p.right)
+                        while ((p = e.parent) != null && e == p.right)
                             e = p;
                     }
-                } while((e = p) != null && e != f);
-                if(tree.modCount != expectedModCount)
+                } while ((e = p) != null && e != f);
+                if (tree.modCount != expectedModCount)
                     throw new ConcurrentModificationException();
             }
         }
 
         public boolean tryAdvance(Consumer<? super K> action) {
             TreeMap.Entry<K,V> e;
-            if(action == null)
+            if (action == null)
                 throw new NullPointerException();
-            if(est < 0)
+            if (est < 0)
                 getEstimate();
-            if((e = current) == null || e == fence)
+            if ((e = current) == null || e == fence)
                 return false;
             current = successor(e);
             action.accept(e.key);
-            if(tree.modCount != expectedModCount)
+            if (tree.modCount != expectedModCount)
                 throw new ConcurrentModificationException();
             return true;
         }
@@ -2299,12 +2299,12 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         }
 
         public DescendingKeySpliterator<K,V> trySplit() {
-            if(est < 0)
+            if (est < 0)
                 getEstimate();
             int d = side;
             TreeMap.Entry<K,V> e = current, f = fence,
             s = ((e == null || e == f) ? null : (d == 0) ? tree.root : (d < 0) ? e.left : (d > 0 && f != null) ? f.right : null);
-            if(s != null && s != e && s != f && tree.compare(e.key, s.key) > 0) {
+            if (s != null && s != e && s != f && tree.compare(e.key, s.key) > 0) {
                 side = 1;
                 return new DescendingKeySpliterator<>(tree, e, current = s, -1, est >>>= 1, expectedModCount);
             }
@@ -2312,40 +2312,40 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         }
 
         public void forEachRemaining(Consumer<? super K> action) {
-            if(action == null)
+            if (action == null)
                 throw new NullPointerException();
-            if(est < 0)
+            if (est < 0)
                 getEstimate();
             TreeMap.Entry<K,V> f = fence, e, p, pr;
-            if((e = current) != null && e != f) {
+            if ((e = current) != null && e != f) {
                 current = f;
                 do {
                     action.accept(e.key);
-                    if((p = e.left) != null) {
-                        while((pr = p.right) != null)
+                    if ((p = e.left) != null) {
+                        while ((pr = p.right) != null)
                             p = pr;
                     }
                     else {
-                        while((p = e.parent) != null && e == p.left)
+                        while ((p = e.parent) != null && e == p.left)
                             e = p;
                     }
-                } while((e = p) != null && e != f);
-                if(tree.modCount != expectedModCount)
+                } while ((e = p) != null && e != f);
+                if (tree.modCount != expectedModCount)
                     throw new ConcurrentModificationException();
             }
         }
 
         public boolean tryAdvance(Consumer<? super K> action) {
             TreeMap.Entry<K,V> e;
-            if(action == null)
+            if (action == null)
                 throw new NullPointerException();
-            if(est < 0)
+            if (est < 0)
                 getEstimate();
-            if((e = current) == null || e == fence)
+            if ((e = current) == null || e == fence)
                 return false;
             current = predecessor(e);
             action.accept(e.key);
-            if(tree.modCount != expectedModCount)
+            if (tree.modCount != expectedModCount)
                 throw new ConcurrentModificationException();
             return true;
         }
@@ -2361,12 +2361,12 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         }
 
         public ValueSpliterator<K,V> trySplit() {
-            if(est < 0)
+            if (est < 0)
                 getEstimate();
             int d = side;
             TreeMap.Entry<K,V> e = current, f = fence,
             s = ((e == null || e == f) ? null : (d == 0) ? tree.root : (d > 0) ? e.right : (d < 0 && f != null) ? f.left : null);
-            if(s != null && s != e && s != f && tree.compare(e.key, s.key) < 0) {
+            if (s != null && s != e && s != f && tree.compare(e.key, s.key) < 0) {
                 side = 1;
                 return new ValueSpliterator<>(tree, e, current = s, -1, est >>>= 1, expectedModCount);
             }
@@ -2374,40 +2374,40 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         }
 
         public void forEachRemaining(Consumer<? super V> action) {
-            if(action == null)
+            if (action == null)
                 throw new NullPointerException();
-            if(est < 0)
+            if (est < 0)
                 getEstimate();
             TreeMap.Entry<K,V> f = fence, e, p, pl;
-            if((e = current) != null && e != f) {
+            if ((e = current) != null && e != f) {
                 current = f;
                 do {
                     action.accept(e.value);
-                    if((p = e.right) != null) {
-                        while((pl = p.left) != null)
+                    if ((p = e.right) != null) {
+                        while ((pl = p.left) != null)
                             p = pl;
                     }
                     else {
-                        while((p = e.parent) != null && e == p.right)
+                        while ((p = e.parent) != null && e == p.right)
                             e = p;
                     }
-                } while((e = p) != null && e != f);
-                if(tree.modCount != expectedModCount)
+                } while ((e = p) != null && e != f);
+                if (tree.modCount != expectedModCount)
                     throw new ConcurrentModificationException();
             }
         }
 
         public boolean tryAdvance(Consumer<? super V> action) {
             TreeMap.Entry<K,V> e;
-            if(action == null)
+            if (action == null)
                 throw new NullPointerException();
-            if(est < 0)
+            if (est < 0)
                 getEstimate();
-            if((e = current) == null || e == fence)
+            if ((e = current) == null || e == fence)
                 return false;
             current = successor(e);
             action.accept(e.value);
-            if(tree.modCount != expectedModCount)
+            if (tree.modCount != expectedModCount)
                 throw new ConcurrentModificationException();
             return true;
         }
@@ -2423,12 +2423,12 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         }
 
         public EntrySpliterator<K,V> trySplit() {
-            if(est < 0)
+            if (est < 0)
                 getEstimate();
             int d = side;
             TreeMap.Entry<K,V> e = current, f = fence,
             s = ((e == null || e == f) ? null : (d == 0) ? tree.root : (d > 0) ? e.right : (d < 0 && f != null) ? f.left : null);
-            if(s != null && s != e && s != f && tree.compare(e.key, s.key) < 0) {
+            if (s != null && s != e && s != f && tree.compare(e.key, s.key) < 0) {
                 side = 1;
                 return new EntrySpliterator<>(tree, e, current = s, -1, est >>>= 1, expectedModCount);
             }
@@ -2436,40 +2436,40 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
         }
 
         public void forEachRemaining(Consumer<? super Map.Entry<K, V>> action) {
-            if(action == null)
+            if (action == null)
                 throw new NullPointerException();
-            if(est < 0)
+            if (est < 0)
                 getEstimate();
             TreeMap.Entry<K,V> f = fence, e, p, pl;
-            if((e = current) != null && e != f) {
+            if ((e = current) != null && e != f) {
                 current = f;
                 do {
                     action.accept(e);
-                    if((p = e.right) != null) {
-                        while((pl = p.left) != null)
+                    if ((p = e.right) != null) {
+                        while ((pl = p.left) != null)
                             p = pl;
                     }
                     else {
-                        while((p = e.parent) != null && e == p.right)
+                        while ((p = e.parent) != null && e == p.right)
                             e = p;
                     }
-                } while((e = p) != null && e != f);
-                if(tree.modCount != expectedModCount)
+                } while ((e = p) != null && e != f);
+                if (tree.modCount != expectedModCount)
                     throw new ConcurrentModificationException();
             }
         }
 
         public boolean tryAdvance(Consumer<? super Map.Entry<K,V>> action) {
             TreeMap.Entry<K,V> e;
-            if(action == null)
+            if (action == null)
                 throw new NullPointerException();
-            if(est < 0)
+            if (est < 0)
                 getEstimate();
-            if((e = current) == null || e == fence)
+            if ((e = current) == null || e == fence)
                 return false;
             current = successor(e);
             action.accept(e);
-            if(tree.modCount != expectedModCount)
+            if (tree.modCount != expectedModCount)
                 throw new ConcurrentModificationException();
             return true;
         }
@@ -2480,7 +2480,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V> implements NavigableMap<K,V>,
 
         @Override
         public Comparator<Map.Entry<K, V>> getComparator() {
-            if(tree.comparator != null)
+            if (tree.comparator != null)
                 return Map.Entry.comparingByKey(tree.comparator);
             else {
                 return new Comparator<Map.Entry<K, V>>() {

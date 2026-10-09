@@ -41,7 +41,7 @@ public final class Constructor<T> extends Executable {
 
     @Override
     public Class<?>[] getParameterTypes() {
-        if(parameterTypes.length > 0)
+        if (parameterTypes.length > 0)
             return parameterTypes.clone();
         return parameterTypes;
     }
@@ -58,22 +58,22 @@ public final class Constructor<T> extends Executable {
 
     @Override
     public Class<?>[] getExceptionTypes() {
-        if(exceptionTypes.length > 0)
+        if (exceptionTypes.length > 0)
             return exceptionTypes.clone();
         return exceptionTypes;
     }
 
     public boolean matches(Class<?>[] ptypes) {
         Class<?>[] parameterTypes = this.parameterTypes;
-        if(ptypes == parameterTypes)
+        if (ptypes == parameterTypes)
             return true;
-        if(ptypes == null)
+        if (ptypes == null)
             return parameterTypes.length == 0;
         int ptypesLength = ptypes.length;
-        if(ptypesLength != parameterTypes.length)
+        if (ptypesLength != parameterTypes.length)
             return false;
-        for(int i = 0; i < ptypesLength; i++) {
-            if(ptypes[i] != parameterTypes[i])
+        for (int i = 0; i < ptypesLength; i++) {
+            if (ptypes[i] != parameterTypes[i])
                 return false;
         }
         return true;
@@ -81,8 +81,8 @@ public final class Constructor<T> extends Executable {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Constructor<?> other) {
-            if(clazz == other.clazz)
+        if (obj instanceof Constructor<?> other) {
+            if (clazz == other.clazz)
                 return equalParamTypes(parameterTypes, other.parameterTypes);
         }
         return false;
@@ -98,29 +98,29 @@ public final class Constructor<T> extends Executable {
         try {
             StringBuffer sb = new StringBuffer();
             int mod = getModifiers();
-            if(mod != 0)
+            if (mod != 0)
                 sb.append(Modifier.toString(mod) + " ");
             sb.append(getDeclaringClass().getTypeName());
             sb.append("(");
             Class<?>[] params = parameterTypes;
-            for(int j = 0; j < params.length; j++) {
+            for (int j = 0; j < params.length; j++) {
                 sb.append(params[j].getTypeName());
-                if(j < (params.length - 1))
+                if (j < (params.length - 1))
                     sb.append(",");
             }
             sb.append(")");
             Class<?>[] exceptions = exceptionTypes;
-            if(exceptions.length > 0) {
+            if (exceptions.length > 0) {
                 sb.append(" throws ");
-                for(int k = 0; k < exceptions.length; k++) {
+                for (int k = 0; k < exceptions.length; k++) {
                     sb.append(exceptions[k].getName());
-                    if(k < (exceptions.length - 1))
+                    if (k < (exceptions.length - 1))
                         sb.append(",");
                 }
             }
             return sb.toString();
         }
-        catch(Exception e) {
+        catch (Exception e) {
             return "<" + e + ">";
         }
     }
@@ -144,29 +144,29 @@ public final class Constructor<T> extends Executable {
     private void checkParameter(Object[] args) {
         int argc = args != null ? args.length : 0;
         int paramCount = parameterTypes != null ? parameterTypes.length : 0;
-        if(argc != paramCount)
+        if (argc != paramCount)
             throw new IllegalArgumentException("wrong number of arguments: " + argc + " expected: " + paramCount);
         Class<?>[] parameterTypes = this.parameterTypes;
-        for(int i = 0; i < paramCount; i++) {
+        for (int i = 0; i < paramCount; i++) {
             Class<?> type = parameterTypes[i];
             Class<?> argType = args[i].getClass();
-            if(type.isPrimitive()) {
-                if(getWrapper(type) != argType)
+            if (type.isPrimitive()) {
+                if (getWrapper(type) != argType)
                     throw new IllegalArgumentException("argument type mismatch");
             }
-            else if(type != argType)
+            else if (type != argType)
                 throw new IllegalArgumentException("argument type mismatch");
         }
     }
 
     private static Class<?> getWrapper(Class<?> primitive) {
-        if(primitive == int.class) return Integer.class;
-        if(primitive == boolean.class) return Boolean.class;
-        if(primitive == byte.class) return Byte.class;
-        if(primitive == char.class) return Character.class;
-        if(primitive == short.class) return Short.class;
-        if(primitive == long.class) return Long.class;
-        if(primitive == float.class) return Float.class;
+        if (primitive == int.class) return Integer.class;
+        if (primitive == boolean.class) return Boolean.class;
+        if (primitive == byte.class) return Byte.class;
+        if (primitive == char.class) return Character.class;
+        if (primitive == short.class) return Short.class;
+        if (primitive == long.class) return Long.class;
+        if (primitive == float.class) return Float.class;
         return Double.class;
     }
 

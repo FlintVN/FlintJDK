@@ -15,9 +15,9 @@ public final class Objects {
 
 
     public static boolean deepEquals(Object a, Object b) {
-        if(a == b)
+        if (a == b)
             return true;
-        else if(a == null || b == null)
+        else if (a == null || b == null)
             return false;
         else
             return Arrays.deepEquals0(a, b);
@@ -50,14 +50,14 @@ public final class Objects {
 
     @ForceInline
     public static <T> T requireNonNull(T obj) {
-        if(obj == null)
+        if (obj == null)
             throw new NullPointerException();
         return obj;
     }
 
     @ForceInline
     public static <T> T requireNonNull(T obj, String message) {
-        if(obj == null)
+        if (obj == null)
             throw new NullPointerException(message);
         return obj;
     }
@@ -79,45 +79,45 @@ public final class Objects {
     }
 
     public static <T> T requireNonNull(T obj, Supplier<String> messageSupplier) {
-        if(obj == null)
+        if (obj == null)
             throw new NullPointerException(messageSupplier == null ? null : messageSupplier.get());
         return obj;
     }
 
     @ForceInline
     public static int checkIndex(int index, int length) {
-        if(index < 0 || index >= length)
+        if (index < 0 || index >= length)
             throw new IndexOutOfBoundsException();
         return index;
     }
 
     public static int checkFromToIndex(int fromIndex, int toIndex, int length) {
-        if(fromIndex < 0 || fromIndex > toIndex || toIndex > length)
+        if (fromIndex < 0 || fromIndex > toIndex || toIndex > length)
             throw new IndexOutOfBoundsException();
         return fromIndex;
     }
 
     public static int checkFromIndexSize(int fromIndex, int size, int length) {
-        if((length | fromIndex | size) < 0 || size > length - fromIndex)
+        if ((length | fromIndex | size) < 0 || size > length - fromIndex)
             throw new IndexOutOfBoundsException();
         return fromIndex;
     }
 
     @ForceInline
     public static long checkIndex(long index, long length) {
-        if(index < 0 || index >= length)
+        if (index < 0 || index >= length)
             throw new IndexOutOfBoundsException();
         return index;
     }
 
     public static long checkFromToIndex(long fromIndex, long toIndex, long length) {
-        if(fromIndex < 0 || fromIndex > toIndex || toIndex > length)
+        if (fromIndex < 0 || fromIndex > toIndex || toIndex > length)
             throw new IndexOutOfBoundsException();
         return fromIndex;
     }
 
     public static long checkFromIndexSize(long fromIndex, long size, long length) {
-        if((length | fromIndex | size) < 0 || size > length - fromIndex)
+        if ((length | fromIndex | size) < 0 || size > length - fromIndex)
             throw new IndexOutOfBoundsException();
         return fromIndex;
     }

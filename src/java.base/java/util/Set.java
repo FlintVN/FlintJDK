@@ -84,7 +84,7 @@ public interface Set<E> extends Collection<E> {
     @SafeVarargs
     @SuppressWarnings("varargs")
     static <E> Set<E> of(E... elements) {
-        switch(elements.length) {
+        switch (elements.length) {
             case 0:
                 @SuppressWarnings("unchecked")
                 var set = (Set<E>)ImmutableCollections.EMPTY_SET;
@@ -100,7 +100,7 @@ public interface Set<E> extends Collection<E> {
 
     @SuppressWarnings("unchecked")
     static <E> Set<E> copyOf(Collection<? extends E> coll) {
-        if(coll instanceof ImmutableCollections.AbstractImmutableSet)
+        if (coll instanceof ImmutableCollections.AbstractImmutableSet)
             return (Set<E>)coll;
         else
             return (Set<E>)Set.of(new HashSet<>(coll).toArray());

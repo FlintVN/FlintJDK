@@ -20,7 +20,7 @@ public interface Spliterator<T> {
     default void forEachRemaining(Consumer<? super T> action) {
         do {
 
-        } while(tryAdvance(action));
+        } while (tryAdvance(action));
     }
 
     Spliterator<T> trySplit();
@@ -52,7 +52,7 @@ public interface Spliterator<T> {
         default void forEachRemaining(T_CONS action) {
             do {
 
-            } while(tryAdvance(action));
+            } while (tryAdvance(action));
         }
     }
 
@@ -68,12 +68,12 @@ public interface Spliterator<T> {
         default void forEachRemaining(IntConsumer action) {
             do {
 
-            } while(tryAdvance(action));
+            } while (tryAdvance(action));
         }
 
         @Override
         default boolean tryAdvance(Consumer<? super Integer> action) {
-            if(action instanceof IntConsumer)
+            if (action instanceof IntConsumer)
                 return tryAdvance((IntConsumer)action);
             else {
                 return tryAdvance(new IntConsumer() {
@@ -87,7 +87,7 @@ public interface Spliterator<T> {
 
         @Override
         default void forEachRemaining(Consumer<? super Integer> action) {
-            if(action instanceof IntConsumer)
+            if (action instanceof IntConsumer)
                 forEachRemaining((IntConsumer)action);
             else {
                 forEachRemaining(new IntConsumer() {
@@ -112,12 +112,12 @@ public interface Spliterator<T> {
         default void forEachRemaining(LongConsumer action) {
             do {
 
-            } while(tryAdvance(action));
+            } while (tryAdvance(action));
         }
 
         @Override
         default boolean tryAdvance(Consumer<? super Long> action) {
-            if(action instanceof LongConsumer)
+            if (action instanceof LongConsumer)
                 return tryAdvance((LongConsumer)action);
             else {
                 return tryAdvance(new LongConsumer() {
@@ -131,7 +131,7 @@ public interface Spliterator<T> {
 
         @Override
         default void forEachRemaining(Consumer<? super Long> action) {
-            if(action instanceof LongConsumer)
+            if (action instanceof LongConsumer)
                 forEachRemaining((LongConsumer)action);
             else {
                 forEachRemaining(new LongConsumer() {
@@ -156,12 +156,12 @@ public interface Spliterator<T> {
         default void forEachRemaining(DoubleConsumer action) {
             do {
 
-            } while(tryAdvance(action));
+            } while (tryAdvance(action));
         }
 
         @Override
         default boolean tryAdvance(Consumer<? super Double> action) {
-            if(action instanceof DoubleConsumer)
+            if (action instanceof DoubleConsumer)
                 return tryAdvance((DoubleConsumer)action);
             else {
                 return tryAdvance(new DoubleConsumer() {
@@ -175,7 +175,7 @@ public interface Spliterator<T> {
 
         @Override
         default void forEachRemaining(Consumer<? super Double> action) {
-            if(action instanceof DoubleConsumer)
+            if (action instanceof DoubleConsumer)
                 forEachRemaining((DoubleConsumer)action);
             else {
                 forEachRemaining(new DoubleConsumer() {

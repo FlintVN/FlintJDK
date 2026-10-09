@@ -10,7 +10,7 @@ class ReverseOrderSortedMapView<K, V> extends AbstractMap<K, V> implements Sorte
     }
 
     public static <K, V> SortedMap<K, V> of(SortedMap<K, V> map) {
-        if(map instanceof ReverseOrderSortedMapView<K, V> rosmv)
+        if (map instanceof ReverseOrderSortedMapView<K, V> rosmv)
             return rosmv.base;
         else
             return new ReverseOrderSortedMapView<>(map);
@@ -168,7 +168,7 @@ class ReverseOrderSortedMapView<K, V> extends AbstractMap<K, V> implements Sorte
     }
 
     public SortedMap<K, V> subMap(K fromKey, K toKey) {
-        if(cmp.compare(fromKey, toKey) <= 0)
+        if (cmp.compare(fromKey, toKey) <= 0)
             return new Submap(fromKey, toKey);
         else
             throw new IllegalArgumentException();
@@ -193,7 +193,7 @@ class ReverseOrderSortedMapView<K, V> extends AbstractMap<K, V> implements Sorte
             }
 
             public K next() {
-                if(view.isEmpty())
+                if (view.isEmpty())
                     throw new NoSuchElementException();
                 K k = prev = view.lastKey();
                 view = root.headMap(k);
@@ -201,7 +201,7 @@ class ReverseOrderSortedMapView<K, V> extends AbstractMap<K, V> implements Sorte
             }
 
             public void remove() {
-                if(prev == null)
+                if (prev == null)
                     throw new IllegalStateException();
                 else {
                     root.remove(prev);
@@ -285,19 +285,19 @@ class ReverseOrderSortedMapView<K, V> extends AbstractMap<K, V> implements Sorte
     }
 
     static <K, V> String toString(Map<K, V> thisMap, Iterator<Entry<K,V>> i) {
-        if(! i.hasNext())
+        if (! i.hasNext())
             return "{}";
 
         StringBuilder sb = new StringBuilder();
         sb.append('{');
-        for(;;) {
+        for (;;) {
             Entry<K,V> e = i.next();
             K key = e.getKey();
             V value = e.getValue();
             sb.append(key   == thisMap ? "(this Map)" : key);
             sb.append('=');
             sb.append(value == thisMap ? "(this Map)" : value);
-            if(! i.hasNext())
+            if (! i.hasNext())
                 return sb.append('}').toString();
             sb.append(',').append(' ');
         }
@@ -329,19 +329,19 @@ class ReverseOrderSortedMapView<K, V> extends AbstractMap<K, V> implements Sorte
                 Iterator<Entry<K, V>> it = descendingEntryIterator(base);
 
                 public boolean hasNext() {
-                    if(dead)
+                    if (dead)
                         return false;
 
-                    if(cache != null)
+                    if (cache != null)
                         return true;
 
-                    while(it.hasNext()) {
+                    while (it.hasNext()) {
                         Entry<K, V> e = it.next();
 
-                        if(! aboveHead(e.getKey()))
+                        if (! aboveHead(e.getKey()))
                             continue;
 
-                        if(! belowTail(e.getKey())) {
+                        if (! belowTail(e.getKey())) {
                             dead = true;
                             return false;
                         }
@@ -354,7 +354,7 @@ class ReverseOrderSortedMapView<K, V> extends AbstractMap<K, V> implements Sorte
                 }
 
                 public Entry<K, V> next() {
-                    if(hasNext()) {
+                    if (hasNext()) {
                         Entry<K, V> e = cache;
                         cache = null;
                         prevKey = e.getKey();
@@ -365,7 +365,7 @@ class ReverseOrderSortedMapView<K, V> extends AbstractMap<K, V> implements Sorte
                 }
 
                 public void remove() {
-                    if(prevKey == null)
+                    if (prevKey == null)
                         throw new IllegalStateException();
                     else
                         base.remove(prevKey);
@@ -385,7 +385,7 @@ class ReverseOrderSortedMapView<K, V> extends AbstractMap<K, V> implements Sorte
 
                 public int size() {
                     int sz = 0;
-                    for(var it = entryIterator(); it.hasNext();) {
+                    for (var it = entryIterator(); it.hasNext();) {
                         it.next();
                         sz++;
                     }
@@ -395,7 +395,7 @@ class ReverseOrderSortedMapView<K, V> extends AbstractMap<K, V> implements Sorte
         }
 
         public V put(K key, V value) {
-            if(aboveHead(key) && belowTail(key))
+            if (aboveHead(key) && belowTail(key))
                 return base.put(key, value);
             else
                 throw new IllegalArgumentException();
@@ -404,7 +404,7 @@ class ReverseOrderSortedMapView<K, V> extends AbstractMap<K, V> implements Sorte
         public V remove(Object o) {
             @SuppressWarnings("unchecked")
             K key = (K) o;
-            if(aboveHead(key) && belowTail(key))
+            if (aboveHead(key) && belowTail(key))
                 return base.remove(o);
             else
                 return null;
@@ -424,30 +424,30 @@ class ReverseOrderSortedMapView<K, V> extends AbstractMap<K, V> implements Sorte
 
         public K lastKey() {
             var it = this.entryIterator();
-            if(! it.hasNext())
+            if (! it.hasNext())
                 throw new NoSuchElementException();
             var last = it.next();
-            while(it.hasNext())
+            while (it.hasNext())
                 last = it.next();
             return last.getKey();
         }
 
         public SortedMap<K, V> subMap(K from, K to) {
-            if(aboveHead(from) && belowTail(from) && aboveHead(to) && belowTail(to) && cmp.compare(from, to) <= 0)
+            if (aboveHead(from) && belowTail(from) && aboveHead(to) && belowTail(to) && cmp.compare(from, to) <= 0)
                 return new Submap(from, to);
             else
                 throw new IllegalArgumentException();
         }
 
         public SortedMap<K, V> headMap(K to) {
-            if(aboveHead(to) && belowTail(to))
+            if (aboveHead(to) && belowTail(to))
                 return new Submap(head, to);
             else
                 throw new IllegalArgumentException();
         }
 
         public SortedMap<K, V> tailMap(K from) {
-            if(aboveHead(from) && belowTail(from))
+            if (aboveHead(from) && belowTail(from))
                 return new Submap(from, tail);
             else
                 throw new IllegalArgumentException();

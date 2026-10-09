@@ -14,7 +14,7 @@ public class ByteArrayOutputStream extends OutputStream {
     }
 
     public ByteArrayOutputStream(int size) {
-        if(size < 0)
+        if (size < 0)
             throw new IllegalArgumentException("Negative initial size: " + size);
         buf = new byte[size];
     }
@@ -22,7 +22,7 @@ public class ByteArrayOutputStream extends OutputStream {
     private void ensureCapacity(int minCapacity) {
         int oldCapacity = buf.length;
         int minGrowth = minCapacity - oldCapacity;
-        if(minGrowth > 0)
+        if (minGrowth > 0)
             buf = Arrays.copyOf(buf, ArraysSupport.newLength(oldCapacity, minGrowth, oldCapacity));
     }
 

@@ -19,16 +19,16 @@ public sealed abstract class InetAddress permits Inet4Address, Inet6Address {
         try {
             impl = (InetAddressImpl)Class.forName("flint.net.FlintInetAddressImpl").getConstructor().newInstance();
         }
-        catch(ClassNotFoundException e) {
+        catch (ClassNotFoundException e) {
             System.out.println("Class not found: flint.net.FlintInetAddressImpl");
         }
-        catch(NoSuchMethodException e) {
+        catch (NoSuchMethodException e) {
             System.out.println("Method not found: flint.net.FlintInetAddressImpl.<init>()");
         }
-        catch(InstantiationException | IllegalArgumentException | InvocationTargetException e) {
+        catch (InstantiationException | IllegalArgumentException | InvocationTargetException e) {
             System.out.println("Could not instantiate: flint.net.FlintInetAddressImpl");
         }
-        catch(IllegalAccessException e) {
+        catch (IllegalAccessException e) {
             System.out.println("Cannot access class: flint.net.FlintInetAddressImpl");
         }
     }
@@ -40,13 +40,13 @@ public sealed abstract class InetAddress permits Inet4Address, Inet6Address {
 
     @SuppressWarnings("unchecked")
     public String getHostName() {
-        if(hostName == null) {
+        if (hostName == null) {
             try {
                 hostName = impl.getHostByAddr(getAddress());
                 InetAddress[] arr = cache.get(hostName);
-                if(arr != null) {
-                    for(int i = 0; i < arr.length; i++) {
-                        if(hostName.equalsIgnoreCase(arr[i].hostName) && !equals(arr[i])) {
+                if (arr != null) {
+                    for (int i = 0; i < arr.length; i++) {
+                        if (hostName.equalsIgnoreCase(arr[i].hostName) && !equals(arr[i])) {
                             hostName = getHostAddress();
                             break;
                         }
@@ -55,7 +55,7 @@ public sealed abstract class InetAddress permits Inet4Address, Inet6Address {
                 else
                     cache.put(hostName, new InetAddress[] {this});
             }
-            catch(UnknownHostException e) {
+            catch (UnknownHostException e) {
                 hostName = getHostAddress();
             }
         }
@@ -85,16 +85,16 @@ public sealed abstract class InetAddress permits Inet4Address, Inet6Address {
     }
 
     public static InetAddress getByAddress(String host, byte[] addr) throws UnknownHostException {
-        if(host != null && !host.isEmpty() && host.charAt(0) == '[') {
-            if(host.charAt(host.length()-1) == ']')
+        if (host != null && !host.isEmpty() && host.charAt(0) == '[') {
+            if (host.charAt(host.length()-1) == ']')
                 host = host.substring(1, host.length() -1);
         }
-        if(addr != null) {
-            if(addr.length == 4)
+        if (addr != null) {
+            if (addr.length == 4)
                 return new Inet4Address(host, addr);
-            else if(addr.length == 6) {
+            else if (addr.length == 6) {
                 byte[] newAddr = convertFromIPv4MappedAddress(addr);
-                if(newAddr != null)
+                if (newAddr != null)
                     return new Inet4Address(host, newAddr);
                 else
                     return new Inet6Address(host, addr);
@@ -104,7 +104,7 @@ public sealed abstract class InetAddress permits Inet4Address, Inet6Address {
     }
 
     private static byte[] convertFromIPv4MappedAddress(byte[] addr) {
-        if(isIPv4MappedAddress(addr)) {
+        if (isIPv4MappedAddress(addr)) {
             byte[] newAddr = new byte[4];
             newAddr[0] = addr[12];
             newAddr[1] = addr[13];
@@ -116,9 +116,9 @@ public sealed abstract class InetAddress permits Inet4Address, Inet6Address {
     }
 
     private static boolean isIPv4MappedAddress(byte[] addr) {
-        if(addr.length < 16)
+        if (addr.length < 16)
             return false;
-        if(
+        if (
             (addr[0] == 0x00) && (addr[1] == 0x00) &&
             (addr[2] == 0x00) && (addr[3] == 0x00) &&
             (addr[4] == 0x00) && (addr[5] == 0x00) &&
@@ -136,15 +136,15 @@ public sealed abstract class InetAddress permits Inet4Address, Inet6Address {
     }
 
     public static InetAddress[] getAllByName(String host) throws UnknownHostException {
-        if(host == null || host.length() == 0) {
+        if (host == null || host.length() == 0) {
             InetAddress[] ret = new InetAddress[1];
             ret[0] = getLoopbackHost();
             return ret;
         }
 
         boolean ipv6Expected = false;
-        if(host.charAt(0) == '[') {
-            if(host.length() > 2 && host.charAt(host.length() - 1) == ']') {
+        if (host.charAt(0) == '[') {
+            if (host.length() > 2 && host.charAt(host.length() - 1) == ']') {
                 host = host.substring(1, host.length() -1);
                 ipv6Expected = true;
             }
@@ -153,11 +153,11 @@ public sealed abstract class InetAddress permits Inet4Address, Inet6Address {
         }
 
         InetAddress inetAddress = null;
-        if(!ipv6Expected)
+        if (!ipv6Expected)
             inetAddress = Inet4Address.parseAddressString(host);
-        if(inetAddress == null)
+        if (inetAddress == null)
             inetAddress = Inet4Address.parseAddressString(host);
-        if(inetAddress != null)
+        if (inetAddress != null)
             return new InetAddress[] {inetAddress};
 
         return getAllByName0(host);
@@ -169,32 +169,32 @@ public sealed abstract class InetAddress permits Inet4Address, Inet6Address {
 
         synchronized(cache) {
             obj = cache.get(host);
-            if(obj == null) {
+            if (obj == null) {
                 try {
                     obj = impl.lookupAllHostAddr(host);
                 }
-                catch(UnknownHostException e) {
+                catch (UnknownHostException e) {
 
                 }
-                if(obj != null)
+                if (obj != null)
                     cache.put(host, obj);
             }
         }
-        if(obj == null)
+        if (obj == null)
             throw new UnknownHostException(host);
         return obj.clone();
     }
 
     public static InetAddress getLocalHost() throws UnknownHostException {
-        if(localHost == null) {
+        if (localHost == null) {
             try {
                 localHost = getAllByName(impl.getLocalHostName())[0];
             }
-            catch(Exception ex) {
+            catch (Exception ex) {
 
             }
         }
-        if(localHost == null)
+        if (localHost == null)
             throw new UnknownHostException();
         return localHost;
     }
@@ -204,7 +204,7 @@ public sealed abstract class InetAddress permits Inet4Address, Inet6Address {
     }
 
     private static InetAddress getLoopbackHost() {
-        if(loopbackHost == null)
+        if (loopbackHost == null)
             loopbackHost = new Inet4Address("localhost", new byte[] {0x7F, 0x00, 0x00, 0x01});
         return loopbackHost;
     }

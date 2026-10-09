@@ -11,7 +11,7 @@ public enum I2sDataMode {
     }
 
     static I2sDataMode fromValue(int value) {
-        return switch(value) {
+        return switch (value) {
             case 0 -> MONO;
             default -> STEREO;
         };

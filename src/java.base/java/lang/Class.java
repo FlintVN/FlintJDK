@@ -64,7 +64,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
         try {
             return Array.newInstance(this, 0).getClass();
         }
-        catch(IllegalArgumentException iae) {
+        catch (IllegalArgumentException iae) {
             throw new UnsupportedOperationException(iae);
         }
     }
@@ -80,7 +80,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
 
     public String getPackageName() {
         Class<?> c = isArray() ? elementType() : this;
-        if(c.isPrimitive())
+        if (c.isPrimitive())
             return "java.lang";
         else {
             String cn = c.getName();
@@ -91,9 +91,9 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
 
     public Class<?>[] getInterfaces() {
         Class<?>[] interfaces = this.interfaces;
-        if(interfaces == null)
+        if (interfaces == null)
             interfaces = getInterfaces0();
-        if(interfaces.length > 0)
+        if (interfaces.length > 0)
             return interfaces.clone();
         return interfaces;
     }
@@ -108,11 +108,11 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     public native Class<?> getComponentType();
 
     private Class<?> elementType() {
-        if(!isArray())
+        if (!isArray())
             return null;
 
         Class<?> c = this;
-        while(c.isArray())
+        while (c.isArray())
             c = c.getComponentType();
         return c;
     }
@@ -131,12 +131,12 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
         int arrayCount = 0;
         int startIndex = simpleName.lastIndexOf('.');
         int endIndex = simpleName.length();
-        while(simpleName.charAt(arrayCount) == '[')
+        while (simpleName.charAt(arrayCount) == '[')
             arrayCount++;
         startIndex = (startIndex < 0) ? arrayCount : (startIndex + 1);
-        if((endIndex - startIndex) == 1) {
+        if ((endIndex - startIndex) == 1) {
             char ch = simpleName.charAt(startIndex);
-            simpleName = switch(ch) {
+            simpleName = switch (ch) {
                 case 'Z' -> "boolean";
                 case 'C' -> "char";
                 case 'F' -> "float";
@@ -149,30 +149,30 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
             };
         }
         else {
-            if(arrayCount > 0 && startIndex == arrayCount && simpleName.charAt(arrayCount) == 'L')
+            if (arrayCount > 0 && startIndex == arrayCount && simpleName.charAt(arrayCount) == 'L')
                 startIndex++;
-            if(simpleName.charAt(endIndex - 1) == ';')
+            if (simpleName.charAt(endIndex - 1) == ';')
                 endIndex--;
             simpleName = simpleName.substring(startIndex, endIndex);
         }
-        if(arrayCount > 0)
+        if (arrayCount > 0)
             simpleName = simpleName.concat("[]".repeat(arrayCount));
         return simpleName;
     }
 
     @Override
     public String getTypeName() {
-        if(isArray()) {
+        if (isArray()) {
             try {
                 Class<?> cl = this;
                 int dimensions = 0;
                 do {
                     dimensions++;
                     cl = cl.getComponentType();
-                } while(cl.isArray());
+                } while (cl.isArray());
                 return cl.getName().concat("[]".repeat(dimensions));
             }
-            catch(Throwable e) {
+            catch (Throwable e) {
 
             }
         }
@@ -193,14 +193,14 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
 
     @SuppressWarnings("unchecked")
     public T cast(Object obj) {
-        if(obj != null && !isInstance(obj))
+        if (obj != null && !isInstance(obj))
             throw new ClassCastException("Cannot cast " + obj.getClass().getName() + " to " + getName());
         return (T)obj;
     }
 
     @SuppressWarnings("unchecked")
     public <U> Class<? extends U> asSubclass(Class<U> clazz) {
-        if(clazz.isAssignableFrom(this))
+        if (clazz.isAssignableFrom(this))
             return (Class<? extends U>)this;
         else
             throw new ClassCastException(this.toString());
@@ -210,15 +210,15 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
 
     @CallerSensitive
     public Class<?> getNestHost() {
-        if(isPrimitive() || isArray())
+        if (isPrimitive() || isArray())
             return this;
         return getNestHost0();
     }
 
     public boolean isNestmateOf(Class<?> c) {
-        if(this == c)
+        if (this == c)
             return true;
-        if(isPrimitive() || isArray() || c.isPrimitive() || c.isArray())
+        if (isPrimitive() || isArray() || c.isPrimitive() || c.isArray())
             return false;
         return getNestHost() == c.getNestHost();
     }
@@ -227,7 +227,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
 
     @CallerSensitive
     public Class<?>[] getNestMembers() {
-        if(isPrimitive() || isArray())
+        if (isPrimitive() || isArray())
             return new Class<?>[] {this};
         return getNestMembers0();
     }
@@ -241,7 +241,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     @CallerSensitive
     public Field[] getFields() {
         Field[] publicFields = privateGetDeclaredFields(true);
-        if(publicFields.length > 0)
+        if (publicFields.length > 0)
             return publicFields.clone();
         return publicFields;
     }
@@ -250,43 +250,43 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     public Field getField(String name) throws NoSuchFieldException {
         Objects.requireNonNull(name);
         Field field = getFields0(name);
-        if(field == null)
+        if (field == null)
             throw new NoSuchFieldException(name);
         return field;
     }
 
     private Field getFields0(String name) {
         Field[] publicFields = privateGetDeclaredFields(true);
-        for(int i = 0; i < publicFields.length; i++) {
+        for (int i = 0; i < publicFields.length; i++) {
             Field field = publicFields[i];
-            if(name == field.getName())
+            if (name == field.getName())
                 return field;
         }
         Class<?> superClass = getSuperclass();
-        if(superClass == null)
+        if (superClass == null)
             return null;
         return superClass.getFields0(name);
     }
 
     private Field[] privateGetDeclaredFields(boolean publicOnly) {
-        if(publicOnly) {
-            if(declaredPublicFields == null) {
-                if(declaredFields == null)
+        if (publicOnly) {
+            if (declaredPublicFields == null) {
+                if (declaredFields == null)
                     declaredFields = getDeclaredFields0();
                 int count = 0;
                 Field[] fields = declaredFields;
-                for(int i = 0; i < fields.length; i++) {
-                    if(Modifier.isPublic(fields[i].getModifiers()))
+                for (int i = 0; i < fields.length; i++) {
+                    if (Modifier.isPublic(fields[i].getModifiers()))
                         count++;
                 }
-                if(count == declaredFields.length)
+                if (count == declaredFields.length)
                     declaredPublicFields = declaredFields;
                 else {
                     Field[] publicFields = new Field[count];
-                    if(count > 0) {
+                    if (count > 0) {
                         int index = 0;
-                        for(int i = 0; i < fields.length; i++) {
-                            if(Modifier.isPublic(fields[i].getModifiers()))
+                        for (int i = 0; i < fields.length; i++) {
+                            if (Modifier.isPublic(fields[i].getModifiers()))
                                 publicFields[index++] = fields[i];
                         }
                     }
@@ -296,7 +296,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
             return declaredPublicFields;
         }
         else {
-            if(declaredFields == null)
+            if (declaredFields == null)
                 declaredFields = getDeclaredFields0();
             return declaredFields;
         }
@@ -305,7 +305,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     @CallerSensitive
     public Method[] getMethods() {
         Method[] publicMethods = privateGetDeclaredMethods(true);
-        if(publicMethods.length > 0)
+        if (publicMethods.length > 0)
             return publicMethods.clone();
         return publicMethods;
     }
@@ -314,43 +314,43 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     public Method getMethod(String name, Class<?>... parameterTypes) throws NoSuchMethodException {
         Objects.requireNonNull(name);
         Method method = getMethod0(name, parameterTypes == null ? EMPTY_CLASS_ARRAY : parameterTypes);
-        if(method == null)
+        if (method == null)
             throw new NoSuchMethodException(methodToString(name, parameterTypes));
         return method;
     }
 
     private Method getMethod0(String name, Class<?>... parameterTypes) {
         Method[] publicMethods = privateGetDeclaredMethods(true);
-        for(int i = 0; i < publicMethods.length; i++) {
+        for (int i = 0; i < publicMethods.length; i++) {
             Method method = publicMethods[i];
-            if(method.matches(name, parameterTypes))
+            if (method.matches(name, parameterTypes))
                 return method;
         }
         Class<?> superClass = getSuperclass();
-        if(superClass == null)
+        if (superClass == null)
             return null;
         return superClass.getMethod0(name, parameterTypes);
     }
 
     private Method[] privateGetDeclaredMethods(boolean publicOnly) {
-        if(publicOnly) {
-            if(declaredPublicMethods == null) {
-                if(declaredMethods == null)
+        if (publicOnly) {
+            if (declaredPublicMethods == null) {
+                if (declaredMethods == null)
                     declaredMethods = getDeclaredMethods0();
                 int count = 0;
                 Method[] methods = declaredMethods;
-                for(int i = 0; i < methods.length; i++) {
-                    if(Modifier.isPublic(methods[i].getModifiers()))
+                for (int i = 0; i < methods.length; i++) {
+                    if (Modifier.isPublic(methods[i].getModifiers()))
                         count++;
                 }
-                if(count == declaredMethods.length)
+                if (count == declaredMethods.length)
                     declaredPublicMethods = declaredMethods;
                 else {
                     Method[] publicMethods = new Method[count];
-                    if(count > 0) {
+                    if (count > 0) {
                         int index = 0;
-                        for(int i = 0; i < methods.length; i++) {
-                            if(Modifier.isPublic(methods[i].getModifiers()))
+                        for (int i = 0; i < methods.length; i++) {
+                            if (Modifier.isPublic(methods[i].getModifiers()))
                                 publicMethods[index++] = methods[i];
                         }
                     }
@@ -360,7 +360,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
             return declaredPublicMethods;
         }
         else {
-            if(declaredMethods == null)
+            if (declaredMethods == null)
                 declaredMethods = getDeclaredMethods0();
             return declaredMethods;
         }
@@ -369,7 +369,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     @CallerSensitive
     public Constructor<?>[] getConstructors() {
         Constructor<T>[] publicConstructor = privateGetDeclaredConstructors(true);
-        if(publicConstructor.length > 0)
+        if (publicConstructor.length > 0)
             return publicConstructor.clone();
         return publicConstructor;
     }
@@ -377,16 +377,16 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     @CallerSensitive
     public Constructor<T> getConstructor(Class<?>... parameterTypes) throws NoSuchMethodException {
         Constructor<T> constructor = getConstructor0(parameterTypes == null ? EMPTY_CLASS_ARRAY : parameterTypes, true);
-        if(constructor == null)
+        if (constructor == null)
             throw new NoSuchMethodException(methodToString("<init>", parameterTypes));
         return constructor;
     }
 
     private Constructor<T> getConstructor0(Class<?>[] parameterTypes, boolean isPublic) {
         Constructor<T>[] publicConstructor = privateGetDeclaredConstructors(isPublic);
-        for(int i = 0; i < publicConstructor.length; i++) {
+        for (int i = 0; i < publicConstructor.length; i++) {
             Constructor<T> constructor = publicConstructor[i];
-            if(constructor.matches(parameterTypes))
+            if (constructor.matches(parameterTypes))
                 return constructor;
         }
         return null;
@@ -394,24 +394,24 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
 
     @SuppressWarnings("unchecked")
     private Constructor<T>[] privateGetDeclaredConstructors(boolean publicOnly) {
-        if(publicOnly) {
-            if(declaredPublicConstructors == null) {
-                if(declaredConstructors == null)
+        if (publicOnly) {
+            if (declaredPublicConstructors == null) {
+                if (declaredConstructors == null)
                     declaredConstructors = getDeclaredConstructors0();
                 int count = 0;
                 Constructor<T>[] constructors = declaredConstructors;
-                for(int i = 0; i < constructors.length; i++) {
-                    if(Modifier.isPublic(constructors[i].getModifiers()))
+                for (int i = 0; i < constructors.length; i++) {
+                    if (Modifier.isPublic(constructors[i].getModifiers()))
                         count++;
                 }
-                if(count == declaredConstructors.length)
+                if (count == declaredConstructors.length)
                     declaredPublicConstructors = declaredConstructors;
                 else {
                     Constructor<T>[] publicConstructors = (Constructor<T>[])new Constructor<?>[count];
-                    if(count > 0) {
+                    if (count > 0) {
                         int index = 0;
-                        for(int i = 0; i < constructors.length; i++) {
-                            if(Modifier.isPublic(constructors[i].getModifiers()))
+                        for (int i = 0; i < constructors.length; i++) {
+                            if (Modifier.isPublic(constructors[i].getModifiers()))
                                 publicConstructors[index++] = constructors[i];
                         }
                     }
@@ -421,7 +421,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
             return declaredPublicConstructors;
         }
         else {
-            if(declaredConstructors == null)
+            if (declaredConstructors == null)
                 declaredConstructors = getDeclaredConstructors0();
             return declaredConstructors;
         }
@@ -435,21 +435,21 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
         String parent = getParentPath();
         File file = new File(parent);
         try {
-            if(file.isFile()) {
-                if(name.startsWith("/"))
+            if (file.isFile()) {
+                if (name.startsWith("/"))
                     name = name.substring(1);
                 else
                     name = packageName.replace('.', File.separatorChar) + File.separator + name;
                 ZipEntry entry;
                 ZipInputStream zis = new ZipInputStream(new FileInputStream(parent));
-                while((entry = zis.getNextEntry()) != null) {
-                    if(entry.getName().equals(name))
+                while ((entry = zis.getNextEntry()) != null) {
+                    if (entry.getName().equals(name))
                         return zis;
                     zis.closeEntry();
                 }
             }
             else {
-                if(name.startsWith("/")) {
+                if (name.startsWith("/")) {
                     String root = parent.substring(0, parent.length() - (packageName.length() + 1));
                     name = root + name;
                 }
@@ -458,7 +458,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
                 return new FileInputStream(name);
             }
         }
-        catch(IOException ex) {
+        catch (IOException ex) {
 
         }
         return null;
@@ -466,8 +466,8 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
 
     private String methodToString(String name, Class<?>[] argTypes) {
         int length = getName().length() + 3 + name.length();
-        if(argTypes != null && argTypes.length > 0) {
-            for(int i = 0; i < argTypes.length; i++)
+        if (argTypes != null && argTypes.length > 0) {
+            for (int i = 0; i < argTypes.length; i++)
                 length += argTypes[i].getName().length();
             length += argTypes.length - 1;
         }
@@ -485,8 +485,8 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
         index += tmp.length;
 
         buff[index++] = '(';
-        if(argTypes != null && argTypes.length > 0) {
-            for(int i = 0; i < argTypes.length - 1; i++) {
+        if (argTypes != null && argTypes.length > 0) {
+            for (int i = 0; i < argTypes.length - 1; i++) {
                 tmp = argTypes[i].getName().value();
                 System.arraycopy(tmp, 0, buff, index, tmp.length);
                 index += tmp.length;
@@ -503,22 +503,22 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
 
     @Override
     public String descriptorString() {
-        if(isPrimitive()) {
+        if (isPrimitive()) {
             String name = getName();
-            switch(name.length()) {
+            switch (name.length()) {
                 case 3:
                     return "I";
                 case 4:
-                    if(name.equals("char"))
+                    if (name.equals("char"))
                         return "C";
-                    else if(name.equals("byte"))
+                    else if (name.equals("byte"))
                         return "B";
-                    else if(name.equals("long"))
+                    else if (name.equals("long"))
                         return "J";
                     else
                         return "V";
                 case 5:
-                    if(name.equals("float"))
+                    if (name.equals("float"))
                         return "F";
                     else
                         return "S";
@@ -528,9 +528,9 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
                     return "Z";
             }
         }
-        else if(isArray())
+        else if (isArray())
             return "[" + getComponentType().descriptorString();
-        else if(isHidden()) {
+        else if (isHidden()) {
             String name = getName();
             int index = name.indexOf('/');
             StringBuilder sb = new StringBuilder(name.length() + 2);

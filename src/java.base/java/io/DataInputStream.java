@@ -22,9 +22,9 @@ public class DataInputStream extends FilterInputStream implements DataInput {
     public final void readFully(byte[] b, int off, int len) throws IOException {
         Objects.checkFromIndexSize(off, len, b.length);
         int n = 0;
-        while(n < len) {
+        while (n < len) {
             int count = in.read(b, off + n, len - n);
-            if(count < 0)
+            if (count < 0)
                 throw new EOFException();
             n += count;
         }
@@ -34,7 +34,7 @@ public class DataInputStream extends FilterInputStream implements DataInput {
         int total = 0;
         int cur = 0;
 
-        while((total < n) && ((cur = (int)in.skip(n - total)) > 0))
+        while ((total < n) && ((cur = (int)in.skip(n - total)) > 0))
             total += cur;
 
         return total;
@@ -50,7 +50,7 @@ public class DataInputStream extends FilterInputStream implements DataInput {
 
     public final int readUnsignedByte() throws IOException {
         int ch = in.read();
-        if(ch < 0)
+        if (ch < 0)
             throw new EOFException();
         return ch;
     }
@@ -87,9 +87,9 @@ public class DataInputStream extends FilterInputStream implements DataInput {
         StringBuilder sb = new StringBuilder();
         int c;
         boolean any = false;
-        while((c = in.read()) >= 0) {
+        while ((c = in.read()) >= 0) {
             any = true;
-            if(c == '\n' || c == '\r')
+            if (c == '\n' || c == '\r')
                 break;
             sb.append((char) c);
         }
@@ -106,30 +106,30 @@ public class DataInputStream extends FilterInputStream implements DataInput {
         char[] chararr = new char[utflen];
         in.readFully(bytearr, 0, utflen);
         int count = 0, cc = 0;
-        while(count < utflen) {
+        while (count < utflen) {
             int c = bytearr[count] & 0xFF;
-            if(c > 127)
+            if (c > 127)
                 break;
             count++;
             chararr[cc++] = (char) c;
         }
-        while(count < utflen) {
+        while (count < utflen) {
             int c = bytearr[count] & 0xFF;
             int x = c >> 4;
-            if(x <= 7) {
+            if (x <= 7) {
                 count++;
                 chararr[cc++] = (char) c;
             }
-            else if(x == 12 || x == 13) {
+            else if (x == 12 || x == 13) {
                 count += 2;
-                if(count > utflen)
+                if (count > utflen)
                     throw new UTFDataFormatException("malformed input: partial character at end");
                 int c2 = bytearr[count - 1];
                 chararr[cc++] = (char) (((c & 0x1F) << 6) | (c2 & 0x3F));
             }
-            else if(x == 14) {
+            else if (x == 14) {
                 count += 3;
-                if(count > utflen)
+                if (count > utflen)
                     throw new UTFDataFormatException("malformed input: partial character at end");
                 int c2 = bytearr[count - 2];
                 int c3 = bytearr[count - 1];

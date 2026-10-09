@@ -52,7 +52,7 @@ public final class Boolean implements Comparable<Boolean> {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Boolean)
+        if (obj instanceof Boolean)
             return value == ((Boolean)obj).booleanValue();
         return false;
     }

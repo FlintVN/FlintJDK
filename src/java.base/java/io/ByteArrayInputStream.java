@@ -28,14 +28,14 @@ public class ByteArrayInputStream extends InputStream {
 
     @Override
     public synchronized int read(byte[] b, int off, int len) {
-        if(b == null)
+        if (b == null)
             throw new NullPointerException();
-        if(pos >= count)
+        if (pos >= count)
             return -1;
         int avail = count - pos;
-        if(len > avail)
+        if (len > avail)
             len = avail;
-        if(len <= 0)
+        if (len <= 0)
             return 0;
         System.arraycopy(buf, pos, b, off, len);
         pos += len;
@@ -44,7 +44,7 @@ public class ByteArrayInputStream extends InputStream {
 
     @Override
     public synchronized byte[] readAllBytes() {
-        if(pos == 0 || count == buf.length)
+        if (pos == 0 || count == buf.length)
             return buf.clone();
         int newLength = count - pos;
         byte[] copy = new byte[newLength];
@@ -61,9 +61,9 @@ public class ByteArrayInputStream extends InputStream {
     @Override
     public synchronized long transferTo(OutputStream out) throws IOException {
         int len = count - pos;
-        if(len > 0) {
+        if (len > 0) {
             int nwritten = 0;
-            while(nwritten < len) {
+            while (nwritten < len) {
                 int nbyte = Integer.min(len - nwritten, MAX_TRANSFER_SIZE);
                 out.write(buf, pos, nbyte);
                 pos += nbyte;
@@ -77,7 +77,7 @@ public class ByteArrayInputStream extends InputStream {
     @Override
     public synchronized long skip(long n) {
         long k = count - pos;
-        if(n < k)
+        if (n < k)
             k = n < 0 ? 0 : n;
 
         pos += (int)k;

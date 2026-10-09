@@ -7,12 +7,12 @@ public class Rgb565Graphics extends Graphics {
 
     private Rgb565Graphics(int width, int height, byte[] buff) {
         super(width, height, buff);
-        if((width * height * 2) > buff.length)
+        if ((width * height * 2) > buff.length)
             throw new IllegalArgumentException("The buffer is not large enough to create graphics of the specified size");
     }
 
     public static synchronized GraphicsFactory getGraphicsFactory() {
-        if(factory == null)
+        if (factory == null)
             factory = new Factory();
         return factory;
     }

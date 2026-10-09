@@ -9,7 +9,7 @@ public class Font {
         try(FileInputStream inputStream = new FileInputStream(fontPath)) {
             initFontData(inputStream);
         }
-        catch(IOException e) {
+        catch (IOException e) {
             throw e;
         }
     }

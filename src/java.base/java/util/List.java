@@ -32,7 +32,7 @@ public interface List<E> extends Collection<E> {
     default void replaceAll(UnaryOperator<E> operator) {
         Objects.requireNonNull(operator);
         final ListIterator<E> li = this.listIterator();
-        while(li.hasNext()) {
+        while (li.hasNext()) {
             li.set(operator.apply(li.next()));
         }
     }
@@ -42,7 +42,7 @@ public interface List<E> extends Collection<E> {
         Object[] a = this.toArray();
         Arrays.sort(a, (Comparator)c);
         ListIterator<E> i = this.listIterator();
-        for(Object e : a) {
+        for (Object e : a) {
             i.next();
             i.set((E)e);
         }
@@ -74,7 +74,7 @@ public interface List<E> extends Collection<E> {
 
     @Override
     default Spliterator<E> spliterator() {
-        if(this instanceof RandomAccess)
+        if (this instanceof RandomAccess)
             return new AbstractList.RandomAccessSpliterator<>(this);
         else
             return Spliterators.spliterator(this, Spliterator.ORDERED);
@@ -89,28 +89,28 @@ public interface List<E> extends Collection<E> {
     }
 
     default E getFirst() {
-        if(this.isEmpty())
+        if (this.isEmpty())
             throw new NoSuchElementException();
         else
             return this.get(0);
     }
 
     default E getLast() {
-        if(this.isEmpty())
+        if (this.isEmpty())
             throw new NoSuchElementException();
         else
             return this.get(this.size() - 1);
     }
 
     default E removeFirst() {
-        if(this.isEmpty())
+        if (this.isEmpty())
             throw new NoSuchElementException();
         else
             return this.remove(0);
     }
 
     default E removeLast() {
-        if(this.isEmpty())
+        if (this.isEmpty())
             throw new NoSuchElementException();
         else
             return this.remove(this.size() - 1);
@@ -168,7 +168,7 @@ public interface List<E> extends Collection<E> {
     @SafeVarargs
     @SuppressWarnings("varargs")
     static <E> List<E> of(E... elements) {
-        switch(elements.length) {
+        switch (elements.length) {
             case 0:
                 @SuppressWarnings("unchecked")
                 var list = (List<E>)ImmutableCollections.EMPTY_LIST;

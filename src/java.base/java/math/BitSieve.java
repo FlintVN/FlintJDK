@@ -18,7 +18,7 @@ class BitSieve {
             sieveSingle(length, nextIndex + nextPrime, nextPrime);
             nextIndex = sieveSearch(length, nextIndex + 1);
             nextPrime = 2 * nextIndex + 1;
-        } while((nextIndex > 0) && (nextPrime < length));
+        } while ((nextIndex > 0) && (nextPrime < length));
     }
 
     BitSieve(BigInteger base, int searchLen) {
@@ -35,13 +35,13 @@ class BitSieve {
             start = b.divideOneWord(convertedStep, q);
 
             start = convertedStep - start;
-            if(start % 2 == 0)
+            if (start % 2 == 0)
                 start += convertedStep;
             sieveSingle(searchLen, (start - 1) / 2, convertedStep);
 
             step = smallSieve.sieveSearch(smallSieve.length, step + 1);
             convertedStep = (step * 2) + 1;
-        } while(step > 0);
+        } while (step > 0);
     }
 
     private static int unitIndex(int bitIndex) {
@@ -63,20 +63,20 @@ class BitSieve {
     }
 
     private int sieveSearch(int limit, int start) {
-        if(start >= limit)
+        if (start >= limit)
             return -1;
 
         int index = start;
         do {
-            if(!get(index))
+            if (!get(index))
                 return index;
             index++;
-        } while(index < limit - 1);
+        } while (index < limit - 1);
         return -1;
     }
 
     private void sieveSingle(int limit, int start, int step) {
-        while(start < limit) {
+        while (start < limit) {
             set(start);
             start += step;
         }
@@ -85,12 +85,12 @@ class BitSieve {
     // TODO
     // BigInteger retrieve(BigInteger initValue, int certainty, java.util.Random random) {
     //     int offset = 1;
-    //     for(int i = 0; i < bits.length; i++) {
+    //     for (int i = 0; i < bits.length; i++) {
     //         long nextLong = ~bits[i];
-    //         for(int j = 0; j < 64; j++) {
-    //             if((nextLong & 1) == 1) {
+    //         for (int j = 0; j < 64; j++) {
+    //             if ((nextLong & 1) == 1) {
     //                 BigInteger candidate = initValue.add(BigInteger.valueOf(offset));
-    //                 if(candidate.primeToCertainty(certainty, random))
+    //                 if (candidate.primeToCertainty(certainty, random))
     //                     return candidate;
     //             }
     //             nextLong >>>= 1;

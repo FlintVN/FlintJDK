@@ -23,7 +23,7 @@ public class Stack<E> extends Vector<E> {
 
     public synchronized E peek() {
         int len = size();
-        if(len == 0)
+        if (len == 0)
             throw new EmptyStackException();
         return elementAt(len - 1);
     }
@@ -34,7 +34,7 @@ public class Stack<E> extends Vector<E> {
 
     public synchronized int search(Object o) {
         int i = lastIndexOf(o);
-        if(i >= 0)
+        if (i >= 0)
             return size() - i;
         return -1;
     }

@@ -8,9 +8,9 @@ public final class ImageDecoder {
     }
 
     public static Rgb565Image decodeToRgb565(byte[] imageData, int off, int len) {
-        if(imageData == null)
+        if (imageData == null)
             throw new NullPointerException("imageData cannot be null");
-        if(off < 0 || len > imageData.length - off)
+        if (off < 0 || len > imageData.length - off)
             throw new IndexOutOfBoundsException();
 
         int c1 = imageData[off + 0];
@@ -22,9 +22,9 @@ public final class ImageDecoder {
         int c7 = imageData[off + 6];
         int c8 = imageData[off + 7];
 
-        if(c1 == '#' && c2 == 'd' && c3 == 'e' && c4 == 'f')
+        if (c1 == '#' && c2 == 'd' && c3 == 'e' && c4 == 'f')
             return decodeBmpToRgb565(imageData, off, len);
-        if(c1 == -119 && c2 == 80 && c3 == 78 && c4 == 71 && c5 == 13 && c6 == 10 && c7 == 26 && c8 == 10)
+        if (c1 == -119 && c2 == 80 && c3 == 78 && c4 == 71 && c5 == 13 && c6 == 10 && c7 == 26 && c8 == 10)
             return decodePngToRgb565(imageData, off, len);
         else
             throw new UnsupportedOperationException("Image format not supported");

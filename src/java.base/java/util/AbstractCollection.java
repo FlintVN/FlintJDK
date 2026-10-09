@@ -17,14 +17,14 @@ public abstract class AbstractCollection<E> implements Collection<E> {
 
     public boolean contains(Object o) {
         Iterator<E> it = iterator();
-        if(o == null) {
-            while(it.hasNext())
-                if(it.next() == null)
+        if (o == null) {
+            while (it.hasNext())
+                if (it.next() == null)
                     return true;
         }
         else {
-            while(it.hasNext())
-                if(o.equals(it.next()))
+            while (it.hasNext())
+                if (o.equals(it.next()))
                     return true;
         }
         return false;
@@ -33,8 +33,8 @@ public abstract class AbstractCollection<E> implements Collection<E> {
     public Object[] toArray() {
         Object[] r = new Object[size()];
         Iterator<E> it = iterator();
-        for(int i = 0; i < r.length; i++) {
-            if(!it.hasNext()) {
+        for (int i = 0; i < r.length; i++) {
+            if (!it.hasNext()) {
                 Object[] newArray = new Object[i];
                 System.arraycopy(r, 0, newArray, 0, i);
                 return newArray;
@@ -50,18 +50,18 @@ public abstract class AbstractCollection<E> implements Collection<E> {
         T[] r = a.length >= size ? a : (T[])Array.newInstance(a.getClass().getComponentType(), size);
         Iterator<E> it = iterator();
 
-        for(int i = 0; i < r.length; i++) {
-            if(!it.hasNext()) {
-                if(a == r)
+        for (int i = 0; i < r.length; i++) {
+            if (!it.hasNext()) {
+                if (a == r)
                     r[i] = null;
-                else if(a.length < i) {
+                else if (a.length < i) {
                     T[] newArray = (T[])Array.newInstance(r.getClass().getComponentType(), i);
                     System.arraycopy(r, 0, newArray, 0, i);
                     return newArray;
                 }
                 else {
                     System.arraycopy(r, 0, a, 0, i);
-                    if(a.length > i)
+                    if (a.length > i)
                         a[i] = null;
                 }
                 return a;
@@ -75,10 +75,10 @@ public abstract class AbstractCollection<E> implements Collection<E> {
     private static <T> T[] finishToArray(T[] r, Iterator<?> it) {
         int len = r.length;
         int i = len;
-        while(it.hasNext()) {
-            if(i == len) {
+        while (it.hasNext()) {
+            if (i == len) {
                 len = Math.max(len + 1, Math.max(len + ((len >> 1) + 1), Integer.MAX_VALUE - 8));
-                if(len < 0)
+                if (len < 0)
                     throw new OutOfMemoryError("Required array length " + len + " + " + 1 + " is too large");
                 T[] newArray = (T[])Array.newInstance(r.getClass().getComponentType(), len);
                 System.arraycopy(r, 0, newArray, 0, len);
@@ -86,7 +86,7 @@ public abstract class AbstractCollection<E> implements Collection<E> {
             }
             r[i++] = (T)it.next();
         }
-        if(i == len)
+        if (i == len)
             return r;
         else {
             T[] newArray = (T[])Array.newInstance(r.getClass().getComponentType(), i);
@@ -101,17 +101,17 @@ public abstract class AbstractCollection<E> implements Collection<E> {
 
     public boolean remove(Object o) {
         Iterator<E> it = iterator();
-        if(o == null) {
-            while(it.hasNext()) {
-                if(it.next() == null) {
+        if (o == null) {
+            while (it.hasNext()) {
+                if (it.next() == null) {
                     it.remove();
                     return true;
                 }
             }
         }
         else {
-            while(it.hasNext()) {
-                if(o.equals(it.next())) {
+            while (it.hasNext()) {
+                if (o.equals(it.next())) {
                     it.remove();
                     return true;
                 }
@@ -121,16 +121,16 @@ public abstract class AbstractCollection<E> implements Collection<E> {
     }
 
     public boolean containsAll(Collection<?> c) {
-        for(Object e : c)
-            if(!contains(e))
+        for (Object e : c)
+            if (!contains(e))
                 return false;
         return true;
     }
 
     public boolean addAll(Collection<? extends E> c) {
         boolean modified = false;
-        for(E e : c) {
-            if(add(e))
+        for (E e : c) {
+            if (add(e))
                 modified = true;
         }
         return modified;
@@ -140,8 +140,8 @@ public abstract class AbstractCollection<E> implements Collection<E> {
         Objects.requireNonNull(c);
         boolean modified = false;
         Iterator<?> it = iterator();
-        while(it.hasNext()) {
-            if(c.contains(it.next())) {
+        while (it.hasNext()) {
+            if (c.contains(it.next())) {
                 it.remove();
                 modified = true;
             }
@@ -153,8 +153,8 @@ public abstract class AbstractCollection<E> implements Collection<E> {
         Objects.requireNonNull(c);
         boolean modified = false;
         Iterator<E> it = iterator();
-        while(it.hasNext()) {
-            if(!c.contains(it.next())) {
+        while (it.hasNext()) {
+            if (!c.contains(it.next())) {
                 it.remove();
                 modified = true;
             }
@@ -164,7 +164,7 @@ public abstract class AbstractCollection<E> implements Collection<E> {
 
     public void clear() {
         Iterator<E> it = iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             it.next();
             it.remove();
         }
@@ -172,15 +172,15 @@ public abstract class AbstractCollection<E> implements Collection<E> {
 
     public String toString() {
         Iterator<E> it = iterator();
-        if(!it.hasNext())
+        if (!it.hasNext())
             return "[]";
 
         StringBuilder sb = new StringBuilder();
         sb.append('[');
-        for(;;) {
+        for (;;) {
             E e = it.next();
             sb.append(e == this ? "(this Collection)" : e);
-            if(!it.hasNext())
+            if (!it.hasNext())
                 return sb.append(']').toString();
             sb.append(',').append(' ');
         }

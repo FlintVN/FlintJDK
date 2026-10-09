@@ -67,9 +67,9 @@ public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Clone
 
     // TODO
     // public boolean addAll(Collection<? extends E> c) {
-    //     if(m.size() == 0 && c.size() > 0 && c instanceof SortedSet && m instanceof TreeMap<E, Object> map) {
+    //     if (m.size() == 0 && c.size() > 0 && c instanceof SortedSet && m instanceof TreeMap<E, Object> map) {
     //         SortedSet<? extends E> set = (SortedSet<? extends E>) c;
-    //         if(Objects.equals(set.comparator(), map.comparator())) {
+    //         if (Objects.equals(set.comparator(), map.comparator())) {
     //             map.addAllForTreeSet(set, PRESENT);
     //             return true;
     //         }
@@ -154,7 +154,7 @@ public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Clone
     //     try {
     //         clone = (TreeSet<E>) super.clone();
     //     }
-    //     catch(CloneNotSupportedException e) {
+    //     catch (CloneNotSupportedException e) {
     //         throw new InternalError(e);
     //     }
 
@@ -171,7 +171,7 @@ public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Clone
 
     //     s.writeInt(m.size());
 
-    //     for(E e : m.keySet())
+    //     for (E e : m.keySet())
     //         s.writeObject(e);
     // }
 

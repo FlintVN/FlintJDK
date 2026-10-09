@@ -7,13 +7,13 @@ public class PushbackInputStream extends FilterInputStream {
     protected int pos;
 
     private void ensureOpen() throws IOException {
-        if(in == null)
+        if (in == null)
             throw new IOException("Stream closed");
     }
 
     public PushbackInputStream(InputStream in, int size) {
         super(in);
-        if(size <= 0)
+        if (size <= 0)
             throw new IllegalArgumentException("size <= 0");
         this.buf = new byte[size];
         this.pos = size;
@@ -25,31 +25,31 @@ public class PushbackInputStream extends FilterInputStream {
 
     public int read() throws IOException {
         ensureOpen();
-        if(pos < buf.length)
+        if (pos < buf.length)
             return buf[pos++] & 0xFF;
         return super.read();
     }
 
     public int read(byte[] b, int off, int len) throws IOException {
         ensureOpen();
-        if(b == null)
+        if (b == null)
             throw new NullPointerException();
         Objects.checkFromIndexSize(off, len, b.length);
-        if(len == 0)
+        if (len == 0)
             return 0;
 
         int avail = buf.length - pos;
-        if(avail > 0) {
-            if(len < avail)
+        if (avail > 0) {
+            if (len < avail)
                 avail = len;
             System.arraycopy(buf, pos, b, off, avail);
             pos += avail;
             off += avail;
             len -= avail;
         }
-        if(len > 0) {
+        if (len > 0) {
             len = super.read(b, off, len);
-            if(len == -1)
+            if (len == -1)
                 return avail == 0 ? -1 : avail;
             return avail + len;
         }
@@ -58,14 +58,14 @@ public class PushbackInputStream extends FilterInputStream {
 
     public void unread(int b) throws IOException {
         ensureOpen();
-        if(pos == 0)
+        if (pos == 0)
             throw new IOException("Push back buffer is full");
         buf[--pos] = (byte)b;
     }
 
     public void unread(byte[] b, int off, int len) throws IOException {
         ensureOpen();
-        if(len > pos)
+        if (len > pos)
             throw new IOException("Push back buffer is full");
         pos -= len;
         System.arraycopy(b, off, buf, pos, len);
@@ -84,17 +84,17 @@ public class PushbackInputStream extends FilterInputStream {
 
     public long skip(long n) throws IOException {
         ensureOpen();
-        if(n <= 0)
+        if (n <= 0)
             return 0;
 
         long pskip = buf.length - pos;
-        if(pskip > 0) {
-            if(n < pskip)
+        if (pskip > 0) {
+            if (n < pskip)
                 pskip = n;
             pos += (int) pskip;
             n -= pskip;
         }
-        if(n > 0)
+        if (n > 0)
             pskip += super.skip(n);
         return pskip;
     }
@@ -118,7 +118,7 @@ public class PushbackInputStream extends FilterInputStream {
     }
 
     private void implClose() throws IOException {
-        if(in != null) {
+        if (in != null) {
             in.close();
             in = null;
             buf = null;
@@ -129,9 +129,9 @@ public class PushbackInputStream extends FilterInputStream {
     public long transferTo(OutputStream out) throws IOException {
         Objects.requireNonNull(out, "out");
         ensureOpen();
-        if(getClass() == PushbackInputStream.class) {
+        if (getClass() == PushbackInputStream.class) {
             int avail = buf.length - pos;
-            if(avail > 0) {
+            if (avail > 0) {
                 int length = buf.length - pos;
                 byte[] buffer = new byte[length];
                 System.arraycopy(buf, pos, buffer, 0, length);
@@ -141,7 +141,7 @@ public class PushbackInputStream extends FilterInputStream {
             try {
                 return Math.addExact(avail, in.transferTo(out));
             }
-            catch(ArithmeticException ignore) {
+            catch (ArithmeticException ignore) {
                 return Long.MAX_VALUE;
             }
         }

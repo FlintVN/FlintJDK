@@ -81,7 +81,7 @@ public interface Map<K, V> {
         @SuppressWarnings("unchecked")
         public static <K, V> Map.Entry<K, V> copyOf(Map.Entry<? extends K, ? extends V> e) {
             Objects.requireNonNull(e);
-            if(e instanceof KeyValueHolder)
+            if (e instanceof KeyValueHolder)
                 return (Map.Entry<K, V>)e;
             else
                 return Map.entry(e.getKey(), e.getValue());
@@ -99,14 +99,14 @@ public interface Map<K, V> {
 
     default void forEach(BiConsumer<? super K, ? super V> action) {
         Objects.requireNonNull(action);
-        for(Map.Entry<K, V> entry : entrySet()) {
+        for (Map.Entry<K, V> entry : entrySet()) {
             K k;
             V v;
             try {
                 k = entry.getKey();
                 v = entry.getValue();
             }
-            catch(IllegalStateException ise) {
+            catch (IllegalStateException ise) {
                 throw new ConcurrentModificationException(ise);
             }
             action.accept(k, v);
@@ -115,14 +115,14 @@ public interface Map<K, V> {
 
     default void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
         Objects.requireNonNull(function);
-        for(Map.Entry<K, V> entry : entrySet()) {
+        for (Map.Entry<K, V> entry : entrySet()) {
             K k;
             V v;
             try {
                 k = entry.getKey();
                 v = entry.getValue();
             }
-            catch(IllegalStateException ise) {
+            catch (IllegalStateException ise) {
                 throw new ConcurrentModificationException(ise);
             }
 
@@ -131,7 +131,7 @@ public interface Map<K, V> {
             try {
                 entry.setValue(v);
             }
-            catch(IllegalStateException ise) {
+            catch (IllegalStateException ise) {
                 throw new ConcurrentModificationException(ise);
             }
         }
@@ -139,7 +139,7 @@ public interface Map<K, V> {
 
     default V putIfAbsent(K key, V value) {
         V v = get(key);
-        if(v == null)
+        if (v == null)
             v = put(key, value);
 
         return v;
@@ -147,7 +147,7 @@ public interface Map<K, V> {
 
     default boolean remove(Object key, Object value) {
         Object curValue = get(key);
-        if(!Objects.equals(curValue, value) || (curValue == null && !containsKey(key)))
+        if (!Objects.equals(curValue, value) || (curValue == null && !containsKey(key)))
             return false;
         remove(key);
         return true;
@@ -155,7 +155,7 @@ public interface Map<K, V> {
 
     default boolean replace(K key, V oldValue, V newValue) {
         Object curValue = get(key);
-        if(!Objects.equals(curValue, oldValue) || (curValue == null && !containsKey(key)))
+        if (!Objects.equals(curValue, oldValue) || (curValue == null && !containsKey(key)))
             return false;
         put(key, newValue);
         return true;
@@ -163,7 +163,7 @@ public interface Map<K, V> {
 
     default V replace(K key, V value) {
         V curValue;
-        if(((curValue = get(key)) != null) || containsKey(key))
+        if (((curValue = get(key)) != null) || containsKey(key))
             curValue = put(key, value);
         return curValue;
     }
@@ -171,9 +171,9 @@ public interface Map<K, V> {
     default V computeIfAbsent(K key, Function<? super K, ? extends V> mappingFunction) {
         Objects.requireNonNull(mappingFunction);
         V v;
-        if((v = get(key)) == null) {
+        if ((v = get(key)) == null) {
             V newValue;
-            if((newValue = mappingFunction.apply(key)) != null) {
+            if ((newValue = mappingFunction.apply(key)) != null) {
                 put(key, newValue);
                 return newValue;
             }
@@ -185,9 +185,9 @@ public interface Map<K, V> {
     default V computeIfPresent(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
         Objects.requireNonNull(remappingFunction);
         V oldValue;
-        if((oldValue = get(key)) != null) {
+        if ((oldValue = get(key)) != null) {
             V newValue = remappingFunction.apply(key, oldValue);
-            if(newValue != null) {
+            if (newValue != null) {
                 put(key, newValue);
                 return newValue;
             }
@@ -205,8 +205,8 @@ public interface Map<K, V> {
         V oldValue = get(key);
 
         V newValue = remappingFunction.apply(key, oldValue);
-        if(newValue == null) {
-            if(oldValue != null || containsKey(key)) {
+        if (newValue == null) {
+            if (oldValue != null || containsKey(key)) {
                 remove(key);
                 return null;
             }
@@ -224,7 +224,7 @@ public interface Map<K, V> {
         Objects.requireNonNull(value);
         V oldValue = get(key);
         V newValue = (oldValue == null) ? value : remappingFunction.apply(oldValue, value);
-        if(newValue == null)
+        if (newValue == null)
             remove(key);
         else
             put(key, newValue);
@@ -279,17 +279,17 @@ public interface Map<K, V> {
     @SafeVarargs
     @SuppressWarnings("varargs")
     static <K, V> Map<K, V> ofEntries(Entry<? extends K, ? extends V>... entries) {
-        if(entries.length == 0) {
+        if (entries.length == 0) {
             @SuppressWarnings("unchecked")
             var map = (Map<K,V>)ImmutableCollections.EMPTY_MAP;
             return map;
         }
-        else if(entries.length == 1)
+        else if (entries.length == 1)
             return new ImmutableCollections.Map1<>(entries[0].getKey(), entries[0].getValue());
         else {
             Object[] kva = new Object[entries.length << 1];
             int a = 0;
-            for(Entry<? extends K, ? extends V> entry : entries) {
+            for (Entry<? extends K, ? extends V> entry : entries) {
                 kva[a++] = entry.getKey();
                 kva[a++] = entry.getValue();
             }
@@ -303,7 +303,7 @@ public interface Map<K, V> {
 
     @SuppressWarnings({"rawtypes","unchecked"})
     static <K, V> Map<K, V> copyOf(Map<? extends K, ? extends V> map) {
-        if(map instanceof ImmutableCollections.AbstractImmutableMap)
+        if (map instanceof ImmutableCollections.AbstractImmutableMap)
             return (Map<K,V>)map;
         else
             return (Map<K,V>)Map.ofEntries(map.entrySet().toArray(new Entry[0]));

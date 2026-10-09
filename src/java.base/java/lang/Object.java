@@ -38,11 +38,11 @@ public final class Object {
     }
 
     public final void wait(long timeoutMillis, int nanos) throws InterruptedException {
-        if(timeoutMillis < 0)
+        if (timeoutMillis < 0)
             throw new IllegalArgumentException("timeoutMillis value is negative");
-        if(nanos < 0 || nanos > 999999)
+        if (nanos < 0 || nanos > 999999)
             throw new IllegalArgumentException("nanosecond timeout value out of range");
-        if(nanos > 0 && timeoutMillis < Long.MAX_VALUE)
+        if (nanos > 0 && timeoutMillis < Long.MAX_VALUE)
             timeoutMillis++;
         wait(timeoutMillis);
     }

@@ -31,7 +31,7 @@ public final class System {
     public static native int identityHashCode(Object x);
 
     public static String lineSeparator() {
-        if(lineSeparator == null)
+        if (lineSeparator == null)
             lineSeparator = getProperty("line.separator");
         return lineSeparator;
     }

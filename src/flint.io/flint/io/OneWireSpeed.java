@@ -12,7 +12,7 @@ public enum OneWireSpeed {
     }
 
     static OneWireSpeed fromValue(int value) {
-        return switch(value) {
+        return switch (value) {
             case 0 -> STANDARD;
             case 1 -> OVERDRIVE;
             default -> OVERDRIVE_ONLY;

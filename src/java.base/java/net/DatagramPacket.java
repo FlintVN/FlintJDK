@@ -8,7 +8,7 @@ public final class DatagramPacket {
 
     @SuppressWarnings("this-escape")
     public DatagramPacket(byte[] ibuf, int ilength) {
-        if(ibuf == null)
+        if (ibuf == null)
             throw new NullPointerException("buffer is null");
         buf = ibuf;
         setLength(ilength);
@@ -18,7 +18,7 @@ public final class DatagramPacket {
 
     @SuppressWarnings("this-escape")
     public DatagramPacket(byte[] ibuf, int ilength, InetAddress iaddr, int iport) {
-        if(ibuf == null)
+        if (ibuf == null)
             throw new NullPointerException("buffer is null");
         buf = ibuf;
         setLength(ilength);
@@ -47,7 +47,7 @@ public final class DatagramPacket {
     }
 
     public synchronized void setPort(int iport) {
-        if(iport < 0 || iport > 0xFFFF)
+        if (iport < 0 || iport > 0xFFFF)
             throw new IllegalArgumentException("Port out of range:" + iport);
         port = iport;
     }
@@ -57,7 +57,7 @@ public final class DatagramPacket {
     }
 
     public synchronized void setLength(int ilength) {
-        if(ilength < 0 || ilength > buf.length)
+        if (ilength < 0 || ilength > buf.length)
             throw new IllegalArgumentException("illegal length");
         length = ilength;
     }

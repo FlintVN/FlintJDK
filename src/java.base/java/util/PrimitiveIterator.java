@@ -15,7 +15,7 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
 
         default void forEachRemaining(IntConsumer action) {
             Objects.requireNonNull(action);
-            while(hasNext())
+            while (hasNext())
                 action.accept(nextInt());
         }
 
@@ -26,7 +26,7 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
 
         @Override
         default void forEachRemaining(Consumer<? super Integer> action) {
-            if(action instanceof IntConsumer)
+            if (action instanceof IntConsumer)
                 forEachRemaining((IntConsumer)action);
             else {
                 Objects.requireNonNull(action);
@@ -47,7 +47,7 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
 
         default void forEachRemaining(LongConsumer action) {
             Objects.requireNonNull(action);
-            while(hasNext())
+            while (hasNext())
                 action.accept(nextLong());
         }
 
@@ -58,7 +58,7 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
 
         @Override
         default void forEachRemaining(Consumer<? super Long> action) {
-            if(action instanceof LongConsumer)
+            if (action instanceof LongConsumer)
                 forEachRemaining((LongConsumer)action);
             else {
                 Objects.requireNonNull(action);
@@ -78,7 +78,7 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
 
         default void forEachRemaining(DoubleConsumer action) {
             Objects.requireNonNull(action);
-            while(hasNext())
+            while (hasNext())
                 action.accept(nextDouble());
         }
 
@@ -89,7 +89,7 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
 
         @Override
         default void forEachRemaining(Consumer<? super Double> action) {
-            if(action instanceof DoubleConsumer)
+            if (action instanceof DoubleConsumer)
                 forEachRemaining((DoubleConsumer)action);
             else {
                 Objects.requireNonNull(action);

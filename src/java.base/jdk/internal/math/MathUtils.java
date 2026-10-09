@@ -7,7 +7,7 @@ final class MathUtils {
 
     static long pow10(int e) {
         long ret = 1;
-        for(int i = 0; i < e; i++)
+        for (int i = 0; i < e; i++)
             ret *= 10;
         return ret;
     }

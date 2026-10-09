@@ -69,14 +69,14 @@ public class DataOutputStream extends FilterOutputStream implements DataOutput {
 
     public final void writeBytes(String s) throws IOException {
         int len = s.length();
-        for(int i = 0; i < len; i++)
+        for (int i = 0; i < len; i++)
             out.write((byte)s.charAt(i));
         written += len;
     }
 
     public final void writeChars(String s) throws IOException {
         int n = s.length();
-        for(int i = 0; i < n; i++)
+        for (int i = 0; i < n; i++)
             writeChar(s.charAt(i));
     }
 
@@ -86,23 +86,23 @@ public class DataOutputStream extends FilterOutputStream implements DataOutput {
 
     static final void writeUTF(String str, DataOutput out) throws IOException {
         int strlen = str.length(), utflen = 0;
-        for(int i = 0; i < strlen; i++) {
+        for (int i = 0; i < strlen; i++) {
             int c = str.charAt(i);
-            if(c >= 0x0001 && c <= 0x007F)
+            if (c >= 0x0001 && c <= 0x007F)
                 utflen++;
-            else if(c > 0x07FF)
+            else if (c > 0x07FF)
                 utflen += 3;
             else
                 utflen += 2;
         }
-        if(utflen > 65535)
+        if (utflen > 65535)
             throw new IOException("encoded string too long");
         out.writeShort(utflen);
-        for(int i = 0; i < strlen; i++) {
+        for (int i = 0; i < strlen; i++) {
             int c = str.charAt(i);
-            if(c >= 0x0001 && c <= 0x007F)
+            if (c >= 0x0001 && c <= 0x007F)
                 out.writeByte(c);
-            else if(c > 0x07FF) {
+            else if (c > 0x07FF) {
                 out.writeByte(0xE0 | ((c >> 12) & 0x0F));
                 out.writeByte(0x80 | ((c >> 6) & 0x3F));
                 out.writeByte(0x80 | (c & 0x3F));

@@ -32,7 +32,7 @@ public final class Optional<T> {
     }
 
     public T get() {
-        if(value == null)
+        if (value == null)
             throw new NoSuchElementException("No value present");
         return value;
     }
@@ -46,12 +46,12 @@ public final class Optional<T> {
     }
 
     public void ifPresent(Consumer<? super T> action) {
-        if(value != null)
+        if (value != null)
             action.accept(value);
     }
 
     public void ifPresentOrElse(Consumer<? super T> action, Runnable emptyAction) {
-        if(value != null)
+        if (value != null)
             action.accept(value);
         else
             emptyAction.run();
@@ -59,7 +59,7 @@ public final class Optional<T> {
 
     public Optional<T> filter(Predicate<? super T> predicate) {
         Objects.requireNonNull(predicate);
-        if(isEmpty())
+        if (isEmpty())
             return this;
         else
             return predicate.test(value) ? this : empty();
@@ -67,7 +67,7 @@ public final class Optional<T> {
 
     public <U> Optional<U> map(Function<? super T, ? extends U> mapper) {
         Objects.requireNonNull(mapper);
-        if(isEmpty())
+        if (isEmpty())
             return empty();
         else
             return Optional.ofNullable(mapper.apply(value));
@@ -75,7 +75,7 @@ public final class Optional<T> {
 
     public <U> Optional<U> flatMap(Function<? super T, ? extends Optional<? extends U>> mapper) {
         Objects.requireNonNull(mapper);
-        if(isEmpty())
+        if (isEmpty())
             return empty();
         else {
             @SuppressWarnings("unchecked")
@@ -86,7 +86,7 @@ public final class Optional<T> {
 
     public Optional<T> or(Supplier<? extends Optional<? extends T>> supplier) {
         Objects.requireNonNull(supplier);
-        if(isPresent())
+        if (isPresent())
             return this;
         else {
             @SuppressWarnings("unchecked")
@@ -97,7 +97,7 @@ public final class Optional<T> {
 
     // TODO
     // public Stream<T> stream() {
-    //     if(isEmpty())
+    //     if (isEmpty())
     //         return Stream.empty();
     //     else
     //         return Stream.of(value);
@@ -112,13 +112,13 @@ public final class Optional<T> {
     }
 
     public T orElseThrow() {
-        if(value == null)
+        if (value == null)
             throw new NoSuchElementException("No value present");
         return value;
     }
 
     public <X extends Throwable> T orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
-        if(value != null)
+        if (value != null)
             return value;
         else
             throw exceptionSupplier.get();
@@ -126,7 +126,7 @@ public final class Optional<T> {
 
     @Override
     public boolean equals(Object obj) {
-        if(this == obj)
+        if (this == obj)
             return true;
         return obj instanceof Optional<?> other && Objects.equals(value, other.value);
     }

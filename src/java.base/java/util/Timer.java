@@ -30,7 +30,7 @@ public class Timer {
     }
 
     public void schedule(TimerTask task, long delay) {
-        if(delay < 0)
+        if (delay < 0)
             throw new IllegalArgumentException("Negative delay.");
         sched(task, System.currentTimeMillis() + delay, 0);
     }
@@ -41,48 +41,48 @@ public class Timer {
     // }
 
     public void schedule(TimerTask task, long delay, long period) {
-        if(delay < 0)
+        if (delay < 0)
             throw new IllegalArgumentException("Negative delay.");
-        if(period <= 0)
+        if (period <= 0)
             throw new IllegalArgumentException("Non-positive period.");
         sched(task, System.currentTimeMillis() + delay, -period);
     }
 
     // TODO
     // public void schedule(TimerTask task, Date firstTime, long period) {
-    //     if(period <= 0)
+    //     if (period <= 0)
     //         throw new IllegalArgumentException("Non-positive period.");
     //     sched(task, firstTime.getTime(), -period);
     // }
 
     public void scheduleAtFixedRate(TimerTask task, long delay, long period) {
-        if(delay < 0)
+        if (delay < 0)
             throw new IllegalArgumentException("Negative delay.");
-        if(period <= 0)
+        if (period <= 0)
             throw new IllegalArgumentException("Non-positive period.");
         sched(task, System.currentTimeMillis() + delay, period);
     }
 
     // TODO
     // public void scheduleAtFixedRate(TimerTask task, Date firstTime, long period) {
-    //     if(period <= 0)
+    //     if (period <= 0)
     //         throw new IllegalArgumentException("Non-positive period.");
     //     sched(task, firstTime.getTime(), period);
     // }
 
     private void sched(TimerTask task, long time, long period) {
-        if(time < 0)
+        if (time < 0)
             throw new IllegalArgumentException("Illegal execution time.");
 
-        if(Math.abs(period) > (Long.MAX_VALUE >> 1))
+        if (Math.abs(period) > (Long.MAX_VALUE >> 1))
             period >>= 1;
 
         synchronized(queue) {
-            if(!thread.newTasksMayBeScheduled)
+            if (!thread.newTasksMayBeScheduled)
                 throw new IllegalStateException("Timer already cancelled.");
 
             synchronized(task.lock) {
-                if(task.state != TimerTask.VIRGIN)
+                if (task.state != TimerTask.VIRGIN)
                     throw new IllegalStateException("Task already scheduled or cancelled");
                 task.nextExecutionTime = time;
                 task.period = period;
@@ -90,7 +90,7 @@ public class Timer {
             }
 
             queue.add(task);
-            if(queue.getMin() == task)
+            if (queue.getMin() == task)
                 queue.notify();
         }
     }
@@ -106,14 +106,14 @@ public class Timer {
     public int purge() {
         int result = 0;
         synchronized(queue) {
-            for(int i = queue.size(); i > 0; i--) {
-                if(queue.get(i).state == TimerTask.CANCELLED) {
+            for (int i = queue.size(); i > 0; i--) {
+                if (queue.get(i).state == TimerTask.CANCELLED) {
                     queue.quickRemove(i);
                     result++;
                 }
             }
 
-            if(result != 0)
+            if (result != 0)
                 queue.heapify();
         }
 
@@ -142,27 +142,27 @@ class TimerThread extends Thread {
     }
 
     private void mainLoop() {
-        while(true) {
+        while (true) {
             try {
                 TimerTask task;
                 boolean taskFired;
                 synchronized(queue) {
-                    while(queue.isEmpty() && newTasksMayBeScheduled)
+                    while (queue.isEmpty() && newTasksMayBeScheduled)
                         queue.wait();
-                    if(queue.isEmpty())
+                    if (queue.isEmpty())
                         break;
 
                     long currentTime, executionTime;
                     task = queue.getMin();
                     synchronized(task.lock) {
-                        if(task.state == TimerTask.CANCELLED) {
+                        if (task.state == TimerTask.CANCELLED) {
                             queue.removeMin();
                             continue;
                         }
                         currentTime = System.currentTimeMillis();
                         executionTime = task.nextExecutionTime;
-                        if(taskFired = (executionTime <= currentTime)) {
-                            if(task.period == 0) {
+                        if (taskFired = (executionTime <= currentTime)) {
+                            if (task.period == 0) {
                                 queue.removeMin();
                                 task.state = TimerTask.EXECUTED;
                             }
@@ -170,13 +170,13 @@ class TimerThread extends Thread {
                                 queue.rescheduleMin(task.period<0 ? currentTime   - task.period : executionTime + task.period);
                         }
                     }
-                    if(!taskFired)
+                    if (!taskFired)
                         queue.wait(executionTime - currentTime);
                 }
-                if(taskFired)
+                if (taskFired)
                     task.run();
             }
-            catch(InterruptedException e) {
+            catch (InterruptedException e) {
 
             }
         }
@@ -192,7 +192,7 @@ class TaskQueue {
     }
 
     void add(TimerTask task) {
-        if(size + 1 == queue.length)
+        if (size + 1 == queue.length)
             queue = Arrays.copyOf(queue, 2 * queue.length);
 
         queue[++size] = task;
@@ -230,16 +230,16 @@ class TaskQueue {
     }
 
     void clear() {
-        for(int i = 1; i <= size; i++)
+        for (int i = 1; i <= size; i++)
             queue[i] = null;
 
         size = 0;
     }
 
     private void fixUp(int k) {
-        while(k > 1) {
+        while (k > 1) {
             int j = k >> 1;
-            if(queue[j].nextExecutionTime <= queue[k].nextExecutionTime)
+            if (queue[j].nextExecutionTime <= queue[k].nextExecutionTime)
                 break;
             TimerTask tmp = queue[j];  queue[j] = queue[k]; queue[k] = tmp;
             k = j;
@@ -248,10 +248,10 @@ class TaskQueue {
 
     private void fixDown(int k) {
         int j;
-        while((j = k << 1) <= size && j > 0) {
-            if(j < size && queue[j].nextExecutionTime > queue[j + 1].nextExecutionTime)
+        while ((j = k << 1) <= size && j > 0) {
+            if (j < size && queue[j].nextExecutionTime > queue[j + 1].nextExecutionTime)
                 j++;
-            if(queue[k].nextExecutionTime <= queue[j].nextExecutionTime)
+            if (queue[k].nextExecutionTime <= queue[j].nextExecutionTime)
                 break;
             TimerTask tmp = queue[j];  queue[j] = queue[k]; queue[k] = tmp;
             k = j;
@@ -259,7 +259,7 @@ class TaskQueue {
     }
 
     void heapify() {
-        for(int i = size / 2; i >= 1; i--)
+        for (int i = size / 2; i >= 1; i--)
             fixDown(i);
     }
 }

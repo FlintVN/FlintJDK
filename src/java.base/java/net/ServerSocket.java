@@ -11,28 +11,28 @@ public class ServerSocket implements Closeable {
     private SocketImpl impl;
 
     public static synchronized void setSocketFactory(SocketImplFactory fac) throws IOException {
-        if(factory != null)
+        if (factory != null)
             throw new SocketException("factory already defined");
         factory = fac;
     }
 
     private ServerSocket() {
-        if(factory != null)
+        if (factory != null)
             impl = factory.createSocketImpl();
         else {
             try {
                 impl = (SocketImpl)Class.forName("flint.net.FlintSocketImpl").getConstructor().newInstance();
             }
-            catch(ClassNotFoundException e) {
+            catch (ClassNotFoundException e) {
                 System.out.println("Class not found: flint.net.FlintInetAddressImpl");
             }
-            catch(NoSuchMethodException e) {
+            catch (NoSuchMethodException e) {
                 System.out.println("Method not found: flint.net.FlintInetAddressImpl.<init>()");
             }
-            catch(InstantiationException | IllegalArgumentException | InvocationTargetException e) {
+            catch (InstantiationException | IllegalArgumentException | InvocationTargetException e) {
                 System.out.println("Could not instantiate: flint.net.FlintInetAddressImpl");
             }
-            catch(IllegalAccessException e) {
+            catch (IllegalAccessException e) {
                 System.out.println("Cannot access class: flint.net.FlintInetAddressImpl");
             }
         }
@@ -49,17 +49,17 @@ public class ServerSocket implements Closeable {
     public ServerSocket(int port, int backlog, InetAddress bindAddr) throws IOException {
         this();
 
-        if(port < 0 || port > 0xFFFF)
+        if (port < 0 || port > 0xFFFF)
             throw new IllegalArgumentException("Port value out of range: " + port);
         try {
             impl.create();
-            if(bindAddr == null)
+            if (bindAddr == null)
                 bindAddr = InetAddress.anyLocalAddress();
 
             impl.bind(bindAddr, port);
             impl.listen(backlog);
         }
-        catch(IOException e) {
+        catch (IOException e) {
             impl.close();
             throw e;
         }
@@ -87,7 +87,7 @@ public class ServerSocket implements Closeable {
             si.fd = new FileDescriptor();
             impl.accept(si);
         }
-        catch(IOException e) {
+        catch (IOException e) {
             si.reset();
             s.impl = si;
             throw e;
@@ -105,7 +105,7 @@ public class ServerSocket implements Closeable {
 
     public synchronized int getSoTimeout() throws IOException {
         Object o = impl.getOption(SocketOptions.SO_TIMEOUT);
-        if(o instanceof Integer)
+        if (o instanceof Integer)
             return ((Integer)o).intValue();
         else
             return 0;
