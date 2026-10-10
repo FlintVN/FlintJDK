@@ -124,6 +124,10 @@ public abstract class Graphics {
 
     public abstract void clear(Color c);
 
+    public abstract void clear(int x, int y, int w, int h);
+
+    public abstract void clear(Color c, int x, int y, int w, int h);
+
     public void drawLine(Color color, Rectangle rect) {
         drawLine(color, rect.x, rect.y, rect.width, rect.height);
     }

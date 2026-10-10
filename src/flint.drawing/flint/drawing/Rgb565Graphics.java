@@ -24,6 +24,12 @@ public class Rgb565Graphics extends Graphics {
     public native void clear(Color c);
 
     @Override
+    public native void clear(int x, int y, int w, int h);
+
+    @Override
+    public native void clear(Color c, int x, int y, int w, int h);
+
+    @Override
     public native void drawLine(Color color, int x1, int y1, int x2, int y2);
 
     @Override
