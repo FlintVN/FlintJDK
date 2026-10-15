@@ -3,7 +3,6 @@ package java.lang;
 import java.util.Objects;
 import java.lang.annotation.Native;
 import jdk.internal.util.ArraysSupport;
-import jdk.internal.vm.annotation.ForceInline;
 
 public final class String implements Comparable<String>, CharSequence {
     private final byte[] value;
@@ -442,6 +441,8 @@ public final class String implements Comparable<String>, CharSequence {
     public String substring(int beginIndex, int endIndex) {
         byte[] val = value;
         int length = val.length >>> coder;
+        if (beginIndex < 0 || endIndex > length || beginIndex > endIndex)
+            throw new StringIndexOutOfBoundsException("Index out of bounds");
         if (beginIndex == 0 && endIndex == length)
             return this;
         int subLen = endIndex - beginIndex;
@@ -457,7 +458,7 @@ public final class String implements Comparable<String>, CharSequence {
         if (isLatin1) {
             byte[] buff = new byte[subLen];
             for (int i = beginIndex; i < endIndex; i++)
-                buff[i] = val[i << 1];
+                buff[i - beginIndex] = val[i << 1];
             return new String(buff, (byte)0);
         }
         return new String(val, beginIndex << 1, subLen << 1, (byte)1);
