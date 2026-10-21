@@ -1,6 +1,7 @@
 package java.net;
 
 import java.io.IOException;
+import flint.net.FlintDatagramSocketImpl;
 
 public class MulticastSocket extends DatagramSocket {
     public MulticastSocket() throws IOException {
@@ -12,12 +13,7 @@ public class MulticastSocket extends DatagramSocket {
     }
 
     void create(int port, InetAddress ignore) throws SocketException {
-        try {
-            this.impl = (DatagramSocketImpl)implClass.getConstructor().newInstance();
-        }
-        catch (Exception e) {
-            throw new SocketException("can't instantiate DatagramSocketImpl" + e.toString());
-        }
+        impl = new FlintDatagramSocketImpl();
         impl.create();
         impl.setOption(SocketOptions.SO_REUSEADDR, new Integer(-1));
         impl.bind(port, InetAddress.anyLocalAddress());
@@ -44,7 +40,7 @@ public class MulticastSocket extends DatagramSocket {
     }
 
     public InetAddress getInterface() throws SocketException {
-        return (InetAddress) impl.getOption(SocketOptions.IP_MULTICAST_IF);
+        return (InetAddress)impl.getOption(SocketOptions.IP_MULTICAST_IF);
     }
 
     public synchronized void send(DatagramPacket p, byte ttl) throws IOException {

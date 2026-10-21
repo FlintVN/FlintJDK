@@ -5,6 +5,7 @@ import java.lang.reflect.*;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.IOException;
+import flint.net.FlintSocketImpl;
 
 public class Socket implements Closeable {
     private static SocketImplFactory factory;
@@ -20,23 +21,8 @@ public class Socket implements Closeable {
     protected Socket() {
         if (factory != null)
             impl = factory.createSocketImpl();
-        else {
-            try {
-                impl = (SocketImpl)Class.forName("flint.net.FlintSocketImpl").getConstructor().newInstance();
-            }
-            catch (ClassNotFoundException e) {
-                System.out.println("Class not found: flint.net.FlintSocketImpl");
-            }
-            catch (NoSuchMethodException e) {
-                System.out.println("Method not found: flint.net.FlintSocketImpl.<init>()");
-            }
-            catch (InstantiationException | IllegalArgumentException | InvocationTargetException e) {
-                System.out.println("Could not instantiate: flint.net.FlintSocketImpl");
-            }
-            catch (IllegalAccessException e) {
-                System.out.println("Cannot access class: flint.net.FlintSocketImpl");
-            }
-        }
+        else
+            impl = new FlintSocketImpl();
     }
 
     protected Socket(SocketImpl impl) throws SocketException {
@@ -86,7 +72,7 @@ public class Socket implements Closeable {
     public InetAddress getLocalAddress() {
         InetAddress in = null;
         try {
-            in = (InetAddress) impl.getOption(SocketOptions.SO_BINDADDR);
+            in = (InetAddress)impl.getOption(SocketOptions.SO_BINDADDR);
         }
         catch (Exception e) {
             in = InetAddress.anyLocalAddress();
@@ -115,7 +101,7 @@ public class Socket implements Closeable {
     }
 
     public boolean getTcpNoDelay() throws SocketException {
-        return ((Boolean) impl.getOption(SocketOptions.TCP_NODELAY)).booleanValue();
+        return ((Boolean)impl.getOption(SocketOptions.TCP_NODELAY)).booleanValue();
     }
 
     public void setSoLinger(boolean on, int val) throws SocketException {

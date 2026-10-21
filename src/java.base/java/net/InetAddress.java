@@ -2,36 +2,19 @@ package java.net;
 
 import java.lang.reflect.*;
 import java.util.Hashtable;
+import flint.net.FlintInetAddressImpl;
 
 public sealed abstract class InetAddress permits Inet4Address, Inet6Address {
     protected static final int IPv4 = 1;
     protected static final int IPv6 = 2;
 
     static Hashtable<String, InetAddress[]> cache = new Hashtable<>();
-    static InetAddressImpl impl;
+    static InetAddressImpl impl = new FlintInetAddressImpl();
     static InetAddress localHost;
     private static InetAddress loopbackHost;
 
     private String hostName;
     private int family;
-
-    static {
-        try {
-            impl = (InetAddressImpl)Class.forName("flint.net.FlintInetAddressImpl").getConstructor().newInstance();
-        }
-        catch (ClassNotFoundException e) {
-            System.out.println("Class not found: flint.net.FlintInetAddressImpl");
-        }
-        catch (NoSuchMethodException e) {
-            System.out.println("Method not found: flint.net.FlintInetAddressImpl.<init>()");
-        }
-        catch (InstantiationException | IllegalArgumentException | InvocationTargetException e) {
-            System.out.println("Could not instantiate: flint.net.FlintInetAddressImpl");
-        }
-        catch (IllegalAccessException e) {
-            System.out.println("Cannot access class: flint.net.FlintInetAddressImpl");
-        }
-    }
 
     protected InetAddress(String hostName, int family) {
         this.hostName = hostName;

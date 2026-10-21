@@ -4,12 +4,7 @@ import java.net.*;
 import java.io.FileDescriptor;
 import java.io.IOException;
 
-/**
- * FlintJVM can access non-public classes via Class.forName.
- * This could be because the access validation feature has not been implemented at the VM layer.
- * Which could be considered a bug, and FlintDatagramSocketImpl is exploiting this bug.
- */
-/* public */ class FlintDatagramSocketImpl extends DatagramSocketImpl {
+public class FlintDatagramSocketImpl extends DatagramSocketImpl {
     private int timeout = 0;
 
     public FlintDatagramSocketImpl() {

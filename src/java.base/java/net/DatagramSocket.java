@@ -3,19 +3,10 @@ package java.net;
 import java.io.Closeable;
 import java.io.FileDescriptor;
 import java.io.IOException;
+import flint.net.FlintDatagramSocketImpl;
 
 public class DatagramSocket implements Closeable {
     DatagramSocketImpl impl;
-    static Class<?> implClass;
-
-    static {
-        try {
-            implClass = Class.forName("flint.net.FlintDatagramSocketImpl");
-        }
-        catch (Exception e) {
-            System.out.println("Can't find class: java.net.FlintDatagramSocketImpl");
-        }
-    }
 
     @SuppressWarnings("this-escape")
     public DatagramSocket() throws SocketException {
@@ -35,12 +26,7 @@ public class DatagramSocket implements Closeable {
     }
 
     void create(int port, InetAddress laddr) throws SocketException {
-        try {
-            impl = (DatagramSocketImpl)implClass.getConstructor().newInstance();
-        }
-        catch (Exception e) {
-            throw new SocketException("can't instantiate DatagramSocketImpl");
-        }
+        impl = new FlintDatagramSocketImpl();
         impl.create();
         if (laddr == null)
             laddr = InetAddress.anyLocalAddress();
@@ -62,7 +48,7 @@ public class DatagramSocket implements Closeable {
     public InetAddress getLocalAddress() {
         InetAddress in = null;
         try {
-            in = (InetAddress) impl.getOption(SocketOptions.SO_BINDADDR);
+            in = (InetAddress)impl.getOption(SocketOptions.SO_BINDADDR);
         }
         catch (Exception e) {
             in = InetAddress.anyLocalAddress();

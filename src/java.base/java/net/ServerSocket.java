@@ -4,6 +4,7 @@ import java.io.Closeable;
 import java.lang.reflect.*;
 import java.io.IOException;
 import java.io.FileDescriptor;
+import flint.net.FlintSocketImpl;
 
 public class ServerSocket implements Closeable {
     private static SocketImplFactory factory;
@@ -19,23 +20,8 @@ public class ServerSocket implements Closeable {
     private ServerSocket() {
         if (factory != null)
             impl = factory.createSocketImpl();
-        else {
-            try {
-                impl = (SocketImpl)Class.forName("flint.net.FlintSocketImpl").getConstructor().newInstance();
-            }
-            catch (ClassNotFoundException e) {
-                System.out.println("Class not found: flint.net.FlintInetAddressImpl");
-            }
-            catch (NoSuchMethodException e) {
-                System.out.println("Method not found: flint.net.FlintInetAddressImpl.<init>()");
-            }
-            catch (InstantiationException | IllegalArgumentException | InvocationTargetException e) {
-                System.out.println("Could not instantiate: flint.net.FlintInetAddressImpl");
-            }
-            catch (IllegalAccessException e) {
-                System.out.println("Cannot access class: flint.net.FlintInetAddressImpl");
-            }
-        }
+        else
+            impl = new FlintSocketImpl();
     }
 
     public ServerSocket(int port) throws IOException {
