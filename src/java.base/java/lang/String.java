@@ -3,6 +3,7 @@ package java.lang;
 import java.util.Objects;
 import java.lang.annotation.Native;
 import jdk.internal.util.ArraysSupport;
+import java.io.UnsupportedEncodingException;
 
 public final class String implements Comparable<String>, CharSequence {
     private final byte[] value;
@@ -143,15 +144,15 @@ public final class String implements Comparable<String>, CharSequence {
         this.coder = isLatin1 ? (byte)0 : (byte)1;
     }
 
-    public String(byte[] bytes, int offset, int length, String charsetName) {
+    public String(byte[] bytes, int offset, int length, String charsetName) throws UnsupportedEncodingException {
         this(decodeBytes(bytes, offset, length, charsetName));
     }
 
-    public String(byte[] bytes, String charsetName) {
+    public String(byte[] bytes, String charsetName) throws UnsupportedEncodingException {
         this(bytes, 0, bytes.length, charsetName);
     }
 
-    private static String decodeBytes(byte[] bytes, int offset, int length, String charsetName) {
+    private static String decodeBytes(byte[] bytes, int offset, int length, String charsetName) throws UnsupportedEncodingException {
         if (charsetName != null && (charsetName.equalsIgnoreCase("UTF-8") || charsetName.equalsIgnoreCase("UTF8")))
             return new String(bytes, offset, length);
         return new String(bytes, offset, length, LATIN1);
