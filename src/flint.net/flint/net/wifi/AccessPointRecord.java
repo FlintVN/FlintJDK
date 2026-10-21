@@ -1,4 +1,4 @@
-package flint.net;
+package flint.net.wifi;
 
 public class AccessPointRecord {
     private final byte[] mac;

@@ -1,4 +1,4 @@
-package flint.net;
+package flint.net.wifi;
 
 public enum WiFiAuthMode {
     OPEN(0),
