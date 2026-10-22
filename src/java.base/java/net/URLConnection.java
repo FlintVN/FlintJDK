@@ -23,7 +23,8 @@ public abstract class URLConnection {
     protected boolean connected = false;
     private int connectTimeout;
     private int readTimeout;
-    private MessageHeader requests;
+    @SuppressWarnings("exports")
+    protected MessageHeader requests;
     private static FileNameMap fileNameMap;
 
     public static synchronized FileNameMap getFileNameMap() {
