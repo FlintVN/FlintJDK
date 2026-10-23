@@ -48,7 +48,7 @@ public class I2sMaster implements InputPort, OutputPort, AnalogInput, AnalogOutp
 
     public I2sMaster setDataMode(I2sDataMode mode) {
         checkStateBeforeConfig();
-        synchronized(this) {
+        synchronized (this) {
             this.mode = (this.mode & 0xFFFFFFFE) | mode.value;
         }
         return this;
@@ -60,7 +60,7 @@ public class I2sMaster implements InputPort, OutputPort, AnalogInput, AnalogOutp
 
     public I2sMaster setDirection(I2sDirection dir) {
         checkStateBeforeConfig();
-        synchronized(this) {
+        synchronized (this) {
             this.mode = (this.mode & 0xFFFFFFFD) | dir.value;
         }
         return this;
@@ -92,7 +92,7 @@ public class I2sMaster implements InputPort, OutputPort, AnalogInput, AnalogOutp
     public I2sMaster setDataBits(int dataBits) {
         checkStateBeforeConfig();
         if (dataBits == 8 || dataBits == 16 || dataBits == 24 || dataBits == 32) {
-            synchronized(this) {
+            synchronized (this) {
                 mode = (mode & 0xFFFFFF03) | (dataBits << 2);
             }
         }

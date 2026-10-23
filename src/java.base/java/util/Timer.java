@@ -77,11 +77,11 @@ public class Timer {
         if (Math.abs(period) > (Long.MAX_VALUE >> 1))
             period >>= 1;
 
-        synchronized(queue) {
+        synchronized (queue) {
             if (!thread.newTasksMayBeScheduled)
                 throw new IllegalStateException("Timer already cancelled.");
 
-            synchronized(task.lock) {
+            synchronized (task.lock) {
                 if (task.state != TimerTask.VIRGIN)
                     throw new IllegalStateException("Task already scheduled or cancelled");
                 task.nextExecutionTime = time;
@@ -96,7 +96,7 @@ public class Timer {
     }
 
     public void cancel() {
-        synchronized(queue) {
+        synchronized (queue) {
             thread.newTasksMayBeScheduled = false;
             queue.clear();
             queue.notify();
@@ -105,7 +105,7 @@ public class Timer {
 
     public int purge() {
         int result = 0;
-        synchronized(queue) {
+        synchronized (queue) {
             for (int i = queue.size(); i > 0; i--) {
                 if (queue.get(i).state == TimerTask.CANCELLED) {
                     queue.quickRemove(i);
@@ -134,7 +134,7 @@ class TimerThread extends Thread {
             mainLoop();
         }
         finally {
-            synchronized(queue) {
+            synchronized (queue) {
                 newTasksMayBeScheduled = false;
                 queue.clear();
             }
@@ -146,7 +146,7 @@ class TimerThread extends Thread {
             try {
                 TimerTask task;
                 boolean taskFired;
-                synchronized(queue) {
+                synchronized (queue) {
                     while (queue.isEmpty() && newTasksMayBeScheduled)
                         queue.wait();
                     if (queue.isEmpty())
@@ -154,7 +154,7 @@ class TimerThread extends Thread {
 
                     long currentTime, executionTime;
                     task = queue.getMin();
-                    synchronized(task.lock) {
+                    synchronized (task.lock) {
                         if (task.state == TimerTask.CANCELLED) {
                             queue.removeMin();
                             continue;

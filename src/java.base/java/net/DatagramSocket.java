@@ -34,13 +34,13 @@ public class DatagramSocket implements Closeable {
     }
 
     public void send(DatagramPacket p) throws IOException  {
-        synchronized(p) {
+        synchronized (p) {
             impl.send(p);
         }
     }
 
     public synchronized void receive(DatagramPacket p) throws IOException {
-        synchronized(p) {
+        synchronized (p) {
             impl.receive(p);
         }
     }

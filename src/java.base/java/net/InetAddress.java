@@ -150,7 +150,7 @@ public sealed abstract class InetAddress permits Inet4Address, Inet6Address {
         InetAddress[] obj = null;
         InetAddress[] objcopy = null;
 
-        synchronized(cache) {
+        synchronized (cache) {
             obj = cache.get(host);
             if (obj == null) {
                 try {

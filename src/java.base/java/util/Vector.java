@@ -100,7 +100,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
             }
 
             public E nextElement() {
-                synchronized(Vector.this) {
+                synchronized (Vector.this) {
                     if (count < elementCount)
                         return elementData(count++);
                 }
@@ -324,7 +324,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
         int numNew = a.length;
         if (numNew == 0)
             return false;
-        synchronized(this) {
+        synchronized (this) {
             Object[] elementData = this.elementData;
             final int s = elementCount;
             if (numNew > elementData.length - s)
@@ -477,7 +477,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
         }
 
         public E next() {
-            synchronized(Vector.this) {
+            synchronized (Vector.this) {
                 checkForComodification();
                 int i = cursor;
                 if (i >= elementCount)
@@ -490,7 +490,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
         public void remove() {
             if (lastRet == -1)
                 throw new IllegalStateException();
-            synchronized(Vector.this) {
+            synchronized (Vector.this) {
                 checkForComodification();
                 Vector.this.remove(lastRet);
                 expectedModCount = modCount;
@@ -502,7 +502,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
         @Override
         public void forEachRemaining(Consumer<? super E> action) {
             Objects.requireNonNull(action);
-            synchronized(Vector.this) {
+            synchronized (Vector.this) {
                 final int size = elementCount;
                 int i = cursor;
                 if (i >= size)
@@ -543,7 +543,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
         }
 
         public E previous() {
-            synchronized(Vector.this) {
+            synchronized (Vector.this) {
                 checkForComodification();
                 int i = cursor - 1;
                 if (i < 0)
@@ -556,7 +556,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
         public void set(E e) {
             if (lastRet == -1)
                 throw new IllegalStateException();
-            synchronized(Vector.this) {
+            synchronized (Vector.this) {
                 checkForComodification();
                 Vector.this.set(lastRet, e);
             }
@@ -564,7 +564,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
 
         public void add(E e) {
             int i = cursor;
-            synchronized(Vector.this) {
+            synchronized (Vector.this) {
                 checkForComodification();
                 Vector.this.add(i, e);
                 expectedModCount = modCount;
@@ -631,7 +631,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
         private int getFence() {
             int hi;
             if ((hi = fence) < 0) {
-                synchronized(Vector.this) {
+                synchronized (Vector.this) {
                     array = elementData;
                     expectedModCount = modCount;
                     hi = fence = elementCount;

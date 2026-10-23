@@ -51,7 +51,7 @@ public class Thread implements Runnable {
     public static native boolean holdsLock(Object obj);
 
     public void start() {
-        synchronized(this) {
+        synchronized (this) {
             if (threadStatus != 0)
                 throw new IllegalThreadStateException();
             start0();

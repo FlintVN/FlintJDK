@@ -1807,7 +1807,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
     }
 
     private static BigInteger expandBigIntegerTenPowers(int n) {
-        synchronized(BigDecimal.class) {
+        synchronized (BigDecimal.class) {
             BigInteger[] pows = BIG_TEN_POWERS_TABLE;
             int curLen = pows.length;
             if (curLen <= n) {

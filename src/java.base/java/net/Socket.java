@@ -214,7 +214,7 @@ public class Socket implements Closeable {
     }
 
     public synchronized void close() throws IOException {
-        synchronized(closeLock) {
+        synchronized (closeLock) {
             if (closed)
                 return;
             if (created)
@@ -238,7 +238,7 @@ public class Socket implements Closeable {
     }
 
     public boolean isClosed() {
-        synchronized(closeLock) {
+        synchronized (closeLock) {
             return closed;
         }
     }

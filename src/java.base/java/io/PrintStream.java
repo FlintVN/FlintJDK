@@ -12,7 +12,7 @@ public class PrintStream extends FilterOutputStream implements Appendable, Close
     @Override
     public void write(int b) {
         try {
-            synchronized(this) {
+            synchronized (this) {
                 out.write(b);
             }
         }
@@ -24,7 +24,7 @@ public class PrintStream extends FilterOutputStream implements Appendable, Close
     @Override
     public void write(byte[] buf, int off, int len) {
         try {
-            synchronized(this) {
+            synchronized (this) {
                 out.write(buf, off, len);
             }
         }
@@ -41,7 +41,7 @@ public class PrintStream extends FilterOutputStream implements Appendable, Close
     @Override
     public void flush() {
         try {
-            synchronized(this) {
+            synchronized (this) {
                 out.flush();
             }
         }
@@ -53,7 +53,7 @@ public class PrintStream extends FilterOutputStream implements Appendable, Close
     @Override
     public void close() {
         try {
-            synchronized(this) {
+            synchronized (this) {
                 out.close();
             }
         }
@@ -126,19 +126,19 @@ public class PrintStream extends FilterOutputStream implements Appendable, Close
     }
 
     private void newLine() {
-        synchronized(this) {
+        synchronized (this) {
             implNewLine();
         }
     }
 
     private void write(String str) {
-        synchronized(this) {
+        synchronized (this) {
             implWrite(str);
         }
     }
 
     private void writeln(String str) {
-        synchronized(this) {
+        synchronized (this) {
             implWrite(str);
             implNewLine();
         }

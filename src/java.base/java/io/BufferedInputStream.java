@@ -24,7 +24,7 @@ public class BufferedInputStream extends FilterInputStream {
     private byte[] getBufIfOpen(boolean allocateIfEmpty) throws IOException {
         byte[] buffer = buf;
         if (allocateIfEmpty && buffer == EMPTY) {
-            synchronized(this) {
+            synchronized (this) {
                 if (buf == EMPTY) {
                     buffer = new byte[initialSize];
                     buf = buffer;
@@ -82,7 +82,7 @@ public class BufferedInputStream extends FilterInputStream {
                     nsz = marklimit;
                 byte[] nbuf = new byte[nsz];
                 System.arraycopy(buffer, 0, nbuf, 0, pos);
-                synchronized(this) {
+                synchronized (this) {
                     if (buf != buffer)
                         throw new IOException("Stream closed");
                     buf = nbuf;
@@ -97,7 +97,7 @@ public class BufferedInputStream extends FilterInputStream {
     }
 
     public int read() throws IOException {
-        synchronized(this) {
+        synchronized (this) {
             return implRead();
         }
     }
@@ -128,7 +128,7 @@ public class BufferedInputStream extends FilterInputStream {
     }
 
     public int read(byte[] b, int off, int len) throws IOException {
-        synchronized(this) {
+        synchronized (this) {
             return implRead(b, off, len);
         }
     }
@@ -155,7 +155,7 @@ public class BufferedInputStream extends FilterInputStream {
     }
 
     public long skip(long n) throws IOException {
-        synchronized(this) {
+        synchronized (this) {
             return implSkip(n);
         }
     }
@@ -182,7 +182,7 @@ public class BufferedInputStream extends FilterInputStream {
     }
 
     public int available() throws IOException {
-        synchronized(this) {
+        synchronized (this) {
             return implAvailable();
         }
     }
@@ -194,7 +194,7 @@ public class BufferedInputStream extends FilterInputStream {
     }
 
     public void mark(int readlimit) {
-        synchronized(this) {
+        synchronized (this) {
             implMark(readlimit);
         }
     }
@@ -205,7 +205,7 @@ public class BufferedInputStream extends FilterInputStream {
     }
 
     public void reset() throws IOException {
-        synchronized(this) {
+        synchronized (this) {
             implReset();
         }
     }
@@ -223,7 +223,7 @@ public class BufferedInputStream extends FilterInputStream {
 
     public void close() throws IOException {
         InputStream input;
-        synchronized(this) {
+        synchronized (this) {
             if (buf == null)
                 return;
             buf = null;
@@ -238,7 +238,7 @@ public class BufferedInputStream extends FilterInputStream {
     public long transferTo(OutputStream out) throws IOException {
         if (out == null)
             throw new NullPointerException("out");
-        synchronized(this) {
+        synchronized (this) {
             return implTransferTo(out);
         }
     }

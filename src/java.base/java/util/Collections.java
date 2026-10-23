@@ -1495,37 +1495,37 @@ public class Collections {
         }
 
         public int size() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return c.size();
             }
         }
 
         public boolean isEmpty() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return c.isEmpty();
             }
         }
 
         public boolean contains(Object o) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return c.contains(o);
             }
         }
 
         public Object[] toArray() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return c.toArray();
             }
         }
 
         public <T> T[] toArray(T[] a) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return c.toArray(a);
             }
         }
 
         public <T> T[] toArray(IntFunction<T[]> f) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return c.toArray(f);
             }
         }
@@ -1535,63 +1535,63 @@ public class Collections {
         }
 
         public boolean add(E e) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return c.add(e);
             }
         }
 
         public boolean remove(Object o) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return c.remove(o);
             }
         }
 
         public boolean containsAll(Collection<?> coll) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return c.containsAll(coll);
             }
         }
 
         public boolean addAll(Collection<? extends E> coll) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return c.addAll(coll);
             }
         }
 
         public boolean removeAll(Collection<?> coll) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return c.removeAll(coll);
             }
         }
 
         public boolean retainAll(Collection<?> coll) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return c.retainAll(coll);
             }
         }
 
         public void clear() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 c.clear();
             }
         }
 
         public String toString() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return c.toString();
             }
         }
 
         @Override
         public void forEach(Consumer<? super E> consumer) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 c.forEach(consumer);
             }
         }
 
         @Override
         public boolean removeIf(Predicate<? super E> filter) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return c.removeIf(filter);
             }
         }
@@ -1616,7 +1616,7 @@ public class Collections {
         // TODO
         // @java.io.Serial
         // private void writeObject(ObjectOutputStream s) throws IOException {
-        //     synchronized(mutex) {
+        //     synchronized (mutex) {
         //         s.defaultWriteObject();
         //     }
         // }
@@ -1642,13 +1642,13 @@ public class Collections {
         public boolean equals(Object o) {
             if (this == o)
                 return true;
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return c.equals(o);
             }
         }
 
         public int hashCode() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return c.hashCode();
             }
         }
@@ -1673,38 +1673,38 @@ public class Collections {
         }
 
         public Comparator<? super E> comparator() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return ss.comparator();
             }
         }
 
         public SortedSet<E> subSet(E fromElement, E toElement) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedSortedSet<>(
                     ss.subSet(fromElement, toElement), mutex);
             }
         }
 
         public SortedSet<E> headSet(E toElement) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedSortedSet<>(ss.headSet(toElement), mutex);
             }
         }
 
         public SortedSet<E> tailSet(E fromElement) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                return new SynchronizedSortedSet<>(ss.tailSet(fromElement),mutex);
             }
         }
 
         public E first() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return ss.first();
             }
         }
 
         public E last() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return ss.last();
             }
         }
@@ -1729,85 +1729,85 @@ public class Collections {
         }
 
         public E lower(E e) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return ns.lower(e);
             }
         }
 
         public E floor(E e) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return ns.floor(e);
             }
         }
 
         public E ceiling(E e) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return ns.ceiling(e);
             }
         }
 
         public E higher(E e) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return ns.higher(e);
             }
         }
 
         public E pollFirst() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return ns.pollFirst();
             }
         }
 
         public E pollLast() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return ns.pollLast();
             }
         }
 
         public NavigableSet<E> descendingSet() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedNavigableSet<>(ns.descendingSet(), mutex);
             }
         }
 
         public Iterator<E> descendingIterator() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return descendingSet().iterator();
             }
         }
 
         public NavigableSet<E> subSet(E fromElement, E toElement) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedNavigableSet<>(ns.subSet(fromElement, true, toElement, false), mutex);
             }
         }
 
         public NavigableSet<E> headSet(E toElement) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedNavigableSet<>(ns.headSet(toElement, false), mutex);
             }
         }
 
         public NavigableSet<E> tailSet(E fromElement) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedNavigableSet<>(ns.tailSet(fromElement, true), mutex);
             }
         }
 
         public NavigableSet<E> subSet(E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedNavigableSet<>(ns.subSet(fromElement, fromInclusive, toElement, toInclusive), mutex);
             }
         }
 
         public NavigableSet<E> headSet(E toElement, boolean inclusive) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedNavigableSet<>(ns.headSet(toElement, inclusive), mutex);
             }
         }
 
         public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedNavigableSet<>(ns.tailSet(fromElement, inclusive), mutex);
             }
         }
@@ -1838,55 +1838,55 @@ public class Collections {
         public boolean equals(Object o) {
             if (this == o)
                 return true;
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return list.equals(o);
             }
         }
 
         public int hashCode() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return list.hashCode();
             }
         }
 
         public E get(int index) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return list.get(index);
             }
         }
 
         public E set(int index, E element) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return list.set(index, element);
             }
         }
 
         public void add(int index, E element) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 list.add(index, element);
             }
         }
 
         public E remove(int index) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return list.remove(index);
             }
         }
 
         public int indexOf(Object o) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return list.indexOf(o);
             }
         }
 
         public int lastIndexOf(Object o) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return list.lastIndexOf(o);
             }
         }
 
         public boolean addAll(int index, Collection<? extends E> c) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return list.addAll(index, c);
             }
         }
@@ -1900,21 +1900,21 @@ public class Collections {
         }
 
         public List<E> subList(int fromIndex, int toIndex) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedList<>(list.subList(fromIndex, toIndex), mutex);
             }
         }
 
         @Override
         public void replaceAll(UnaryOperator<E> operator) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 list.replaceAll(operator);
             }
         }
 
         @Override
         public void sort(Comparator<? super E> c) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 list.sort(c);
             }
         }
@@ -1936,7 +1936,7 @@ public class Collections {
         }
 
         public List<E> subList(int fromIndex, int toIndex) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedRandomAccessList<>(
                     list.subList(fromIndex, toIndex), mutex);
             }
@@ -1969,55 +1969,55 @@ public class Collections {
         }
 
         public int size() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return m.size();
             }
         }
 
         public boolean isEmpty() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return m.isEmpty();
             }
         }
 
         public boolean containsKey(Object key) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return m.containsKey(key);
             }
         }
 
         public boolean containsValue(Object value) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return m.containsValue(value);
             }
         }
 
         public V get(Object key) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return m.get(key);
             }
         }
 
         public V put(K key, V value) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return m.put(key, value);
             }
         }
 
         public V remove(Object key) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return m.remove(key);
             }
         }
 
         public void putAll(Map<? extends K, ? extends V> map) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 m.putAll(map);
             }
         }
 
         public void clear() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 m.clear();
             }
         }
@@ -2027,7 +2027,7 @@ public class Collections {
         private transient Collection<V> values;
 
         public Set<K> keySet() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 if (keySet == null)
                     keySet = new SynchronizedSet<>(m.keySet(), mutex);
                 return keySet;
@@ -2035,7 +2035,7 @@ public class Collections {
         }
 
         public Set<Map.Entry<K,V>> entrySet() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 if (entrySet == null)
                     entrySet = new SynchronizedSet<>(m.entrySet(), mutex);
                 return entrySet;
@@ -2043,7 +2043,7 @@ public class Collections {
         }
 
         public Collection<V> values() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 if (values == null)
                     values = new SynchronizedCollection<>(m.values(), mutex);
                 return values;
@@ -2053,86 +2053,86 @@ public class Collections {
         public boolean equals(Object o) {
             if (this == o)
                 return true;
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return m.equals(o);
             }
         }
 
         public int hashCode() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return m.hashCode();
             }
         }
 
         public String toString() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return m.toString();
             }
         }
 
         @Override
         public V getOrDefault(Object k, V defaultValue) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return m.getOrDefault(k, defaultValue);
             }
         }
         @Override
         public void forEach(BiConsumer<? super K, ? super V> action) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 m.forEach(action);
             }
         }
         @Override
         public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 m.replaceAll(function);
             }
         }
         @Override
         public V putIfAbsent(K key, V value) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return m.putIfAbsent(key, value);
             }
         }
         @Override
         public boolean remove(Object key, Object value) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return m.remove(key, value);
             }
         }
         @Override
         public boolean replace(K key, V oldValue, V newValue) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return m.replace(key, oldValue, newValue);
             }
         }
         @Override
         public V replace(K key, V value) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return m.replace(key, value);
             }
         }
         @Override
         public V computeIfAbsent(K key, Function<? super K, ? extends V> mappingFunction) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return m.computeIfAbsent(key, mappingFunction);
             }
         }
         @Override
         public V computeIfPresent(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return m.computeIfPresent(key, remappingFunction);
             }
         }
         @Override
         public V compute(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return m.compute(key, remappingFunction);
             }
         }
         @Override
         public V merge(K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return m.merge(key, value, remappingFunction);
             }
         }
@@ -2140,7 +2140,7 @@ public class Collections {
         // TODO
         // @java.io.Serial
         // private void writeObject(ObjectOutputStream s) throws IOException {
-        //     synchronized(mutex) {
+        //     synchronized (mutex) {
         //         s.defaultWriteObject();
         //     }
         // }
@@ -2165,37 +2165,37 @@ public class Collections {
         }
 
         public Comparator<? super K> comparator() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return sm.comparator();
             }
         }
 
         public SortedMap<K,V> subMap(K fromKey, K toKey) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedSortedMap<>(sm.subMap(fromKey, toKey), mutex);
             }
         }
 
         public SortedMap<K,V> headMap(K toKey) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedSortedMap<>(sm.headMap(toKey), mutex);
             }
         }
 
         public SortedMap<K,V> tailMap(K fromKey) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                return new SynchronizedSortedMap<>(sm.tailMap(fromKey),mutex);
             }
         }
 
         public K firstKey() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return sm.firstKey();
             }
         }
 
         public K lastKey() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return sm.lastKey();
             }
         }
@@ -2219,79 +2219,79 @@ public class Collections {
         }
 
         public Entry<K, V> lowerEntry(K key) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return nm.lowerEntry(key);
             }
         }
 
         public K lowerKey(K key) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return nm.lowerKey(key);
             }
         }
 
         public Entry<K, V> floorEntry(K key) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return nm.floorEntry(key);
             }
         }
 
         public K floorKey(K key) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return nm.floorKey(key);
             }
         }
 
         public Entry<K, V> ceilingEntry(K key) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return nm.ceilingEntry(key);
             }
         }
 
         public K ceilingKey(K key) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return nm.ceilingKey(key);
             }
         }
 
         public Entry<K, V> higherEntry(K key) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return nm.higherEntry(key);
             }
         }
 
         public K higherKey(K key) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return nm.higherKey(key);
             }
         }
 
         public Entry<K, V> firstEntry() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return nm.firstEntry();
             }
         }
 
         public Entry<K, V> lastEntry() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return nm.lastEntry();
             }
         }
 
         public Entry<K, V> pollFirstEntry() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return nm.pollFirstEntry();
             }
         }
 
         public Entry<K, V> pollLastEntry() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return nm.pollLastEntry();
             }
         }
 
         public NavigableMap<K, V> descendingMap() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedNavigableMap<>(nm.descendingMap(), mutex);
             }
         }
@@ -2301,49 +2301,49 @@ public class Collections {
         }
 
         public NavigableSet<K> navigableKeySet() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedNavigableSet<>(nm.navigableKeySet(), mutex);
             }
         }
 
         public NavigableSet<K> descendingKeySet() {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedNavigableSet<>(nm.descendingKeySet(), mutex);
             }
         }
 
         public SortedMap<K,V> subMap(K fromKey, K toKey) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedNavigableMap<>(nm.subMap(fromKey, true, toKey, false), mutex);
             }
         }
 
         public SortedMap<K,V> headMap(K toKey) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedNavigableMap<>(nm.headMap(toKey, false), mutex);
             }
         }
 
         public SortedMap<K,V> tailMap(K fromKey) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedNavigableMap<>(nm.tailMap(fromKey, true),mutex);
             }
         }
 
         public NavigableMap<K, V> subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedNavigableMap<>(nm.subMap(fromKey, fromInclusive, toKey, toInclusive), mutex);
             }
         }
 
         public NavigableMap<K, V> headMap(K toKey, boolean inclusive) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedNavigableMap<>(nm.headMap(toKey, inclusive), mutex);
             }
         }
 
         public NavigableMap<K, V> tailMap(K fromKey, boolean inclusive) {
-            synchronized(mutex) {
+            synchronized (mutex) {
                 return new SynchronizedNavigableMap<>(nm.tailMap(fromKey, inclusive), mutex);
             }
         }

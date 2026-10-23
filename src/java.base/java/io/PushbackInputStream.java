@@ -112,7 +112,7 @@ public class PushbackInputStream extends FilterInputStream {
     }
 
     public void close() throws IOException {
-        synchronized(this) {
+        synchronized (this) {
             implClose();
         }
     }

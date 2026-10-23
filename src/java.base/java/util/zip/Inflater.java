@@ -24,7 +24,7 @@ public class Inflater implements AutoCloseable {
             throw new NullPointerException();
         if (off < 0 || len < 0 || off > b.length - len)
             throw new ArrayIndexOutOfBoundsException();
-        synchronized(zsRef) {
+        synchronized (zsRef) {
             this.buf = b;
             this.off = off;
             this.len = len;
@@ -40,7 +40,7 @@ public class Inflater implements AutoCloseable {
             throw new NullPointerException();
         if (off < 0 || len < 0 || off > b.length - len)
             throw new ArrayIndexOutOfBoundsException();
-        synchronized(zsRef) {
+        synchronized (zsRef) {
             ensureOpen();
             setDictionary(zsRef.address(), b, off, len);
             needDict = false;
@@ -52,25 +52,25 @@ public class Inflater implements AutoCloseable {
     }
 
     public int getRemaining() {
-        synchronized(zsRef) {
+        synchronized (zsRef) {
             return len;
         }
     }
 
     public boolean needsInput() {
-        synchronized(zsRef) {
+        synchronized (zsRef) {
             return len <= 0;
         }
     }
 
     public boolean needsDictionary() {
-        synchronized(zsRef) {
+        synchronized (zsRef) {
             return needDict;
         }
     }
 
     public boolean finished() {
-        synchronized(zsRef) {
+        synchronized (zsRef) {
             return finished;
         }
     }
@@ -80,7 +80,7 @@ public class Inflater implements AutoCloseable {
             throw new NullPointerException();
         if (off < 0 || len < 0 || off > b.length - len)
             throw new ArrayIndexOutOfBoundsException();
-        synchronized(zsRef) {
+        synchronized (zsRef) {
             ensureOpen();
             int thisLen = this.len;
             int n = inflateBytes(zsRef.address(), b, off, len);
@@ -95,7 +95,7 @@ public class Inflater implements AutoCloseable {
     }
 
     public int getAdler() {
-        synchronized(zsRef) {
+        synchronized (zsRef) {
             ensureOpen();
             return getAdler(zsRef.address());
         }
@@ -106,7 +106,7 @@ public class Inflater implements AutoCloseable {
     }
 
     public long getBytesRead() {
-        synchronized(zsRef) {
+        synchronized (zsRef) {
             ensureOpen();
             return bytesRead;
         }
@@ -117,14 +117,14 @@ public class Inflater implements AutoCloseable {
     }
 
     public long getBytesWritten() {
-        synchronized(zsRef) {
+        synchronized (zsRef) {
             ensureOpen();
             return bytesWritten;
         }
     }
 
     public void reset() {
-        synchronized(zsRef) {
+        synchronized (zsRef) {
             ensureOpen();
             reset(zsRef.address());
             buf = defaultBuf;
@@ -136,7 +136,7 @@ public class Inflater implements AutoCloseable {
     }
 
     public void end() {
-        synchronized(zsRef) {
+        synchronized (zsRef) {
             int addr = zsRef.address();
             zsRef.clear();
             if (addr != 0) {
@@ -152,7 +152,7 @@ public class Inflater implements AutoCloseable {
     }
 
     boolean ended() {
-        synchronized(zsRef) {
+        synchronized (zsRef) {
             return zsRef.address() == 0;
         }
     }

@@ -708,7 +708,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
     // void writeHashtable(java.io.ObjectOutputStream s) throws IOException {
     //     Entry<Object, Object> entryStack = null;
 
-    //     synchronized(this) {
+    //     synchronized (this) {
     //         s.defaultWriteObject();
 
     //         s.writeInt(table.length);
@@ -932,7 +932,7 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
             if (modCount != expectedModCount)
                 throw new ConcurrentModificationException();
 
-            synchronized(Hashtable.this) {
+            synchronized (Hashtable.this) {
                 Entry<?,?>[] tab = Hashtable.this.table;
                 int index = (lastReturned.hash & 0x7FFFFFFF) % tab.length;
 

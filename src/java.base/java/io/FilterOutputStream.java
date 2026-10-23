@@ -34,14 +34,14 @@ public class FilterOutputStream extends OutputStream {
     public void close() throws IOException {
         if (closed)
             return;
-        synchronized(this) {
+        synchronized (this) {
             if (closed)
                 return;
             closed = true;
         }
 
         Throwable flushException = null;
-        synchronized(this) {
+        synchronized (this) {
             try {
                 flush();
             }

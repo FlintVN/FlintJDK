@@ -18,7 +18,7 @@ public abstract class TimerTask implements Runnable {
     public abstract void run();
 
     public boolean cancel() {
-        synchronized(lock) {
+        synchronized (lock) {
             boolean result = (state == SCHEDULED);
             state = CANCELLED;
             return result;
@@ -26,7 +26,7 @@ public abstract class TimerTask implements Runnable {
     }
 
     public long scheduledExecutionTime() {
-        synchronized(lock) {
+        synchronized (lock) {
             return (period < 0 ? nextExecutionTime + period : nextExecutionTime - period);
         }
     }
