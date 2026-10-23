@@ -1,7 +1,5 @@
 package java.io;
 
-import java.util.Arrays;
-import java.util.Objects;
 import jdk.internal.util.ArraysSupport;
 
 public class BufferedInputStream extends FilterInputStream {
@@ -238,7 +236,8 @@ public class BufferedInputStream extends FilterInputStream {
 
     @Override
     public long transferTo(OutputStream out) throws IOException {
-        Objects.requireNonNull(out, "out");
+        if (out == null)
+            throw new NullPointerException("out");
         synchronized(this) {
             return implTransferTo(out);
         }
@@ -248,7 +247,8 @@ public class BufferedInputStream extends FilterInputStream {
         if (getClass() == BufferedInputStream.class && markpos == -1) {
             int avail = count - pos;
             if (avail > 0) {
-                byte[] buffer = Arrays.copyOfRange(getBufIfOpen(), pos, count);
+                byte[] buffer = new byte[avail];
+                System.arraycopy(getBufIfOpen(), pos, buffer, 0, avail);
                 out.write(buffer);
                 pos = count;
             }
