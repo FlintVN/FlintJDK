@@ -718,7 +718,7 @@ public final class String implements Comparable<String>, CharSequence {
         if (this == anotherString)
             return true;
         byte coder = this.coder;
-        if (coder == anotherString.coder) {
+        if (anotherString != null && coder == anotherString.coder) {
             if (coder == LATIN1)
                 return StringLatin1.equalsIgnoreCase(value, anotherString.value);
             return StringUTF16.equalsIgnoreCase(value, anotherString.value);
