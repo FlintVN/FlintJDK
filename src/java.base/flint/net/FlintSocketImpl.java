@@ -28,6 +28,8 @@ public class FlintSocketImpl extends SocketImpl {
     protected void connect(String host, int port) throws UnknownHostException, IOException {
         try {
             InetAddress address = InetAddress.getByName(host);
+            this.port = port;
+            this.address = address;
             connectToAddress(address, port);
             return;
         }
