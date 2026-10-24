@@ -1110,7 +1110,7 @@ public class Arrays {
     }
 
     public static byte[] copyOfRange(byte[] original, int from, int to) {
-        if (from == 0 || to == original.length)
+        if (from == 0 && to == original.length)
             return original.clone();
         int newLength = to - from;
         if (newLength < 0)
@@ -1121,7 +1121,7 @@ public class Arrays {
     }
 
     public static short[] copyOfRange(short[] original, int from, int to) {
-        if (from == 0 || to == original.length)
+        if (from == 0 && to == original.length)
             return original.clone();
         int newLength = to - from;
         if (newLength < 0)
@@ -1132,7 +1132,7 @@ public class Arrays {
     }
 
     public static int[] copyOfRange(int[] original, int from, int to) {
-        if (from == 0 || to == original.length)
+        if (from == 0 && to == original.length)
             return original.clone();
         int newLength = to - from;
         if (newLength < 0)
@@ -1143,7 +1143,7 @@ public class Arrays {
     }
 
     public static long[] copyOfRange(long[] original, int from, int to) {
-        if (from == 0 || to == original.length)
+        if (from == 0 && to == original.length)
             return original.clone();
         int newLength = to - from;
         if (newLength < 0)
@@ -1154,7 +1154,7 @@ public class Arrays {
     }
 
     public static char[] copyOfRange(char[] original, int from, int to) {
-        if (from == 0 || to == original.length)
+        if (from == 0 && to == original.length)
             return original.clone();
         int newLength = to - from;
         if (newLength < 0)
@@ -1165,7 +1165,7 @@ public class Arrays {
     }
 
     public static float[] copyOfRange(float[] original, int from, int to) {
-        if (from == 0 || to == original.length)
+        if (from == 0 && to == original.length)
             return original.clone();
         int newLength = to - from;
         if (newLength < 0)
@@ -1176,7 +1176,7 @@ public class Arrays {
     }
 
     public static double[] copyOfRange(double[] original, int from, int to) {
-        if (from == 0 || to == original.length)
+        if (from == 0 && to == original.length)
             return original.clone();
         int newLength = to - from;
         if (newLength < 0)
@@ -1187,7 +1187,7 @@ public class Arrays {
     }
 
     public static boolean[] copyOfRange(boolean[] original, int from, int to) {
-        if (from == 0 || to == original.length)
+        if (from == 0 && to == original.length)
             return original.clone();
         int newLength = to - from;
         if (newLength < 0)
