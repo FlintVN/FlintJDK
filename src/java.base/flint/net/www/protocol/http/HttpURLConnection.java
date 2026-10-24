@@ -2,6 +2,7 @@ package flint.net.www.protocol.http;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,13 +20,14 @@ import flint.net.www.MessageHeader;
 
 public class HttpURLConnection extends java.net.HttpURLConnection {
     private static final int MAX_REDIRECTS = 5;
-    private static final String USER_AGENT = "FlintJDK/1.0";
+    protected static final String USER_AGENT = "FlintJDK/1.0";
+    private static final int MAX_ERROR_BODY = 4096;
 
-    private final Handler handler;
-    private Proxy instProxy;
-    private Socket socket;
-    private InputStream socketIn;
-    private OutputStream socketOut;
+    protected final Handler handler;
+    protected Proxy instProxy;
+    protected Socket socket;
+    protected InputStream socketIn;
+    protected OutputStream socketOut;
 
     private MessageHeader responses;
 
@@ -61,28 +63,18 @@ public class HttpURLConnection extends java.net.HttpURLConnection {
     public synchronized void connect() throws IOException {
         if (connected)
             return;
-        openSocket();
+        try {
+            openSocket();
+        }
+        catch (IOException | RuntimeException e) {
+            closeSocket();
+            throw e;
+        }
         connected = true;
     }
 
-    private void openSocket() throws IOException {
-        InetSocketAddress endpoint;
-
-        if (usingProxy()) {
-            if (instProxy != null && instProxy.type() == Proxy.Type.HTTP)
-                endpoint = (InetSocketAddress) instProxy.address();
-            else
-                endpoint = new InetSocketAddress(handler.proxy, handler.proxyPort);
-        }
-        else {
-            String connectHost = url.getHost();
-            if (connectHost == null || connectHost.isEmpty())
-                throw new ProtocolException("Invalid host in URL: " + url);
-            int connectPort = url.getPort();
-            if (connectPort == -1)
-                connectPort = handler.getDefaultPort();
-            endpoint = new InetSocketAddress(connectHost, connectPort);
-        }
+    protected void openSocket() throws IOException {
+        InetSocketAddress endpoint = resolveConnectEndpoint();
 
         socket = new Socket();
         int connectTimeout = getConnectTimeout();
@@ -95,6 +87,21 @@ public class HttpURLConnection extends java.net.HttpURLConnection {
 
         socketIn = new BufferedInputStream(socket.getInputStream());
         socketOut = new BufferedOutputStream(socket.getOutputStream());
+    }
+
+    protected InetSocketAddress resolveConnectEndpoint() throws ProtocolException {
+        if (usingProxy()) {
+            if (instProxy != null && instProxy.type() == Proxy.Type.HTTP)
+                return (InetSocketAddress)instProxy.address();
+            return new InetSocketAddress(handler.proxy, handler.proxyPort);
+        }
+        String connectHost = url.getHost();
+        if (connectHost == null || connectHost.isEmpty())
+            throw new ProtocolException("Invalid host in URL: " + url);
+        int connectPort = url.getPort();
+        if (connectPort == -1)
+            connectPort = handler.getDefaultPort();
+        return new InetSocketAddress(connectHost, connectPort);
     }
 
     @Override
@@ -142,12 +149,16 @@ public class HttpURLConnection extends java.net.HttpURLConnection {
         }
     }
 
+    protected boolean useFullRequestURI() {
+        return usingProxy();
+    }
+
     private void writeRequestHeaders(long contentLength, boolean chunked) throws IOException {
         if (sentRequests)
             return;
 
         String requestURI;
-        if (usingProxy())
+        if (useFullRequestURI())
             requestURI = url.toExternalForm();
         else {
             requestURI = url.getFile();
@@ -211,6 +222,7 @@ public class HttpURLConnection extends java.net.HttpURLConnection {
             return inputStream;
 
         inGetInputStream = true;
+        boolean success = false;
         try {
             int redirects = 0;
             while (true) {
@@ -251,7 +263,7 @@ public class HttpURLConnection extends java.net.HttpURLConnection {
                     String location = responses.findValue("Location");
                     if (location != null) {
                         URL newUrl = new URL(url, location);
-                        if ("http".equalsIgnoreCase(newUrl.getProtocol())) {
+                        if (newUrl.getProtocol().equalsIgnoreCase(url.getProtocol())) {
                             closeSocket();
                             connected = false;
                             sentRequests = false;
@@ -277,15 +289,18 @@ public class HttpURLConnection extends java.net.HttpURLConnection {
             inputStream = createBodyStream();
 
             if (responseCode >= HTTP_BAD_REQUEST) {
-                errorStream = inputStream;
+                errorStream = bufferErrorBody(inputStream);
                 inputStream = null;
                 throwError(responseCode);
             }
 
+            success = true;
             return inputStream;
         }
         finally {
             inGetInputStream = false;
+            if (!success)
+                closeSocket();
         }
     }
 
@@ -318,6 +333,20 @@ public class HttpURLConnection extends java.net.HttpURLConnection {
             }
         }
         return socketIn;
+    }
+
+    private static InputStream bufferErrorBody(InputStream body) {
+        ByteArrayOutputStream buf = new ByteArrayOutputStream();
+        byte[] tmp = new byte[512];
+        try {
+            int n;
+            while (buf.size() < MAX_ERROR_BODY && (n = body.read(tmp, 0, Math.min(tmp.length, MAX_ERROR_BODY - buf.size()))) > 0)
+                buf.write(tmp, 0, n);
+        }
+        catch (IOException e) {
+
+        }
+        return new ByteArrayInputStream(buf.toByteArray());
     }
 
     private void throwError(int code) throws IOException {
@@ -376,7 +405,7 @@ public class HttpURLConnection extends java.net.HttpURLConnection {
         connected = false;
     }
 
-    private void closeSocket() {
+    protected void closeSocket() {
         if (socket != null) {
             try {
                 socket.close();
