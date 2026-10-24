@@ -723,7 +723,7 @@ public final class String implements Comparable<String>, CharSequence {
                 return StringLatin1.equalsIgnoreCase(value, anotherString.value);
             return StringUTF16.equalsIgnoreCase(value, anotherString.value);
         }
-        return false;
+        return regionMatches(true, 0, anotherString, 0, length());
     }
 
     @Override
