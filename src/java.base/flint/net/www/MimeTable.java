@@ -51,6 +51,7 @@ public class MimeTable implements FileNameMap {
             case ".php":
             case ".py":
             case ".cc":
+            case ".cs":
             case ".java":     return "text/plain";
             case ".htm":
             case ".html":     return "text/html";
