@@ -15,6 +15,7 @@ public class ZipEntry implements ZipConstants, Cloneable {
     int flag = 0;       // general purpose flag
     byte[] extra;       // optional extra field data for entry
     String comment;     // optional comment string for entry
+    long offset;	    // offset of LOC header from beginning of ZIP file
 
     public static final int STORED = 0;
     public static final int DEFLATED = 8;
@@ -227,19 +228,19 @@ public class ZipEntry implements ZipConstants, Cloneable {
         throw new UnsupportedOperationException();
     }
 
-    private static final int get16(byte b[], int off) {
+    static final int get16(byte b[], int off) {
         return (b[off] & 0xFF) | ((b[off + 1] & 0xFF) << 8);
     }
 
-    private static final long get32(byte b[], int off) {
+    static final long get32(byte b[], int off) {
         return get16(b, off) | ((long)get16(b, off + 2) << 16);
     }
 
-    public static final long get64(byte[] b, int off) {
+    static final long get64(byte[] b, int off) {
         return get32(b, off) | (get32(b, off + 4) << 32);
     }
 
-    public static final int get32S(byte[] b, int off) {
+    static final int get32S(byte[] b, int off) {
         return (get16(b, off) | (get16(b, off+2) << 16));
     }
 }
