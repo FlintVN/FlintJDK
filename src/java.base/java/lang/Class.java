@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.FileInputStream;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+import java.util.zip.ZipFile;
 import java.util.Objects;
 import java.lang.invoke.TypeDescriptor;
 import java.lang.reflect.Array;
@@ -440,13 +440,11 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
                     name = name.substring(1);
                 else
                     name = packageName.replace('.', File.separatorChar) + File.separator + name;
-                ZipEntry entry;
-                ZipInputStream zis = new ZipInputStream(new FileInputStream(parent));
-                while ((entry = zis.getNextEntry()) != null) {
-                    if (entry.getName().equals(name))
-                        return zis;
-                    zis.closeEntry();
-                }
+                ZipFile zip = new ZipFile(parent);
+                ZipEntry entry = zip.getEntry(name);
+                if (entry != null)
+                    return new ZipFileInputStream(zip, zip.getInputStream(entry));
+                zip.close();
             }
             else {
                 if (name.startsWith("/")) {
@@ -462,6 +460,46 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
 
         }
         return null;
+    }
+
+    private class ZipFileInputStream extends InputStream {
+        private ZipFile zf;
+        private InputStream in;
+
+        public ZipFileInputStream(ZipFile zf, InputStream in) {
+            this.zf = zf;
+            this.in = in;
+        }
+
+        public int available() throws IOException {
+            return in.available();
+        }
+
+        public int read(byte b[], int off, int len) throws IOException {
+            return in.read(b, off, len);
+        }
+
+        public int read() throws IOException {
+            return in.read();
+        }
+
+        public long skip(long n) throws IOException {
+            return in.skip(n);
+        }
+
+        public void close() throws IOException {
+            synchronized (in) {
+                if (zf == null)
+                    return;
+                try {
+                    in.close();
+                }
+                finally {
+                    zf.close();
+                    zf = null;
+                }
+            }
+        }
     }
 
     private String methodToString(String name, Class<?>[] argTypes) {

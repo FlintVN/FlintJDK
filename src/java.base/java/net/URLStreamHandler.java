@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.File;
 import java.io.OutputStream;
-import java.util.Hashtable;
 import flint.net.util.IPAddressUtil;
 
 public abstract class URLStreamHandler {
