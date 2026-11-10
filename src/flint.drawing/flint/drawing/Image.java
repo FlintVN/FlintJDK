@@ -27,7 +27,7 @@ public abstract class Image {
     }
 
     public static Image create(int[] rgb, int w, int h, boolean processAlpha, boolean mutable) {
-        Image img =  Graphics.getGraphicsFactory().createImage(rgb, w, h, processAlpha);
+        Image img = Graphics.getGraphicsFactory().createImage(rgb, w, h, processAlpha);
         img.mutable = mutable;
         return img;
     }
