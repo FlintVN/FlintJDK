@@ -45,7 +45,11 @@ public final class System {
         return (v != null) ? v : def;
     }
 
-    public static native void exit(int status);
+    public static void exit(int status) {
+        Runtime.getRuntime().exit(status);
+    }
 
-    public static native void gc();
+    public static void gc() {
+        Runtime.getRuntime().gc();
+    }
 }
