@@ -25,13 +25,13 @@ public final class StringBuilder extends AbstractStringBuilder implements Compar
 
     @Override
     public StringBuilder append(String str) {
-        super.append(str, 0, str.length());
+        super.append(str);
         return this;
     }
 
     @Override
     public StringBuilder append(StringBuffer sb) {
-        super.append(sb, 0, sb.length());
+        super.append(sb);
         return this;
     }
 

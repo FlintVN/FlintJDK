@@ -35,14 +35,14 @@ public final class StringBuffer extends AbstractStringBuilder implements Compara
     @Override
     public synchronized StringBuffer append(String str) {
         toStringCache = null;
-        super.append(str, 0, str.length());
+        super.append(str);
         return this;
     }
 
     @Override
     public synchronized StringBuffer append(StringBuffer sb) {
         toStringCache = null;
-        super.append(sb, 0, sb.length());
+        super.append(sb);
         return this;
     }
 

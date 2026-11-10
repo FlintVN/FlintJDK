@@ -78,10 +78,14 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
     }
 
     public AbstractStringBuilder append(String str) {
+        if (str == null)
+            return appendNull();
         return append(str, 0, str.length());
     }
 
     public AbstractStringBuilder append(StringBuffer sb) {
+        if (sb == null)
+            return appendNull();
         return append(sb, 0, sb.length());
     }
 
@@ -99,7 +103,7 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
     @Override
     public AbstractStringBuilder append(CharSequence s, int start, int end) {
         if (s == null)
-            s = "null";
+            return appendNull();
         byte[] val;
         int len = end - start;
         int count = this.count;
