@@ -24,6 +24,7 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     private static final Class<?>[] EMPTY_CLASS_ARRAY = new Class<?>[0];
 
     private transient String name;
+    private transient String packageName;
 
     private Class<?>[] interfaces;
 
@@ -79,14 +80,19 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
     public native Class<? super T> getSuperclass();
 
     public String getPackageName() {
-        Class<?> c = isArray() ? elementType() : this;
-        if (c.isPrimitive())
-            return "java.lang";
-        else {
-            String cn = c.getName();
-            int dot = cn.lastIndexOf('.');
-            return (dot != -1) ? cn.substring(0, dot).intern() : "";
+        String pn = this.packageName;
+        if (pn == null) {
+            Class<?> c = isArray() ? elementType() : this;
+            if (c.isPrimitive())
+                pn = "java.lang";
+            else {
+                String cn = c.getName();
+                int dot = cn.lastIndexOf('.');
+                pn = (dot != -1) ? cn.substring(0, dot).intern() : "";
+            }
+            this.packageName = pn;
         }
+        return pn;
     }
 
     public Class<?>[] getInterfaces() {
@@ -427,19 +433,38 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
         }
     }
 
-    private native String getParentPath();
+    private static native String[] getClassPath();
+
+    private static String[] classPath = null;
 
     @CallerSensitive
     public InputStream getResourceAsStream(String name) {
-        String packageName = getPackageName();
-        String parent = getParentPath();
+        String[] cp = classPath;
+        if (cp == null) {
+            cp = getClassPath();
+            classPath = cp;
+        }
+        String packagePath = null;
+        if (!name.startsWith("/"))
+            packagePath = getPackageName().replace('.', File.separatorChar) + File.separator;
+        for (int i = 0; i < cp.length; i++) {
+            InputStream in = getResourceAsStream(cp[i], packageName, name);
+            if (in != null)
+                return in;
+        }
+        return null;
+    }
+
+    private InputStream getResourceAsStream(String parent, String packagePath, String name) {
+        if (parent == null)
+            return null;
         File file = new File(parent);
         try {
             if (file.isFile()) {
                 if (name.startsWith("/"))
                     name = name.substring(1);
                 else
-                    name = packageName.replace('.', File.separatorChar) + File.separator + name;
+                    name = packagePath + name;
                 ZipFile zip = new ZipFile(parent);
                 ZipEntry entry = zip.getEntry(name);
                 if (entry != null)
@@ -447,12 +472,10 @@ public final class Class<T> implements Type, TypeDescriptor.OfField<Class<?>> {
                 zip.close();
             }
             else {
-                if (name.startsWith("/")) {
-                    String root = parent.substring(0, parent.length() - (packageName.length() + 1));
-                    name = root + name;
-                }
+                if (name.startsWith("/"))
+                    name = parent + name;
                 else
-                    name = parent + File.separator + name;
+                    name = parent + packagePath + name;
                 return new FileInputStream(name);
             }
         }
