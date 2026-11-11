@@ -399,7 +399,7 @@ public final class String implements Comparable<String>, CharSequence {
         byte[] value = this.value;
         if (coder == LATIN1) {
             for (int i = 0; i < len; i++)
-                retLen += value[i] > 0 ? 1 : 2;
+                retLen += value[i] >= 0 ? 1 : 2;
             byte[] ret = new byte[retLen];
             for (int i = 0; i < len; i++)
                 idx += utf8EncodeOneChar((char)(value[i] & 0xFF), ret, idx);
@@ -415,6 +415,24 @@ public final class String implements Comparable<String>, CharSequence {
                 idx += utf8EncodeOneChar(StringUTF16.charAt(value, i), ret, idx);
             return ret;
         }
+    }
+
+    public byte[] getBytes(String charsetName) throws UnsupportedEncodingException {
+        if (charsetName == null)
+            throw new NullPointerException();
+        if (charsetName.equalsIgnoreCase("UTF-8") || charsetName.equalsIgnoreCase("UTF8"))
+            return getBytes();
+        int len = length();
+        byte[] ret = new byte[len];
+        if (coder == LATIN1)
+            System.arraycopy(value, 0, ret, 0, len);
+        else {
+            for (int i = 0; i < len; i++) {
+                char c = StringUTF16.charAt(value, i);
+                ret[i] = (c > 0xFF) ? (byte)'?' : (byte)c;
+            }
+        }
+        return ret;
     }
 
     private static int utf8EncodeOneChar(char c, byte[] buff, int index) {
@@ -715,15 +733,7 @@ public final class String implements Comparable<String>, CharSequence {
     }
 
     public boolean equalsIgnoreCase(String anotherString) {
-        if (this == anotherString)
-            return true;
-        byte coder = this.coder;
-        if (anotherString != null && coder == anotherString.coder) {
-            if (coder == LATIN1)
-                return StringLatin1.equalsIgnoreCase(value, anotherString.value);
-            return StringUTF16.equalsIgnoreCase(value, anotherString.value);
-        }
-        return regionMatches(true, 0, anotherString, 0, length());
+        return (this == anotherString) ? true : (anotherString != null) && (anotherString.length() == length()) && regionMatches(true, 0, anotherString, 0, length());
     }
 
     @Override

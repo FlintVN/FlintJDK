@@ -12,6 +12,8 @@ final class StringLatin1 {
         if (ch > 255)
             return -1;
         byte c = (byte)ch;
+        if (fromIndex < 0)
+            fromIndex = 0;
         for (int i = fromIndex; i < value.length; i++) {
             if (c == value[i])
                 return i;
@@ -45,6 +47,8 @@ final class StringLatin1 {
         if (ch > 255)
             return -1;
         byte c = (byte)ch;
+        if (fromIndex >= value.length)
+            fromIndex = value.length - 1;
         for (int i = fromIndex; i >= 0; i--) {
             if (c == value[i])
                 return i;

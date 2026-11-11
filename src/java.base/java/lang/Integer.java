@@ -123,6 +123,8 @@ public final class Integer extends Number implements Comparable<Integer> {
     }
 
     public static int parseInt(String s, int radix) throws NumberFormatException {
+        if (s == null)
+            throw new NumberFormatException("Cannot parse null string");
         return parseInt(s, 0, s.length(), radix);
     }
 

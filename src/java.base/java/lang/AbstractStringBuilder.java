@@ -338,7 +338,7 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
     @Override
     public char charAt(int index) {
         if (coder == String.LATIN1)
-            return (char)value[index];
+            return (char)(value[index] & 0xFF);
         return StringUTF16.charAt(value, index);
     }
 
@@ -587,6 +587,22 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence 
 
     public int capacity() {
         return value.length >> coder;
+    }
+
+    public void ensureCapacity(int minimumCapacity) {
+        if (minimumCapacity > 0)
+            ensureCapacityInternal(minimumCapacity);
+    }
+
+    public void getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin) {
+        checkFromToIndex(srcBegin, srcEnd, count);
+        int n = srcEnd - srcBegin;
+        if (dstBegin < 0 || dstBegin > dst.length - n)
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        if (coder == String.LATIN1)
+            StringLatin1.getChars(value, srcBegin, srcEnd, dst, dstBegin);
+        else
+            StringUTF16.getChars(value, srcBegin, srcEnd, dst, dstBegin);
     }
 
     private void ensureCapacityInternal(int minimumCapacity) {

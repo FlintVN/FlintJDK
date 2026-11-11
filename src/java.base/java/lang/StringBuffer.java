@@ -279,6 +279,16 @@ public final class StringBuffer extends AbstractStringBuilder implements Compara
     }
 
     @Override
+    public synchronized void ensureCapacity(int minimumCapacity) {
+        super.ensureCapacity(minimumCapacity);
+    }
+
+    @Override
+    public synchronized void getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin) {
+        super.getChars(srcBegin, srcEnd, dst, dstBegin);
+    }
+
+    @Override
     public synchronized String toString() {
         if (toStringCache == null)
             return toStringCache = super.substring(0, count);
