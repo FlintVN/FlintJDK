@@ -7,6 +7,7 @@ import jdk.internal.vm.annotation.IntrinsicCandidate;
 
 public final class System {
     public static final PrintStream out = new PrintStream(new FileOutputStream(FileDescriptor.out));
+    public static final PrintStream err = new PrintStream(new FileOutputStream(FileDescriptor.err));
 
     private System() {
 
