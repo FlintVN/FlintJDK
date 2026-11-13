@@ -223,4 +223,8 @@ public abstract class Graphics {
     }
 
     public abstract void drawImage(Image img, int x, int y, int w, int h);
+
+    public abstract void drawRgb(int[] rgbData, int offset, int scanlength, int x, int y, int width, int height, boolean processAlpha);
+
+    public abstract void drawRegion(Image src, int sx, int sy, int sw, int sh, int transform, int dx, int dy);
 }

@@ -10,4 +10,6 @@ public interface GraphicsFactory {
     Image createImage(byte[] imageData, int off, int len);
 
     Image createImage(int[] rgb, int w, int h, boolean processAlpha);
+
+    Image createImage(Image src, int x, int y, int w, int h, int transform);
 }
