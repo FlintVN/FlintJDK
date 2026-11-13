@@ -71,6 +71,12 @@ public class Rgb565Graphics extends Graphics {
     @Override
     public native void drawImage(Image img, int x, int y, int w, int h);
 
+    @Override
+    public native void drawRgb(int[] rgbData, int offset, int scanlength, int x, int y, int width, int height, boolean processAlpha);
+
+    @Override
+    public native void drawRegion(Image src, int sx, int sy, int sw, int sh, int transform, int dx, int dy);
+
     private static class Factory implements GraphicsFactory {
         Factory() {
 

@@ -28,4 +28,7 @@ public class Rgb565Image extends Image {
         this.height = height;
         this.data = data;
     }
+
+    @Override
+    public native void getRgb(int[] rgb, int offset, int scanlength, int x, int y, int w, int h);
 }

@@ -80,6 +80,8 @@ public abstract class Image {
         return img;
     }
 
+    public abstract void getRgb(int[] rgb, int offset, int scanlength, int x, int y, int w, int h);
+
     public int getWidth() {
         return width;
     }
