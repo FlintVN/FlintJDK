@@ -61,6 +61,18 @@ public class HttpsURLConnection extends HttpURLConnection {
     }
 
     @Override
+    protected boolean canFollowRedirect(URL target) {
+        return super.canFollowRedirect(target)
+            && url.getHost().equalsIgnoreCase(target.getHost())
+            && effectivePort(target) == effectivePort(url);
+    }
+
+    private static int effectivePort(URL url) {
+        int port = url.getPort();
+        return port == -1 ? url.getDefaultPort() : port;
+    }
+
+    @Override
     protected void openSocket() throws IOException {
         String targetHost = url.getHost();
         if (targetHost == null || targetHost.isEmpty())

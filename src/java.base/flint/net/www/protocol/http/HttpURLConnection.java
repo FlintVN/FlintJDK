@@ -263,7 +263,7 @@ public class HttpURLConnection extends java.net.HttpURLConnection {
                     String location = responses.findValue("Location");
                     if (location != null) {
                         URL newUrl = new URL(url, location);
-                        if (newUrl.getProtocol().equalsIgnoreCase(url.getProtocol())) {
+                        if (canFollowRedirect(newUrl)) {
                             closeSocket();
                             connected = false;
                             sentRequests = false;
@@ -302,6 +302,10 @@ public class HttpURLConnection extends java.net.HttpURLConnection {
             if (!success)
                 closeSocket();
         }
+    }
+
+    protected boolean canFollowRedirect(URL target) {
+        return target.getProtocol().equalsIgnoreCase(url.getProtocol());
     }
 
     private boolean shouldRedirect(int code) {
