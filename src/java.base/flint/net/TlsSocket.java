@@ -73,6 +73,10 @@ public final class TlsSocket {
         };
     }
 
+    public String[] getSessionInfo() throws IOException {
+        return sessionInfo(active());
+    }
+
     public void close() {
         int value;
         synchronized (this) { value = handle; handle = 0; }
@@ -88,5 +92,6 @@ public final class TlsSocket {
     private static native int open(String host, int port, int timeout) throws IOException;
     private static native int read(int handle, byte[] bytes, int offset, int length) throws IOException;
     private static native void write(int handle, byte[] bytes, int offset, int length) throws IOException;
+    private static native String[] sessionInfo(int handle) throws IOException;
     private static native void close(int handle);
 }

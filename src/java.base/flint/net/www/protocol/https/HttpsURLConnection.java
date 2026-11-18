@@ -12,6 +12,32 @@ import flint.net.www.protocol.http.HttpURLConnection;
 
 public class HttpsURLConnection extends HttpURLConnection {
     private TlsSocket tlsSocket;
+    private boolean captureSessionInfo;
+    private SessionInfo sessionInfo;
+
+    public static final class SessionInfo {
+        public final String protocolVersion;
+        public final String cipherSuite;
+        public final String subject;
+        public final String issuer;
+        public final String certificateVersion;
+        public final String signatureAlgorithm;
+        public final String serialNumber;
+        public final long notBefore;
+        public final long notAfter;
+
+        private SessionInfo(String[] fields) {
+            protocolVersion = fields[0];
+            cipherSuite = fields[1];
+            subject = fields[2];
+            issuer = fields[3];
+            certificateVersion = fields[4];
+            signatureAlgorithm = fields[5];
+            serialNumber = fields[6];
+            notBefore = Long.parseLong(fields[7]);
+            notAfter = Long.parseLong(fields[8]);
+        }
+    }
 
     protected HttpsURLConnection(URL u, Handler handler) {
         this(u, null, handler);
@@ -45,14 +71,37 @@ public class HttpsURLConnection extends HttpURLConnection {
 
         if (usingProxy())
             throw new ProtocolException("Authenticated HTTPS does not support HTTP CONNECT proxies");
+        sessionInfo = null;
         tlsSocket = new TlsSocket(targetHost, targetPort, getConnectTimeout(), getReadTimeout());
+        if (captureSessionInfo)
+            sessionInfo = new SessionInfo(tlsSocket.getSessionInfo());
         socketIn = new BufferedInputStream(tlsSocket.getInputStream());
         socketOut = new BufferedOutputStream(tlsSocket.getOutputStream());
     }
 
-    /** The platform currently does not expose the negotiated cipher name. */
-    public String getCipherSuite() {
-        return null;
+    public synchronized void enableSessionInfo() {
+        captureSessionInfo = true;
+    }
+
+    public synchronized SessionInfo getSessionInfo() throws IOException {
+        if (sessionInfo == null) {
+            connect();
+            if (sessionInfo == null && tlsSocket != null)
+                sessionInfo = new SessionInfo(tlsSocket.getSessionInfo());
+            if (sessionInfo == null)
+                throw new IOException("TLS session information is unavailable");
+        }
+        return sessionInfo;
+    }
+
+    public synchronized String getCipherSuite() {
+        return sessionInfo == null ? null : sessionInfo.cipherSuite;
+    }
+
+    @Override
+    public synchronized void disconnect() {
+        super.disconnect();
+        sessionInfo = null;
     }
 
     @Override
@@ -62,5 +111,7 @@ public class HttpsURLConnection extends HttpURLConnection {
             tlsSocket = null;
         }
         super.closeSocket();
+        socketIn = null;
+        socketOut = null;
     }
 }
