@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ProtocolException;
 import java.net.Proxy;
-import flint.net.TlsSocket;
 import java.net.URL;
+import flint.net.TlsSocket;
 import flint.net.www.protocol.http.HttpURLConnection;
 
 public class HttpsURLConnection extends HttpURLConnection {

@@ -27,23 +27,29 @@ public final class TlsSocket {
 
     private int active() throws IOException {
         int value = handle;
-        if (value == 0) throw new IOException("TLS connection is closed");
+        if (value == 0)
+            throw new IOException("TLS connection is closed");
         return value;
     }
 
     public InputStream getInputStream() {
         return new InputStream() {
-            @Override public int read() throws IOException {
+            @Override
+            public int read() throws IOException {
                 byte[] one = new byte[1];
                 return read(one, 0, 1) < 0 ? -1 : one[0] & 255;
             }
-            @Override public int read(byte[] bytes, int offset, int length) throws IOException {
+
+            @Override
+            public int read(byte[] bytes, int offset, int length) throws IOException {
                 checkRange(bytes, offset, length);
-                if (length == 0) return 0;
+                if (length == 0)
+                    return 0;
                 long started = System.nanoTime();
                 while (true) {
                     int count = TlsSocket.read(active(), bytes, offset, Math.min(length, MAX_PACKET));
-                    if (count != 0) return count;
+                    if (count != 0)
+                        return count;
                     if (readTimeout > 0 && (System.nanoTime() - started) / 1000000L >= readTimeout)
                         throw new SocketTimeoutException("TLS read timed out");
                     if (Thread.currentThread().isInterrupted())
@@ -51,16 +57,23 @@ public final class TlsSocket {
                     Thread.yield();
                 }
             }
-            @Override public void close() { TlsSocket.this.close(); }
+
+            @Override
+            public void close() {
+                TlsSocket.this.close();
+            }
         };
     }
 
     public OutputStream getOutputStream() {
         return new OutputStream() {
-            @Override public void write(int value) throws IOException {
+            @Override
+            public void write(int value) throws IOException {
                 write(new byte[] { (byte)value }, 0, 1);
             }
-            @Override public void write(byte[] bytes, int offset, int length) throws IOException {
+
+            @Override
+            public void write(byte[] bytes, int offset, int length) throws IOException {
                 checkRange(bytes, offset, length);
                 while (length > 0) {
                     int count = Math.min(length, MAX_PACKET);
@@ -69,7 +82,11 @@ public final class TlsSocket {
                     length -= count;
                 }
             }
-            @Override public void close() { TlsSocket.this.close(); }
+
+            @Override
+            public void close() {
+                TlsSocket.this.close();
+            }
         };
     }
 
@@ -79,12 +96,17 @@ public final class TlsSocket {
 
     public void close() {
         int value;
-        synchronized (this) { value = handle; handle = 0; }
-        if (value != 0) close(value);
+        synchronized (this) {
+            value = handle;
+            handle = 0;
+        }
+        if (value != 0)
+            close(value);
     }
 
     private static void checkRange(byte[] bytes, int offset, int length) {
-        if (bytes == null) throw new NullPointerException();
+        if (bytes == null)
+            throw new NullPointerException();
         if (offset < 0 || length < 0 || offset > bytes.length - length)
             throw new IndexOutOfBoundsException();
     }
