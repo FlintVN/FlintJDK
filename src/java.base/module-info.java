@@ -2,6 +2,7 @@
 module java.base {
     exports java.io;
     exports java.net;
+    exports flint.net.www.protocol.https to midp;
     exports java.lang;
     exports java.math;
     exports java.util;
