@@ -1,5 +1,36 @@
 # Change Log
+
+## V1.7.0
+
+- **Breaking changes:**
+  - flint.drawing: Remove the `Color` object, colors are now represented by `int` (ARGB) values. The `Color` class now only contains predefined color constants.
+  - flint.drawing: Remove the `thickness` parameter from the `Graphics` drawing methods (`drawLine`, `drawRect`, `drawRoundRect`, ...).
+  - Move Wi-Fi-related APIs (`WiFi`, `WiFiAuthMode`, `AccessPointRecord`) from `flint.net` to `flint.net.wifi`.
+  - Move the socket implementations from `flint.net` to `java.base`.
+- flint.drawing:
+  - Add `ImageDecoder` to support decoding images.
+  - Support immutable images and add a few more methods to `Image`.
+  - `Graphics.clear` supports clearing a specified area.
+- Add support for `java.net.URL` with `file` and `http` protocols (`URLConnection`, `HttpURLConnection`, chunked/fixed-length streams).
+- Add support for `java.net.Socket.connect` method.
+- Add `java.util.zip` support: `CRC32`, `Inflater`, `ZipInputStream` and `ZipFile`.
+- Implement `Class.getResourceAsStream`.
+- Add support for `System.getProperty`, `System.lineSeparator` and `System.err`.
+- Add support for `java.lang.Runtime`.
+- Support `Thread.holdsLock` method.
+- Add the following classes:
+  - `java.io.RandomAccessFile`.
+  - `java.io.BufferedInputStream` and `java.io.BufferedOutputStream`.
+  - `java.io.PushbackInputStream`.
+  - `java.util.Stack`.
+  - `java.util.StringTokenizer`.
+  - Several exception classes (`UTFDataFormatException`, `MalformedURLException`, `UnknownServiceException`, ...).
+- Fix critical bug: `Arrays.copyOfRange` working incorrectly.
+- Add missing methods to `String` and `Character` classes.
+- Fix several bugs in `String`, `StringBuilder`, `StringBuffer`, `DatagramPacket`, `Socket` and RGB565 image buffer handling.
+
 ## V1.6.1
+
 - flint.drawing:
   - Support creating `Color` from an integer value.
   - Add the methods `Graphics.measureString`, `Graphics.measureStringWidth` and `Graphics.measureStringHeight`.
@@ -12,7 +43,9 @@
   - `java.io.FilterInputStream`.
   - `java.lang.SecurityException`.
   - `java.io.Serializable`.
+
 ## V1.6.0
+
 - Add the missing methods `PrintStream.print(char)` and `PrintStream.println(char)`.
 - Add `flint.drawing` module to support 2D graphics.
 - Implement the `Object.notify()` `Object.notifyAll()` and `Object.wait()`.
@@ -27,14 +60,20 @@
 - Added support for `java.util.Timer`.
 - Implement `System.exit()`.
 - Support build with java 17.
+
 ## V1.5.1
+
 - Sockets in java.net must be a Closeable implementation.
+
 ## V1.5.0
+
 - Fix typo: `I2cMaster.setdevAddr` to `I2cMaster.setDevAddr`.
 - Add `getInputStream` and `getInputStream` methods in `OutputPort`, `InputPort`, `AnalogOutput` and `AnalogInput` interfaces.
 - Rename package `flint.machine` to `flint.io`.
 - Add support for `flint.io.TouchPad`.
+
 ## V1.4.0
+
 - Rename package `flint.network` -> `flint.net`.
 - Fix `Integer.digitToChar` method is not working correctly.
 - Supports the `java.net` package:
@@ -42,7 +81,9 @@
   - Support `ServerSocket` (TCP server).
   - Support `DatagramSocket` (UDP).
 - Add support for `flint.machine.OutputPortStream` and `flint.machine.InputPortStream`.
+
 ## V1.3.0
+
 - Add class `ByteArrayOutputStream`.
 - Implement `Character.forDigit` method.
 - Implement `String.regionMatches` method.
@@ -50,7 +91,9 @@
 - Implement `java.lang.reflect.Method.invoke` and `java.lang.reflect.Constructor.newInstance` methods.
 - Fix `String.utf8Decode` not working correctly with ASCII characters.
 - Implement the missing method to support get and set bufferSize in `I2sMaster`.
+
 ## V1.2.0
+
 - Split `flint.machine.CommPort` class into `flint.machine.InputPort` and `flint.machine.OutputPort`.
 - Support `RxBufferSize` parameter for `SerialPort`.
 - Added support for the following classes to flint.io:
@@ -59,7 +102,9 @@
   - `flint.machine.Dac`.
   - `flint.machine.AnalogInputStream`.
   - `flint.machine.AnalogOutputStream`.
+
 ## V1.1.0
+
 - Support `Throwable.addSuppressed` and `Throwable.getSuppressed` to fix build error with `try-with-resource`.
 - Implement `FileInputStream.transferTo` method.
 - Split flint API into separate modules.
@@ -70,27 +115,37 @@
   - `flint.machine.BitStream`.
   - `flint.machine.OneWire`.
 - Add support `String.getBytes` to get bytes in UTF8 format
+
 ## V1.0.0
+
 - Add `java.io.FilterOutputStream`.
 - Update `java.io.PrintStream` to inherit from `FilterOutputStream`.
 - Use `FileOutputStream(FileDescriptor.out)` as default for `System.out`.
 - `flint.machine.CommInterface` now extends `AutoCloseable` and added throws `IOException` to all methods in this class.
+
 ## V0.1.0
+
 - Add missing methods to `java.lang.Math` class.
 - Add support for `Map.of`, `Map.ofEntries` and `Map.copyOf` methods.
 - Rename `Character.toLower` to `Character.toLowerCase` and `Character.toUpper` to `Charactor.toUpperCase`.
 - Add support for `String.compareToIgnoreCase` method.
 - Add support for `java.io.File`, `java.io.FileInputStream` and `java.io.FileOutputStream`.
+
 ## V0.0.11
+
 - Fix bug for `Integer.toString()` and `Long.toString()` with `MIN_VALUE`.
 - Add support `Integer.getChars`, `Long.getChars` and `StringUTF16.getChars` methods.
 - Add `java.lang.IllegalMonitorStateException` and `java.lang.StackOverflowError`.
 - Fix bug in `Class.descriptorString` method with void type.
+
 ## V0.0.10
+
 - Added support `Class.asSubclass`, `Class.getNestHost`, `Class.isNestmateOf` and `Class.getNestMembers` methods.
 - Added support some mentods in `jdk.internal.reflect.Reflection`.
 - Removed `flint.drawing` package (will be split into separate library in future).
+
 ## V0.0.9
+
 - Remove `RGB444` Graphics ColorMode.
 - Support `PinController.toggle()` method.
 - Added support for the following methods for `AbstractStringBuilder`:
@@ -106,10 +161,14 @@
 - Added support for support `Math.clamp` method.
 - Add `java.util.HashSet` and `java.util.ImmutableCollections` classes.
 - Add `java.io.Closeable`.
+
 ## V0.0.8
+
 - Support creating jar files including java source.
 - Update `flint.machine` package.
+
 ## V0.0.7
+
 - Support following classes:
   - `java.util.Collections`.
   - `java.util.TreeMap`.
@@ -120,7 +179,9 @@
 - Implement `Comparator.reversed` and `Comparator.reverseOrder` methods.
 - Implement `ReverseOrderListView.sort` method.
 - Implement `Vector.subList` method.
+
 ## V0.0.6
+
 - Implement the following functions for `java.util.Arrays`:
   - `Arrays.sort`.
   - `Arrays.equals`.
@@ -128,7 +189,9 @@
   - `Arrays.compare`.
   - `Arrays.mismatch`.
 - Support `java.util.ArrayList`, `java.util.Vector` and `java.util.LinkedList`.
+
 ## V0.0.5
+
 - Fix bug in `Long.toString` method.
 - Implement the following methods in `java.lang.Class`:
   - `Class.getInterfaces`.
@@ -140,7 +203,9 @@
   - `Class.getConstructors`.
   - `Class.desiredAssertionStatus`.
   - `Class.getDeclaringClass`.
+
 ## V0.0.4
+
 - Add support for classes:
   - `java.util.StringJoiner`.
   - `java.util.Arrays` (partial support).
@@ -153,7 +218,9 @@
 - Support `stringSize` method in `Integer` and `Long` classes.
 - Rename `String.toLower` to `String.toLowerCase`.
 - Rename `String.toUpper` to `String.toUpperCase`.
+
 ## V0.0.3
+
 - Add packages:
   - `jdk.internal.vm.annotation`.
   - `java.util.function`.
@@ -166,10 +233,14 @@
   - `java.util.List`.
   - `java.lang.IncompatibleClassChangeError`.
   - `java.lang.NoSuchFieldError`.
+
 ## V0.0.2
+
 - Add method `identityHashCode` to `java.lang.System` class.
 - Implementing `BigInteger` methods (Incomplete).
 - Add additional Exception classes.
+
 ## V0.0.1
+
 - The first version can run on the FlintJVM.
 - Supports the most basic classes like `String`, `System`, `Thread`, `PrintStream`, `Exception`...
