@@ -122,88 +122,88 @@ public abstract class Graphics {
 
     public abstract void clear();
 
-    public abstract void clear(Color c);
+    public abstract void clear(int color);
 
     public abstract void clear(int x, int y, int w, int h);
 
-    public abstract void clear(Color c, int x, int y, int w, int h);
+    public abstract void clear(int color, int x, int y, int w, int h);
 
-    public void drawLine(Color color, Rectangle rect) {
+    public void drawLine(int color, Rectangle rect) {
         drawLine(color, rect.x, rect.y, rect.width, rect.height);
     }
 
-    public abstract void drawLine(Color color, int x1, int y1, int x2, int y2);
+    public abstract void drawLine(int color, int x1, int y1, int x2, int y2);
 
-    public void drawRect(Color color, Rectangle rect) {
+    public void drawRect(int color, Rectangle rect) {
         drawRect(color, rect.x, rect.y, rect.width, rect.height);
     }
 
-    public abstract void drawRect(Color color, int x, int y, int w, int h);
+    public abstract void drawRect(int color, int x, int y, int w, int h);
 
-    public void fillRect(Color c, Rectangle rect) {
-        fillRect(c, rect.x, rect.y, rect.width, rect.height);
+    public void fillRect(int color, Rectangle rect) {
+        fillRect(color, rect.x, rect.y, rect.width, rect.height);
     }
 
-    public abstract void fillRect(Color c, int x, int y, int w, int h);
+    public abstract void fillRect(int color, int x, int y, int w, int h);
 
-    public void drawRoundRect(Color color, Rectangle rect, int r) {
+    public void drawRoundRect(int color, Rectangle rect, int r) {
         drawRoundRect(color, rect.x, rect.y, rect.width, rect.height, r, r, r, r);
     }
 
-    public void drawRoundRect(Color color, Rectangle rect, int r1, int r2, int r3, int r4) {
+    public void drawRoundRect(int color, Rectangle rect, int r1, int r2, int r3, int r4) {
         drawRoundRect(color, rect.x, rect.y, rect.width, rect.height, r1, r2, r3, r4);
     }
 
-    public void drawRoundRect(Color color, int x, int y, int w, int h, int r) {
+    public void drawRoundRect(int color, int x, int y, int w, int h, int r) {
         drawRoundRect(color, x, y, w, h, r, r, r, r);
     }
 
-    public abstract void drawRoundRect(Color color, int x, int y, int w, int h, int r1, int r2, int r3, int r4);
+    public abstract void drawRoundRect(int color, int x, int y, int w, int h, int r1, int r2, int r3, int r4);
 
-    public void fillRoundRect(Color c, Rectangle rect, int r) {
-        fillRoundRect(c, rect.x, rect.y, rect.width, rect.height, r, r, r, r);
+    public void fillRoundRect(int color, Rectangle rect, int r) {
+        fillRoundRect(color, rect.x, rect.y, rect.width, rect.height, r, r, r, r);
     }
 
-    public void fillRoundRect(Color c, Rectangle rect, int r1, int r2, int r3, int r4) {
-        fillRoundRect(c, rect.x, rect.y, rect.width, rect.height, r1, r2, r3, r4);
+    public void fillRoundRect(int color, Rectangle rect, int r1, int r2, int r3, int r4) {
+        fillRoundRect(color, rect.x, rect.y, rect.width, rect.height, r1, r2, r3, r4);
     }
 
-    public void fillRoundRect(Color c, int x, int y, int w, int h, int r) {
-        fillRoundRect(c, x, y, w, h, r, r, r, r);
+    public void fillRoundRect(int color, int x, int y, int w, int h, int r) {
+        fillRoundRect(color, x, y, w, h, r, r, r, r);
     }
 
-    public abstract void fillRoundRect(Color c, int x, int y, int w, int h, int r1, int r2, int r3, int r4);
+    public abstract void fillRoundRect(int color, int x, int y, int w, int h, int r1, int r2, int r3, int r4);
 
-    public void drawEllipse(Color color, Rectangle rect) {
+    public void drawEllipse(int color, Rectangle rect) {
         drawEllipse(color, rect);
     }
 
-    public abstract void drawEllipse(Color color, int x, int y, int w, int h);
+    public abstract void drawEllipse(int color, int x, int y, int w, int h);
 
-    public void fillEllipse(Color c, Rectangle rect) {
-        fillEllipse(c, rect);
+    public void fillEllipse(int color, Rectangle rect) {
+        fillEllipse(color, rect);
     }
 
-    public abstract void fillEllipse(Color c, int x, int y, int w, int h);
+    public abstract void fillEllipse(int color, int x, int y, int w, int h);
 
-    public void drawArc(Color color, Rectangle rect, float startAngle, float sweepAngle) {
+    public void drawArc(int color, Rectangle rect, float startAngle, float sweepAngle) {
         drawArc(color, rect.x, rect.y, rect.width, rect.height, startAngle, sweepAngle);
     }
 
-    public abstract void drawArc(Color color, int x, int y, int w, int h, float startAngle, float sweepAngle);
+    public abstract void drawArc(int color, int x, int y, int w, int h, float startAngle, float sweepAngle);
 
-    public void fillArc(Color c, Rectangle rect, float startAngle, float sweepAngle) {
-        fillArc(c, rect.x, rect.y, rect.width, rect.height, startAngle, sweepAngle);
+    public void fillArc(int color, Rectangle rect, float startAngle, float sweepAngle) {
+        fillArc(color, rect.x, rect.y, rect.width, rect.height, startAngle, sweepAngle);
     }
 
-    public abstract void fillArc(Color c, int x, int y, int w, int h, float startAngle, float sweepAngle);
+    public abstract void fillArc(int color, int x, int y, int w, int h, float startAngle, float sweepAngle);
 
-    public abstract void drawPolygon(Color color, Point[] points);
+    public abstract void drawPolygon(int color, Point[] points);
 
-    public abstract void fillPolygon(Color c, Point[] points);
+    public abstract void fillPolygon(int color, Point[] points);
 
-    public void drawString(String str, Font font, Color c, Point p) {
-        drawString(str, font, c, p.x, p.y);
+    public void drawString(String str, Font font, int color, Point p) {
+        drawString(str, font, color, p.x, p.y);
     }
 
     public static native Size measureString(String str, Font font);
@@ -212,7 +212,7 @@ public abstract class Graphics {
 
     public static native int measureStringHeight(String str, Font font);
 
-    public abstract void drawString(String str, Font font, Color c, int x, int y);
+    public abstract void drawString(String str, Font font, int color, int x, int y);
 
     public void drawImage(Image img, Point p) {
         drawImage(img, p.x, p.y, img.width, img.height);
